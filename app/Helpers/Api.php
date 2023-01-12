@@ -1,6 +1,6 @@
 <?php
 use App\Models\CustomerLogin;
-use App\Models\CustomerMaster;
+use App\Models\Admin;
 use App\Models\SettingOther;
 use App\Models\AssignedFields;
 use App\Models\MetalRates;
@@ -18,13 +18,13 @@ if (!function_exists('validateToken')){
     function validateToken($token){
         $query                      =   CustomerLogin::where('access_token',$token)->where('is_login',1)->where('is_deleted',0);
         if($query->exists()){ 
-            $user                   =   CustomerMaster::where('id',$query->first()->user_id)->first(); 
-            if($user->info->profile_img != NULL){ $avatar = config('app.storage_url').$user->info->profile_img; }else{ $avatar = config('app.storage_url').'/app/public/no-avatar.png'; }
-            $data['user_id']        =   $user->id;                              $data['first_name']         =   $user->info->first_name;
-            $data['last_name']      =   $user->info->last_name;                 $data['email']              =   $user->custEmail($user->email);
-            $data['phone']          =   $user->custPhone($user->phone);    
+            $user                   =   Admin::where('id',$query->first()->user_id)->first(); 
+            if($user->avatar != NULL){ $avatar = config('app.storage_url').$user->avatar; }else{ $avatar = config('app.storage_url').'/app/public/no-avatar.png'; }
+            $data['user_id']        =   $user->id;                              $data['first_name']         =   $user->fname;
+            $data['last_name']      =   $user->lname;                 $data['email']              =  $user->email;
+            $data['phone']          =   $user->phone;    
             $data['avatar']         =   $avatar;
-            if(isset($user->crm_customer_type)) { $data['crm_customer_type']         =   $user->crm_customer_type; }else{ $data['crm_customer_type']         =0; }
+            
             return $data;
         }else{ return false; }
     }

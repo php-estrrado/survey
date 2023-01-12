@@ -290,7 +290,7 @@
               <td style="overflow-wrap:break-word;word-break:break-word;padding:40px 40px 30px;font-family:"Lato",sans-serif;" align="left">
                 
           <div style="line-height: 140%; text-align: left; word-wrap: break-word;">
-            <p style="font-size: 14px; line-height: 140%;"><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">We are here to help if you need it. Visit the <a href="" target="_blank" style="color: #fff"> Bigbasket </a> support for more info</span></em></span><br><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">&nbsp;</span></em></span></p>
+            <p style="font-size: 14px; line-height: 140%;"><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">We are here to help if you need it. Visit the <a href="" target="_blank" style="color: #fff"> Survey </a> support for more info</span></em></span><br><span style="color: #888888; font-size: 14px; line-height: 19.6px;"><em><span style="font-size: 16px; line-height: 22.4px;">&nbsp;</span></em></span></p>
           </div>
     
               </td>
@@ -326,8 +326,8 @@
                 
           <div style="line-height: 140%; text-align: left; word-wrap: break-word;">
             <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 16px; line-height: 22.4px; color: #ecf0f1;">Contact</span></p>
-        <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 14px; line-height: 19.6px; color: #ecf0f1;">+971 5555 45180</span></p>
-        <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 14px; line-height: 19.6px; color: #ecf0f1;">bigbasket@gmail.com</span></p>
+        <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 14px; line-height: 19.6px; color: #ecf0f1;">+91 99999999</span></p>
+        <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 14px; line-height: 19.6px; color: #ecf0f1;">Survey@gmail.com</span></p>
           </div>
     
               </td>

@@ -57,5 +57,8 @@ class Survey_requests extends Model{
     {
         return $this->hasMany(Hydrographic_chart::class,'id','service_request_id');
     }
+
+    public function Customer(){ return $this->belongsTo(CustomerMaster::class); } 
+    public function CustomerInfo(){ return $this->belongsTo(CustomerInfo::class, 'cust_id', 'cust_id'); } 
 }
 
