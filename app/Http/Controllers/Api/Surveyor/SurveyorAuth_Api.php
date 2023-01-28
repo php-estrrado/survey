@@ -53,7 +53,13 @@ class SurveyorAuth_Api extends Controller
         }
         
         //    $update                 =    User::where('id',$user->id)->update(['is_login'=>1,'otp'=>NULL,'access_token'=>$token,'deviceToken'=>$post->deviceToken,'os'=>$post->os]);
-        $loginData              =   ['user_id'=>$user->id,'device_id'=>$post->deviceId,'device_name'=>$deviceName,'access_token'=>$token,'is_login'=>1,'device_token'=>$post->deviceToken,'os'=>$post->os,'login_at'=>date('Y-m-d H:i:s')];
+        $loginData              =   ['user_id'=>$user->id,'device_id'=>$post->deviceId,'device_name'=>$deviceName,'access_token'=>$token,'is_login'=>1,'device_token'=>$post->deviceToken,'os'=>$post->os,'login_at'=>date('Y-m-d H:i:s'),
+        'os_type'=>$post->os_type,
+        'os_version'=>$post->os_version,
+        'app_version'=>$post->app_version,
+        'latitude'=>$post->latitude,
+        'longitude'=>$post->longitude,
+    ];
          $loginUser             =   UserLogin::where('device_id',$post->deviceId)->where('is_deleted',0);
          
          if($loginUser->exists()){//  dd($loginUser->first());

@@ -13,10 +13,18 @@ Route::post('/surveyor/city/find-by-name', [App\Http\Controllers\Api\Customer\Or
 
 Route::post('/surveyor/login-email/send/otp', [App\Http\Controllers\Api\Surveyor\SurveyorAuth_Api::class, 'loginSendotpemail']);
 Route::post('/surveyor/login-email/verify/otp', [App\Http\Controllers\Api\Surveyor\SurveyorAuth_Api::class, 'loginVerifyotpemail']);
+Route::post('/surveyor/profile', [App\Http\Controllers\Api\Surveyor\AccountController::class, 'profile']);
 
 Route::post('/surveyor/home', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'index']);
 Route::post('/surveyor/accepted-assignments', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'accepted_assignments']);
-Route::post('/surveyor/survey-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReport::class, 'survey_store']);
+Route::post('/surveyor/file-upload', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'file_upload']);
+Route::post('/surveyor/survey-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'survey_store']);
+Route::post('/surveyor/field-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'field_store']);
+
+Route::post('/surveyor/assignments-requests', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'assignments_requests']);
+Route::post('/surveyor/assignments-requests-status', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'assignments_requests_status']);
+
+Route::post('/surveyor/notifications', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'notifications']);
 
 
 

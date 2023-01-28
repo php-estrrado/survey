@@ -58,6 +58,49 @@ class Survey_requests extends Model{
         return $this->hasMany(Hydrographic_chart::class,'id','service_request_id');
     }
 
+    public function service_info()
+    {
+        // dd($this->service_request_id);
+         switch ($this->service_id) {
+            case 1:
+
+                return $this->belongsTo(Hydrographic_survey::class,'service_request_id');
+                break;
+            case 2:
+                return $this->belongsTo(Tidal_observation::class,'service_request_id');
+                break;
+            case 3:
+                return $this->belongsTo(Bottom_sample_collection::class,'service_request_id');
+                break;
+            case 4:
+                return $this->belongsTo(Dredging_survey::class,'service_request_id');
+                break;
+             case 5:
+                return $this->belongsTo(Hydrographic_chart::class,'service_request_id');
+                break; 
+
+             case 6:
+                return $this->belongsTo(Underwater_videography::class,'service_request_id');
+                break; 
+            case 7:
+                return $this->belongsTo(Currentmeter_observation::class,'service_request_id');
+                break;           
+
+              case 8:
+                return $this->belongsTo(Sidescansonar::class,'service_request_id');
+                break;   
+             case 9:
+                return $this->belongsTo(Topographic_survey::class,'service_request_id');
+                break; 
+               case 10:
+                return $this->belongsTo(Subbottom_profilling::class,'service_request_id');
+                break; 
+                  
+            default:
+                return NULL;
+            }
+    }
+
     public function Customer(){ return $this->belongsTo(CustomerMaster::class); } 
     public function CustomerInfo(){ return $this->belongsTo(CustomerInfo::class, 'cust_id', 'cust_id'); } 
 }
