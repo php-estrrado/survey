@@ -23,6 +23,11 @@ use App\Models\Services;
 use App\Models\UserRole;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\Field_study_report;
+use App\Models\Fieldstudy_eta;
+use App\Models\Survey_invoice;
+use App\Models\Survey_performa_invoice;
+use App\Models\Survey_status;
 
 use App\Rules\Name;
 use Validator;
@@ -72,8 +77,7 @@ class ServicerequestsController extends Controller
 
         $datas = Survey_requests::where('id',$id)->first();
         
-        $email = Admin::where('id',$datas->cust_id)->first()->email;
-        $cust_id = CustomerMaster::where('username',$email)->first()->id;
+        $cust_id = $datas->cust_id;
         $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
         $data['cust_phone'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first()->cust_telecom_value;
         $data['cust_email'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first()->cust_telecom_value;
@@ -153,7 +157,7 @@ class ServicerequestsController extends Controller
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
 
-            $assign_arr['request_status'] = 5;
+            $assign_arr['request_status'] = 41;
             $assign_arr['assigned_surveyor'] = $input['assign_surveyor'];
             $assign_arr['field_study'] = date('Y-m-d',strtotime($input['field_study']));
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -161,11 +165,23 @@ class ServicerequestsController extends Controller
 
             Survey_requests::where('id',$input['id'])->update($assign_arr);
 
+                        $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $input['assigned_surveyor']; 
+            $ntype      = 'field_study_assigned';
+            $title      = 'New Field Study Request';
+            $desc       = 'New Field Study Request. Request ID:'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'surveyor';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
             $survey_request_logs = [];
 
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
-            $survey_request_logs['survey_status'] = 5;
+            $survey_request_logs['survey_status'] = 41;
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -173,9 +189,83 @@ class ServicerequestsController extends Controller
             $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-            Survey_request_logs::create($survey_request_logs);
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Successfully Assigned Surveyor !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Assigning Surveyor is not Successfull !','type'=>'danger']);
+            }
 
             return redirect('/admin/new_service_requests');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+    
+    public function assign_surveyor_survey(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'assign_surveyor'=>['required'],
+            'survey_study'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 43;
+            $assign_arr['assigned_surveyor_survey'] = $input['assign_surveyor'];
+            $assign_arr['survey_study'] = date('Y-m-d',strtotime($input['survey_study']));
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+           $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $input['assign_surveyor']; 
+            $ntype      = 'survey_study_assigned';
+            $title      = 'New Survey Study Request';
+            $desc       = 'New Survey Study Request. Request ID:'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'surveyor';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 43;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Successfully Assigned Surveyor !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Assigning Surveyor is not Successfull !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
         }
         else
         {
@@ -215,8 +305,7 @@ class ServicerequestsController extends Controller
 
         $datas = Survey_requests::where('id',$id)->first();
         
-        $email = Admin::where('id',$datas->cust_id)->first()->email;
-        $cust_id = CustomerMaster::where('username',$email)->first()->id;
+        $cust_id = $datas->cust_id;
         $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
         $data['cust_phone'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first()->cust_telecom_value;
         $data['cust_email'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first()->cust_telecom_value;
@@ -225,6 +314,20 @@ class ServicerequestsController extends Controller
         $data['survey_id'] = $id;
         $data['institutions'] = Institution::where('is_deleted',0)->where('is_active',1) ->get();
         $data['admins'] = Admin::where('role_id',2)->get();
+
+        $data['survey_status'] = Survey_status::where('id',$datas->request_status)->first()->status_name;
+
+        $data['survey_datas'] = DB::table('survey_request_logs')
+                                ->leftjoin('survey_status', 'survey_request_logs.survey_status', '=', 'survey_status.id')
+                                ->where('survey_request_logs.cust_id',$cust_id)->where('survey_request_logs.survey_request_id',$id)->where('survey_request_logs.is_active',1)->where('survey_request_logs.is_deleted',0)
+                                ->select('survey_request_logs.created_at AS log_date','survey_request_logs.*','survey_status.*')
+                                ->orderBy('survey_request_logs.id','DESC')
+                                ->get();
+                                
+        $data['recipients'] = Admin::where('role_id',1)->where('id','!=',1)->get();
+        $data['surveyors'] = Admin::where('role_id',3)->get();
+        
+        $data['status'] = $status;
 
         if($datas->service_id == 1)
         {
@@ -272,10 +375,239 @@ class ServicerequestsController extends Controller
 
         // dd($data);
 
-        if($status == 5)
+        if($status == 19)
         {
-            return view('admin.eta_received',$data);
+            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
+
+            // dd($data);
+
+            return view('admin.survey_study_report',$data);
         }
+        elseif($status == 18)
+        {
+            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
+
+            // dd($data);
+
+            return view('admin.requested_services.assign_survey_study',$data);
+        }
+        elseif($status == 47)
+        {
+            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
+
+            // dd($data);
+
+            return view('admin.requested_services.invoice_submitted',$data);
+        }
+        elseif($status == 11)
+        {
+            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['survey_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
+
+            // dd($data);
+
+            return view('admin.requested_services.performa_invoice_submitted',$data);
+        }
+        elseif($status == 7)
+        {
+            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+
+            return view('admin.submitted-by-sur',$data);
+        }
+        else
+        {
+            // if($status > 7)
+            // {
+            //     $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+    
+            //     return view('admin.submitted-by-sur',$data);
+            // }
+            // dd($data);
+            return view('admin.requested_services_details',$data);
+        }
+    }
+
+    public function createETA($id)
+    {
+        $data['title']      = 'Create ETA';
+        $data['menu']       = 'create-eta';
+
+        $data['id']         = $id;
+        $data['recipients'] = Admin::where('role_id',1)->get();
+
+        return view('admin.requested_services.create_eta',$data);
+    }
+
+    public function add_eta(Request $request)
+    {
+        $input = $request->all();
+        
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'general_area'=>['required'],
+            'location'=>['required'],
+            'scale_of_survey_recomended'=>['required'],
+            'type_of_survey'=>['required'],
+            'no_of_days_required'=>['required'],
+            'charges'=>['required'],
+            'recipient'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $eta_arr['survey_request_id'] = $input['id'];
+            $eta_arr['general_area'] = $input['general_area'];
+            $eta_arr['location'] = $input['location'];
+            $eta_arr['scale_of_survey_recomended'] = $input['scale_of_survey_recomended'];
+            $eta_arr['type_of_survey'] = $input['type_of_survey'];
+            $eta_arr['no_of_days_required'] = $input['no_of_days_required'];
+            $eta_arr['charges'] = $input['charges'];
+            $eta_arr['recipient'] = $input['recipient'];
+            $eta_arr['is_active'] = 1;
+            $eta_arr['is_deleted'] = 0;
+            $eta_arr['created_by'] = auth()->user()->id;
+            $eta_arr['updated_by'] = auth()->user()->id;
+            $eta_arr['created_at'] = date('Y-m-d H:i:s');
+            $eta_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Fieldstudy_eta::create($eta_arr);
+
+            $survey_req_arr['request_status'] = 8;
+            $survey_req_arr['updated_by'] = auth()->user()->id;
+            $survey_req_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($survey_req_arr);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 8;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Field Study ETA added Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Field Study ETA not added Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/admin/new_service_requests');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function verify_performa_invoice($id)
+    {
+        Survey_requests::where('id',$id)->update(['request_status'=>13]);
+
+        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+        $survey_request_logs = [];
+
+        $survey_request_logs['survey_request_id'] = $id;
+        $survey_request_logs['cust_id'] = $cust_id;
+        $survey_request_logs['survey_status'] = 13;
+        $survey_request_logs['is_active'] = 1;
+        $survey_request_logs['is_deleted'] = 0;
+        $survey_request_logs['created_by'] = auth()->user()->id;
+        $survey_request_logs['updated_by'] = auth()->user()->id;
+        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+        if(isset($survey_request_log_id))
+        {   
+            Session::flash('message', ['text'=>'Performa Invoice Verified Successfully !','type'=>'success']);  
+        }
+        else
+        {
+            Session::flash('message', ['text'=>'Performa Invoice Not Verified Successfully !','type'=>'danger']);
+        }
+
+        return redirect('admin/requested_services');
+    }
+
+    public function verify_invoice($id)
+    {
+        Survey_requests::where('id',$id)->update(['request_status'=>49]);
+
+        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+        $survey_request_logs = [];
+
+        $survey_request_logs['survey_request_id'] = $id;
+        $survey_request_logs['cust_id'] = $cust_id;
+        $survey_request_logs['survey_status'] = 49;
+        $survey_request_logs['is_active'] = 1;
+        $survey_request_logs['is_deleted'] = 0;
+        $survey_request_logs['created_by'] = auth()->user()->id;
+        $survey_request_logs['updated_by'] = auth()->user()->id;
+        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+        if(isset($survey_request_log_id))
+        {   
+            Session::flash('message', ['text'=>'Invoice Verified Successfully !','type'=>'success']);  
+        }
+        else
+        {
+            Session::flash('message', ['text'=>'Invoice Not Verified Successfully !','type'=>'danger']);
+        }
+
+        return redirect('admin/requested_services');
+    }
+
+    public function verify_survey_study($id)
+    {
+        Survey_requests::where('id',$id)->update(['request_status'=>21]);
+
+        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+        $survey_request_logs = [];
+
+        $survey_request_logs['survey_request_id'] = $id;
+        $survey_request_logs['cust_id'] = $cust_id;
+        $survey_request_logs['survey_status'] = 21;
+        $survey_request_logs['is_active'] = 1;
+        $survey_request_logs['is_deleted'] = 0;
+        $survey_request_logs['created_by'] = auth()->user()->id;
+        $survey_request_logs['updated_by'] = auth()->user()->id;
+        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+        if(isset($survey_request_log_id))
+        {   
+            Session::flash('message', ['text'=>'Survey Study Verified Successfully !','type'=>'success']);  
+        }
+        else
+        {
+            Session::flash('message', ['text'=>'Survey Study Not Verified Successfully !','type'=>'danger']);
+        }
+
+        return redirect('admin/requested_services');
     }
     
 }

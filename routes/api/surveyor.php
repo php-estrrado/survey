@@ -26,6 +26,13 @@ Route::post('/surveyor/assignments-requests-status', [App\Http\Controllers\Api\S
 
 Route::post('/surveyor/notifications', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'notifications']);
 
+Route::post('/surveyor/accepted-reassignments', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'accepted_reassignments']);
+Route::get('/surveyor/field-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'get_field_study']);
+Route::get('/surveyor/survey-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'get_survey_study']);
+
+Route::put('/surveyor/field-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'update_field_study']);
+Route::put('/surveyor/survey-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'update_survey_study']);
+
 
 
 

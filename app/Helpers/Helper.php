@@ -80,10 +80,10 @@ if (!function_exists('geSiteName')) {
 }if (!function_exists('notifyCount')){
     function notifyCount($id){ return DB::table('users')->where('id',$id)->first()->notify; }
 }if (!function_exists('addNotification')){
-     function addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify){
+     function addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id){
       
 
-	   if($notify                ==  'admin'){
+       if($notify                ==  'admin'){
              DB::table('admin_notifications')->insert(['notify_from'=>$from,'user_type'=>$utype,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s')]);
         }
         else if($notify                ==  'seller'){
@@ -115,6 +115,22 @@ if (!function_exists('geSiteName')) {
              
             
              DB::table('usr_notifications')->insert(['notify_from'=>$from,'user_type'=>$utype,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s')]);
+        }
+        else if($notify                ==  'surveyor'){
+            
+              $users_token = DB::table('usr_logins')->where('user_id',$to)->where('is_login',1)->get();
+            $deviceTokens = [];
+            foreach($users_token as $sk=>$tokens)
+            {
+                $deviceTokens[] = $tokens->device_token;
+            }
+            $pushData['title'] = $title;
+            $pushData['message'] = $desc;
+            $pushData['data'] = array('ref_id'=>$refId,'time'=>date('H:i:s'));
+            sendPush($deviceTokens,$pushData);
+             
+            
+             DB::table('usr_notifications')->insert(['notify_from'=>$from,'user_type'=>$utype,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
         }
     }
 }
@@ -334,7 +350,7 @@ function prdPrice($subcat,$carat_id=0){
 }
     if (!function_exists('AdminNotification')) {
     function AdminNotification($page=0) { return AdminNotification::orderBy('id', 'DESC')->paginate($page); }
-	}
+    }
 
     
 
