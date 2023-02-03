@@ -22,7 +22,7 @@ use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class DredgingsurveyController extends Controller
 {
     /**
@@ -51,7 +51,7 @@ class DredgingsurveyController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.dredging.dredgingsurvey_form',$data);
     }
@@ -113,6 +113,10 @@ class DredgingsurveyController extends Controller
             $dredging['length'] = $input['length'];
             $dredging['width'] = $input['width'];
             $dredging['depth'] = $input['depth'];
+                        $dredging['lattitude'] = $input['lattitude'];
+            $dredging['longitude'] = $input['longitude'];
+            $dredging['x_coordinates'] = $input['x_coordinates'];
+            $dredging['y_coordinates'] = $input['y_coordinates'];
             $dredging['is_active'] = 1;
             $dredging['is_deleted'] = 0;
             $dredging['created_by'] = auth()->user()->id;
@@ -150,6 +154,15 @@ class DredgingsurveyController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            if(isset($dredging_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.dredging_survey'));
         }

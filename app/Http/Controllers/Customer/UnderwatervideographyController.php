@@ -22,7 +22,7 @@ use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class UnderwatervideographyController extends Controller
 {
     /**
@@ -51,7 +51,7 @@ class UnderwatervideographyController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+$data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.underwater_videography.underwatervideographysurvey_form',$data);
     }
@@ -99,6 +99,10 @@ class UnderwatervideographyController extends Controller
             $underwater_videography['place'] = $input['place'];
             $underwater_videography['survey_area_location'] = $input['survey_area_location'];
             $underwater_videography['type_of_waterbody'] = $input['type_of_waterbody'];
+                        $underwater_videography['lattitude'] = $input['lattitude'];
+            $underwater_videography['longitude'] = $input['longitude'];
+            $underwater_videography['x_coordinates'] = $input['x_coordinates'];
+            $underwater_videography['y_coordinates'] = $input['y_coordinates'];
             $underwater_videography['is_active'] = 1;
             $underwater_videography['is_deleted'] = 0;
             $underwater_videography['created_by'] = auth()->user()->id;
@@ -136,6 +140,15 @@ class UnderwatervideographyController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            if(isset($underwater_videography_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.underwater_videography'));
         }

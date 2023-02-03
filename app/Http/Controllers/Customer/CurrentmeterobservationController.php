@@ -22,7 +22,7 @@ use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class CurrentmeterobservationController extends Controller
 {
     /**
@@ -51,7 +51,7 @@ class CurrentmeterobservationController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.currentmeter_observation.currentmeterobservation_form',$data);
     }
@@ -103,6 +103,10 @@ class CurrentmeterobservationController extends Controller
             $currentmeter_observation['type_of_waterbody'] = $input['type_of_waterbody'];
             $currentmeter_observation['observation_start_date'] = date('Y-m-d',strtotime($input['observation_start_date']));
             $currentmeter_observation['observation_end_date'] = date('Y-m-d',strtotime($input['observation_end_date']));
+                        $currentmeter_observation['lattitude'] = $input['lattitude'];
+            $currentmeter_observation['longitude'] = $input['longitude'];
+            $currentmeter_observation['x_coordinates'] = $input['x_coordinates'];
+            $currentmeter_observation['y_coordinates'] = $input['y_coordinates'];
             $currentmeter_observation['is_active'] = 1;
             $currentmeter_observation['is_deleted'] = 0;
             $currentmeter_observation['created_by'] = auth()->user()->id;
@@ -140,6 +144,15 @@ class CurrentmeterobservationController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            if(isset($currentmeter_observation_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.currentmeter_observation'));
         }

@@ -28,6 +28,9 @@
 
         <!-- Responsive css-->
         <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/responsive.css')}}">
+
+        <!-- Custom css-->
+        <link href="{{URL::asset('assets/css/custom.css')}}" rel="stylesheet" />
 	</head>
 	<body class="h-100vh bg-primary">
 	<div class="box">
@@ -42,8 +45,8 @@
 			<div></div>
 			<div></div>
 		</div>
-		@yield('content')	
+		@yield('content')
 		@include('layouts.custom-footer-scripts')
-        @yield('js')
+        
 	</body>
 </html>

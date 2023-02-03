@@ -30,4 +30,18 @@
 		<!-- Simplebar JS -->
 		<script src="{{URL::asset('admin/assets/plugins/simplebar/js/simplebar.min.js')}}"></script>
 		<!-- Custom js-->
-		<script src="{{URL::asset('admin/assets/js/custom.js')}}"></script>		
+		<script src="{{URL::asset('admin/assets/js/custom.js')}}"></script>
+
+		<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+
+		<script type="text/javascript">
+			$(document).ready(function(){
+				@if(Session::has('message'))
+					@if(session('message')['type'] =="success")
+						toastr.success("{{session('message')['text']}}"); 
+					@else
+						toastr.error("{{session('message')['text']}}"); 
+					@endif
+				@endif
+			});
+		</script>

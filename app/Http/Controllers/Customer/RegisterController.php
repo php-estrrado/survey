@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\PasswordReset;
 use App\Models\Email;
-use App\Models\Customer\CustomerMaster;
-use App\Models\Customer\CustomerSecurity;
+use App\Models\customer\CustomerMaster;
+use App\Models\customer\CustomerSecurity;
 use App\Models\RegisterationToken;
-use App\Models\Customer\CustomerInfo;
-use App\Models\Customer\CustomerTelecom;
+use App\Models\customer\CustomerInfo;
+use App\Models\customer\CustomerTelecom;
 use Mail;
 use Validator;
 use Session;
@@ -51,7 +51,8 @@ class RegisterController extends Controller
     {
       //  $this->middleware('guest:admin')->except('logout');
     }
-    public function index(){  
+    public function index()
+    {
         return view('customer.customer_register');
     }
     public function register(Request $request)
@@ -63,8 +64,29 @@ class RegisterController extends Controller
             'email' => ['required','email','max:255','unique:cust_mst,username'],
             'mobile'=>['required','max:255'],
             'otp'=> ['nullable','max:255'],
-            'valid_id'=>['nullable','max:255'],
-            'password' =>['required','confirmed','min:6']
+            'valid_id'=>['required','max:255'],
+            'id_file_front' => ['required','max:10000'],
+            'id_file_back' => ['required','max:10000'],
+            'password' =>['required','confirmed','min:6'],
+            'password_confirmation' =>['required','min:6'],
+            'g-recaptcha-response' => function ($attribute, $value, $fail) {
+                $data = array('secret' => config('services.recaptcha.secret'),'response' => $value,'remoteip' => $_SERVER['REMOTE_ADDR']);
+  
+                $verify = curl_init();
+                curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+                curl_setopt($verify, CURLOPT_POST, true);
+                curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+                curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($verify);
+                $response = json_decode($response);
+                
+                if(!$response->success)
+                {
+                    Session::flash('message', ['text'=>'Please check reCAptcha !','type'=>'danger']);
+                    $fail($attribute.'google reCaptcha failed');
+                }
+            },
         ]);
         $input = $request->all();
 
@@ -81,7 +103,7 @@ class RegisterController extends Controller
             ]);
             $masterId = $master->id;
 
-            $info = CustomerInfo::create([
+            $info_id = CustomerInfo::create([
                 'cust_id' => $masterId,
                 'name' => $request->name,
                 'valid_id' => $request->valid_id,
@@ -91,7 +113,7 @@ class RegisterController extends Controller
                 'updated_by'=>1,
                 'created_at'=>date("Y-m-d H:i:s"),
                 'updated_at'=>date("Y-m-d H:i:s")
-            ]);
+            ])->id;
 
             $security = CustomerSecurity::create([
                 'cust_id' => $masterId,
@@ -148,6 +170,49 @@ class RegisterController extends Controller
                 'created_at'=>date("Y-m-d H:i:s"),
                 'updated_at'=>date("Y-m-d H:i:s")
             ]);
+
+            if($request->hasfile('id_file_front'))
+            {
+                $file = $request->id_file_front;
+                $folder_name = "uploads/customer_document/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "customer_id_front" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                CustomerInfo::where('id',$info_id)->update([
+                    'id_file_front' => $file_path,
+                    'updated_by'=>1,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+            if($request->hasfile('id_file_back'))
+            {
+                $file = $request->id_file_back;
+                $folder_name = "uploads/customer_document/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "customer_id_back" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                CustomerInfo::where('id',$info_id)->update([
+                    'id_file_back' => $file_path,
+                    'updated_by'=>1,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
 
             if($masterId)
             {   

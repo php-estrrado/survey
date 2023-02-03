@@ -86,7 +86,7 @@
 										<td>{{$i}}</td>
 										<td>@php echo date('d/m/Y',strtotime($request->survey_date)) @endphp</td>
 										<td>{{$request->name}}</td>
-										<td>HSW{{$request->survey_id}}</td>
+										<td><a href="{{URL('/admin/requested_service_detail')}}/{{$request->survey_id}}/{{$request->request_status}}" style="color:#2b8fca; font-weight:bold;">HSW{{$request->survey_id}}</a></td>
 										<td>{{$request->institution_name}}</td>
 										<td>{{$request->username}}</td>
 										<td>{{$request->service_name}}</td>

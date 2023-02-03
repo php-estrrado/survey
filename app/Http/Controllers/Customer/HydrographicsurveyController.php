@@ -22,7 +22,7 @@ use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class HydrographicsurveyController extends Controller
 {
     /**
@@ -51,7 +51,7 @@ class HydrographicsurveyController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.hydrographic_survey.hydrographicsurvey_form',$data);
     }
@@ -109,6 +109,11 @@ class HydrographicsurveyController extends Controller
             $hydrographic_survey['service_to_be_conducted'] = date('Y-m-d',strtotime($input['service_to_be_conducted']));
             $hydrographic_survey['interim_surveys_needed_infuture'] = $input['interim_surveys_needed_infuture'];
             $hydrographic_survey['benchmark_chart_datum'] = $input['benchmark_chart_datum'];
+            
+            $hydrographic_survey['lattitude'] = $input['lattitude'];
+            $hydrographic_survey['longitude'] = $input['longitude'];
+            $hydrographic_survey['x_coordinates'] = $input['x_coordinates'];
+            $hydrographic_survey['y_coordinates'] = $input['y_coordinates'];
             $hydrographic_survey['is_active'] = 1;
             $hydrographic_survey['is_deleted'] = 0;
             $hydrographic_survey['created_by'] = auth()->user()->id;
@@ -146,6 +151,15 @@ class HydrographicsurveyController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            if(isset($hydrographic_survey_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.hydrographic_survey'));
         }

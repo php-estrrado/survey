@@ -22,9 +22,9 @@
                             href="{{URL('/customer/dashboard')}}"><i data-feather="home"> </i><span>Dashboard</span></a>
                     </li>
 
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title active" href="#"><i
                                 data-feather="map"></i><span>Services</span></a>
-                        <ul class="sidebar-submenu">
+                        <ul class="sidebar-submenu customer" style="display: block;">
                             <li><a href="{{URL('/customer/hydrographic_survey')}}">Hydrographic Survey</a></li>
                             <li><a href="{{URL('/customer/tidal_observation')}}">Tidal observation</a></li>
                             <li><a href="{{URL('/customer/bottomsample')}}">Bottom sample collection</a></li>
@@ -42,7 +42,7 @@
                         <a class="linear-icon-link sidebar-link sidebar-title" href="#"><i
                                 data-feather="briefcase"></i><span>My Requests</span>
                         </a>
-                        <ul class="sidebar-submenu">
+                        <ul class="sidebar-submenu customer">
                             <li><a href="{{URL('/customer/requested_services')}}">Requested Services</a></li>
                         </ul>
                     </li>

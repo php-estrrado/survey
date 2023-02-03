@@ -43,3 +43,4 @@
 <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/custom.css')}}">
 <!-- Responsive css-->
 <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/responsive.css')}}">
+<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />

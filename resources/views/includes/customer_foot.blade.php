@@ -37,3 +37,23 @@
 <!-- Theme js-->
 <script src="{{URL::asset('public/assets/js/script.js')}}"></script>
 <!-- <script src="{{URL::asset('public/assets/js/jquery.validate.min.js')}}"></script> -->
+
+<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        @if(Session::has('message'))
+            @if(session('message')['type'] =="success")
+                toastr.success("{{session('message')['text']}}"); 
+            @else
+                toastr.error("{{session('message')['text']}}"); 
+            @endif
+        @endif
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        $(".sidebar-submenu.customer").show();
+        $(".sidebar-submenu.customer").parents("li.sidebar-list").find(".sidebar-link.sidebar-title").addClass('active');
+    });
+</script>

@@ -44,17 +44,19 @@
 								<th class="wd-15p border-bottom-0">SL. NO</th>
 								<th class="wd-15p border-bottom-0">Name</th>
 								<th class="wd-20p border-bottom-0">Date</th>
-								<th class="wd-15p border-bottom-0">Service Name</th>
+							
 								<th class="wd-10p border-bottom-0">Actions</th>
 							</tr>
 						</thead>
 						<tbody>
-
+                      
+                        
+                        @if($service_master && count($service_master) > 0)
+                    											@foreach($service_master as $row)
 							<tr>
-								<td>1</td>
-								<td>Terry</td>
-								<td>11/12/2022</td>
-								<td>Hydrographic Survey</td>
+								<td>{{ $row->id }}</td>
+								<td>{{ $row->service_name }}</td>
+								<td>{{  date('d/m/Y', strtotime($row->created_at)); }}</td>
 								<td>
 									<div class="btn-list actn">
 										<a href="#" class="btn btn-success">Edit</a>
@@ -62,54 +64,11 @@
 									</div>
 								</td>
 							</tr>
-							<tr>
-								<td>2</td>
-								<td>Terry</td>
-								<td>11/12/2022</td>
-								<td>Hydrographic Survey</td>
-								<td>
-									<div class="btn-list actn">
-										<a href="#" class="btn btn-success">Edit</a>
-										<a href="#" class="btn btn-danger">Delete</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>3</td>
-								<td>Terry</td>
-								<td>11/12/2022</td>
-								<td>Hydrographic Survey</td>
-								<td>
-									<div class="btn-list actn">
-										<a href="#" class="btn btn-success">Edit</a>
-										<a href="#" class="btn btn-danger">Delete</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>4</td>
-								<td>Terry</td>
-								<td>11/12/2022</td>
-								<td>Hydrographic Survey</td>
-								<td>
-									<div class="btn-list actn">
-										<a href="#" class="btn btn-success">Edit</a>
-										<a href="#" class="btn btn-danger">Delete</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>5</td>
-								<td>Terry</td>
-								<td>11/12/2022</td>
-								<td>Hydrographic Survey</td>
-								<td>
-									<div class="btn-list actn">
-										<a href="#" class="btn btn-success">Edit</a>
-										<a href="#" class="btn btn-danger">Delete</a>
-									</div>
-								</td>
-							</tr>
+							
+									     @endforeach
+                @endif
+														
+							
 
 						</tbody>
 					</table>

@@ -22,7 +22,7 @@ use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class HydrographicdataController extends Controller
 {
     /**
@@ -51,7 +51,7 @@ class HydrographicdataController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.hydrographic_data.hydrographicdata_form',$data);
     }
@@ -105,6 +105,10 @@ class HydrographicdataController extends Controller
             $hydrographic_data['year_of_survey_chart'] = $input['year_of_survey_chart'];
             $hydrographic_data['copies_required'] = $input['copies_required'];
             $hydrographic_data['copy_type'] = $input['copy_type'];
+                        $hydrographic_data['lattitude'] = $input['lattitude'];
+            $hydrographic_data['longitude'] = $input['longitude'];
+            $hydrographic_data['x_coordinates'] = $input['x_coordinates'];
+            $hydrographic_data['y_coordinates'] = $input['y_coordinates'];
             $hydrographic_data['is_active'] = 1;
             $hydrographic_data['is_deleted'] = 0;
             $hydrographic_data['created_by'] = auth()->user()->id;
@@ -142,6 +146,15 @@ class HydrographicdataController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            if(isset($hydrographic_data_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.hydrographic_data'));
         }

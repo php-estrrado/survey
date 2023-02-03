@@ -10,7 +10,7 @@
 					<div class="app-sidebar__user">
 						<div class="dropdown user-pro-body text-center">
 							<div class="user-pic">
-								<img src="{{URL::asset('assets/images/users/2.jpg')}}" alt="user-img" class="avatar-xl rounded-circle mb-1">
+								<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="user-img" class="avatar-xl rounded-circle mb-1">
 							</div>
 							<div class="user-info">
 								<h5 class=" mb-1">Jessica <i class="ion-checkmark-circled  text-success fs-12"></i></h5>

@@ -32,7 +32,7 @@
                                             <th>Date</th>
                                             <th>File Number</th>
                                             <th>Requested Services</th>
-
+                                            <th>Service Status</th>
                                             <th>View</th>
                                             
                                         </tr>
@@ -44,158 +44,159 @@
                                                 <tr>
                                                     <td>{{$i;}}</td>
                                                     <td>{{date('d/m/Y',strtotime($requested_service->survey_date))}}</td>
-                                                    <td class="d-block fw-bold">HSW{{$requested_service->survey_id}}</td>
+                                                    <td class="fw-bold"><a href="{{URL('/customer/request_service_detail')}}/{{$requested_service->survey_id}}/{{$requested_service->request_status}}">HSW{{$requested_service->survey_id}}</a></td>
                                                     <td>{{$requested_service->service_name}}</td>
+                                                    <td>{{$requested_service->current_status}}</td>
                                                     <td><a href="{{URL('/customer/request_service_detail')}}/{{$requested_service->survey_id}}/{{$requested_service->request_status}}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
                                                 </tr>
                                                 @php $i++; @endphp
                                             @endforeach
                                         @endif
-                                        <tr>
-                                            <td><span>1</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                            </td>
+                                        <!--<tr>-->
+                                        <!--    <td><span>1</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--    </td>-->
                                             
-                                            <td>Invoice received</td>
+                                        <!--    <td>Invoice received</td>-->
 
-                                            <td>
-                                                <a href="invoice-received.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>2</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                            <td>Request rejected closed</td>
+                                        <!--    <td>-->
+                                        <!--        <a href="invoice-received.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+                                        <!--    <td><span>2</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--    <td>Request rejected closed</td>-->
 
-                                            <td>
-                                                <a href="request-reject.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>3</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                            <td>Request rejected open</td>
+                                        <!--    <td>-->
+                                        <!--        <a href="request-reject.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+                                        <!--    <td><span>3</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--    <td>Request rejected open</td>-->
 
-                                            <td>
-                                                <a href="rejected-open.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>4</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                            <td>invoice receipt rejected</td>
+                                        <!--    <td>-->
+                                        <!--        <a href="rejected-open.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+                                        <!--    <td><span>4</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--    <td>invoice receipt rejected</td>-->
 
-                                            <td>
-                                                <a href="receipt-rejected.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>5</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                            <td>Survey report received</td>
+                                        <!--    <td>-->
+                                        <!--        <a href="receipt-rejected.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+                                        <!--    <td><span>5</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--    <td>Survey report received</td>-->
 
-                                            <td>
-                                                <a href="report-received.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>6</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                            <td>Invoice received</td>
+                                        <!--    <td>-->
+                                        <!--        <a href="report-received.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+                                        <!--    <td><span>6</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--    <td>Invoice received</td>-->
 
-                                            <td>
-                                                <a href="invoice-received.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>7</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                                <td>Invoice received</td>
+                                        <!--    <td>-->
+                                        <!--        <a href="invoice-received.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+                                        <!--    <td><span>7</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--        <td>Invoice received</td>-->
 
-                                            <td>
-                                                <a href="invoice-received.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>8</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                            <td>Invoice received</td>
+                                        <!--    <td>-->
+                                        <!--        <a href="invoice-received.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+                                        <!--    <td><span>8</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--    <td>Invoice received</td>-->
 
-                                            <td>
-                                                <a href="invoice-received.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>9</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                            <td>Invoice received</td>
-                                            <td>
-                                                <a href="invoice-received.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>10</span>
-                                            </td>
-                                            <td><span>10/11/2022</span></td>
-                                            <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>
-                                            <td>Invoice received</td>
+                                        <!--    <td>-->
+                                        <!--        <a href="invoice-received.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+                                        <!--    <td><span>9</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--    <td>Invoice received</td>-->
+                                        <!--    <td>-->
+                                        <!--        <a href="invoice-received.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+                                        <!--    <td><span>10</span>-->
+                                        <!--    </td>-->
+                                        <!--    <td><span>10/11/2022</span></td>-->
+                                        <!--    <td><a href="#"><span class="  d-block fw-bold ">AE0123</span></a>-->
+                                        <!--    <td>Invoice received</td>-->
 
-                                            <td>
-                                                <a href="invoice-received.html"><i class="fa fa-eye"
-                                                        aria-hidden="true"></i></a>
-                                            </td>
-                                        </tr>
+                                        <!--    <td>-->
+                                        <!--        <a href="invoice-received.html"><i class="fa fa-eye"-->
+                                        <!--                aria-hidden="true"></i></a>-->
+                                        <!--    </td>-->
+                                        <!--</tr>-->
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
 
-                    <div class=" pagination-box">
-                        <nav class="ms-auto me-auto " aria-label="...">
-                            <ul class="pagination pagination-primary">
-                                <li class="page-item disabled"><a class="page-link"
-                                        href="javascript:void(0)" tabindex="-1">Previous</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link"
-                                        href="javascript:void(0)">2 <span
-                                            class="sr-only">(current)</span></a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a>
-                                </li>
-                                <li class="page-item"><a class="page-link"
-                                        href="javascript:void(0)">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
+                    <!--<div class=" pagination-box">-->
+                    <!--    <nav class="ms-auto me-auto " aria-label="...">-->
+                    <!--        <ul class="pagination pagination-primary">-->
+                    <!--            <li class="page-item disabled"><a class="page-link"-->
+                    <!--                    href="javascript:void(0)" tabindex="-1">Previous</a>-->
+                    <!--            </li>-->
+                    <!--            <li class="page-item"><a class="page-link" href="javascript:void(0)">1</a>-->
+                    <!--            </li>-->
+                    <!--            <li class="page-item active"><a class="page-link"-->
+                    <!--                    href="javascript:void(0)">2 <span-->
+                    <!--                        class="sr-only">(current)</span></a></li>-->
+                    <!--            <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a>-->
+                    <!--            </li>-->
+                    <!--            <li class="page-item"><a class="page-link"-->
+                    <!--                    href="javascript:void(0)">Next</a></li>-->
+                    <!--        </ul>-->
+                    <!--    </nav>-->
+                    <!--</div>-->
 
                 </div>
             </div>
@@ -215,23 +216,4 @@
         </footer>
     </div>
 </div>
-@endsection
-@section('js')
-    <script type="text/javascript">
-        $(document).ready(function(){
-            @if(Session::has('message'))
-                @if(session('message')['type'] =="success")
-                    toastr.success("{{session('message')['text']}}"); 
-                @else
-                    toastr.error("{{session('message')['text']}}"); 
-                @endif
-            @endif
-            
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    toastr.error("{{$error}}"); 
-                @endforeach
-            @endif
-        });
-    </script>
 @endsection

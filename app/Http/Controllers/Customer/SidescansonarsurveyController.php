@@ -22,7 +22,7 @@ use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class SidescansonarsurveyController extends Controller
 {
     /**
@@ -51,7 +51,7 @@ class SidescansonarsurveyController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.sidesonarscan.sidesonarscan_form',$data);
     }
@@ -103,6 +103,10 @@ class SidescansonarsurveyController extends Controller
             $sidescansonar['area_to_scan'] = $input['area_to_scan'];
             $sidescansonar['depth_of_area'] = $input['depth_of_area'];
             $sidescansonar['interval'] = $input['interval'];
+                        $sidescansonar['lattitude'] = $input['lattitude'];
+            $sidescansonar['longitude'] = $input['longitude'];
+            $sidescansonar['x_coordinates'] = $input['x_coordinates'];
+            $sidescansonar['y_coordinates'] = $input['y_coordinates'];
             $sidescansonar['is_active'] = 1;
             $sidescansonar['is_deleted'] = 0;
             $sidescansonar['created_by'] = auth()->user()->id;
@@ -140,6 +144,15 @@ class SidescansonarsurveyController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            if(isset($sidescansonar_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.sidescanningsonar_survey'));
         }

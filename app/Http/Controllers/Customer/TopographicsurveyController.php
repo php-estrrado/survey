@@ -22,7 +22,7 @@ use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class TopographicsurveyController extends Controller
 {
     /**
@@ -51,7 +51,7 @@ class TopographicsurveyController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.topographic_survey.topographicsurvey_form',$data);
     }
@@ -101,6 +101,10 @@ class TopographicsurveyController extends Controller
             $topographic_survey['location'] = $input['survey_area_location'];
             $topographic_survey['area_to_survey'] = $input['area_to_survey'];
             $topographic_survey['scale_of_survey'] = $input['scale_of_survey'];
+                        $topographic_survey['lattitude'] = $input['lattitude'];
+            $topographic_survey['longitude'] = $input['longitude'];
+            $topographic_survey['x_coordinates'] = $input['x_coordinates'];
+            $topographic_survey['y_coordinates'] = $input['y_coordinates'];
             $topographic_survey['is_active'] = 1;
             $topographic_survey['is_deleted'] = 0;
             $topographic_survey['created_by'] = auth()->user()->id;
@@ -139,6 +143,14 @@ class TopographicsurveyController extends Controller
 
             Survey_request_logs::create($survey_request_logs);
 
+            if(isset($topographic_survey_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.topographic_survey'));
         }

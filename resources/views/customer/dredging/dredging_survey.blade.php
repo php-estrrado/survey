@@ -30,24 +30,30 @@
                     <section class="single-section small-section bg-inner">
 
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="description-section tab-section">
-                                    <div class="detail-img">
-                                        <img src="http://themes.pixelstrap.com/rica/backend/assets/images/tours/spain.jpg"
-                                            class="img-fluid blur-up lazyload" alt="">
-                                    </div>
+                                    <center>
+                                        <div class="detail-img">
+                                            <img src="{{URL('public/admin/assets/images/03.jpg')}}"
+                                                class="img-fluid blur-up lazyload" alt="">
+                                        </div>
+                                    </center>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="description-section tab-section">
                                     <div class="description-details tab-content mt-4">
                                         <div class="menu-part about tab-pane fade show active"
                                             id="highlight">
                                             <div class="about-sec">
-                                                <p class="top-space">Hydrographic Survey Wing conducts pre, post and intermediate dredging surveys and the data collected is used for volume estimation.  The user should specify the location, area to be dredged (boundaries) need for volume estimation and interim surveys.  While requesting the service mark details, User can also opt for method of volume computation </p>
+                                                <p class="top-space">Hydrographic Survey Wing conducts pre, post and intermediate dredging surveys and the data collected is used for volume estimation. The user should specify the location, area to be dredged (boundaries) need for volume estimation and interim surveys.  While requesting the service mark details, User can also opt for method of volume computation </p>
                                             </div>                                            
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
-
                         </div>
                     </section>
                     <!-- section end -->
@@ -73,23 +79,4 @@
     </footer>
 </div>
 </div>
-@endsection
-@section('js')
-    <script type="text/javascript">
-        $(document).ready(function(){
-            @if(Session::has('message'))
-                @if(session('message')['type'] =="success")
-                    toastr.success("{{session('message')['text']}}"); 
-                @else
-                    toastr.error("{{session('message')['text']}}"); 
-                @endif
-            @endif
-            
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    toastr.error("{{$error}}"); 
-                @endforeach
-            @endif
-        });
-    </script>
 @endsection

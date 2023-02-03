@@ -34,3 +34,5 @@
 
 		<!-- Custom css -->
 		<link href="{{URL::asset('admin/assets/css/custom.css')}}" rel="stylesheet" />
+
+		<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />

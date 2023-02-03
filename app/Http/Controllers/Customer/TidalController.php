@@ -22,7 +22,7 @@ use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class TidalController extends Controller
 {
     /**
@@ -50,7 +50,7 @@ class TidalController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.tidal_observation.tidalobservation_form',$data);
     }
@@ -100,6 +100,10 @@ class TidalController extends Controller
             $tidal_observation['tidal_area_location'] = $input['tidal_area'];
             $tidal_observation['period_of_observation'] = $input['period_of_observation'];
             $tidal_observation['benchmark_chart_datum'] = $input['benchmark_chart_datum'];
+                        $tidal_observation['lattitude'] = $input['lattitude'];
+            $tidal_observation['longitude'] = $input['longitude'];
+            $tidal_observation['x_coordinates'] = $input['x_coordinates'];
+            $tidal_observation['y_coordinates'] = $input['y_coordinates'];
             $tidal_observation['is_active'] = 1;
             $tidal_observation['is_deleted'] = 0;
             $tidal_observation['created_by'] = auth()->user()->id;
@@ -137,6 +141,15 @@ class TidalController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            if(isset($tidal_observation_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.tidal_observation'));
         }

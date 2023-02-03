@@ -47,7 +47,7 @@
 		</div>
 		<div class="col-lg-6 col-md-auto">
 			<div class="text-lg-right btn-list mt-4 mt-lg-0">
-				<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Verify</a>
+				<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Assign</a>
 				<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
 			</div>
 			<div class="mt-5">
@@ -81,7 +81,7 @@
 						<div class="media-body">
 							<small class="text-muted">Status</small>
 							<div class="font-weight-normal1">
-								Field study report and ETA received
+								Field study report received
 							</div>
 						</div>
 					</div>
@@ -196,7 +196,7 @@
 												General Area
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$field_study_eta->general_area}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -206,7 +206,7 @@
 												Location
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->location}}</label>
+										<label class="form-label">{{$field_study_eta->location}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -216,7 +216,7 @@
 												No. Of Days Required
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->estimated_period_of_survey_days}}</label>
+										<label class="form-label">{{$field_study_eta->no_of_days_required}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -226,7 +226,7 @@
 												Scale Of Survey Recommended
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->scale_of_survey_planned}}</label>
+										<label class="form-label">{{$field_study_eta->scale_of_survey_recomended}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -236,7 +236,7 @@
 												Type Of Survey
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$field_study_eta->type_of_survey}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -246,7 +246,7 @@
 												Charges
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$field_study_eta->charges}}</label>
 									</div>
 								</div>
 							</div>
@@ -300,48 +300,15 @@
 				<div class="tab-pane" id="tab-8">
 					<div class="card p-5">
 						<ul class="timelineleft pb-5">
-							<li>
-								<i class="fa fa-clock-o bg-primary"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 12:05</span>
-									<h3 class="timelineleft-header"><a href="#">Support Team</a> <span>sent you an email</span></h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-secondary"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 5 mins ago</span>
-									<h3 class="timelineleft-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-warning"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 27 mins ago</span>
-									<h3 class="timelineleft-header"><a href="#">Jay White</a> commented on your post</h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-pink"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 1 hour ago</span>
-									<h3 class="timelineleft-header"><a href="#">Mr. John</a> shared a video</h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-orange"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 2 days ago</span>
-									<h3 class="timelineleft-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-pink"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 5 days ago</span>
-									<h3 class="timelineleft-header"><a href="#">Mr. Doe</a> shared a video</h3>
-								</div>
-							</li>
+							@if($survey_datas && count($survey_datas) > 0)
+								@foreach($survey_datas as $survey_data)
+									<li> <i class="fa fa-clock-o bg-pink"></i>
+										<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y',strtotime($survey_data->log_date))}}</span>
+											<h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>											
+										</div>
+									</li>
+								@endforeach
+							@endif
 						</ul>
 					</div>
 				</div>
@@ -884,8 +851,7 @@
 <div class="row">
 	<div class="col-12">
 		<div class="btn-list d-flex justify-content-end">
-			<!-- <a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Verify</a> -->
-			<a href="{{url('/superadmin/verify_field_study')}}/{{$field_study->survey_request_id}}" class="btn btn-primary">Verify</a>
+			<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Assign</a>
 			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
 		</div>
 	</div>
@@ -899,26 +865,31 @@
 <div class="modal" id="modaldemo1">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Assign</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="form-label">Recipient <span class="text-red">*</span></label>
-						<select class="form-control custom-select select2">
-							<option value="0">--Select--</option>
-							<option value="1">Germany</option>
-							<option value="2">Canada</option>
-							<option value="3">Usa</option>
-							<option value="4">Aus</option>
-						</select>
+			<form action="{{url('/superadmin/assign_draftsman')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$field_study->survey_request_id}}" name="id" id="id">
+				<div class="modal-header">
+					<h6 class="modal-title">Assign</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label">Recipient <span class="text-red">*</span></label>
+							<select class="form-control custom-select select2" name="draftsman">
+								<option value="0">--Select--</option>
+								@if($draftmans && count($draftmans) > 0)
+									@foreach($draftmans as $draftman)
+										<option value="{{$draftman->id}}">{{$draftman->email}}</option>
+									@endforeach
+								@endif
+							</select>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary" type="button">Assign</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-			</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Assign</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

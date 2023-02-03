@@ -22,7 +22,7 @@ use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class BottomsampleController extends Controller
 {
     /**
@@ -50,7 +50,7 @@ class BottomsampleController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.bottomsample.bottomsample_form',$data);
     }
@@ -58,6 +58,7 @@ class BottomsampleController extends Controller
     public function saveSurvey(Request $request)
     {
         $input = $request->all();
+        
         // dd($input);
 
         $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
@@ -70,7 +71,7 @@ class BottomsampleController extends Controller
             'department' => ['required'],
             'firm' => ['required'],
             'purpose' => ['required'],
-            'service' => ['required'],
+            'service_id' => ['required'],
             'description' => ['required'],
             'state' => ['required'],
             'district' => ['required'],
@@ -92,7 +93,7 @@ class BottomsampleController extends Controller
             $bottomsample['firm'] = $input['firm'];
             $bottomsample['others'] = $input['others'];
             $bottomsample['purpose'] = $input['purpose'];
-            $bottomsample['service'] = $input['service'];
+            $bottomsample['service'] = $input['service_id'];
             $bottomsample['description'] = $input['description'];
             $bottomsample['state'] = $input['state'];
             $bottomsample['district'] = $input['district'];
@@ -100,6 +101,10 @@ class BottomsampleController extends Controller
             $bottomsample['depth_at_saples_collected'] = $input['depth_at_saples_collected'];
             $bottomsample['number_of_locations'] = $input['number_of_locations'];
             $bottomsample['quantity_of_samples'] = $input['quantity_of_samples'];
+            $bottomsample['lattitude'] = $input['lattitude'];
+            $bottomsample['longitude'] = $input['longitude'];
+            $bottomsample['x_coordinates'] = $input['x_coordinates'];
+            $bottomsample['y_coordinates'] = $input['y_coordinates'];
             $bottomsample['is_active'] = 1;
             $bottomsample['is_deleted'] = 0;
             $bottomsample['created_by'] = auth()->user()->id;
@@ -112,7 +117,7 @@ class BottomsampleController extends Controller
             $survey_request = [];
 
             $survey_request['cust_id'] = $cust_id;
-            $survey_request['service_id'] = $input['service'];
+            $survey_request['service_id'] = $input['service_id'];
             $survey_request['service_request_id'] = $bottomsample_id;
             $survey_request['request_status'] = 1;
             $survey_request['is_active'] = 1;
@@ -137,6 +142,15 @@ class BottomsampleController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            if(isset($bottomsample_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.bottomsample'));
         }

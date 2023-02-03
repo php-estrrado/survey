@@ -20,6 +20,7 @@ use App\Models\UserRole;
 use App\Models\SalesOrder;
 use App\Models\Product;
 use App\Models\customer\CustomerMaster;
+use App\Models\Survey_requests;
 use App\Models\SellerInfo;
 use App\Models\UserVisit;
 use App\Rules\Name;
@@ -40,6 +41,12 @@ class AdminController extends Controller
     { 
         $data['title']              =   'Customer';
         $data['menu']               =   'Customers';
+        
+        $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
+        $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
+
+        $data['ongoing_surveys'] = Survey_requests::where('cust_id',$cust_id)->where('is_deleted',0)->where('is_active',1)->where('request_status','!=',1)->count();
+        $data['pending_surveys'] = Survey_requests::where('cust_id',$cust_id)->where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
         
         // dd($data);
         // dd(auth()->user()->id);

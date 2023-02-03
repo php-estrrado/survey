@@ -56,7 +56,7 @@
 									<tr>
 										<td>{{$i}}</td>
 										<td>@php echo date('d/m/Y', strtotime($customer->created_at)); @endphp</td>
-										<td><a href="{{url('admin/customers/customer_details')}}/{{$customer->cust_id}}" style="color:#2b8fca; font-weight:bold;">{{$customer->name}}</a></td>
+										<td><a href="{{url('admin/customers/view')}}/{{$customer->cust_id}}" style="color:#2b8fca; font-weight:bold;">{{$customer->name}}</a></td>
 										<td>{{$customer->cust_telecom_value}}</td>
 										<td>{{$customer->username}}</td>
 										<td>{{$customer->firm}}</td>

@@ -11,8 +11,12 @@
 		<!-- Circle-progress js-->
 		<script src="{{URL::asset('admin/assets/js/circle-progress.min.js')}}"></script>
 
+		<!-- Toastr js -->
+		<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+		
 		<!-- Jquery-rating js-->
 		<script src="{{URL::asset('admin/assets/plugins/rating/jquery.rating-stars.js')}}"></script>
 		@yield('js')
 		<!-- Custom js-->
 		<script src="{{URL::asset('admin/assets/js/custom.js')}}"></script>
+		

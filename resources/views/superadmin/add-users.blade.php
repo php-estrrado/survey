@@ -42,25 +42,41 @@
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="name">Full Name <span class="text-red">*</span></label>
-								<input type="text" class="form-control" name="name" id="name" placeholder="Full Name">
+								<input type="text" class="form-control" name="name" id="name" placeholder="Full Name" value="{{ old('name') }}">
+								<div id="name_error"></div>
+								@error('name')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="phone">Phone Number <span class="text-red">*</span></label>
-								<input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number">
+								<input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" value="{{ old('phone') }}">
+								<div id="phone_error"></div>
+								@error('phone')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="email">Email ID <span class="text-red">*</span></label>
-								<input type="text" class="form-control" name="email" id="email" placeholder="Email ID">
+								<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" value="{{ old('email') }}">
+								<div id="email_error"></div>
+								@error('email')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="designation">Designation <span class="text-red">*</span></label>
-								<input type="text" class="form-control" name="designation" id="designation" placeholder="Designation">
+								<input type="text" class="form-control" name="designation" id="designation" placeholder="Designation" value="{{ old('designation') }}">
+								<div id="designation_error"></div>
+								@error('designation')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-6">
@@ -73,15 +89,23 @@
 										@endforeach
 									@endif
 								</select>
+								<div id="role_id_error"></div>
+								@error('role_id')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="avatar">Profile Pic <span class="text-red">*</span></label>
 								<div class="custom-file">
-									<input type="file" class="custom-file-input" name="avatar" id="avatar">
+									<input type="file" class="custom-file-input" name="avatar" id="avatar" >
 									<label class="custom-file-label"></label>
 								</div>
+								<div id="avatar_error"></div>
+								@error('avatar')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
 							</div>
 							<div class="col-md-6 mb-3">
                     			<img id="avatar_img" src="{{url('storage/app/public/no-avatar.png')}}" alt="avatar" style="height: 120px;" />
@@ -97,6 +121,10 @@
 										@endforeach
 									@endif
 								</select>
+								<div id="institution_error"></div>
+								@error('institution')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-6">
@@ -108,6 +136,10 @@
 									<option value="2">Parent 2</option>
 									<option value="3">Parent 3</option>
 								</select>
+								<div id="name_error"></div>
+								@error('name')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
 							</div>
 						</div>
 					</div>
