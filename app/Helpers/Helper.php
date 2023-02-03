@@ -102,19 +102,19 @@ if (!function_exists('geSiteName')) {
         }
         else if($notify                ==  'customer'){
             
-              $users_token = DB::table('usr_logins')->where('user_id',$to)->where('is_login',1)->get();
-            $deviceTokens = [];
-            foreach($users_token as $sk=>$tokens)
-            {
-                $deviceTokens[] = $tokens->device_token;
-            }
-            $pushData['title'] = $title;
-            $pushData['message'] = $desc;
-            $pushData['data'] = array('ref_id'=>$refId,'time'=>date('H:i:s'));
-            sendPush($deviceTokens,$pushData);
+            //   $users_token = DB::table('usr_logins')->where('user_id',$to)->where('is_login',1)->get();
+            // $deviceTokens = [];
+            // foreach($users_token as $sk=>$tokens)
+            // {
+            //     $deviceTokens[] = $tokens->device_token;
+            // }
+            // $pushData['title'] = $title;
+            // $pushData['message'] = $desc;
+            // $pushData['data'] = array('ref_id'=>$refId,'time'=>date('H:i:s'));
+            // sendPush($deviceTokens,$pushData);
              
             
-             DB::table('usr_notifications')->insert(['notify_from'=>$from,'user_type'=>$utype,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s')]);
+             DB::table('usr_notifications')->insert(['notify_from'=>$from,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
         }
         else if($notify                ==  'surveyor'){
             
@@ -130,7 +130,7 @@ if (!function_exists('geSiteName')) {
             sendPush($deviceTokens,$pushData);
              
             
-             DB::table('usr_notifications')->insert(['notify_from'=>$from,'user_type'=>$utype,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
+             DB::table('usr_notifications')->insert(['notify_from'=>$from,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
         }
     }
 }

@@ -167,10 +167,10 @@ class ServicerequestsController extends Controller
 
                         $from       = auth()->user()->id; 
             $utype      = 3;
-            $to         = $input['assigned_surveyor']; 
+            $to         = $input['assign_surveyor']; 
             $ntype      = 'field_study_assigned';
             $title      = 'New Field Study Request';
-            $desc       = 'New Field Study Request. Request ID:'.$input['id'];
+            $desc       = 'New Field Study Request. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'surveyor';
             $notify     = 'surveyor';
@@ -235,7 +235,7 @@ class ServicerequestsController extends Controller
             $to         = $input['assign_surveyor']; 
             $ntype      = 'survey_study_assigned';
             $title      = 'New Survey Study Request';
-            $desc       = 'New Survey Study Request. Request ID:'.$input['id'];
+            $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'surveyor';
             $notify     = 'surveyor';
