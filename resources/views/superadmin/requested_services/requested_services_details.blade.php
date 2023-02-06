@@ -183,10 +183,10 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Required Service From HSW
+												Additional service needed
 											</div>
 										</div>
-										<label class="form-label">{{$service}}</label>
+										<label class="form-label">{{$additional_services}}</label>
 									</div>
 								</div>
 							</div>
@@ -235,6 +235,37 @@
 										</div>
 									</div>
 								@endif
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Data Required
+											</div>
+										</div>
+										<label class="form-label">
+											<?php $exp = explode(",", $request_data->data_required);
+												$data_arr = array('sounding' => "Sounding",'current_meter_survey' => "Current meter survey",
+												'bottom_profile' => "Bottom profile",'velocity' => "Velocity",'bottom_sample_collection' => "Bottom sample collection",'tide_data' => "Tide data");
+											if($exp){
+												foreach ($exp as $ek => $ev) {
+													echo $data_arr[$ev].",";
+												}
+											}
+											 ?>
+											
+											</label>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Method/Equipment for Data Collection
+											</div>
+										</div>
+										<label class="form-label">{{$data_collection}}</label>
+									</div>
+								</div>
 								@if($request_data->tidal_area_location)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">

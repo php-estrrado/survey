@@ -109,7 +109,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Required service from HSW</label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
@@ -178,6 +178,22 @@
                                     </div>
                                     <div id="survey_area_error"></div>
                                     @error('survey_area')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+
+                                  <div class="col-sm-6">
+                          
+                                    <label class="form-label-title mt-3" for="service">Method/Equipment for Data Collection </label>
+                                    <select class="js-example-basic-single col-sm-12 multiselect" name="data_collection_equipments[]" id="data_collection_equipments" multiple="multiple" >
+                                      @if($data_collection && count($data_collection)>0)
+                                        @foreach($data_collection as $data_collections)
+                                          <option value="{{$data_collections->id}}" {{ old('data_collection_equipments') == $data_collections->id ? 'selected' : '' }}>{{$data_collections->title}}</option>
+                                        @endforeach
+                                      @endif
+                                    </select>
+                                    <div id="service_error"></div>
+                                    @error('data_collection_equipments')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>

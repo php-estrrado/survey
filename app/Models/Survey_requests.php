@@ -57,6 +57,10 @@ class Survey_requests extends Model{
     {
         return $this->hasMany(Hydrographic_chart::class,'id','service_request_id');
     }
+    public function Bathymetry_survey()
+    {
+        return $this->hasMany(Bathymetry_survey::class,'id','service_request_id');
+    }
     
       public function service_info()
     {
@@ -101,6 +105,57 @@ class Survey_requests extends Model{
             }
     }
 
+    public function services_selected($id)
+    {
+        $services_list = "";
+        if($id)
+        {
+            $exp = explode(",", $id);
+            if($exp)
+            {
+                foreach ($exp as $ek => $ev) {
+                    $service = Services::where('id',$ev)->first();
+                    if($service)
+                    {
+                        if($services_list)
+                        {
+                            $services_list .= ", ".$service->service_name;
+                        }else{
+                            $services_list .= $service->service_name;
+                        }
+                        
+                    }
+                }
+            }
+        }
+        return $services_list;
+    }
+
+    public function datacollection_selected($id)
+    {
+        $datacollection = "";
+        if($id)
+        {
+            $exp = explode(",", $id);
+            if($exp)
+            {
+                foreach ($exp as $ek => $ev) {
+                    $service = DataCollectionEquipment::where('id',$ev)->first();
+                    if($service)
+                    {
+                        if($datacollection)
+                        {
+                            $datacollection .= ", ".$service->title;
+                        }else{
+                            $datacollection .= $service->title;
+                        }
+                        
+                    }
+                }
+            }
+        }
+        return $datacollection;
+    }
     public function Customer(){ return $this->belongsTo(CustomerMaster::class); } 
     public function CustomerInfo(){ return $this->belongsTo(CustomerInfo::class, 'cust_id', 'cust_id'); } 
 }

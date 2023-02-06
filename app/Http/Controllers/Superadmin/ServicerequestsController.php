@@ -136,6 +136,14 @@ class ServicerequestsController extends Controller
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
 
+        if(isset($data['request_data']->additional_services))
+        {
+           $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
+        }else{
+             $data['additional_services'] ="";
+        }
+        
+
         // $data['survey_requests']    =   DB::table('survey_requests')
         //                                 ->join('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
         //                                 ->join('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
@@ -299,6 +307,25 @@ class ServicerequestsController extends Controller
         {
             $data['request_data'] = $datas->Subbottom_profilling->first();
         }
+        elseif($datas->service_id == 11)
+        {
+            $data['request_data'] = $datas->Bathymetry_survey->first();
+        }
+
+        if(isset($data['request_data']->additional_services))
+        {
+           $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
+        }else{
+             $data['additional_services'] ="";
+        }
+
+        if(isset($data['request_data']->data_collection_equipments))
+        {
+           $data['data_collection'] = $datas->datacollection_selected($data['request_data']->data_collection_equipments);
+        }else{
+             $data['data_collection'] ="";
+        }
+        
 
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;

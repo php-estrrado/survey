@@ -35,6 +35,7 @@
                             <li><a href="{{URL('/customer/sidescanningsonar_survey')}}">Side scan sonar observation</a></li>
                             <li><a href="{{URL('/customer/topographic_survey')}}">Topographic survey</a></li>
                             <li><a href="{{URL('/customer/subbottom_profilling')}}">Sub Bottom Profiling</a></li>
+                            <li><a href="{{URL('/customer/bathymetry_survey')}}">Bathymetry Survey</a></li>
                         </ul>
                     </li>
 
