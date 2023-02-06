@@ -48,7 +48,9 @@ class SubbottomprofillingController extends Controller
     { 
         $data['title']        =  'Sub bottom profilling';
         $data['menu']         =  'Sub bottom profilling';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 10; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -114,6 +116,14 @@ class SubbottomprofillingController extends Controller
             $bottom_profilling['updated_by'] = auth()->user()->id;
             $bottom_profilling['created_at'] = date('Y-m-d H:i:s');
             $bottom_profilling['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $bottom_profilling['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $bottom_profilling['additional_services'] = "";
+            }
 
             $bottom_profilling_id = Subbottom_profilling::create($bottom_profilling)->id;
 

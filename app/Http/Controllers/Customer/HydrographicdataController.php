@@ -48,7 +48,9 @@ class HydrographicdataController extends Controller
     { 
         $data['title']        =  'Hydrographic chart';
         $data['menu']         =  'Hydrofraphic chart';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 5; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -116,6 +118,14 @@ class HydrographicdataController extends Controller
             $hydrographic_data['updated_by'] = auth()->user()->id;
             $hydrographic_data['created_at'] = date('Y-m-d H:i:s');
             $hydrographic_data['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $hydrographic_data['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $hydrographic_data['additional_services'] = "";
+            }
 
             $hydrographic_data_id = Hydrographic_chart::create($hydrographic_data)->id;
 

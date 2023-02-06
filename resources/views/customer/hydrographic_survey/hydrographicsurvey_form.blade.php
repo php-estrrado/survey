@@ -2,6 +2,7 @@
 @section('css')
   <link href="{{URL::asset('admin/assets/traffic/web-traffic.css')}}" rel="stylesheet" type="text/css">
   <link href="{{URL::asset('admin/assets/css/daterangepicker.css')}}" rel="stylesheet" />
+
   <style>
     .card-options {
 	    margin-left: 50%;
@@ -107,8 +108,9 @@
                                       @enderror
                                   </div>
                                   <div class="col-sm-6">
+                                    <input type="hidden" name="service" value="{{ $service }}">
                                     <label class="form-label-title mt-3" for="service">Required service from HSW</label>
-                                    <select class="js-example-basic-single col-sm-12" name="service" id="service">
+                                    <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
                                           <option value="{{$service['id']}}" {{ old('service') == $service['id'] ? 'selected' : '' }}>{{$service['service_name']}}</option>
@@ -116,7 +118,7 @@
                                       @endif
                                     </select>
                                     <div id="service_error"></div>
-                                    @error('service')
+                                    @error('additional_services')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
@@ -367,6 +369,7 @@
 @endsection
 @section('js')
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
   <script type="text/javascript">
     // ------------step-wizard-------------
     $(document).ready(function () {

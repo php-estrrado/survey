@@ -48,7 +48,9 @@ class DredgingsurveyController extends Controller
     { 
         $data['title']        =  'Dredging survey';
         $data['menu']         =  'Dredging survey';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 4; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -125,6 +127,14 @@ class DredgingsurveyController extends Controller
             $dredging['created_at'] = date('Y-m-d H:i:s');
             $dredging['updated_at'] = date('Y-m-d H:i:s');
 
+            if($input['additional_services'])
+            {
+                
+               $dredging['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $dredging['additional_services'] = "";
+            }
+            
             $dredging_id = Dredging_survey::create($dredging)->id;
 
             $survey_request = [];

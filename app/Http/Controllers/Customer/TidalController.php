@@ -47,7 +47,9 @@ class TidalController extends Controller
     { 
         $data['title']        =  'Tidal observation';
         $data['menu']         =  'Tidal observation';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 2; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -111,6 +113,14 @@ class TidalController extends Controller
             $tidal_observation['updated_by'] = auth()->user()->id;
             $tidal_observation['created_at'] = date('Y-m-d H:i:s');
             $tidal_observation['updated_at'] = date('Y-m-d H:i:s');
+
+             if($input['additional_services'])
+            {
+                
+               $tidal_observation['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $tidal_observation['additional_services'] = "";
+            }
 
             $tidal_observation_id = Tidal_observation::create($tidal_observation)->id;
 

@@ -47,7 +47,9 @@ class BottomsampleController extends Controller
     { 
         $data['title']        =  'Bottom sample collection';
         $data['menu']         =  'Bottom sample collection';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 3; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -112,6 +114,14 @@ class BottomsampleController extends Controller
             $bottomsample['updated_by'] = auth()->user()->id;
             $bottomsample['created_at'] = date('Y-m-d H:i:s');
             $bottomsample['updated_at'] = date('Y-m-d H:i:s');
+
+             if($input['additional_services'])
+            {
+                
+               $bottomsample['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $bottomsample['additional_services'] = "";
+            }
 
             $bottomsample_id = Bottom_sample_collection::create($bottomsample)->id;
 

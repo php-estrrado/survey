@@ -48,7 +48,9 @@ class TopographicsurveyController extends Controller
     { 
         $data['title']        =  'Topographic survey';
         $data['menu']         =  'Topographic survey';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 9; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -112,6 +114,15 @@ class TopographicsurveyController extends Controller
             $topographic_survey['updated_by'] = auth()->user()->id;
             $topographic_survey['created_at'] = date('Y-m-d H:i:s');
             $topographic_survey['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $topographic_survey['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $topographic_survey['additional_services'] = "";
+            }
+
 
             $topographic_survey_id = Topographic_survey::create($topographic_survey)->id;
 

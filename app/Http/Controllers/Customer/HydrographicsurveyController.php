@@ -48,7 +48,9 @@ class HydrographicsurveyController extends Controller
     { 
         $data['title']        =  'Hydrofraphic Survey';
         $data['menu']         =  'Hydrofraphic Survey';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 1; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -121,6 +123,14 @@ class HydrographicsurveyController extends Controller
             $hydrographic_survey['updated_by'] = auth()->user()->id;
             $hydrographic_survey['created_at'] = date('Y-m-d H:i:s');
             $hydrographic_survey['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $hydrographic_survey['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $hydrographic_survey['additional_services'] = "";
+            }
 
             $hydrographic_survey_id = Hydrographic_survey::create($hydrographic_survey)->id;
 
