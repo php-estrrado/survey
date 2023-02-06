@@ -125,6 +125,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label class="form-label" for="remarks">Remarks</label>
+                                <textarea class="form-control" name="remarks" id="remarks" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

@@ -47,7 +47,7 @@
 		</div>
 		<div class="col-lg-6 col-md-auto">
 			<div class="text-lg-right btn-list mt-4 mt-lg-0">
-                <a href="{{URL('/admin/verify_performa_invoice')}}/{{$field_study->survey_request_id}}" class="btn btn-primary">Verify</a>
+				<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal">Verify</a>
 				<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
 			</div>
 			<div class="mt-5">
@@ -928,7 +928,7 @@
 <div class="row">
 	<div class="col-12">
 		<div class="btn-list d-flex justify-content-end">
-			<a href="{{URL('/admin/verify_performa_invoice')}}/{{$field_study->survey_request_id}}" class="btn btn-primary">Verify</a>
+			<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal">Verify</a>
 			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
 		</div>
 	</div>
@@ -939,6 +939,30 @@
 </div><!-- end app-content-->
 </div>
 
+<div class="modal" id="modaldemo1">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content modal-content-demo">
+			<form action="{{url('/admin/verify_performa_invoice')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$field_study->survey_request_id}}" name="id" id="id">
+				<div class="modal-header">
+					<h6 class="modal-title">Assign</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks</label>
+							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Submit</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 <div class="modal" id="modaldemo2">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">

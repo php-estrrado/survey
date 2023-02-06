@@ -137,6 +137,12 @@
 											<input type="text" class="form-control" name="field_study" id="field_study" placeholder="dd-mm-yyyy">
 										</div>
 									</div>
+									<div class="col-sm-12 col-md-12">
+										<div class="form-group">
+											<label class="form-label" for="remarks">Remarks</label>
+											<textarea class="form-control" name="remarks" id="remarks"  rows="3"></textarea>
+										</div>
+									</div>
 								</div>
 								<hr />
 								<div class="btn-list d-flex justify-content-end">

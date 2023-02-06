@@ -613,6 +613,13 @@
 								<p style="color: red">{{ $message }}</p>
 							@enderror
 						</div>
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control" name="remarks" id="remarks" rows="3"></textarea>
+							@error('remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">

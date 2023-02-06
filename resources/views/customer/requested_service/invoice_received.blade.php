@@ -19,7 +19,7 @@
                     <div>
                         <h5>File Number</h5>
                     </div>
-                    <button class="btn btn-primary" style="float:right ;" data-bs-original-title="" title="">Print</button>
+                    <a style="float:right ;" href="{{url('/customer/customer_invoice_download/')}}/{{$survey_data->survey_id}}"><button class="btn btn-primary">Download</button></a>
                 </div>
 
                 <div class="card-body">

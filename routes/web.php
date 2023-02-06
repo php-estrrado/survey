@@ -13,34 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('/welcome');
-});
-
 Auth::routes();
 
-// Route::get('/', [App\Http\Controllers\Superadmin\AdminController::class, 'index']);
-
-//  Route::view('/home', 'home')->middleware('auth');
- 
-// Route::get('/testmail', [App\Http\Controllers\Superadmin\AdminController::class, 'sendmail']);
-// Route::get('/credits-cron', [App\Http\Controllers\CreditCronController::class, 'validateCredit']);
-// Route::get('/credits-days-cron', [App\Http\Controllers\CreditCronController::class, 'validateCreditDays']);
-// foreach (glob(__DIR__ . '/admin/*.php') as $filename) { require_once($filename); }
-// foreach (glob(__DIR__ . '/seller/*.php') as $filename) { require_once($filename); }
-
-
-// Route::post('/admin/getDropdown', [App\Http\Controllers\Superadmin\HomeController::class, 'dropdownData']);
-
-// Route::get('/lockscreen', [App\Http\Controllers\HomeController::class, 'lockscreen'])->name('admin.lock');
-// Route::get('/site-config', [App\Http\Controllers\HomeController::class, 'configSet'])->name('admin.config');
-// Route::post('/admin/save-config', [App\Http\Controllers\HomeController::class, 'saveSet']);
-// Route::get('/admin/clear-cache', [App\Http\Controllers\HomeController::class, 'clearSettings']);
-// Route::post('/admin/unlock-password', [App\Http\Controllers\HomeController::class, 'unlockpwd']);
-
-// Route::stripeWebhooks('stripe-webhook');
-
 Route::get('/', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showAdminLoginForm']);
+Route::get('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showAdminLoginForm']);
 
 Route::get('/customer', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showAdminLoginForm']);
 
@@ -50,9 +26,18 @@ Route::post('/customer/login', [App\Http\Controllers\Customer\Auth\LoginControll
 Route::get('/customer/register', [App\Http\Controllers\Customer\RegisterController::class, 'index']);
 Route::post('/customer/register', [App\Http\Controllers\Customer\RegisterController::class, 'register']);
 
+Route::get('/customer/forgotPassword', [App\Http\Controllers\Customer\Auth\LoginController::class, 'forgotPassword']);
+
+Route::post('/customer/send_otp', [App\Http\Controllers\Customer\Auth\LoginController::class, 'send_otp']);
+Route::post('/customer/verify_otp', [App\Http\Controllers\Customer\Auth\LoginController::class, 'verify_otp']);
+
+Route::post('/customer/update_password', [App\Http\Controllers\Customer\Auth\LoginController::class, 'update_password']);
+
 Route::middleware('role:customer')->group(function () {
 
     Route::get('/customer/logout', [App\Http\Controllers\Customer\AdminController::class, 'adminLogout']);
+
+    Route::get('/customer/notifications', [App\Http\Controllers\Customer\AdminController::class, 'notifications']);
 
     // Route::view('/admin', 'admin.admin');
     Route::get('/customer/profile', [App\Http\Controllers\Customer\AdminController::class, 'profile']);
@@ -123,12 +108,18 @@ Route::middleware('role:customer')->group(function () {
     //Requested Services
     Route::get('/customer/requested_services', [App\Http\Controllers\Customer\RequestedServicesController::class, 'index'])->name('customer.requested_services');
     Route::get('/customer/request_service_detail/{id}/{status}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'request_service_detail']);
+    
+    Route::get('/customer/request_service_performa_invoice/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'request_service_performa_invoice']);
     Route::get('/customer/request_service_invoice/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'request_service_invoice']);
 
     Route::get('/customer/customer_invoice_download/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'customer_invoice_download']);
 
     Route::post('/customer/customer_receipt_upload', [App\Http\Controllers\Customer\RequestedServicesController::class, 'customer_receipt_upload']);
 
+    Route::get('/customer/invoice_received', [App\Http\Controllers\Customer\RequestedServicesController::class, 'invoice_received']);
+    Route::get('/customer/performa_invoice_received', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_received']);
+
+    Route::post('/customer/performa_invoice_remarks', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_remarks']);
 
     Route::post('/customer/getCity', [App\Http\Controllers\Customer\CityController::class, 'getCity']);
 
@@ -145,6 +136,8 @@ Route::post('/superadmin/regVerifyotpemail', [App\Http\Controllers\Superadmin\Au
 
 Route::middleware('role:superadmin')->group(function () {
     Route::get('/superadmin/dashboard', [App\Http\Controllers\Superadmin\AdminController::class, 'index']);
+
+    Route::get('/superadmin/notifications', [App\Http\Controllers\Superadmin\AdminController::class, 'notifications']);
 
     Route::get('/superadmin/user-roles', [App\Http\Controllers\Superadmin\UserRoleController::class, 'userRole'])->name('superadmin.user-roles');
     Route::get('/superadmin/user-roles/create', [App\Http\Controllers\Superadmin\UserRoleController::class, 'createRole'])->name('userRole.create');
@@ -176,7 +169,9 @@ Route::middleware('role:superadmin')->group(function () {
     Route::get('/superadmin/customers', [App\Http\Controllers\Superadmin\CustomerController::class, 'index'])->name('superadmin.customers');
     Route::get('/superadmin/customers/create', [App\Http\Controllers\Superadmin\CustomerController::class, 'createCustomers']);
     Route::post('/superadmin/customers/customerSave', [App\Http\Controllers\Superadmin\CustomerController::class, 'customerSave']);
+    Route::get('/superadmin/customers/view/{id}', [App\Http\Controllers\Superadmin\CustomerController::class, 'viewCustomer']);
 
+    Route::get('/superadmin/service-master', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'service_master'])->name('superadmin.service_master');
     Route::get('/superadmin/new_service_requests', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'new_service_requests'])->name('superadmin.new_service_requests');
     Route::get('/superadmin/new_service_request_detail/{id}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'new_service_request_detail'])->name('superadmin.new_service_request_detail');
     Route::post('/superadmin/assign_survey', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_survey']);
@@ -185,7 +180,10 @@ Route::middleware('role:superadmin')->group(function () {
     Route::get('/superadmin/requested_service_detail/{id}/{status}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'requested_service_detail'])->name('superadmin.requested_service_detail');
     Route::get('/superadmin/verify_field_study/{id}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'verify_field_study']);
     Route::post('/superadmin/assign_draftsman', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman']);
-    Route::get('/superadmin/send_invoice_customer/{id}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'send_invoice_customer']);
+    Route::post('/superadmin/send_performa_invoice_customer', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'send_performa_invoice_customer']);
+
+    Route::post('/superadmin/assign_draftsman_invoice', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman_invoice']);
+    Route::post('/superadmin/send_invoice_customer', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'send_invoice_customer']);
 
     Route::post('/superadmin/assign_survey_study', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_survey_study']);
     Route::post('/superadmin/assign_draftsman_final', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman_final']);
@@ -204,21 +202,85 @@ Route::post('/admin/regVerifyotpemail', [App\Http\Controllers\Admin\Auth\LoginCo
 Route::middleware('role:admin')->group(function () {
     Route::get('/admin/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index']);
 
+    Route::get('/admin/notifications', [App\Http\Controllers\Admin\AdminController::class, 'notifications']);
+
     Route::get('/admin/logout', [App\Http\Controllers\Admin\AdminController::class, 'adminLogout']);
 
     Route::get('/admin/customers', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('admin.customers');
     Route::get('/admin/customers/create', [App\Http\Controllers\Admin\CustomerController::class, 'createCustomers']);
     Route::post('/admin/customers/customerSave', [App\Http\Controllers\Admin\CustomerController::class, 'customerSave']);
-    Route::get('/admin/customers/customer_details/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'customer_details']);
+    Route::get('/admin/customers/view/{id}', [App\Http\Controllers\Admin\CustomerController::class, 'viewCustomer']);
 
     Route::get('/admin/new_service_requests', [App\Http\Controllers\Admin\ServicerequestsController::class, 'new_service_requests'])->name('admin.new_service_requests');
     Route::get('/admin/new_service_request_detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'new_service_request_detail'])->name('admin.new_service_request_detail');
+    
     Route::post('/admin/assign_surveyor', [App\Http\Controllers\Admin\ServicerequestsController::class, 'assign_surveyor']);
+
+    Route::post('/admin/assign_surveyor_survey', [App\Http\Controllers\Admin\ServicerequestsController::class, 'assign_surveyor_survey']);
 
     Route::get('/admin/requested_services', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_services'])->name('admin.requested_services');
     Route::get('/admin/requested_service_detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_service_detail'])->name('admin.requested_service_detail');
+
+    Route::get('/admin/createETA/{id}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'createETA']);
+    Route::post('/admin/add_eta', [App\Http\Controllers\Admin\ServicerequestsController::class, 'add_eta']);
+
+    Route::post('/admin/verify_performa_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_performa_invoice']);
+    Route::post('/admin/verify_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_invoice']);
+    
+    Route::post('/admin/verify_survey_study', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_survey_study']);
 });
 
+//Draftsman
+
+Route::get('/draftsman', [App\Http\Controllers\Draftsman\Auth\LoginController::class, 'admin']);
+Route::get('/draftsman/login', [App\Http\Controllers\Draftsman\Auth\LoginController::class, 'admin']);
+Route::post('/draftsman/sendotpemail', [App\Http\Controllers\Draftsman\Auth\LoginController::class, 'loginSendotpemail']);
+Route::post('/draftsman/regVerifyotpemail', [App\Http\Controllers\Draftsman\Auth\LoginController::class, 'regVerifyotpemail']);
+
+Route::middleware('role:draftsman')->group(function () {
+    Route::get('/draftsman/dashboard', [App\Http\Controllers\Draftsman\AdminController::class, 'index']);
+
+    Route::get('/draftsman/notifications', [App\Http\Controllers\Draftsman\AdminController::class, 'notifications']);
+
+    Route::get('/draftsman/logout', [App\Http\Controllers\Draftsman\AdminController::class, 'adminLogout']);    
+
+    Route::get('/draftsman/service_requests', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'requested_services'])->name('draftsman.requested_services');
+    Route::get('/draftsman/service_requests_detail/{id}/{status}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'requested_service_detail'])->name('draftsman.requested_service_detail');
+
+    Route::get('/draftsman/create_performa_invoice/{id}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'create_performa_invoice']);
+    Route::post('/draftsman/save_performa_invoice', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'save_performa_invoice']);
+
+    Route::get('/draftsman/create_invoice/{id}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'create_invoice']);
+    Route::post('/draftsman/save_invoice', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'save_invoice']);
+
+    Route::get('/draftsman/download_report/{id}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'download_report']);
+    
+    Route::post('/draftsman/upload_final_report', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'upload_final_report']);
+
+});
+
+//Accountant
+
+Route::get('/accountant', [App\Http\Controllers\Accountant\Auth\LoginController::class, 'admin']);
+Route::get('/accountant/login', [App\Http\Controllers\Accountant\Auth\LoginController::class, 'admin']);
+Route::post('/accountant/sendotpemail', [App\Http\Controllers\Accountant\Auth\LoginController::class, 'loginSendotpemail']);
+Route::post('/accountant/regVerifyotpemail', [App\Http\Controllers\Accountant\Auth\LoginController::class, 'regVerifyotpemail']);
+
+Route::middleware('role:accountant')->group(function () {
+    Route::get('/accountant/dashboard', [App\Http\Controllers\Accountant\AdminController::class, 'index']);
+
+    Route::get('/accountant/notifications', [App\Http\Controllers\Accountant\AdminController::class, 'notifications']);
+
+    Route::get('/accountant/logout', [App\Http\Controllers\Accountant\AdminController::class, 'adminLogout']);    
+
+    Route::get('/accountant/service_requests', [App\Http\Controllers\Accountant\ServicerequestsController::class, 'requested_services'])->name('accountant.requested_services');
+
+    Route::get('/accountant/receipt_received/{id}', [App\Http\Controllers\Accountant\ServicerequestsController::class, 'receipt_received'])->name('accountant.receipt_received');
+
+    Route::post('/accountant/verify_customer_receipt', [App\Http\Controllers\Accountant\ServicerequestsController::class, 'verify_customer_receipt'])->name('accountant.verify_customer_receipt');
+});
+
+//Default Pages
 
 Route::get('/{page}', [App\Http\Controllers\AdminController::class, 'index']);
 Route::get('/superadmin/{page}', [App\Http\Controllers\AdminController::class, 'superadmin']);

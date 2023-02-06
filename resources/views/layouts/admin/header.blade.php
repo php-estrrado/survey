@@ -37,46 +37,99 @@
 						<svg xmlns="http://www.w3.org/2000/svg" class="header-icon" width="24" height="24" viewBox="0 0 24 24">
 							<path d="M19 13.586V10c0-3.217-2.185-5.927-5.145-6.742C13.562 2.52 12.846 2 12 2s-1.562.52-1.855 1.258C7.185 4.074 5 6.783 5 10v3.586l-1.707 1.707C3.105 15.48 3 15.734 3 16v2c0 .553.447 1 1 1h16c.553 0 1-.447 1-1v-2c0-.266-.105-.52-.293-.707L19 13.586zM19 17H5v-.586l1.707-1.707C6.895 14.52 7 14.266 7 14v-4c0-2.757 2.243-5 5-5s5 2.243 5 5v4c0 .266.105.52.293.707L19 16.414V17zM12 22c1.311 0 2.407-.834 2.818-2H9.182C9.593 21.166 10.689 22 12 22z" />
 						</svg>
-						<span class="pulse "></span>
+						@php 
+							use App\Models\AdminNotification;
+
+							$newnotification = 0;
+
+							if(auth()->user()->role_id == 1)
+							{
+								$notifications = AdminNotification::where('role_id',1)->limit(5)->orderby('id','desc')->get();
+							}
+							elseif(auth()->user()->role_id == 2)
+							{
+								$notifications = AdminNotification::where('role_id',2)->limit(5)->orderby('id','desc')->get();
+							}
+							elseif(auth()->user()->role_id == 3)
+							{
+								$notifications = AdminNotification::where('role_id',3)->limit(5)->orderby('id','desc')->get();
+							}
+							elseif(auth()->user()->role_id == 4)
+							{
+								$notifications = AdminNotification::where('role_id',4)->limit(5)->orderby('id','desc')->get();
+							}
+							elseif(auth()->user()->role_id == 5)
+							{
+								$notifications = AdminNotification::where('role_id',5)->limit(5)->orderby('id','desc')->get();
+							}
+						@endphp
+						@if($notifications)
+							@foreach($notifications as $notify)
+								@if($notify->viewed == 0)
+									<span class="pulse "></span>		
+								@endif
+							@endforeach
+						@endif
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow  animated">
 						<div class="dropdown-header">
 							<h6 class="mb-0">Notifications</h6>
 							<span class="badge badge-pill badge-primary ml-auto">View all</span>
 						</div>
-						<!-- <div class="notify-menu">-->
-						<!--	<a href="{{url('/' . $page='#')}}" class="dropdown-item border-bottom d-flex pl-4">-->
-						<!--		<div class="notifyimg bg-info-transparent text-info"> <i class="ti-comment-alt"></i> </div>-->
-						<!--		<div>-->
-						<!--			<div class="font-weight-normal1">Message Sent.</div>-->
-						<!--			<div class="small text-muted">3 hours ago</div>-->
-						<!--		</div>-->
-						<!--	</a>-->
-						<!--	<a href="{{url('/' . $page='#')}}" class="dropdown-item border-bottom d-flex pl-4">-->
-						<!--		<div class="notifyimg bg-primary-transparent text-primary"> <i class="ti-shopping-cart-full"></i> </div>-->
-						<!--		<div>-->
-						<!--			<div class="font-weight-normal1"> Order Placed</div>-->
-						<!--			<div class="small text-muted">5 hour ago</div>-->
-						<!--		</div>-->
-						<!--	</a>-->
-						<!--	<a href="{{url('/' . $page='#')}}" class="dropdown-item border-bottom d-flex pl-4">-->
-						<!--		<div class="notifyimg bg-warning-transparent text-warning"> <i class="ti-calendar"></i> </div>-->
-						<!--		<div>-->
-						<!--			<div class="font-weight-normal1"> Event Started</div>-->
-						<!--			<div class="small text-muted">45 mintues ago</div>-->
-						<!--		</div>-->
-						<!--	</a>-->
-						<!--	<a href="{{url('/' . $page='#')}}" class="dropdown-item border-bottom d-flex pl-4">-->
-						<!--		<div class="notifyimg bg-success-transparent text-success"> <i class="ti-desktop"></i> </div>-->
-						<!--		<div>-->
-						<!--			<div class="font-weight-normal1">Your Admin lanuched</div>-->
-						<!--			<div class="small text-muted">1 daya ago</div>-->
-						<!--		</div>-->
-						<!--	</a>-->
-						<!--</div>-->
-						<!--<div class=" text-center p-2 border-top">-->
-						<!--	<a href="#" class="">View All Notifications</a>-->
-						<!--</div> -->
+						<div class="notify-menu">
+							@if($notifications && count($notifications)>0)
+								@foreach($notifications as $notify)
+									<a href="{{url($notify->ref_link)}}" class="dropdown-item border-bottom d-flex pl-4">
+										<div class="notifyimg bg-info-transparent text-info"> <i class="ti-comment-alt"></i> </div>
+										<div>
+											<div class="font-weight-normal1">{{$notify->title}}.</div>
+											<div class="small text-muted">{{date('d/m/Y',strtotime($notify->created_at))}}</div>
+										</div>
+									</a>
+								@endforeach
+							@endif
+							<!-- <a href="{{url('/' . $page='#')}}" class="dropdown-item border-bottom d-flex pl-4">
+								<div class="notifyimg bg-info-transparent text-info"> <i class="ti-comment-alt"></i> </div>
+								<div>
+									<div class="font-weight-normal1">Message Sent.</div>
+									<div class="small text-muted">3 hours ago</div>
+								</div>
+							</a>
+							<a href="{{url('/' . $page='#')}}" class="dropdown-item border-bottom d-flex pl-4">
+								<div class="notifyimg bg-primary-transparent text-primary"> <i class="ti-shopping-cart-full"></i> </div>
+								<div>
+									<div class="font-weight-normal1"> Order Placed</div>
+									<div class="small text-muted">5 hour ago</div>
+								</div>
+							</a>
+							<a href="{{url('/' . $page='#')}}" class="dropdown-item border-bottom d-flex pl-4">
+								<div class="notifyimg bg-warning-transparent text-warning"> <i class="ti-calendar"></i> </div>
+								<div>
+									<div class="font-weight-normal1"> Event Started</div>
+									<div class="small text-muted">45 mintues ago</div>
+								</div>
+							</a>
+							<a href="{{url('/' . $page='#')}}" class="dropdown-item border-bottom d-flex pl-4">
+								<div class="notifyimg bg-success-transparent text-success"> <i class="ti-desktop"></i> </div>
+								<div>
+									<div class="font-weight-normal1">Your Admin lanuched</div>
+									<div class="small text-muted">1 daya ago</div>
+								</div>
+							</a> -->
+						</div>
+						<div class=" text-center p-2 border-top">
+							@if(auth()->user()->role_id == 1)
+								<a href="{{URL('/superadmin/notifications')}}" class="">View All Notifications</a>
+							@elseif(auth()->user()->role_id == 2)
+								<a href="{{URL('/admin/notifications')}}" class="">View All Notifications</a>
+							@elseif(auth()->user()->role_id == 3)
+								<a href="{{URL('/surveyor/notifications')}}" class="">View All Notifications</a>
+							@elseif(auth()->user()->role_id == 4)
+								<a href="{{URL('/draftsman/notifications')}}" class="">View All Notifications</a>
+							@elseif(auth()->user()->role_id == 5)
+								<a href="{{URL('/accountant/notifications')}}" class="">View All Notifications</a>
+							@endif
+						</div>
 					</div>
 				</div>
 				<div class="dropdown profile-dropdown">

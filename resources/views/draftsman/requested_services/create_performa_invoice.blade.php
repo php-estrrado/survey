@@ -261,6 +261,12 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <label class="form-label" for="remarks">Remarks</label>
+                            <textarea class="form-control" name="remarks" id="remarks" rows="2" placeholder="Type Here..."></textarea>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="btn-list d-flex justify-content-end">

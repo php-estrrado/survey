@@ -116,7 +116,88 @@ class LoginController extends Controller
         
     }
 
-    function forgotPassword(Request $request){
+    public function forgotPassword()
+    {
+        return view('customer.forgot_password');
+    }
+
+    public function send_otp(Request $request)
+    {
+        $formData   =   $request->all();
+
+        $rules      =   array();
+        $rules['email']    = 'required|email';
+        $validator  =   Validator::make($request->all(), $rules);
+        if ($validator->fails()) 
+        {
+            foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
+            return back()->withInput($request->only('email', 'remember'))->with('message',' These credentials do not match our records. ');
+        }
+        else
+        {
+            $regexist = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+
+            if($regexist)
+            {
+                $otp = rand(1000, 9999); 
+                // $otp = 1234;
+
+                // dd($otp);
+
+                // $req_email = $request->email;
+                // $data['otp'] = $otp;
+                
+                // $var = Mail::send('emails.otp', $data, function($message) use($data,$req_email) {
+                //     $message->from(getadmin_mail(),'HSW');    
+                //     $message->to($req_email);
+                //     $message->subject('OTP Verification');
+                // });
+
+                Admin::where('email',$request->email)->update(['otp'=>$otp,'otp_sent_at'=>date('Y-m-d H:i:s')]);
+                return back()->withInput($request->only('email', 'remember'))->with('message',' OTP Sent to mail.');
+            }
+            else
+            {
+                return back()->withInput($request->only('email', 'remember'))->with('message',' Email does not exist!.');
+            }
+            
+        }
+    }
+
+    public function verify_otp(Request $request)
+    {
+        $formData   =   $request->all(); 
+        $rules      =   array();
+        $rules['email']           = 'required|email';
+        $rules['otp']             = 'required|numeric';
+        $validator  =   Validator::make($request->all(), $rules);
+        if ($validator->fails()) 
+        {
+            foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
+            return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+        }
+        else
+        { 
+            $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+            if($exisit)
+            {
+                $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+                if($exist)
+                {
+                    return back()->withInput($request->all())->with('message',' OTP Verified Successfully.');
+                }
+                else
+                {
+                    return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid OTP.');
+                }
+            }
+            else
+            {
+                return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid Email.');
+            }
+        }
+    }
+    function forgotPassword1(Request $request){
         $post = (object)$request->post();
         $user           =   Admin::where('email',$post->email)->first();
         if($user){        

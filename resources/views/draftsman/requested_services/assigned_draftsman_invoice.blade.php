@@ -290,7 +290,7 @@
 												Remarks
 											</div>
 										</div>
-										<textarea class="form-control mb-4" placeholder="Textarea" rows="3">{{$field_study->remarks}}</textarea>
+										<label class="form-label">{{$survey_remarks}}</label>
 									</div>
 								</div>
 							</div>

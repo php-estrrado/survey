@@ -283,16 +283,18 @@
 										</ul>
 									</div>
 								</div>
-								<div class="col-sm-12 col-md-12">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Remarks
+								<div class="row">
+									<div class="col-sm-12 col-md-12">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Remarks
+												</div>
 											</div>
+											<label class="form-label">{{$field_study->remarks}}</label>
 										</div>
-										<textarea class="form-control mb-4" placeholder="Textarea" rows="3">{{$field_study->remarks}}</textarea>
 									</div>
-								</div>
+								</div>								
 							</div>
 						</div>
 					</div>
@@ -883,6 +885,12 @@
 									@endforeach
 								@endif
 							</select>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks</label>
+							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
 						</div>
 					</div>
 				</div>

@@ -983,6 +983,12 @@
 							</select>
 						</div>
 					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks</label>
+							<textarea class="form-control" name="remarks" id="remarks" rows="2" placeholder="Type Here..."></textarea>
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-primary" type="submit">Assign</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>

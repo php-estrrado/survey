@@ -257,7 +257,7 @@ class SurveyReportController extends Controller
 
         $form_id = $request->form_id;
         $formData = Field_study_report::where("id",$form_id)->first();
-
+        
         if($formData->upload_photos_of_study_area)
         {
           $formData->upload_photos_of_study_area = json_decode($formData->upload_photos_of_study_area);  
@@ -297,12 +297,11 @@ class SurveyReportController extends Controller
 
         $form_id = $request->form_id;
         $formData = Survey_study_report::where("id",$form_id)->first();
-
+        
         if($formData->upload_photos_of_study_area)
         {
           $formData->upload_photos_of_study_area = json_decode($formData->upload_photos_of_study_area);  
         }
-        
         if($formData)
         {
             return ['httpcode'=>200,'status'=>'success','message'=>'Success','data'=>['form'=>$formData]];

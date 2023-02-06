@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 class Survey_requests extends Model{
     use HasFactory;
     public $table = 'survey_requests';
-    protected $fillable = ['cust_id','service_id','service_request_id','request_status','assigned_institution','assigned_user','assigned_surveyor','assigned_draftsman','field_study','assigned_survey_institution','assigned_survey_user','assigned_draftsman_final','is_active','is_deleted','created_by','updated_by','created_at','updated_at'];
+    protected $fillable = ['cust_id','service_id','service_request_id','request_status','assigned_institution','assigned_user','assigned_surveyor','assigned_draftsman','field_study','assigned_survey_institution','assigned_survey_user','assigned_surveyor_survey','survey_study','assigned_draftsman_final','is_active','is_deleted','created_by','updated_by','created_at','updated_at'];
 
     public function Hydrographic_survey()
     {
@@ -57,8 +57,8 @@ class Survey_requests extends Model{
     {
         return $this->hasMany(Hydrographic_chart::class,'id','service_request_id');
     }
-
-    public function service_info()
+    
+      public function service_info()
     {
         // dd($this->service_request_id);
          switch ($this->service_id) {

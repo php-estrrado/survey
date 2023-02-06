@@ -84,11 +84,14 @@ class CustomerController extends Controller
         $validator = Validator::make($request->all(), [
             'full_name'=>['required','max:255'],
             'firm'=>['required','max:255'],
-            'country'=>['required'],
+            'firm_type'=>['required'],
             'email' => ['required','email','max:255','unique:cust_mst,username'],
             'mobile'=>['required','max:255'],
-            'valid_id'=>['nullable','max:255'],
-            'password' =>['required','confirmed','min:6']
+            'valid_id'=>['required','max:255'],
+            'id_file_front' => ['required','max:10000'],
+            'id_file_back' => ['required','max:10000'],
+            'password' =>['required','confirmed','min:6'],
+            'password_confirmation' =>['required','min:6']
         ]);
 
         if($validator->passes())
@@ -104,18 +107,19 @@ class CustomerController extends Controller
             ]);
             $masterId = $master->id;
 
-            $info = CustomerInfo::create([
+            $info_id = CustomerInfo::create([
                 'cust_id' => $masterId,
                 'name' => $request->full_name,
                 'valid_id' => $request->valid_id,
                 'firm' => $request->firm,
+                'firm_type' => $request->firm_type,
                 'is_active'=>1,
                 'is_deleted'=>0,
                 'created_by'=>auth()->user()->id,
                 'updated_by'=>auth()->user()->id,
                 'created_at'=>date("Y-m-d H:i:s"),
                 'updated_at'=>date("Y-m-d H:i:s")
-            ]);
+            ])->id;
 
             $security = CustomerSecurity::create([
                 'cust_id' => $masterId,
@@ -172,6 +176,48 @@ class CustomerController extends Controller
                 'created_at'=>date("Y-m-d H:i:s"),
                 'updated_at'=>date("Y-m-d H:i:s")
             ]);
+            if($request->hasfile('id_file_front'))
+            {
+                $file = $request->id_file_front;
+                $folder_name = "uploads/customer_document/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "customer_id_front" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                CustomerInfo::where('id',$info_id)->update([
+                    'id_file_front' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+            if($request->hasfile('id_file_back'))
+            {
+                $file = $request->id_file_back;
+                $folder_name = "uploads/customer_document/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "customer_id_back" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                CustomerInfo::where('id',$info_id)->update([
+                    'id_file_back' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
 
             if($masterId)
             {   
@@ -191,18 +237,13 @@ class CustomerController extends Controller
         
     }
 
-    public function customer_details($id)
+    public function viewCustomer($id)
     {
-        $data['title']      =   'Customer Details';
-        $data['menu']       =   'customer-details';
-
-        $datas = Survey_requests::where('id',$id)->first();
-
-        $email = Admin::where('id',$datas->cust_id)->first()->email;
-        $cust_id = CustomerMaster::where('username',$email)->first()->id;
-        $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
-        $data['cust_phone'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first()->cust_telecom_value;
-        $data['cust_email'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first()->cust_telecom_value;
+        $data['title']              =   'Customer Info';
+        $data['menu']               =   'Customer Details';
+        $data['customer_mst']       =    CustomerMaster::where('is_deleted',0)->where('id',$id)->first();
+        $data['telecom']            =    CustomerTelecom::where('cust_id',$id)->where('is_deleted',0)->where('telecom_type',2)->first();
+        $data['info']               =    CustomerInfo::where('cust_id',$id)->where('is_deleted',0)->first();
 
         $data['requested_services']  =  DB::table('survey_requests')
                                         ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
@@ -215,6 +256,6 @@ class CustomerController extends Controller
         
         // dd($data);
 
-        return view('admin.customer.customer_details',$data);
+        return view('superadmin.customer.customer_detail', $data);
     }
 }

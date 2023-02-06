@@ -49,7 +49,7 @@
 		</div>
 		<div class="col-lg-6 col-md-auto">
 			<div class="text-lg-right btn-list mt-4 mt-lg-0">
-				<a href="{{URL('/accountant/verify_customer_receipt')}}/{{$survey_id}}" class="btn btn-primary">Verify</a>
+				<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Verify</a>
 				<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
 			</div>
 			<div class="mt-5">
@@ -146,26 +146,24 @@
 <div class="modal" id="modaldemo1">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Assign</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="form-label">Recipient <span class="text-red">*</span></label>
-						<select class="form-control custom-select select2">
-							<option value="0">--Select--</option>
-							<option value="1">Germany</option>
-							<option value="2">Canada</option>
-							<option value="3">Usa</option>
-							<option value="4">Aus</option>
-						</select>
+			<form action="{{url('/accountant/verify_customer_receipt')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$survey_id}}" name="id" id="id">
+				<div class="modal-header">
+					<h6 class="modal-title">Verify Receipt</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks</label>
+							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary" type="button">Assign</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-			</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Submit</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
