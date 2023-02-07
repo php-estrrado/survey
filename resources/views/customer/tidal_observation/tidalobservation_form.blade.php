@@ -238,26 +238,55 @@
                               <div class="tab-pane" role="tabpanel" id="step4">
                                 <h4 class="text-center">Details</h4>
                                 <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="period_of_observation"><b>Period of observation</b></label>
+                                   
+                                    </div>
+                                   
+                                  </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="period_of_observation">Period of observation</label>
-                                      <input class="form-control" type="text" placeholder="Period of observation" name="period_of_observation" id="period_of_observation" value="{{ old('period_of_observation') }}">
+                                      <label class="form-label-title mt-3" for="start_date">Start Date</label>
+                                      <input class="form-control" type="date" placeholder="Period of observation" name="start_date" id="start_date" value="{{ old('start_date') }}">
                                     </div>
-                                    <div id="period_of_observation_error"></div>
-                                    @error('period_of_observation')
+                                    <div id="start_date_error"></div>
+                                    @error('start_date')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
+                                      <label class="form-label-title mt-3" for="end_date">End Date</label>
+                                      <input class="form-control" type="date" placeholder="Period of observation" name="end_date" id="end_date" value="{{ old('end_date') }}">
+                                    </div>
+                                    <div id="end_date_error"></div>
+                                    @error('end_date')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="duration">Duration (Years, Weeks, Days, Hours)</label>
+                                      <input class="form-control" type="text" placeholder="Duration (Years, Weeks, Days, Hours)" name="duration" id="duration" value="{{ old('duration') }}">
+                                    </div>
+                                    <div id="duration_error"></div>
+                                    @error('duration')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-md-6">
+                                    <div class="form-group">
                                       <label class="form-label-title mt-3" for="benchmark_chart_datum">Whether Bench mark/Chart Datum available in the area</label>
                                       <div>
                                         <div class="form-check form-check-inline">
-                                          <input class="form-check-input" type="radio" name="benchmark_chart_datum" id="benchmark_chart_datum1" value="yes" {{ old('benchmark_chart_datum') == "yes" ? 'checked' : '' }}>
+                                          <input class="form-check-input" type="radio" onclick="displayDesc(1);" name="benchmark_chart_datum" id="benchmark_chart_datum1" value="yes" checked {{ old('benchmark_chart_datum') == "yes" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="benchmark_chart_datum1">Yes</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                          <input class="form-check-input" type="radio" name="benchmark_chart_datum" id="benchmark_chart_datum2" value="no" {{ old('benchmark_chart_datum') == "no" ? 'checked' : '' }}>
+                                          <input class="form-check-input" type="radio" onclick="displayDesc(0);" name="benchmark_chart_datum" id="benchmark_chart_datum2" value="no" {{ old('benchmark_chart_datum') == "no" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="benchmark_chart_datum2">No</label>
                                         </div>
                                       </div>
@@ -267,6 +296,31 @@
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
+
+                                  <div class="col-md-6 description_of_benchmark_class">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="description_of_benchmark">Description of Benchmark</label>
+                                      <textarea class="form-control" type="text" placeholder="Description of Benchmark" name="description_of_benchmark" id="description_of_benchmark" value="{{ old('description_of_benchmark') }}"></textarea>
+                                    </div>
+                                    <div id="description_of_benchmark_error"></div>
+                                    @error('description_of_benchmark')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-sm-6">
+                                    <label class="form-label-title mt-3" for="method_of_observation">Method of observation</label>
+                                    <select class="js-example-basic-single col-sm-12" name="method_of_observation" id="method_of_observation">
+                                      <option value="manual">Manual</option>
+                                      <option value="automatic">Automatic</option>
+                                    </select>
+                                    <div id="method_of_observation_error"></div>
+                                    @error('method_of_observation')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+
                                   <div class="col-md-12">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location</label>
@@ -316,6 +370,16 @@
 @section('js')
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script type="text/javascript">
+
+    function displayDesc(disp)
+    {
+      if(disp == 1)
+      {
+        $(".description_of_benchmark_class").show();
+      }else{
+        $(".description_of_benchmark_class").hide();
+      }
+    }
     // ------------step-wizard-------------
     $(document).ready(function () {
       $(".nav-tabs > li a[title]").tooltip();

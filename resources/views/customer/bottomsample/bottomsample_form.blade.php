@@ -38,7 +38,7 @@
                               </li>
                             </ul>
                           </div>                            
-                          <form action="{{url('/customer/bottomsample/save')}}" method="post" id="bottom_sample" class="theme-form">
+                          <form action="{{url('/customer/bottomsample/save')}}" method="post" id="bottom_sample" class="theme-form" enctype="multipart/form-data">
                             @csrf
                             <div class="tab-content" id="main_form">
                               <div class="tab-pane active" role="tabpanel" id="step1">
@@ -163,14 +163,14 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="place">Name of Place</label>
-                                    <input class="form-control" type="text" placeholder="Place" name="place" id="place" value="{{ old('place') }}">
+                                    <label class="form-label-title mt-3" for="place">Name of waterbody</label>
+                                    <input class="form-control" type="text" placeholder="Name of waterbody" name="place" id="place" value="{{ old('place') }}">
                                     <div id="place_error"></div>
                                     @error('place')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
-                                  <div class="col-md-6">
+                                  <!-- <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="depth_at_saples_collected">Depth at which samples to be collected (add value in meters)</label>
                                       <input class="form-control" type="number" placeholder="Depth at which samples to be collected" name="depth_at_saples_collected" id="depth_at_saples_collected" value="{{ old('depth_at_saples_collected') }}">
@@ -179,11 +179,11 @@
                                     @error('depth_at_saples_collected')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
-                                  </div>
+                                  </div> -->
                                   
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for=""><b>Location Coordinates</b></label>
+                                      <label class="form-label-title mt-3" for=""><b>Location of sampling</b></label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
@@ -258,20 +258,68 @@
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
-                                  <!-- <div class="col-md-12">
+
+                                  <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location</label>
-                                      <div class="dropzone" id="singleFileUpload">
-                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
-                                          <h6>Drop files here or click to upload.</h6>
-                                          <spanclass="note needsclick">(This is just a
-                                            demo dropzone. Selected files are <strong>not</strong>
-                                            actually uploaded.)
-                                          </span>
-                                        </div>
-                                      </div>
+                                      <label class="form-label-title mt-3" for="interval_bottom_sample">Interval (in kms) </label>
+                                      <input class="form-control" type="text" placeholder="Interval (in kms)" name="interval_bottom_sample" id="interval_bottom_sample" value="{{ old('interval_bottom_sample') }}">
                                     </div>
-                                  </div> -->
+                                    <div id="interval_bottom_sample_error"></div>
+                                    @error('interval_bottom_sample')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="quantity_bottom_sample">Quantity (kg) </label>
+                                      <select class="js-example-basic-single col-sm-12" name="quantity_bottom_sample" id="quantity_bottom_sample">
+                                      <option value="0.4">0.4</option>
+                                      <option value="0.5">0.5</option>
+                                      <option value="1">1</option>
+                                      <option value="2">2</option>
+                                      <option value="5">5</option>
+                                    </select>
+
+                                    </div>
+                                    <div id="quantity_bottom_sample_error"></div>
+                                    @error('quantity_bottom_sample')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="method_of_sampling">Method of sampling </label>
+                                      <select class="js-example-basic-single col-sm-12" name="method_of_sampling" id="method_of_sampling">
+                                      <option value="bucket">Bucket</option>
+                                      <option value="boring">Boring</option>
+                                      
+                                    </select>
+
+                                    </div>
+                                    <div id="method_of_sampling_error"></div>
+                                    @error('method_of_sampling')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+
+                                  <div class="col-md-6 ">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="description_of_requirement">Description of Requirement</label>
+                                      <textarea class="form-control" type="text" placeholder="Description of Requirement" name="description_of_requirement" id="description_of_requirement" value="{{ old('description_of_requirement') }}"></textarea>
+                                    </div>
+                                    <div id="description_of_requirement_error"></div>
+                                    @error('description_of_requirement')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+
+                                  <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="drawing_maps">File upload (jpg, pdf)</label>
+                                      <input type="file" class="dropify" data-height="180" name="file_upload" id="file_upload" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' />
+                                    </div>
+                                  </div>
                                 </div>
                                 <ul class="list-inline pull-right">
                                   <li><button type="button" class="default-btn prev-step">Back</button></li>

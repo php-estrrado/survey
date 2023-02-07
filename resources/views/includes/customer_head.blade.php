@@ -50,3 +50,7 @@
 <link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />
 
 <link rel="stylesheet" href="{{URL::asset('public/assets/plugins/sumoselect/sumoselect.css')}}">
+        <!-- INTERNAL File Uploads css -->
+        <link href="{{URL::asset('public/admin/assets/plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
+        <!-- INTERNAL File Uploads css-->
+        <link href="{{URL::asset('public/admin/assets/plugins/fileupload/css/fileupload.css')}}" rel="stylesheet" type="text/css" />

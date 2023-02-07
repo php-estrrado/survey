@@ -79,7 +79,7 @@ class BottomsampleController extends Controller
             'state' => ['required'],
             'district' => ['required'],
             'place' => ['required'],
-            'depth_at_saples_collected' => ['required'],
+            // 'depth_at_saples_collected' => ['required'],
             'number_of_locations' => ['required'],
             'quantity_of_samples' => ['required'],
         ]);
@@ -101,7 +101,7 @@ class BottomsampleController extends Controller
             $bottomsample['state'] = $input['state'];
             $bottomsample['district'] = $input['district'];
             $bottomsample['place'] = $input['place'];
-            $bottomsample['depth_at_saples_collected'] = $input['depth_at_saples_collected'];
+            // $bottomsample['depth_at_saples_collected'] = $input['depth_at_saples_collected'];
             $bottomsample['number_of_locations'] = $input['number_of_locations'];
             $bottomsample['quantity_of_samples'] = $input['quantity_of_samples'];
             $bottomsample['lattitude'] = $input['lattitude'];
@@ -122,6 +122,25 @@ class BottomsampleController extends Controller
             }else{
                 $bottomsample['additional_services'] = "";
             }
+
+            $bottomsample['interval_bottom_sample'] = $input['interval_bottom_sample'];
+            $bottomsample['quantity_bottom_sample'] = $input['quantity_bottom_sample'];
+            $bottomsample['method_of_sampling'] = $input['method_of_sampling'];
+            $bottomsample['description_of_requirement'] = $input['description_of_requirement'];
+
+            $file_upload               =   $request->file('file_upload');
+             if($file_upload){ 
+            $fileName            =  'bottom_sample_'.time().'.'.$file_upload->getClientOriginalExtension();
+            $sheetTitle = $file_upload->getClientOriginalName();
+            
+            $file_path = '/app/public/uploads/bottom_sample/'.$fileName;
+            $destinationPath    =   storage_path('/app/public/uploads/bottom_sample/');
+            $file_upload->move($destinationPath, $fileName);
+             }else{
+                $file_path = "";
+             }
+
+            $bottomsample['file_upload'] = $file_path;
 
             $bottomsample_id = Bottom_sample_collection::create($bottomsample)->id;
 
