@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\customer\CustomerAddress;
 use App\Models\customer\CustomerAddressType;
+use App\Models\Survey_requests;
+
 class CustomerMaster extends Model
 {
     use HasFactory;
@@ -28,5 +30,10 @@ class CustomerMaster extends Model
         
     $addr = CustomerAddress::getUserAddress_sale($user_id,$sale);
     return $addr;
+    }
+
+    public function customer_request()
+    {
+        return $this->hasMany(Survey_requests::class,'cust_id','id')->first();
     }
 }

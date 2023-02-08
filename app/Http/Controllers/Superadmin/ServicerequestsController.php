@@ -24,6 +24,7 @@ use App\Models\UserRole;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Models\Field_study_report;
+use App\Models\Survey_study_report;
 use App\Models\Fieldstudy_eta;
 use App\Models\Survey_invoice;
 use App\Models\Survey_performa_invoice;
@@ -340,7 +341,7 @@ class ServicerequestsController extends Controller
         if($status == 21 || $status == 22)
         {
             $data['draftmans'] = Admin::where('role_id',4)->get();
-            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['survey_study'] = Survey_study_report::where('survey_request_id',$id)->first();
 
             return view('superadmin.requested_services.dh_verified_survey_study',$data);
         }
@@ -714,6 +715,33 @@ class ServicerequestsController extends Controller
             }
 
             return redirect('/superadmin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function edit_service_rate(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'service_id'=>['required'],
+            'service_rate'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $service_arr['service_rate'] = $input['service_rate'];
+            $service_arr['updated_by'] = auth()->user()->id;
+            $service_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Services::where('id',$input['service_id'])->update($service_arr);
+
+            Session::flash('message', ['text'=>'Service Rate Updated Successfully !','type'=>'success']);
+            
+            return redirect('/superadmin/service-master');
         }
         else
         {

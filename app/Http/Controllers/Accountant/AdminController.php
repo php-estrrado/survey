@@ -16,6 +16,7 @@ use App\Models\Modules;
 // use App\Models\UserRoles;
 use App\Models\Country;
 use App\Models\Admin;
+use App\Models\AdminNotification;
 use App\Models\Institution;
 use App\Models\UserManagement;
 use App\Models\UserRole;
@@ -92,6 +93,15 @@ class AdminController extends Controller
     
     function adminLogout(){ 
         Auth::logout(); return redirect('accountant/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
+    }
+
+    public function notifications()
+    {
+        $data['title']           =   'Notifications';
+        $data['menu']            =   'notifications';
+        $data['notifications']   =   AdminNotification::where('role_id',2)->orderby('id','DESC')->get();
+
+        return view('admin.notification',$data);
     }
 		
     public function sendmail()

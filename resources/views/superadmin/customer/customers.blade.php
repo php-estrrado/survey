@@ -47,6 +47,7 @@
 								<th class="wd-20p border-bottom-0">Mobile No.</th>
 								<th class="wd-15p border-bottom-0">Email ID</th>
 								<th class="wd-10p border-bottom-0">Type Of Firm</th>
+								<th class="wd-10p border-bottom-0">Service Requested</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -60,6 +61,7 @@
 										<td>{{$customer->cust_telecom_value}}</td>
 										<td>{{$customer->username}}</td>
 										<td>{{$customer->firm}}</td>
+										<td>{{latest_customer_req($customer->cust_id)}}</td>
 									</tr>
 									@php $i++; @endphp
 								@endforeach

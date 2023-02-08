@@ -22,6 +22,7 @@ use App\Models\UserRole;
 use App\Models\UserLogin;
 use App\Models\SalesOrder;
 use App\Models\Product;
+use App\Models\AdminNotification;
 use App\Models\customer\CustomerMaster;
 use App\Models\SellerInfo;
 use App\Models\UserVisit;
@@ -170,12 +171,12 @@ class AdminController extends Controller
         return view('superadmin.add-users',$data);
     }
 
-    public function editAdmin($role_id)
+    public function editAdmin($admin_id)
     { 
         $data['title']    =   'Edit User';
         $data['menu']     =   'edit-admin';
-        $data['admin']    =   Admin::where('id',$role_id)->first();
-        $data['users']    =   UserManagement::where('admin_id',$role_id)->first();
+        $data['admin']    =   Admin::where('id',$admin_id)->first();
+        $data['users']    =   UserManagement::where('admin_id',$admin_id)->first();
         $data['roles']    =   UserRole::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
         $data['institutions'] = Institution::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
         // $data['c_code']              =   getDropdownData(Country::where('is_deleted',0)->get(),'id','phonecode');
@@ -204,6 +205,7 @@ class AdminController extends Controller
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['id'])->where('is_deleted',0)],
                 'designation'    =>  ['required','max:100'],
                 'role_id'        =>  ['required'],
+                'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
             ],
             [],
@@ -213,6 +215,7 @@ class AdminController extends Controller
                 'phone' => 'User Phone',
                 'designation' => 'User Designation',
                 'role_id' => 'User Role',
+                'pen' => 'PEN Number',
                 'institution' => 'User Institution',
             ]);
             // if ($validator->fails()) 
@@ -252,6 +255,7 @@ class AdminController extends Controller
                 $usr_arr['phone'] = $input['phone'];
                 $usr_arr['designation'] = $input['designation'];
                 $usr_arr['role'] = $input['role_id'];
+                $usr_arr['pen'] = $input['pen'];
                 $usr_arr['institution'] = $input['institution'];
                 $usr_arr['userparent'] = $input['parent_id'];
                 $usr_arr['is_active'] = 1;
@@ -295,6 +299,7 @@ class AdminController extends Controller
                 $usr_arr['phone'] = $input['phone'];
                 $usr_arr['designation'] = $input['designation'];
                 $usr_arr['role'] = $input['role_id'];
+                $usr_arr['pen'] = $input['pen'];
                 $usr_arr['institution'] = $input['institution'];
                 $usr_arr['userparent'] = $input['parent_id'];
                 $usr_arr['is_active'] = 1;
@@ -320,6 +325,7 @@ class AdminController extends Controller
                 'phone'          =>  ['required','numeric','unique:admins'],
                 'designation'    =>  ['required','max:100'],
                 'role_id'        =>  ['required'],
+                'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
             ],
             [],
@@ -329,6 +335,7 @@ class AdminController extends Controller
                 'phone' => 'User Phone',
                 'designation' => 'User Designation',
                 'role_id' => 'User Role',
+                'pen' => 'PEN Number',
                 'institution' => 'User Institution',
             ]);
             // if ($validator->fails()) 
@@ -371,6 +378,7 @@ class AdminController extends Controller
                 $usr_arr['phone'] = $input['phone'];
                 $usr_arr['designation'] = $input['designation'];
                 $usr_arr['role'] = $input['role_id'];
+                $usr_arr['pen'] = $input['pen'];
                 $usr_arr['institution'] = $input['institution'];
                 $usr_arr['userparent'] = $input['parent_id'];
                 $usr_arr['is_active'] = 1;
@@ -416,6 +424,7 @@ class AdminController extends Controller
                 $usr_arr['phone'] = $input['phone'];
                 $usr_arr['designation'] = $input['designation'];
                 $usr_arr['role'] = $input['role_id'];
+                $usr_arr['pen'] = $input['pen'];
                 $usr_arr['institution'] = $input['institution'];
                 $usr_arr['userparent'] = $input['parent_id'];
                 $usr_arr['is_active'] = 1;
@@ -550,6 +559,15 @@ class AdminController extends Controller
 
         return json_encode($sales_arr);
 
+        }
+
+        public function notifications()
+        {
+            $data['title']           =   'Notifications';
+            $data['menu']            =   'notifications';
+            $data['notifications']   =   AdminNotification::where('role_id',2)->orderby('id','DESC')->get();
+
+            return view('admin.notification',$data);
         }
 		
         

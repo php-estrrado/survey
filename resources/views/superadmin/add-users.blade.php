@@ -97,7 +97,17 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="avatar">Profile Pic <span class="text-red">*</span></label>
+								<label class="form-label" for="pen">PEN Number <span class="text-red">*</span></label>
+								<input type="text" class="form-control" name="pen" id="pen" placeholder="PEN Number" value="{{ old('pen') }}">
+								<div id="pen_error"></div>
+								@error('pen')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="form-label" for="avatar">Profile Pic</label>
 								<div class="custom-file">
 									<input type="file" class="custom-file-input" name="avatar" id="avatar" >
 									<label class="custom-file-label"></label>
@@ -108,7 +118,7 @@
 								@enderror
 							</div>
 							<div class="col-md-6 mb-3">
-                    			<img id="avatar_img" src="{{url('storage/app/public/no-avatar.png')}}" alt="avatar" style="height: 120px;" />
+                    			<img id="avatar_img" src="{{url('public/admin/assets/images/image2.png')}}" alt="avatar" style="height: 120px;" />
                 			</div>
 						</div>
 						<div class="col-sm-6 col-md-6">
@@ -129,7 +139,7 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="parent_id">User Parent <span class="text-red">*</span></label>
+								<label class="form-label" for="parent_id">User Parent</label>
 								<select class="form-control select2" name="parent_id" id="parent_id">
 									<option value="">None</option>
 									<option value="1">Parent 1</option>

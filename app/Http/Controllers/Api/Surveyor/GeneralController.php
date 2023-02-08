@@ -1,16 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\Api\Customer;
+namespace App\Http\Controllers\Api\Surveyor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Models\Label;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Session;
 use DB;
-use Carbon\Carbon;
-use App\Rules\Name;
-use Validator;
+use App\Models\Modules;
+use App\Models\UserRoles;
+use App\Models\Admin;
+use App\Models\UserRole;
+
+
+use App\Models\UserNotification;
+use App\Models\Survey_requests;
+use App\Models\Survey_request_logs;
+use App\Models\Survey_study_report;
+use App\Models\DataCollectionEquipment;
 
 class GeneralController extends Controller
 {
@@ -77,4 +88,19 @@ class GeneralController extends Controller
         else
             { return false; }
         }
+
+        public function get_bathymeteric_ins(Request $request)
+    {
+        $instruments=[];
+        //instruments
+            $lang=DataCollectionEquipment::where('is_active', 1)->get();
+            foreach($lang as $key)
+            {
+                $lan['id']=$key->id;
+                $lan['title']=$key->title;
+                $instruments[]=$lan;
+            }
+
+          return ['httpcode'=>200,'status'=>'success','message'=>'Instruments List','data'=>['instruments'=>$instruments]];  
+    }
 }

@@ -158,5 +158,6 @@ class Survey_requests extends Model{
     }
     public function Customer(){ return $this->belongsTo(CustomerMaster::class); } 
     public function CustomerInfo(){ return $this->belongsTo(CustomerInfo::class, 'cust_id', 'cust_id'); } 
+    public function Service_data(){ return $this->belongsTo(Services::class,'service_id','id'); } 
 }
 

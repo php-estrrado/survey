@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\PasswordReset;
 use App\Models\Email;
-use App\Models\CustomerSecurity;
+use App\Models\customer\CustomerMaster;
+use App\Models\customer\CustomerSecurity;
 use App\Models\RegisterationToken;
 use App\Models\CustomerInfo;
 use Error;
@@ -140,7 +141,7 @@ class LoginController extends Controller
             if($regexist)
             {
                 $otp = rand(1000, 9999); 
-                // $otp = 1234;
+                $otp = 1234;
 
                 // dd($otp);
 
@@ -197,6 +198,63 @@ class LoginController extends Controller
             }
         }
     }
+
+    public function update_password(Request $request)
+    {
+        $formData   =   $request->all(); 
+        $rules      =   array();
+        $rules['email']           = 'required|email';
+        $rules['otp']             = 'required|numeric';
+        $rules['password'] = 'required|confirmed|min:6';
+        $rules['password_confirmation'] = 'required|min:6';
+
+        $validator  =   Validator::make($request->all(), $rules);
+        if ($validator->fails()) 
+        {
+            foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
+            
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+        else
+        { 
+            $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+            if($exisit)
+            {
+                $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+                if($exist)
+                {
+                    $cust_id = CustomerMaster::where('username',$request->email)->first()->id;
+
+                    Admin::where('email',$request->email)->update([
+                        'password' => Hash::make($request->password),
+                        'updated_by'=>1,
+                        'updated_at'=>date("Y-m-d H:i:s")
+                    ]);
+
+                    CustomerSecurity::where('cust_id',$cust_id)->update([
+                        'password' => Hash::make($request->password),
+                        'updated_by'=>1,
+                        'updated_at'=>date("Y-m-d H:i:s")
+                    ]);
+  
+                    Session::flash('message', ['text'=>'Password Changed Successfully !','type'=>'success']);  
+
+                    return redirect('customer/forgotPassword');
+                }
+                else
+                {
+                    Session::flash('message', ['text'=>'Invalid OTP !','type'=>'danger']);
+                    return back()->withInput($request->only('email', 'remember'));
+                }
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Invalid Email !','type'=>'danger']);
+                return back()->withInput($request->only('email', 'remember'));
+            }
+        }
+    }
+
     function forgotPassword1(Request $request){
         $post = (object)$request->post();
         $user           =   Admin::where('email',$post->email)->first();

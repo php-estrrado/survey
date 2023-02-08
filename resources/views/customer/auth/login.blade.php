@@ -38,7 +38,7 @@
                                     <input id="remember" type="checkbox" name="remember">
                                     <label class="custom-control-label" for="remember" >Remember password</label>
                                 </div>
-                                <a class="link" href="#">Forgot password?</a>
+                                <a class="link" href="{{url('/customer/forgotPassword')}}">Forgot password?</a>
                                 <div class="text-end mt-3">
                                     <div class="g-recaptcha" data-sitekey="{{config('services.recaptcha.key')}}"></div>
                                     <br/>

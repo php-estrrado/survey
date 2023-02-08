@@ -180,6 +180,7 @@ Route::middleware('role:superadmin')->group(function () {
     Route::get('/superadmin/new_service_requests', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'new_service_requests'])->name('superadmin.new_service_requests');
     Route::get('/superadmin/new_service_request_detail/{id}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'new_service_request_detail'])->name('superadmin.new_service_request_detail');
     Route::post('/superadmin/assign_survey', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_survey']);
+    Route::post('/superadmin/edit_service_rate', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'edit_service_rate']);
 
     Route::get('/superadmin/requested_services', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'requested_services'])->name('superadmin.requested_services');
     Route::get('/superadmin/requested_service_detail/{id}/{status}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'requested_service_detail'])->name('superadmin.requested_service_detail');
@@ -220,8 +221,13 @@ Route::middleware('role:admin')->group(function () {
     Route::get('/admin/new_service_request_detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'new_service_request_detail'])->name('admin.new_service_request_detail');
     
     Route::post('/admin/assign_surveyor', [App\Http\Controllers\Admin\ServicerequestsController::class, 'assign_surveyor']);
-
     Route::post('/admin/assign_surveyor_survey', [App\Http\Controllers\Admin\ServicerequestsController::class, 'assign_surveyor_survey']);
+
+    Route::post('/admin/reschedule_field_surveyor', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reschedule_field_surveyor']);
+    Route::post('/admin/reschedule_surveyor_survey', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reschedule_surveyor_survey']);
+
+    Route::post('/admin/reject_fieldstudy_reschedule', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_fieldstudy_reschedule']);
+    Route::post('/admin/reject_surveystudy_reschedule', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_survey_reschedule']);
 
     Route::get('/admin/requested_services', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_services'])->name('admin.requested_services');
     Route::get('/admin/requested_service_detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_service_detail'])->name('admin.requested_service_detail');
