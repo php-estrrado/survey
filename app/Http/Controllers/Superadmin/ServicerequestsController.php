@@ -24,12 +24,14 @@ use App\Models\UserRole;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Models\Field_study_report;
+use App\Models\Survey_study_report;
 use App\Models\Fieldstudy_eta;
 use App\Models\Survey_invoice;
 use App\Models\Survey_performa_invoice;
 
 use App\Models\Survey_status;
 use App\Rules\Name;
+use Svg\Tag\Rect;
 use Validator;
 
 class ServicerequestsController extends Controller
@@ -135,6 +137,14 @@ class ServicerequestsController extends Controller
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
 
+        if(isset($data['request_data']->additional_services))
+        {
+           $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
+        }else{
+             $data['additional_services'] ="";
+        }
+        
+
         // $data['survey_requests']    =   DB::table('survey_requests')
         //                                 ->join('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
         //                                 ->join('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
@@ -158,6 +168,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assigned_institution'=>['required'],
             'assigned_user'=>['required'],
+            'remarks'=>['nullable'],
         ]);
 
         if($validator->passes())
@@ -190,6 +201,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 2;
+            $survey_request_logs['remarks'] = $input['remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -296,6 +308,25 @@ class ServicerequestsController extends Controller
         {
             $data['request_data'] = $datas->Subbottom_profilling->first();
         }
+        elseif($datas->service_id == 11)
+        {
+            $data['request_data'] = $datas->Bathymetry_survey->first();
+        }
+
+        if(isset($data['request_data']->additional_services))
+        {
+           $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
+        }else{
+             $data['additional_services'] ="";
+        }
+
+        if(isset($data['request_data']->data_collection_equipments))
+        {
+           $data['data_collection'] = $datas->datacollection_selected($data['request_data']->data_collection_equipments);
+        }else{
+             $data['data_collection'] ="";
+        }
+        
 
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
@@ -310,7 +341,7 @@ class ServicerequestsController extends Controller
         if($status == 21 || $status == 22)
         {
             $data['draftmans'] = Admin::where('role_id',4)->get();
-            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['survey_study'] = Survey_study_report::where('survey_request_id',$id)->first();
 
             return view('superadmin.requested_services.dh_verified_survey_study',$data);
         }
@@ -403,7 +434,8 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'draftsman'=>['required']
+            'draftsman'=>['required'],
+            'remarks'=>['nullable']
         ]);
 
         if($validator->passes())
@@ -422,6 +454,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 10;
+            $survey_request_logs['remarks'] = $input['remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -507,6 +540,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assigned_survey_institution'=>['required'],
             'assigned_survey_user'=>['required'],
+            'remarks' => ['nullable']
         ]);
 
         if($validator->passes())
@@ -538,6 +572,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 18;
+            $survey_request_logs['remarks'] = $input['remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -564,8 +599,10 @@ class ServicerequestsController extends Controller
         }
     }
 
-    public function send_performa_invoice_customer($id)
+    public function send_performa_invoice_customer(Request $request)
     {
+        $id = $request->id;
+
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
         Survey_requests::where('id',$id)->update(['request_status'=>15]);
@@ -575,6 +612,7 @@ class ServicerequestsController extends Controller
         $survey_request_logs['survey_request_id'] = $id;
         $survey_request_logs['cust_id'] = $cust_id;
         $survey_request_logs['survey_status'] = 15;
+        $survey_request_logs['remarks'] = $request->remarks;
         $survey_request_logs['is_active'] = 1;
         $survey_request_logs['is_deleted'] = 0;
         $survey_request_logs['created_by'] = auth()->user()->id;
@@ -596,8 +634,10 @@ class ServicerequestsController extends Controller
         return redirect('superadmin/requested_services');
     }
 
-    public function send_invoice_customer($id)
+    public function send_invoice_customer(Request $request)
     {
+        $id = $request->id;
+
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
         Survey_requests::where('id',$id)->update(['request_status'=>51]);
@@ -607,6 +647,7 @@ class ServicerequestsController extends Controller
         $survey_request_logs['survey_request_id'] = $id;
         $survey_request_logs['cust_id'] = $cust_id;
         $survey_request_logs['survey_status'] = 51;
+        $survey_request_logs['remarks'] = $request->remarks;
         $survey_request_logs['is_active'] = 1;
         $survey_request_logs['is_deleted'] = 0;
         $survey_request_logs['created_by'] = auth()->user()->id;
@@ -634,7 +675,8 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'final_draftsman'=>['required']
+            'final_draftsman'=>['required'],
+            'remarks' => ['nullable']
         ]);
 
         if($validator->passes())
@@ -653,6 +695,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 23;
+            $survey_request_logs['remarks'] = $input['remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -672,6 +715,33 @@ class ServicerequestsController extends Controller
             }
 
             return redirect('/superadmin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function edit_service_rate(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'service_id'=>['required'],
+            'service_rate'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $service_arr['service_rate'] = $input['service_rate'];
+            $service_arr['updated_by'] = auth()->user()->id;
+            $service_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Services::where('id',$input['service_id'])->update($service_arr);
+
+            Session::flash('message', ['text'=>'Service Rate Updated Successfully !','type'=>'success']);
+            
+            return redirect('/superadmin/service-master');
         }
         else
         {

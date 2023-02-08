@@ -20,9 +20,10 @@ use App\Models\Bottom_sample_collection;
 use App\Models\Services;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class BottomsampleController extends Controller
 {
     /**
@@ -46,11 +47,13 @@ class BottomsampleController extends Controller
     { 
         $data['title']        =  'Bottom sample collection';
         $data['menu']         =  'Bottom sample collection';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 3; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.bottomsample.bottomsample_form',$data);
     }
@@ -58,6 +61,7 @@ class BottomsampleController extends Controller
     public function saveSurvey(Request $request)
     {
         $input = $request->all();
+        
         // dd($input);
 
         $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
@@ -70,12 +74,12 @@ class BottomsampleController extends Controller
             'department' => ['required'],
             'firm' => ['required'],
             'purpose' => ['required'],
-            'service' => ['required'],
+            'service_id' => ['required'],
             'description' => ['required'],
             'state' => ['required'],
             'district' => ['required'],
             'place' => ['required'],
-            'depth_at_saples_collected' => ['required'],
+            // 'depth_at_saples_collected' => ['required'],
             'number_of_locations' => ['required'],
             'quantity_of_samples' => ['required'],
         ]);
@@ -92,14 +96,18 @@ class BottomsampleController extends Controller
             $bottomsample['firm'] = $input['firm'];
             $bottomsample['others'] = $input['others'];
             $bottomsample['purpose'] = $input['purpose'];
-            $bottomsample['service'] = $input['service'];
+            $bottomsample['service'] = $input['service_id'];
             $bottomsample['description'] = $input['description'];
             $bottomsample['state'] = $input['state'];
             $bottomsample['district'] = $input['district'];
             $bottomsample['place'] = $input['place'];
-            $bottomsample['depth_at_saples_collected'] = $input['depth_at_saples_collected'];
+            // $bottomsample['depth_at_saples_collected'] = $input['depth_at_saples_collected'];
             $bottomsample['number_of_locations'] = $input['number_of_locations'];
             $bottomsample['quantity_of_samples'] = $input['quantity_of_samples'];
+            $bottomsample['lattitude'] = $input['lattitude'];
+            $bottomsample['longitude'] = $input['longitude'];
+            $bottomsample['x_coordinates'] = $input['x_coordinates'];
+            $bottomsample['y_coordinates'] = $input['y_coordinates'];
             $bottomsample['is_active'] = 1;
             $bottomsample['is_deleted'] = 0;
             $bottomsample['created_by'] = auth()->user()->id;
@@ -107,12 +115,39 @@ class BottomsampleController extends Controller
             $bottomsample['created_at'] = date('Y-m-d H:i:s');
             $bottomsample['updated_at'] = date('Y-m-d H:i:s');
 
+             if($input['additional_services'])
+            {
+                
+               $bottomsample['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $bottomsample['additional_services'] = "";
+            }
+
+            $bottomsample['interval_bottom_sample'] = $input['interval_bottom_sample'];
+            $bottomsample['quantity_bottom_sample'] = $input['quantity_bottom_sample'];
+            $bottomsample['method_of_sampling'] = $input['method_of_sampling'];
+            $bottomsample['description_of_requirement'] = $input['description_of_requirement'];
+
+            $file_upload               =   $request->file('file_upload');
+             if($file_upload){ 
+            $fileName            =  'bottom_sample_'.time().'.'.$file_upload->getClientOriginalExtension();
+            $sheetTitle = $file_upload->getClientOriginalName();
+            
+            $file_path = '/app/public/uploads/bottom_sample/'.$fileName;
+            $destinationPath    =   storage_path('/app/public/uploads/bottom_sample/');
+            $file_upload->move($destinationPath, $fileName);
+             }else{
+                $file_path = "";
+             }
+
+            $bottomsample['file_upload'] = $file_path;
+
             $bottomsample_id = Bottom_sample_collection::create($bottomsample)->id;
 
             $survey_request = [];
 
             $survey_request['cust_id'] = $cust_id;
-            $survey_request['service_id'] = $input['service'];
+            $survey_request['service_id'] = $input['service_id'];
             $survey_request['service_request_id'] = $bottomsample_id;
             $survey_request['request_status'] = 1;
             $survey_request['is_active'] = 1;
@@ -137,6 +172,32 @@ class BottomsampleController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = $cust_id;
+            $admin_noti['notify_to'] = 1;
+            $admin_noti['role_id'] = 1;
+            $admin_noti['notify_from_role_id'] = 6;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Survey Request Submitted';
+            $admin_noti['ref_id'] = $cust_id;
+            $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($bottomsample_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.bottomsample'));
         }

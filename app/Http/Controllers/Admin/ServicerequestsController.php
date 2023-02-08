@@ -28,6 +28,7 @@ use App\Models\Fieldstudy_eta;
 use App\Models\Survey_invoice;
 use App\Models\Survey_performa_invoice;
 use App\Models\Survey_status;
+use App\Models\AdminNotification;
 
 use App\Rules\Name;
 use Validator;
@@ -127,6 +128,25 @@ class ServicerequestsController extends Controller
         {
             $data['request_data'] = $datas->Subbottom_profilling->first();
         }
+        elseif($datas->service_id == 11)
+        {
+            $data['request_data'] = $datas->Bathymetry_survey->first();
+        }
+
+        if(isset($data['request_data']->additional_services))
+        {
+           $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
+        }else{
+             $data['additional_services'] ="";
+        }
+
+        if(isset($data['request_data']->data_collection_equipments))
+        {
+           $data['data_collection'] = $datas->datacollection_selected($data['request_data']->data_collection_equipments);
+        }else{
+             $data['data_collection'] ="";
+        }
+
 
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
@@ -151,6 +171,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assign_surveyor'=>['required'],
             'field_study'=>['required'],
+            'remarks'=>['nullable'],
         ]);
 
         if($validator->passes())
@@ -182,6 +203,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 41;
+            $survey_request_logs['remarks'] = $input['remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -207,6 +229,90 @@ class ServicerequestsController extends Controller
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
     }
+
+    public function reschedule_field_surveyor(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'assign_surveyor'=>['required'],
+            'field_study'=>['required'],
+            'remarks'=>['nullable'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 62;
+            $assign_arr['assigned_surveyor'] = $input['assign_surveyor'];
+            $assign_arr['field_study'] = date('Y-m-d',strtotime($input['field_study']));
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+            $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $input['assign_surveyor']; 
+            $ntype      = 'field_study_assigned';
+            $title      = 'New Field Study Request';
+            $desc       = 'New Field Study Request. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'surveyor';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 62;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = auth()->user()->id;
+            $admin_noti['notify_to'] = 6;
+            $admin_noti['role_id'] = 6;
+            $admin_noti['notify_from_role_id'] = 2;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Field Study Rescheduled';
+            $admin_noti['ref_id'] = auth()->user()->id;
+            $admin_noti['ref_link'] = '#';
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Successfully Approved Surveyor Reschedule Request !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Approving Surveyor Reschedule Request is Not Successfull !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
     
     public function assign_surveyor_survey(Request $request)
     {
@@ -216,6 +322,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assign_surveyor'=>['required'],
             'survey_study'=>['required'],
+            'remarks' => ['nullable']
         ]);
 
         if($validator->passes())
@@ -247,6 +354,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 43;
+            $survey_request_logs['remarks'] = $input['remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -263,6 +371,192 @@ class ServicerequestsController extends Controller
             else
             {
                 Session::flash('message', ['text'=>'Assigning Surveyor is not Successfull !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function reschedule_surveyor_survey(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'assign_surveyor'=>['required'],
+            'survey_study'=>['required'],
+            'remarks' => ['nullable']
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 65;
+            $assign_arr['assigned_surveyor_survey'] = $input['assign_surveyor'];
+            $assign_arr['survey_study'] = date('Y-m-d',strtotime($input['survey_study']));
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+            $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $input['assign_surveyor']; 
+            $ntype      = 'survey_study_assigned';
+            $title      = 'New Survey Study Request';
+            $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'surveyor';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 65;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = auth()->user()->id;
+            $admin_noti['notify_to'] = 6;
+            $admin_noti['role_id'] = 6;
+            $admin_noti['notify_from_role_id'] = 2;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Survey Study Rescheduled';
+            $admin_noti['ref_id'] = auth()->user()->id;
+            $admin_noti['ref_link'] = '#';
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Successfully Approved Surveyor Reschedule Request !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Approving Surveyor Reschedule Request is Not Successfull !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function reject_fieldstudy_reschedule(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'remarks'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 63;
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 63;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Field Study Reschedule Request Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Field Study Reschedule Request Not Rejected Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function reject_survey_reschedule(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'remarks'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 66;
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 66;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Study Reschedule Request Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey   Study Reschedule Request Not Rejected Successfully !','type'=>'danger']);
             }
 
             return redirect('/admin/requested_services');
@@ -384,6 +678,17 @@ class ServicerequestsController extends Controller
 
             return view('admin.survey_study_report',$data);
         }
+        elseif($status == 64)
+        {
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',64)->first()->remarks;
+
+            return view('admin.requested_services.surveryor_rescheduled_surveystudy',$data);
+        }
+        elseif($status == 44)
+        {
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',44)->first()->remarks;
+            return view('admin.requested_services.surveryor_rejected_surveystudy',$data);
+        }
         elseif($status == 18)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
@@ -416,6 +721,18 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
 
             return view('admin.submitted-by-sur',$data);
+        }
+        elseif($status == 61)
+        {
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',61)->first()->remarks;
+
+            return view('admin.requested_services.surveryor_rescheduled_fieldstudy',$data);
+        }
+        elseif($status == 45)
+        {
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',45)->first()->remarks;
+
+            return view('admin.requested_services.surveryor_rejected_fieldstudy',$data);
         }
         else
         {
@@ -454,6 +771,7 @@ class ServicerequestsController extends Controller
             'no_of_days_required'=>['required'],
             'charges'=>['required'],
             'recipient'=>['required'],
+            'remarks'=>['nullable'],
         ]);
 
         if($validator->passes())
@@ -488,6 +806,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 8;
+            $survey_request_logs['remarks'] = $input['remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -506,7 +825,7 @@ class ServicerequestsController extends Controller
                 Session::flash('message', ['text'=>'Field Study ETA not added Successfully !','type'=>'danger']);
             }
 
-            return redirect('/admin/new_service_requests');
+            return redirect('/admin/requested_services');
         }
         else
         {
@@ -514,8 +833,10 @@ class ServicerequestsController extends Controller
         }
     }
 
-    public function verify_performa_invoice($id)
+    public function verify_performa_invoice(Request $request)
     {
+        $id = $request->id;
+
         Survey_requests::where('id',$id)->update(['request_status'=>13]);
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
@@ -525,6 +846,7 @@ class ServicerequestsController extends Controller
         $survey_request_logs['survey_request_id'] = $id;
         $survey_request_logs['cust_id'] = $cust_id;
         $survey_request_logs['survey_status'] = 13;
+        $survey_request_logs['remarks'] = $request->remarks;
         $survey_request_logs['is_active'] = 1;
         $survey_request_logs['is_deleted'] = 0;
         $survey_request_logs['created_by'] = auth()->user()->id;
@@ -546,8 +868,10 @@ class ServicerequestsController extends Controller
         return redirect('admin/requested_services');
     }
 
-    public function verify_invoice($id)
+    public function verify_invoice(Request $request)
     {
+        $id = $request->id;
+
         Survey_requests::where('id',$id)->update(['request_status'=>49]);
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
@@ -557,6 +881,7 @@ class ServicerequestsController extends Controller
         $survey_request_logs['survey_request_id'] = $id;
         $survey_request_logs['cust_id'] = $cust_id;
         $survey_request_logs['survey_status'] = 49;
+        $survey_request_logs['remarks'] = $request->remarks;
         $survey_request_logs['is_active'] = 1;
         $survey_request_logs['is_deleted'] = 0;
         $survey_request_logs['created_by'] = auth()->user()->id;
@@ -578,8 +903,10 @@ class ServicerequestsController extends Controller
         return redirect('admin/requested_services');
     }
 
-    public function verify_survey_study($id)
+    public function verify_survey_study(Request $request)
     {
+        $id = $request->id;
+
         Survey_requests::where('id',$id)->update(['request_status'=>21]);
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
@@ -589,6 +916,7 @@ class ServicerequestsController extends Controller
         $survey_request_logs['survey_request_id'] = $id;
         $survey_request_logs['cust_id'] = $cust_id;
         $survey_request_logs['survey_status'] = 21;
+        $survey_request_logs['remarks'] = $request->remarks;
         $survey_request_logs['is_active'] = 1;
         $survey_request_logs['is_deleted'] = 0;
         $survey_request_logs['created_by'] = auth()->user()->id;

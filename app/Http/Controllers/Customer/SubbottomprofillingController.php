@@ -20,9 +20,10 @@ use App\Models\Subbottom_profilling;
 use App\Models\Services;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class SubbottomprofillingController extends Controller
 {
     /**
@@ -47,11 +48,13 @@ class SubbottomprofillingController extends Controller
     { 
         $data['title']        =  'Sub bottom profilling';
         $data['menu']         =  'Sub bottom profilling';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 10; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.subbottom_profilling.subbottomprofilling_form',$data);
     }
@@ -103,12 +106,24 @@ class SubbottomprofillingController extends Controller
             $bottom_profilling['area_to_scan'] = $input['area_to_scan'];
             $bottom_profilling['depth_of_area'] = $input['depth_of_area'];
             $bottom_profilling['interval'] = $input['interval'];
+                        $bottom_profilling['lattitude'] = $input['lattitude'];
+            $bottom_profilling['longitude'] = $input['longitude'];
+            $bottom_profilling['x_coordinates'] = $input['x_coordinates'];
+            $bottom_profilling['y_coordinates'] = $input['y_coordinates'];
             $bottom_profilling['is_active'] = 1;
             $bottom_profilling['is_deleted'] = 0;
             $bottom_profilling['created_by'] = auth()->user()->id;
             $bottom_profilling['updated_by'] = auth()->user()->id;
             $bottom_profilling['created_at'] = date('Y-m-d H:i:s');
             $bottom_profilling['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $bottom_profilling['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $bottom_profilling['additional_services'] = "";
+            }
 
             $bottom_profilling_id = Subbottom_profilling::create($bottom_profilling)->id;
 
@@ -140,6 +155,32 @@ class SubbottomprofillingController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = $cust_id;
+            $admin_noti['notify_to'] = 1;
+            $admin_noti['role_id'] = 1;
+            $admin_noti['notify_from_role_id'] = 6;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Survey Request Submitted';
+            $admin_noti['ref_id'] = $cust_id;
+            $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($bottom_profilling_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.subbottom_profilling'));
         }

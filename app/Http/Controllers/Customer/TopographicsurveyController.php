@@ -20,9 +20,10 @@ use App\Models\Topographic_survey;
 use App\Models\Services;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class TopographicsurveyController extends Controller
 {
     /**
@@ -47,11 +48,13 @@ class TopographicsurveyController extends Controller
     { 
         $data['title']        =  'Topographic survey';
         $data['menu']         =  'Topographic survey';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 9; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.topographic_survey.topographicsurvey_form',$data);
     }
@@ -101,12 +104,25 @@ class TopographicsurveyController extends Controller
             $topographic_survey['location'] = $input['survey_area_location'];
             $topographic_survey['area_to_survey'] = $input['area_to_survey'];
             $topographic_survey['scale_of_survey'] = $input['scale_of_survey'];
+                        $topographic_survey['lattitude'] = $input['lattitude'];
+            $topographic_survey['longitude'] = $input['longitude'];
+            $topographic_survey['x_coordinates'] = $input['x_coordinates'];
+            $topographic_survey['y_coordinates'] = $input['y_coordinates'];
             $topographic_survey['is_active'] = 1;
             $topographic_survey['is_deleted'] = 0;
             $topographic_survey['created_by'] = auth()->user()->id;
             $topographic_survey['updated_by'] = auth()->user()->id;
             $topographic_survey['created_at'] = date('Y-m-d H:i:s');
             $topographic_survey['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $topographic_survey['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $topographic_survey['additional_services'] = "";
+            }
+
 
             $topographic_survey_id = Topographic_survey::create($topographic_survey)->id;
 
@@ -139,6 +155,31 @@ class TopographicsurveyController extends Controller
 
             Survey_request_logs::create($survey_request_logs);
 
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = $cust_id;
+            $admin_noti['notify_to'] = 1;
+            $admin_noti['role_id'] = 1;
+            $admin_noti['notify_from_role_id'] = 6;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Survey Request Submitted';
+            $admin_noti['ref_id'] = $cust_id;
+            $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($topographic_survey_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.topographic_survey'));
         }

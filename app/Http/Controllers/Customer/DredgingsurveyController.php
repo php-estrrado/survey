@@ -20,9 +20,10 @@ use App\Models\Dredging_survey;
 use App\Models\Services;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class DredgingsurveyController extends Controller
 {
     /**
@@ -47,11 +48,13 @@ class DredgingsurveyController extends Controller
     { 
         $data['title']        =  'Dredging survey';
         $data['menu']         =  'Dredging survey';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 4; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.dredging.dredgingsurvey_form',$data);
     }
@@ -113,6 +116,11 @@ class DredgingsurveyController extends Controller
             $dredging['length'] = $input['length'];
             $dredging['width'] = $input['width'];
             $dredging['depth'] = $input['depth'];
+                        $dredging['lattitude'] = $input['lattitude'];
+            $dredging['longitude'] = $input['longitude'];
+            $dredging['x_coordinates'] = $input['x_coordinates'];
+            $dredging['y_coordinates'] = $input['y_coordinates'];
+            $dredging['level_upto'] = $input['level_upto'];
             $dredging['is_active'] = 1;
             $dredging['is_deleted'] = 0;
             $dredging['created_by'] = auth()->user()->id;
@@ -120,6 +128,14 @@ class DredgingsurveyController extends Controller
             $dredging['created_at'] = date('Y-m-d H:i:s');
             $dredging['updated_at'] = date('Y-m-d H:i:s');
 
+            if($input['additional_services'])
+            {
+                
+               $dredging['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $dredging['additional_services'] = "";
+            }
+            
             $dredging_id = Dredging_survey::create($dredging)->id;
 
             $survey_request = [];
@@ -150,6 +166,32 @@ class DredgingsurveyController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = $cust_id;
+            $admin_noti['notify_to'] = 1;
+            $admin_noti['role_id'] = 1;
+            $admin_noti['notify_from_role_id'] = 6;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Survey Request Submitted';
+            $admin_noti['ref_id'] = $cust_id;
+            $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($dredging_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.dredging_survey'));
         }

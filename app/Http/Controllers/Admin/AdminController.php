@@ -21,6 +21,7 @@ use App\Models\UserManagement;
 use App\Models\UserRole;
 use App\Models\SalesOrder;
 use App\Models\Product;
+use App\Models\AdminNotification;
 use App\Models\customer\CustomerMaster;
 use App\Models\SellerInfo;
 use App\Models\UserVisit;
@@ -450,6 +451,15 @@ class AdminController extends Controller
 
         return json_encode($sales_arr);
 
+        }
+
+        public function notifications()
+        {
+            $data['title']           =   'Notifications';
+            $data['menu']            =   'notifications';
+            $data['notifications']   =   AdminNotification::where('role_id',2)->orderby('id','DESC')->get();
+
+            return view('admin.notification',$data);
         }
 		
         

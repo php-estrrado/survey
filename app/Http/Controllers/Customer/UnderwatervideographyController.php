@@ -20,9 +20,10 @@ use App\Models\Underwater_videography;
 use App\Models\Services;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class UnderwatervideographyController extends Controller
 {
     /**
@@ -47,11 +48,13 @@ class UnderwatervideographyController extends Controller
     { 
         $data['title']        =  'Underwater videography service';
         $data['menu']         =  'Underwater videography service';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 6; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+$data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.underwater_videography.underwatervideographysurvey_form',$data);
     }
@@ -99,12 +102,24 @@ class UnderwatervideographyController extends Controller
             $underwater_videography['place'] = $input['place'];
             $underwater_videography['survey_area_location'] = $input['survey_area_location'];
             $underwater_videography['type_of_waterbody'] = $input['type_of_waterbody'];
+                        $underwater_videography['lattitude'] = $input['lattitude'];
+            $underwater_videography['longitude'] = $input['longitude'];
+            $underwater_videography['x_coordinates'] = $input['x_coordinates'];
+            $underwater_videography['y_coordinates'] = $input['y_coordinates'];
             $underwater_videography['is_active'] = 1;
             $underwater_videography['is_deleted'] = 0;
             $underwater_videography['created_by'] = auth()->user()->id;
             $underwater_videography['updated_by'] = auth()->user()->id;
             $underwater_videography['created_at'] = date('Y-m-d H:i:s');
             $underwater_videography['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $underwater_videography['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $underwater_videography['additional_services'] = "";
+            }
 
             $underwater_videography_id = Underwater_videography::create($underwater_videography)->id;
 
@@ -136,6 +151,32 @@ class UnderwatervideographyController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = $cust_id;
+            $admin_noti['notify_to'] = 1;
+            $admin_noti['role_id'] = 1;
+            $admin_noti['notify_from_role_id'] = 6;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Survey Request Submitted';
+            $admin_noti['ref_id'] = $cust_id;
+            $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($underwater_videography_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.underwater_videography'));
         }

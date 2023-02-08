@@ -11,10 +11,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\PasswordReset;
 use App\Models\Email;
-use App\Models\CustomerSecurity;
+use App\Models\customer\CustomerMaster;
+use App\Models\customer\CustomerSecurity;
 use App\Models\RegisterationToken;
 use App\Models\CustomerInfo;
+use Error;
 use Mail;
+use Session;
+use Validator;
+
+
 class LoginController extends Controller
 {
     /*
@@ -51,27 +57,205 @@ class LoginController extends Controller
     }
     public function adminLogin(Request $request)
     {
-        $this->validate($request, [
-            'email'   => 'required|email',
-            'password' => 'required|min:6'
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'email'   => ['required','string','email'],
+            'password' => ['required','string','min:6'],
+            'g-recaptcha-response' => function ($attribute, $value, $fail) {
+                $data = array('secret' => config('services.recaptcha.secret'),'response' => $value,'remoteip' => $_SERVER['REMOTE_ADDR']);
+  
+                $verify = curl_init();
+                curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+                curl_setopt($verify, CURLOPT_POST, true);
+                curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+                curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($verify);
+                $response = json_decode($response);
+                
+                if(!$response->success)
+                {
+                    Session::flash('message', ['text'=>'Please check reCAptcha !','type'=>'danger']);
+                    $fail($attribute.'google reCaptcha failed');
+                }
+            },
         ]);
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) 
+        if($validator->passes())
         {
-            if(Admin::where('id', Auth::guard('admin')->user()->id)->where('role_id',6)->first()->is_active == 1)
+            if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) 
             {
-                return redirect()->intended('/customer/dashboard');
+                if(Admin::where('id', Auth::guard('admin')->user()->id)->where('role_id',6)->first())
+                {
+                    if(Admin::where('id', Auth::guard('admin')->user()->id)->where('role_id',6)->first()->is_active == 1)
+                    {
+                        return redirect()->intended('/customer/dashboard');
+                    }
+                    else
+                    {
+                        Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
+                        
+                        return back()->withInput($request->only('email', 'remember'))->withErrors('error',' This account is inactive.');
+                    }
+                }
+                else
+                {
+                    Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
+                    
+                    return back()->withInput($request->only('email', 'remember'))->withErrors('error',' This account is inactive.');
+                }
             }
             else
             {
-                Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
-                //return redirect('/login')->withInput($request->only('email', 'remember'))->with('message',' The seller is not approved yet. ');
-                return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'These credentials do not match our records.']);
             }
         }
-        return back()->withInput($request->only('email', 'remember'))->with('message',' These credentials do not match our records. ');
+        else
+        {
+            return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'These credentials do not match our records.']);
+        }
+        
     }
 
-    function forgotPassword(Request $request){
+    public function forgotPassword()
+    {
+        return view('customer.forgot_password');
+    }
+
+    public function send_otp(Request $request)
+    {
+        $formData   =   $request->all();
+
+        $rules      =   array();
+        $rules['email']    = 'required|email';
+        $validator  =   Validator::make($request->all(), $rules);
+        if ($validator->fails()) 
+        {
+            foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
+            return back()->withInput($request->only('email', 'remember'))->with('message',' These credentials do not match our records. ');
+        }
+        else
+        {
+            $regexist = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+
+            if($regexist)
+            {
+                $otp = rand(1000, 9999); 
+                $otp = 1234;
+
+                // dd($otp);
+
+                // $req_email = $request->email;
+                // $data['otp'] = $otp;
+                
+                // $var = Mail::send('emails.otp', $data, function($message) use($data,$req_email) {
+                //     $message->from(getadmin_mail(),'HSW');    
+                //     $message->to($req_email);
+                //     $message->subject('OTP Verification');
+                // });
+
+                Admin::where('email',$request->email)->update(['otp'=>$otp,'otp_sent_at'=>date('Y-m-d H:i:s')]);
+                return back()->withInput($request->only('email', 'remember'))->with('message',' OTP Sent to mail.');
+            }
+            else
+            {
+                return back()->withInput($request->only('email', 'remember'))->with('message',' Email does not exist!.');
+            }
+            
+        }
+    }
+
+    public function verify_otp(Request $request)
+    {
+        $formData   =   $request->all(); 
+        $rules      =   array();
+        $rules['email']           = 'required|email';
+        $rules['otp']             = 'required|numeric';
+        $validator  =   Validator::make($request->all(), $rules);
+        if ($validator->fails()) 
+        {
+            foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
+            return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+        }
+        else
+        { 
+            $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+            if($exisit)
+            {
+                $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+                if($exist)
+                {
+                    return back()->withInput($request->all())->with('message',' OTP Verified Successfully.');
+                }
+                else
+                {
+                    return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid OTP.');
+                }
+            }
+            else
+            {
+                return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid Email.');
+            }
+        }
+    }
+
+    public function update_password(Request $request)
+    {
+        $formData   =   $request->all(); 
+        $rules      =   array();
+        $rules['email']           = 'required|email';
+        $rules['otp']             = 'required|numeric';
+        $rules['password'] = 'required|confirmed|min:6';
+        $rules['password_confirmation'] = 'required|min:6';
+
+        $validator  =   Validator::make($request->all(), $rules);
+        if ($validator->fails()) 
+        {
+            foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
+            
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+        else
+        { 
+            $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+            if($exisit)
+            {
+                $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
+                if($exist)
+                {
+                    $cust_id = CustomerMaster::where('username',$request->email)->first()->id;
+
+                    Admin::where('email',$request->email)->update([
+                        'password' => Hash::make($request->password),
+                        'updated_by'=>1,
+                        'updated_at'=>date("Y-m-d H:i:s")
+                    ]);
+
+                    CustomerSecurity::where('cust_id',$cust_id)->update([
+                        'password' => Hash::make($request->password),
+                        'updated_by'=>1,
+                        'updated_at'=>date("Y-m-d H:i:s")
+                    ]);
+  
+                    Session::flash('message', ['text'=>'Password Changed Successfully !','type'=>'success']);  
+
+                    return redirect('customer/forgotPassword');
+                }
+                else
+                {
+                    Session::flash('message', ['text'=>'Invalid OTP !','type'=>'danger']);
+                    return back()->withInput($request->only('email', 'remember'));
+                }
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Invalid Email !','type'=>'danger']);
+                return back()->withInput($request->only('email', 'remember'));
+            }
+        }
+    }
+
+    function forgotPassword1(Request $request){
         $post = (object)$request->post();
         $user           =   Admin::where('email',$post->email)->first();
         if($user){        

@@ -74,8 +74,9 @@ class LoginController extends Controller
                 $otp = 1234;
 
                 // $req_email = $request->email;
-                // $data['data'] = array("content"=>"Test",'otp'=>$otp);
-                // $var = Mail::send('emails.get_otp', $data, function($message) use($data,$req_email) {
+                // $data['otp'] = $otp;
+                
+                // $var = Mail::send('emails.otp', $data, function($message) use($data,$req_email) {
                 //     $message->from(getadmin_mail(),'HSW');    
                 //     $message->to($req_email);
                 //     $message->subject('OTP Verification');

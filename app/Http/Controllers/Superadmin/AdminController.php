@@ -19,8 +19,10 @@ use App\Models\Admin;
 use App\Models\Institution;
 use App\Models\UserManagement;
 use App\Models\UserRole;
+use App\Models\UserLogin;
 use App\Models\SalesOrder;
 use App\Models\Product;
+use App\Models\AdminNotification;
 use App\Models\customer\CustomerMaster;
 use App\Models\SellerInfo;
 use App\Models\UserVisit;
@@ -169,12 +171,12 @@ class AdminController extends Controller
         return view('superadmin.add-users',$data);
     }
 
-    public function editAdmin($role_id)
+    public function editAdmin($admin_id)
     { 
         $data['title']    =   'Edit User';
         $data['menu']     =   'edit-admin';
-        $data['admin']    =   Admin::where('id',$role_id)->first();
-        $data['users']    =   UserManagement::where('admin_id',$role_id)->first();
+        $data['admin']    =   Admin::where('id',$admin_id)->first();
+        $data['users']    =   UserManagement::where('admin_id',$admin_id)->first();
         $data['roles']    =   UserRole::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
         $data['institutions'] = Institution::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
         // $data['c_code']              =   getDropdownData(Country::where('is_deleted',0)->get(),'id','phonecode');
@@ -203,6 +205,7 @@ class AdminController extends Controller
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['id'])->where('is_deleted',0)],
                 'designation'    =>  ['required','max:100'],
                 'role_id'        =>  ['required'],
+                'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
             ],
             [],
@@ -212,6 +215,7 @@ class AdminController extends Controller
                 'phone' => 'User Phone',
                 'designation' => 'User Designation',
                 'role_id' => 'User Role',
+                'pen' => 'PEN Number',
                 'institution' => 'User Institution',
             ]);
             // if ($validator->fails()) 
@@ -225,37 +229,88 @@ class AdminController extends Controller
             //     return back()->withErrors($validator)->withInput($request->all());
             // }
 
-            $admin_arr = [];
-            $admin_arr['fname'] = $input['name'];
-            $admin_arr['email'] = $input['email'];
-            $admin_arr['phone'] = $input['phone'];
-            $admin_arr['password'] = Hash::make('123456');
-            $admin_arr['role_id'] = $input['role_id'];
-            $admin_arr['is_active'] = 1;
-            $admin_arr['is_deleted'] = 0;
-            $admin_arr['created_by'] = 1;
-            $admin_arr['updated_by'] = 1;
-            $admin_arr['created_at'] = date("Y-m-d H:s:i");
-            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+            if($input['role_id'] == 3)
+            {
+                $token1   =   $input['id'].substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,12);
+                $token2   =   $input['id'].substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,12);
 
-            Admin::where('id',$input['id'])->update($admin_arr);
+                $admin_arr = [];
+                $admin_arr['fname'] = $input['name'];
+                $admin_arr['email'] = $input['email'];
+                $admin_arr['phone'] = $input['phone'];
+                $admin_arr['password'] = Hash::make('123456');
+                $admin_arr['role_id'] = $input['role_id'];
+                $admin_arr['is_active'] = 1;
+                $admin_arr['is_deleted'] = 0;
+                $admin_arr['created_by'] = 1;
+                $admin_arr['updated_by'] = 1;
+                $admin_arr['created_at'] = date("Y-m-d H:s:i");
+                $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $usr_arr = [];
-            $usr_arr['fullname'] = $input['name'];
-            $usr_arr['email'] = $input['email'];
-            $usr_arr['phone'] = $input['phone'];
-            $usr_arr['designation'] = $input['designation'];
-            $usr_arr['role'] = $input['role_id'];
-            $usr_arr['institution'] = $input['institution'];
-            $usr_arr['userparent'] = $input['parent_id'];
-            $usr_arr['is_active'] = 1;
-            $usr_arr['is_deleted'] = 0;
-            $usr_arr['created_by'] = 1;
-            $usr_arr['updated_by'] = 1;
-            $usr_arr['created_at'] = date("Y-m-d H:s:i");
-            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+                Admin::where('id',$input['id'])->update($admin_arr);
 
-            UserManagement::where('admin_id',$input['id'])->update($usr_arr);
+                $usr_arr = [];
+                $usr_arr['fullname'] = $input['name'];
+                $usr_arr['email'] = $input['email'];
+                $usr_arr['phone'] = $input['phone'];
+                $usr_arr['designation'] = $input['designation'];
+                $usr_arr['role'] = $input['role_id'];
+                $usr_arr['pen'] = $input['pen'];
+                $usr_arr['institution'] = $input['institution'];
+                $usr_arr['userparent'] = $input['parent_id'];
+                $usr_arr['is_active'] = 1;
+                $usr_arr['is_deleted'] = 0;
+                $usr_arr['created_by'] = 1;
+                $usr_arr['updated_by'] = 1;
+                $usr_arr['created_at'] = date("Y-m-d H:s:i");
+                $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+
+                UserManagement::where('admin_id',$input['id'])->update($usr_arr);
+
+                $usr_log_arr = [];
+
+                $usr_log_arr['device_id'] = 1234;
+                $usr_log_arr['access_token'] = $token1;
+                $usr_log_arr['device_token'] = $token2;
+                $usr_log_arr['updated_at'] = date("Y-m-d H:s:i");
+
+                UserLogin::where('user_id',$input['id'])->update($usr_log_arr);
+            }
+            else
+            {
+                $admin_arr = [];
+                $admin_arr['fname'] = $input['name'];
+                $admin_arr['email'] = $input['email'];
+                $admin_arr['phone'] = $input['phone'];
+                $admin_arr['password'] = Hash::make('123456');
+                $admin_arr['role_id'] = $input['role_id'];
+                $admin_arr['is_active'] = 1;
+                $admin_arr['is_deleted'] = 0;
+                $admin_arr['created_by'] = 1;
+                $admin_arr['updated_by'] = 1;
+                $admin_arr['created_at'] = date("Y-m-d H:s:i");
+                $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+
+                Admin::where('id',$input['id'])->update($admin_arr);
+
+                $usr_arr = [];
+                $usr_arr['fullname'] = $input['name'];
+                $usr_arr['email'] = $input['email'];
+                $usr_arr['phone'] = $input['phone'];
+                $usr_arr['designation'] = $input['designation'];
+                $usr_arr['role'] = $input['role_id'];
+                $usr_arr['pen'] = $input['pen'];
+                $usr_arr['institution'] = $input['institution'];
+                $usr_arr['userparent'] = $input['parent_id'];
+                $usr_arr['is_active'] = 1;
+                $usr_arr['is_deleted'] = 0;
+                $usr_arr['created_by'] = 1;
+                $usr_arr['updated_by'] = 1;
+                $usr_arr['created_at'] = date("Y-m-d H:s:i");
+                $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+
+                UserManagement::where('admin_id',$input['id'])->update($usr_arr);
+            }
             
             $msg    =   'Admin details added successfully!';
 
@@ -270,6 +325,7 @@ class AdminController extends Controller
                 'phone'          =>  ['required','numeric','unique:admins'],
                 'designation'    =>  ['required','max:100'],
                 'role_id'        =>  ['required'],
+                'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
             ],
             [],
@@ -279,6 +335,7 @@ class AdminController extends Controller
                 'phone' => 'User Phone',
                 'designation' => 'User Designation',
                 'role_id' => 'User Role',
+                'pen' => 'PEN Number',
                 'institution' => 'User Institution',
             ]);
             // if ($validator->fails()) 
@@ -294,41 +351,93 @@ class AdminController extends Controller
 
             // echo 'Validator passed';
             // exit;
+            if($input['role_id'] == 3)
+            {
+                $token1   =   $input['id'].substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,12);
+                $token2   =   $input['id'].substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,12);
 
-            $admin_arr = [];
-            $admin_arr['fname'] = $input['name'];
-            $admin_arr['email'] = $input['email'];
-            $admin_arr['phone'] = $input['phone'];
-            $admin_arr['password'] = Hash::make('123456');
-            $admin_arr['role_id'] = $input['role_id'];
-            $admin_arr['is_active'] = 1;
-            $admin_arr['is_deleted'] = 0;
-            $admin_arr['created_by'] = 1;
-            $admin_arr['updated_by'] = 1;
-            $admin_arr['created_at'] = date("Y-m-d H:s:i");
-            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+                $admin_arr = [];
+                $admin_arr['fname'] = $input['name'];
+                $admin_arr['email'] = $input['email'];
+                $admin_arr['phone'] = $input['phone'];
+                $admin_arr['password'] = Hash::make('123456');
+                $admin_arr['role_id'] = $input['role_id'];
+                $admin_arr['is_active'] = 1;
+                $admin_arr['is_deleted'] = 0;
+                $admin_arr['created_by'] = auth()->user()->id;
+                $admin_arr['updated_by'] = auth()->user()->id;
+                $admin_arr['created_at'] = date("Y-m-d H:s:i");
+                $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $admin_id = Admin::create($admin_arr)->id;
+                $admin_id = Admin::create($admin_arr)->id;
 
-            $usr_arr = [];
-            $usr_arr['fullname'] = $input['name'];
-            $usr_arr['admin_id'] = $admin_id;
-            $usr_arr['email'] = $input['email'];
-            $usr_arr['phone'] = $input['phone'];
-            $usr_arr['designation'] = $input['designation'];
-            $usr_arr['role'] = $input['role_id'];
-            $usr_arr['institution'] = $input['institution'];
-            $usr_arr['userparent'] = $input['parent_id'];
-            $usr_arr['is_active'] = 1;
-            $usr_arr['is_deleted'] = 0;
-            $usr_arr['created_by'] = 1;
-            $usr_arr['updated_by'] = 1;
-            $usr_arr['created_at'] = date("Y-m-d H:s:i");
-            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+                $usr_arr = [];
+                $usr_arr['fullname'] = $input['name'];
+                $usr_arr['admin_id'] = $admin_id;
+                $usr_arr['email'] = $input['email'];
+                $usr_arr['phone'] = $input['phone'];
+                $usr_arr['designation'] = $input['designation'];
+                $usr_arr['role'] = $input['role_id'];
+                $usr_arr['pen'] = $input['pen'];
+                $usr_arr['institution'] = $input['institution'];
+                $usr_arr['userparent'] = $input['parent_id'];
+                $usr_arr['is_active'] = 1;
+                $usr_arr['is_deleted'] = 0;
+                $usr_arr['created_by'] = auth()->user()->id;
+                $usr_arr['updated_by'] = auth()->user()->id;
+                $usr_arr['created_at'] = date("Y-m-d H:s:i");
+                $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $user_id = UserManagement::create($usr_arr)->id;
-            
-            $msg    =   'Admin details added successfully!';
+                $user_id = UserManagement::create($usr_arr)->id;
+
+                $usr_log_arr = [];
+                $usr_log_arr['user_id'] = $admin_id;
+                $usr_log_arr['device_id'] = 1234;
+                $usr_log_arr['access_token'] = $token1;
+                $usr_log_arr['device_token'] = $token2;
+                $usr_log_arr['created_at'] = date("Y-m-d H:s:i");
+                $usr_log_arr['updated_at'] = date("Y-m-d H:s:i");
+
+                UserLogin::create($usr_log_arr);
+            }
+            else
+            {
+                $admin_arr = [];
+                $admin_arr['fname'] = $input['name'];
+                $admin_arr['email'] = $input['email'];
+                $admin_arr['phone'] = $input['phone'];
+                $admin_arr['password'] = Hash::make('123456');
+                $admin_arr['role_id'] = $input['role_id'];
+                $admin_arr['is_active'] = 1;
+                $admin_arr['is_deleted'] = 0;
+                $admin_arr['created_by'] = auth()->user()->id;
+                $admin_arr['updated_by'] = auth()->user()->id;
+                $admin_arr['created_at'] = date("Y-m-d H:s:i");
+                $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+
+                $admin_id = Admin::create($admin_arr)->id;
+
+                $usr_arr = [];
+                $usr_arr['fullname'] = $input['name'];
+                $usr_arr['admin_id'] = $admin_id;
+                $usr_arr['email'] = $input['email'];
+                $usr_arr['phone'] = $input['phone'];
+                $usr_arr['designation'] = $input['designation'];
+                $usr_arr['role'] = $input['role_id'];
+                $usr_arr['pen'] = $input['pen'];
+                $usr_arr['institution'] = $input['institution'];
+                $usr_arr['userparent'] = $input['parent_id'];
+                $usr_arr['is_active'] = 1;
+                $usr_arr['is_deleted'] = 0;
+                $usr_arr['created_by'] = auth()->user()->id;
+                $usr_arr['updated_by'] = auth()->user()->id;
+                $usr_arr['created_at'] = date("Y-m-d H:s:i");
+                $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+
+                $user_id = UserManagement::create($usr_arr)->id;
+            }
+
+            $msg    =   'User details added successfully!';
         }
         if($admin_id)
         {
@@ -347,7 +456,7 @@ class AdminController extends Controller
                 $image->move($destinationPath, $input['imagename']);
                 // $imgUpload          =   uploadFile($path,$input['imagename']);
                 Admin::where('id',$admin_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
-                UserManagement::where('id',$user_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
+                UserManagement::where('admin_id',$admin_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
             }
             $data['title']              =   'User';
             $data['menu']               =   'admin-list';
@@ -450,6 +559,15 @@ class AdminController extends Controller
 
         return json_encode($sales_arr);
 
+        }
+
+        public function notifications()
+        {
+            $data['title']           =   'Notifications';
+            $data['menu']            =   'notifications';
+            $data['notifications']   =   AdminNotification::where('role_id',2)->orderby('id','DESC')->get();
+
+            return view('admin.notification',$data);
         }
 		
         

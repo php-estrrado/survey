@@ -20,9 +20,10 @@ use App\Models\Hydrographic_chart;
 use App\Models\Services;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class HydrographicdataController extends Controller
 {
     /**
@@ -47,11 +48,13 @@ class HydrographicdataController extends Controller
     { 
         $data['title']        =  'Hydrographic chart';
         $data['menu']         =  'Hydrofraphic chart';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 5; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.hydrographic_data.hydrographicdata_form',$data);
     }
@@ -105,12 +108,24 @@ class HydrographicdataController extends Controller
             $hydrographic_data['year_of_survey_chart'] = $input['year_of_survey_chart'];
             $hydrographic_data['copies_required'] = $input['copies_required'];
             $hydrographic_data['copy_type'] = $input['copy_type'];
+                        $hydrographic_data['lattitude'] = $input['lattitude'];
+            $hydrographic_data['longitude'] = $input['longitude'];
+            $hydrographic_data['x_coordinates'] = $input['x_coordinates'];
+            $hydrographic_data['y_coordinates'] = $input['y_coordinates'];
             $hydrographic_data['is_active'] = 1;
             $hydrographic_data['is_deleted'] = 0;
             $hydrographic_data['created_by'] = auth()->user()->id;
             $hydrographic_data['updated_by'] = auth()->user()->id;
             $hydrographic_data['created_at'] = date('Y-m-d H:i:s');
             $hydrographic_data['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $hydrographic_data['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $hydrographic_data['additional_services'] = "";
+            }
 
             $hydrographic_data_id = Hydrographic_chart::create($hydrographic_data)->id;
 
@@ -142,6 +157,32 @@ class HydrographicdataController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = $cust_id;
+            $admin_noti['notify_to'] = 1;
+            $admin_noti['role_id'] = 1;
+            $admin_noti['notify_from_role_id'] = 6;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Survey Request Submitted';
+            $admin_noti['ref_id'] = $cust_id;
+            $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($hydrographic_data_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.hydrographic_data'));
         }

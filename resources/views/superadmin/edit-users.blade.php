@@ -77,6 +77,16 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
+								<label class="form-label" for="pen">PEN Number <span class="text-red">*</span></label>
+								<input type="text" class="form-control" name="pen" id="pen" placeholder="PEN Number" value="{{$users['pen']}}"">
+								<div id="pen_error"></div>
+								@error('pen')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-6">
+							<div class="form-group">
 								<label class="form-label" for="avatar">Profile Pic <span class="text-red">*</span></label>
 								<div class="custom-file">
 									<input type="file" class="custom-file-input" name="avatar" id="avatar">
@@ -87,7 +97,7 @@
                                 @if($admin->avatar !="" ) 
                 	                <img id="avatar_img" src="{{ url('storage'.$admin->avatar) }}" alt="avatar" style="height: 120px;" />
                 	            @else
-                                    <img id="avatar_img" src="{{url('storage/app/public/no-avatar.png')}}" alt="avatar" style="height: 120px;" />
+                                    <img id="avatar_img" src="{{url('public/admin/assets/images/image2.png')}}" alt="avatar" style="height: 120px;" />
                                 @endif
                 			</div>
 						</div>

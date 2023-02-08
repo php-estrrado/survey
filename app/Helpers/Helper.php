@@ -12,6 +12,7 @@ use App\Models\Subcategory;
 use App\Models\SubcategoryList;
 use App\Models\MetalRates;
 use App\Models\Currency;
+use App\Models\Survey_requests;
 
 use App\Models\AdminNotification;
 
@@ -223,6 +224,21 @@ if (!function_exists('sidebarMenu')) {
         
     }
 }
+function latest_customer_req($cust_id)
+{
+    if(Survey_requests::where("cust_id",$cust_id)->orderBy('created_at', 'desc')->first())
+    {
+        if(Survey_requests::where("cust_id",$cust_id)->orderBy('created_at', 'desc')->first()->Service_data)
+        {
+            return Survey_requests::where("cust_id",$cust_id)->orderBy('created_at', 'desc')->first()->Service_data->service_name;
+        }        
+    }
+    else
+    {
+        return null;
+    }
+}
+
 if (!function_exists('checkPermission')) {
     function checkPermission($slug,$act){ 
     if(auth()->user()->role_id ==1) {

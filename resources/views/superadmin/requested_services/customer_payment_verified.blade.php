@@ -543,48 +543,15 @@
 				<div class="tab-pane" id="tab-8">
 					<div class="card p-5">
 						<ul class="timelineleft pb-5">
-							<li>
-								<i class="fa fa-clock-o bg-primary"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 12:05</span>
-									<h3 class="timelineleft-header"><a href="#">Support Team</a> <span>sent you an email</span></h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-secondary"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 5 mins ago</span>
-									<h3 class="timelineleft-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-warning"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 27 mins ago</span>
-									<h3 class="timelineleft-header"><a href="#">Jay White</a> commented on your post</h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-pink"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 1 hour ago</span>
-									<h3 class="timelineleft-header"><a href="#">Mr. John</a> shared a video</h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-orange"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 2 days ago</span>
-									<h3 class="timelineleft-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-								</div>
-							</li>
-							<li>
-								<i class="fa fa-clock-o bg-pink"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i> 5 days ago</span>
-									<h3 class="timelineleft-header"><a href="#">Mr. Doe</a> shared a video</h3>
-								</div>
-							</li>
+							@if($survey_datas && count($survey_datas) > 0)
+								@foreach($survey_datas as $survey_data)
+									<li> <i class="fa fa-clock-o bg-pink"></i>
+										<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y',strtotime($survey_data->log_date))}}</span>
+											<h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>											
+										</div>
+									</li>
+								@endforeach
+							@endif
 						</ul>
 					</div>
 				</div>
@@ -1169,6 +1136,10 @@
 									@endforeach
 								@endif
 							</select>
+						</div>
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks</label>
+							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
 						</div>
 					</div>
 				</div>

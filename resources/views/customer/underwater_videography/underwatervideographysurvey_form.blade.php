@@ -30,10 +30,10 @@
                               <li role="presentation" class="active">
                                 <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" aria-expanded="true"><span class="round-tab">1 </span> <i>Step 1</i></a>
                               </li>
-                              <li role="presentation" class="disabled">
+                              <li role="presentation">
                                 <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" aria-expanded="false"><span class="round-tab">2</span> <i>Step 2</i></a>
                               </li>
-                              <li role="presentation" class="disabled">
+                              <li role="presentation">
                                 <a href="#step4" data-toggle="tab" aria-controls="step4" role="tab"><span class="round-tab">3</span> <i>Step 3</i></a>
                               </li>
                             </ul>
@@ -46,7 +46,7 @@
                                 <div class="row">
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="fname">Name</label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name">
+                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ old('fname') }}">
                                     <div id="fname_error"></div>
                                     @error('fname')
                                       <p style="color: red">{{ $message }}</p>
@@ -54,7 +54,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="designation">Designation</label>
-                                    <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation">
+                                    <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation" value="{{ old('designation') }}">
                                     <div id="designation_error"></div>
                                     @error('designation')
                                       <p style="color: red">{{ $message }}</p>
@@ -63,10 +63,10 @@
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person</label>
                                     <select class="js-example-basic-single col-sm-12" name="sector" id="sector">
-                                      <option value="government">Government</option>
-                                      <option value="private">Private</option>
-                                      <option value="public">Public Sector</option>
-                                      <option value="person">Person</option>
+                                      <option value="government" {{ old('sector') == 'government' ? 'selected' : '' }}>Government</option>
+                                      <option value="private" {{ old('sector') == 'private' ? 'selected' : '' }}>Private</option>
+                                      <option value="public" {{ old('sector') == 'public' ? 'selected' : '' }}>Public Sector</option>
+                                      <option value="person" {{ old('sector') == 'person' ? 'selected' : '' }}>Person</option>
                                     </select>
                                     <div id="sector_error"></div>
                                     @error('sector')
@@ -75,7 +75,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="department">Name of Department (for government departments)</label>
-                                    <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department">
+                                    <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department" value="{{ old('department') }}">
                                     <div id="department_error"></div>
                                     @error('department')
                                       <p style="color: red">{{ $message }}</p>
@@ -83,7 +83,8 @@
                                   </div>
                                   <div class="col-sm-6">
                                       <label class="form-label-title mt-3" for="firm">Type of organization</label>
-                                      <input class="form-control" type="text" placeholder="Type of organization" name="firm" id="firm">
+                                      <!--<input class="form-control" type="text" placeholder="Type of organization" name="firm" id="firm" value="{{ old('firm') }}">-->
+                                      {{ Form::select('firm', $org_types, null,['id'=>'firm','class'=>'form-control']); }}
                                       <div id="firm_error"></div>
                                       @error('firm')
                                         <p style="color: red">{{ $message }}</p>
@@ -91,7 +92,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="others">Others</label>
-                                    <input class="form-control" type="text" placeholder="Others" name="others" id="others">
+                                    <input class="form-control" type="text" placeholder="Others" name="others" id="others" value="{{ old('others') }}">
                                     <div id="others_error"></div>
                                       @error('others')
                                         <p style="color: red">{{ $message }}</p>
@@ -99,29 +100,30 @@
                                   </div>
                                   <div class="col-sm-6">
                                       <label class="form-label-title mt-3" for="purpose">Purpose</label>
-                                      <input class="form-control" type="text" placeholder="Purpose" name="purpose" id="purpose">
+                                      <input class="form-control" type="text" placeholder="Name of project or specify the purpose" name="purpose" id="purpose" value="{{ old('purpose') }}">
                                       <div id="purpose_error"></div>
                                       @error('purpose')
                                         <p style="color: red">{{ $message }}</p>
                                       @enderror
                                   </div>
-                                  <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="service">Required service from HSW</label>
-                                    <select class="js-example-basic-single col-sm-12" name="service" id="service">
+                                   <div class="col-sm-6">
+                                    <input type="hidden" name="service" value="{{ $service }}">
+                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
+                                    <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
-                                          <option value="{{$service['id']}}">{{$service['service_name']}}</option>
+                                          <option value="{{$service['id']}}" {{ old('service') == $service['id'] ? 'selected' : '' }}>{{$service['service_name']}}</option>
                                         @endforeach
                                       @endif
                                     </select>
                                     <div id="service_error"></div>
-                                    @error('service')
+                                    @error('additional_services')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
                                   <div class="col-sm-12">
                                     <label class="form-label-title mt-3" for="description">Brief description of type of work</label>
-                                    <textarea id="description" name="description" placeholder="Type here..." rows="4" style="width:100%;"></textarea>
+                                    <textarea id="description" name="description" placeholder="Location, scale, format of result required" rows="4" style="width:100%;">{{ old('description') }}</textarea>
                                     <div id="description_error"></div>
                                     @error('description')
                                       <p style="color: red">{{ $message }}</p>
@@ -129,7 +131,7 @@
                                   </div>
                                 </div>
                                 <ul class="list-inline pull-right">
-                                  <li><button type="button" class="default-btn next-step">Continue to next</button></li>
+                                  <li><button type="button" class="default-btn next-step">Continue</button></li>
                                 </ul>
                               </div>
                               <div class="tab-pane" role="tabpanel" id="step2">
@@ -141,7 +143,7 @@
                                       <option value="">Select</option>
                                       @if($states && count($states)>0)
                                         @foreach($states as $state)
-                                          <option value="{{$state['id']}}">{{$state['state_name']}}</option>
+                                          <option value="{{$state['id']}}" {{ old('state') == $state['id'] ? 'selected' : '' }}>{{$state['state_name']}}</option>
                                         @endforeach  
                                       @endif
                                     </select>
@@ -162,7 +164,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="place">Name of Place</label>
-                                    <input class="form-control" type="text" placeholder="Place" name="place" id="place">
+                                    <input class="form-control" type="text" placeholder="Place" name="place" id="place" value="{{ old('place') }}">
                                     <div id="place_error"></div>
                                     @error('place')
                                       <p style="color: red">{{ $message }}</p>
@@ -171,10 +173,57 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="survey_area_location">Survey Area Location</label>
-                                      <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area_location" id="survey_area_location">
+                                      <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area_location" id="survey_area_location" value="{{ old('survey_area_location') }}">
                                     </div>
                                     <div id="survey_area_location_error"></div>
                                     @error('survey_area_location')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for=""><b>Location Coordinates</b></label>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="lattitude">Lattitude</label>
+                                      <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('lattitude')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="longitude">Longitude </label>
+                                      <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('depth_at_saples_collected')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates </label>
+                                      <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('x_coordinates')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates </label>
+                                      <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('y_coordinates')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
@@ -191,8 +240,11 @@
                                     <div class="form-group">
                                         <label class="form-label-title mt-3" for="type_of_waterbody">Type of waterbody</label>
                                         <select class="js-example-basic-single col-sm-12" name="type_of_waterbody" id="type_of_waterbody">
-                                            <option value="sea">Sea</option>
-                                            <option value="inland_water_bodies">Inland water bodies</option>
+                                            <option value="sea" {{ old('type_of_waterbody') == 'sea' ? 'selected' : '' }}>Sea</option>
+                                            <option value="inland_water_bodies" {{ old('type_of_waterbody') == 'inland_water_bodies' ? 'selected' : '' }}>Inland water bodies</option>
+                                            <option value="canal" {{ old('type_of_waterbody') == 'canal' ? 'selected' : '' }}>Canal</option>
+                                            <option value="reservoir" {{ old('type_of_waterbody') == 'reservoir' ? 'selected' : '' }}>Reservoir</option>
+                                            <option value="backwater" {{ old('type_of_waterbody') == 'backwater' ? 'selected' : '' }}>Backwater</option>
                                         </select>
                                     </div>
                                     <div id="type_of_waterbody_error"></div>
@@ -217,7 +269,7 @@
                                 </div>
                                 <ul class="list-inline pull-right">
                                   <li><button type="button" class="default-btn prev-step">Back</button></li>
-                                  <li><button type="submit" name="submit" value="submit" class="default-btn">Finish</button></li>
+                                  <li><button type="submit" name="submit" value="submit" class="default-btn next-step">Submit</button></li>
                                 </ul>
                               </div>
                               <div class="clearfix"></div>
@@ -460,21 +512,4 @@
       },
     });
   </script>
-  <!-- <script type="text/javascript">
-    $(document).ready(function(){
-      @if(Session::has('message'))
-        @if(session('message')['type'] =="success")
-          toastr.success("{{session('message')['text']}}"); 
-        @else
-          toastr.error("{{session('message')['text']}}"); 
-        @endif
-      @endif
-      
-      @if ($errors->any())
-        @foreach ($errors->all() as $error)
-          toastr.error("{{$error}}"); 
-        @endforeach
-      @endif
-    });
-  </script> -->
 @endsection

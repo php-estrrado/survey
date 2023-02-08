@@ -25,13 +25,44 @@ class Role
     {
       return $next($request);
     }
+    elseif(Auth::user() &&  Auth::user()->role_id == 4 && $type == 'draftsman')
+    {
+      return $next($request);
+    }
+    elseif(Auth::user() &&  Auth::user()->role_id == 5 && $type == 'accountant')
+    {
+      return $next($request);
+    }
     elseif(Auth::user() &&  Auth::user()->role_id == 6 && $type == 'customer')
     {
       return $next($request);
     }
     else
     {
-      abort(403, 'Unauthorized action.');
+      if(Auth::user() &&  Auth::user()->role_id != 1 && $type == 'superadmin')
+      {
+        return redirect('superadmin/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
+      }
+      elseif(Auth::user() &&  Auth::user()->role_id != 2 && $type == 'admin')
+      {
+        return redirect('admin/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
+      }
+      elseif(Auth::user() &&  Auth::user()->role_id != 4 && $type == 'draftsman')
+      {
+        return redirect('draftsman/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
+      }
+      elseif(Auth::user() &&  Auth::user()->role_id != 5 && $type == 'accounts')
+      {
+        return redirect('accountant/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
+      }
+      elseif(Auth::user() &&  Auth::user()->role_id != 6 && $type == 'customer')
+      {
+        return redirect('customer/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
+      }
+      else
+      {
+        abort(403, 'Unauthorized action.');
+      }
     }
   }
 }

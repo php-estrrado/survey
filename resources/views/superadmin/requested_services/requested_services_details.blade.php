@@ -183,10 +183,10 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Required Service From HSW
+												Additional service needed
 											</div>
 										</div>
-										<label class="form-label">{{$service}}</label>
+										<label class="form-label">{{$additional_services}}</label>
 									</div>
 								</div>
 							</div>
@@ -217,7 +217,7 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Name Of Place
+												Name of waterbody
 											</div>
 										</div>
 										<label class="form-label">{{$request_data->place}}</label>
@@ -234,6 +234,41 @@
 											<label class="form-label">{{$request_data->survey_area_location}}</label>
 										</div>
 									</div>
+								@endif
+								@if($request_data->data_required)
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Data Required
+											</div>
+										</div>
+										<label class="form-label">
+											<?php $exp = explode(",", $request_data->data_required);
+												$data_arr = array('sounding' => "Sounding",'current_meter_survey' => "Current meter survey",
+												'bottom_profile' => "Bottom profile",'velocity' => "Velocity",'bottom_sample_collection' => "Bottom sample collection",'tide_data' => "Tide data");
+											if($exp){
+												foreach ($exp as $ek => $ev) {
+													echo $data_arr[$ev].",";
+												}
+											}
+											 ?>
+											
+											</label>
+									</div>
+								</div>
+								@endif
+								@if($data_collection)
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Method/Equipment for Data Collection
+											</div>
+										</div>
+										<label class="form-label">{{$data_collection}}</label>
+									</div>
+								</div>
 								@endif
 								@if($request_data->tidal_area_location)
 									<div class="col-sm-4 col-md-4">
@@ -299,6 +334,55 @@
 										</div>
 									</div>
 								@endif
+								@if($request_data->start_date)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Period of observation Start Date
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->start_date}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->end_date)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Period of observation End Date
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->end_date}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->duration)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration (Years, Weeks, Days, Hours)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration}}</label>
+										</div>
+									</div>
+								@endif
+								
+								@if($request_data->method_of_observation)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method of observation
+												</div>
+											</div>
+											<label class="form-label">{{ ucfirst($request_data->method_of_observation) }}</label>
+										</div>
+									</div>
+								@endif
 								@if($request_data->number_of_locations)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">
@@ -308,6 +392,80 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->number_of_locations}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->quantity_of_samples)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Interval (in kms)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->quantity_of_samples}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->quantity_bottom_sample)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Quantity (kg)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->quantity_bottom_sample}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->method_of_sampling)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method of sampling
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->method_of_sampling}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->description_of_requirement)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Description of Requirement
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->description_of_requirement}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->file_upload)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Bottom Sample File upload
+												</div>
+											</div>
+											<label class="form-label">
+												<a href="{{ url('/').'/storage/'.$request_data->file_upload}}" target="_blank">View</a>
+												</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->interval_bottom_sample)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Quantity of sample to be collected in each location
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->interval_bottom_sample}}</label>
 										</div>
 									</div>
 								@endif
@@ -380,6 +538,18 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->benchmark_chart_datum}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->description_of_benchmark)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Description of Benchmark
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->description_of_benchmark}}</label>
 										</div>
 									</div>
 								@endif
@@ -476,6 +646,18 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->depth}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->level_upto)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Level upto which dredged (in meter)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->level_upto}}</label>
 										</div>
 									</div>
 								@endif

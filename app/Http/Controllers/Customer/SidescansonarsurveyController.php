@@ -20,9 +20,10 @@ use App\Models\Sidescansonar;
 use App\Models\Services;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
 class SidescansonarsurveyController extends Controller
 {
     /**
@@ -47,11 +48,13 @@ class SidescansonarsurveyController extends Controller
     { 
         $data['title']        =  'Side scanning sonar';
         $data['menu']         =  'Side scanning sonar';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 8; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
         // dd($data);
         return view('customer.sidesonarscan.sidesonarscan_form',$data);
     }
@@ -103,12 +106,25 @@ class SidescansonarsurveyController extends Controller
             $sidescansonar['area_to_scan'] = $input['area_to_scan'];
             $sidescansonar['depth_of_area'] = $input['depth_of_area'];
             $sidescansonar['interval'] = $input['interval'];
+                        $sidescansonar['lattitude'] = $input['lattitude'];
+            $sidescansonar['longitude'] = $input['longitude'];
+            $sidescansonar['x_coordinates'] = $input['x_coordinates'];
+            $sidescansonar['y_coordinates'] = $input['y_coordinates'];
             $sidescansonar['is_active'] = 1;
             $sidescansonar['is_deleted'] = 0;
             $sidescansonar['created_by'] = auth()->user()->id;
             $sidescansonar['updated_by'] = auth()->user()->id;
             $sidescansonar['created_at'] = date('Y-m-d H:i:s');
             $sidescansonar['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $sidescansonar['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $sidescansonar['additional_services'] = "";
+            }
+
 
             $sidescansonar_id = Sidescansonar::create($sidescansonar)->id;
 
@@ -140,6 +156,32 @@ class SidescansonarsurveyController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = $cust_id;
+            $admin_noti['notify_to'] = 1;
+            $admin_noti['role_id'] = 1;
+            $admin_noti['notify_from_role_id'] = 6;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Survey Request Submitted';
+            $admin_noti['ref_id'] = $cust_id;
+            $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($sidescansonar_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.sidescanningsonar_survey'));
         }

@@ -1,8 +1,10 @@
 @extends('layouts.master5')
 @section('css')
     <link href="{{URL::asset('assets/css/style.css')}}" rel="stylesheet" />
+    
 @endsection
 @section('content')
+<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />
 <div class="container-fluid p-0">
     <div class="row m-0">
         <div class="col-12 p-0">
@@ -36,8 +38,10 @@
                                     <input id="remember" type="checkbox" name="remember">
                                     <label class="custom-control-label" for="remember" >Remember password</label>
                                 </div>
-                                <a class="link" href="forgot.html">Forgot password?</a>
+                                <a class="link" href="{{url('/customer/forgotPassword')}}">Forgot password?</a>
                                 <div class="text-end mt-3">
+                                    <div class="g-recaptcha" data-sitekey="{{config('services.recaptcha.key')}}"></div>
+                                    <br/>
                                     <button class="btn btn-primary btn-block w-100" type="submit">Sign in</button>
                                 </div>
                             </div>
@@ -52,6 +56,8 @@
 </div>
 @endsection
 @section('js')
+    <script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script type="text/javascript">
         $(document).ready(function(){
             @if(Session::has('message'))
@@ -62,10 +68,8 @@
                 @endif
             @endif
             
-            @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                    toastr.error("{{$error}}"); 
-                @endforeach
+            @if ($errors->any())          
+                toastr.error("{{$errors->all()[0]}}"); 
             @endif
         });
     </script>

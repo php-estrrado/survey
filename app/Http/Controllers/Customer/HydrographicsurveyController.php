@@ -20,9 +20,11 @@ use App\Models\UserVisit;
 use App\Models\Hydrographic_survey;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
-
+use App\Models\OrganisationType;
+use App\Models\DataCollectionEquipment;
 class HydrographicsurveyController extends Controller
 {
     /**
@@ -47,11 +49,14 @@ class HydrographicsurveyController extends Controller
     { 
         $data['title']        =  'Hydrofraphic Survey';
         $data['menu']         =  'Hydrofraphic Survey';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 1; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-
+        $data['org_types']    = OrganisationType::selectOption();
+        $data['data_collection']    = DataCollectionEquipment::selectOption();
         // dd($data);
         return view('customer.hydrographic_survey.hydrographicsurvey_form',$data);
     }
@@ -109,12 +114,33 @@ class HydrographicsurveyController extends Controller
             $hydrographic_survey['service_to_be_conducted'] = date('Y-m-d',strtotime($input['service_to_be_conducted']));
             $hydrographic_survey['interim_surveys_needed_infuture'] = $input['interim_surveys_needed_infuture'];
             $hydrographic_survey['benchmark_chart_datum'] = $input['benchmark_chart_datum'];
+            
+            $hydrographic_survey['lattitude'] = $input['lattitude'];
+            $hydrographic_survey['longitude'] = $input['longitude'];
+            $hydrographic_survey['x_coordinates'] = $input['x_coordinates'];
+            $hydrographic_survey['y_coordinates'] = $input['y_coordinates'];
             $hydrographic_survey['is_active'] = 1;
             $hydrographic_survey['is_deleted'] = 0;
             $hydrographic_survey['created_by'] = auth()->user()->id;
             $hydrographic_survey['updated_by'] = auth()->user()->id;
             $hydrographic_survey['created_at'] = date('Y-m-d H:i:s');
             $hydrographic_survey['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $hydrographic_survey['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $hydrographic_survey['additional_services'] = "";
+            }
+
+             if($input['data_collection_equipments'])
+            {
+                
+               $hydrographic_survey['data_collection_equipments'] = implode(",", $input['data_collection_equipments']); 
+            }else{
+                $hydrographic_survey['data_collection_equipments'] = "";
+            }
 
             $hydrographic_survey_id = Hydrographic_survey::create($hydrographic_survey)->id;
 
@@ -146,6 +172,32 @@ class HydrographicsurveyController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_request_logs::create($survey_request_logs);
+
+            $admin_noti = [];
+
+            $admin_noti['notify_from'] = $cust_id;
+            $admin_noti['notify_to'] = 1;
+            $admin_noti['role_id'] = 1;
+            $admin_noti['notify_from_role_id'] = 6;
+            $admin_noti['notify_type'] = 0;
+            $admin_noti['title'] = 'Survey Request Submitted';
+            $admin_noti['ref_id'] = $cust_id;
+            $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;
+            $admin_noti['viewed'] = 0;
+            $admin_noti['created_at'] = date('Y-m-d H:i:s');
+            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
+            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            AdminNotification::create($admin_noti);
+
+            if(isset($hydrographic_survey_id) && isset($survey_request_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Requested Submitted Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Requested Not Submitted !','type'=>'danger']);
+            }
 
             return redirect(route('customer.hydrographic_survey'));
         }
