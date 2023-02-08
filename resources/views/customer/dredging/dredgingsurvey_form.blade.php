@@ -237,14 +237,9 @@
                                 <h4 class="text-center">Details</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="detailed_description_area">Detailed description of area</label>
-                                    <select class="js-example-basic-single col-sm-12" name="detailed_description_area" id="detailed_description_area">
-                                      <option value="sea" {{ old('detailed_description_area') == 'sea' ? "selected" : "" }}>Sea</option>
-                                      <option value="river" {{ old('detailed_description_area') == 'river' ? "selected" : "" }}>River</option>
-                                      <option value="channel" {{ old('detailed_description_area') == 'channel' ? "selected" : "" }}>Channel</option>
-                                      <option value="harbor" {{ old('detailed_description_area') == 'harbor' ? "selected" : "" }}>Harbor</option>
-                                      <option value="jetty" {{ old('detailed_description_area') == 'jetty' ? "selected" : "" }}>Jetty</option>
-                                    </select>
+                                    <label class="form-label-title mt-3" for="detailed_description_area">Detailed description of area (Type of waterbody)</label>
+                                   
+                                      <input class="form-control" type="text" placeholder="Detailed description of area" name="detailed_description_area" id="detailed_description_area" value="{{ old('detailed_description_area') }}">
                                     <div id="detailed_description_area_error"></div>
                                     @error('detailed_description_area')
                                       <p style="color: red">{{ $message }}</p>
@@ -351,6 +346,14 @@
                                     <input class="form-control" type="number" placeholder="Depth for Survey Calculation (metres)" name="depth" id="depth" value="{{ old('fname') }}">
                                     <div id="depth_error"></div>
                                     @error('depth')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <label class="form-label-title mt-3" for="level_upto">Level upto which dredged (in meter)</label>
+                                    <input class="form-control" type="text" placeholder="Level upto which dredged (in meter)" name="level_upto" id="level_upto" value="{{ old('fname') }}">
+                                    <div id="level_upto_error"></div>
+                                    @error('level_upto')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>

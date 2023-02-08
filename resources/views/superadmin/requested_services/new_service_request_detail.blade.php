@@ -575,6 +575,18 @@
 							</div>
 						</div>
 					@endif
+					@if($request_data->level_upto)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Level upto which dredged (in meter)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->level_upto}}</label>
+										</div>
+									</div>
+								@endif
 					@if($request_data->water_bodies)
 						<div class="col-sm-4 col-md-4">
 							<div class="form-group">
