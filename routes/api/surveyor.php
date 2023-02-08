@@ -33,6 +33,9 @@ Route::get('/surveyor/survey-study-report', [App\Http\Controllers\Api\Surveyor\S
 Route::put('/surveyor/field-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'update_field_study']);
 Route::put('/surveyor/survey-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'update_survey_study']);
 
+Route::get('/surveyor/bathymetric-survey-instruments', [App\Http\Controllers\Api\Surveyor\GeneralController::class, 'get_bathymeteric_ins']);
+Route::get('/surveyor/waterbody-types', [App\Http\Controllers\Api\Surveyor\GeneralController::class, 'get_waterbody']);
+
 
 
 

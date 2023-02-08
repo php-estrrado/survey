@@ -120,6 +120,7 @@ class DredgingsurveyController extends Controller
             $dredging['longitude'] = $input['longitude'];
             $dredging['x_coordinates'] = $input['x_coordinates'];
             $dredging['y_coordinates'] = $input['y_coordinates'];
+            $dredging['level_upto'] = $input['level_upto'];
             $dredging['is_active'] = 1;
             $dredging['is_deleted'] = 0;
             $dredging['created_by'] = auth()->user()->id;
