@@ -48,7 +48,9 @@ class UnderwatervideographyController extends Controller
     { 
         $data['title']        =  'Underwater videography service';
         $data['menu']         =  'Underwater videography service';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 6; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -110,6 +112,14 @@ $data['org_types']    = OrganisationType::selectOption();
             $underwater_videography['updated_by'] = auth()->user()->id;
             $underwater_videography['created_at'] = date('Y-m-d H:i:s');
             $underwater_videography['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $underwater_videography['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $underwater_videography['additional_services'] = "";
+            }
 
             $underwater_videography_id = Underwater_videography::create($underwater_videography)->id;
 

@@ -24,6 +24,7 @@ use App\Models\UserRole;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Models\Field_study_report;
+use App\Models\Survey_study_report;
 use App\Models\Fieldstudy_eta;
 use App\Models\Survey_invoice;
 use App\Models\Survey_performa_invoice;
@@ -135,6 +136,14 @@ class ServicerequestsController extends Controller
 
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
+
+        if(isset($data['request_data']->additional_services))
+        {
+           $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
+        }else{
+             $data['additional_services'] ="";
+        }
+        
 
         // $data['survey_requests']    =   DB::table('survey_requests')
         //                                 ->join('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
@@ -299,6 +308,25 @@ class ServicerequestsController extends Controller
         {
             $data['request_data'] = $datas->Subbottom_profilling->first();
         }
+        elseif($datas->service_id == 11)
+        {
+            $data['request_data'] = $datas->Bathymetry_survey->first();
+        }
+
+        if(isset($data['request_data']->additional_services))
+        {
+           $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
+        }else{
+             $data['additional_services'] ="";
+        }
+
+        if(isset($data['request_data']->data_collection_equipments))
+        {
+           $data['data_collection'] = $datas->datacollection_selected($data['request_data']->data_collection_equipments);
+        }else{
+             $data['data_collection'] ="";
+        }
+        
 
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
@@ -313,7 +341,7 @@ class ServicerequestsController extends Controller
         if($status == 21 || $status == 22)
         {
             $data['draftmans'] = Admin::where('role_id',4)->get();
-            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['survey_study'] = Survey_study_report::where('survey_request_id',$id)->first();
 
             return view('superadmin.requested_services.dh_verified_survey_study',$data);
         }

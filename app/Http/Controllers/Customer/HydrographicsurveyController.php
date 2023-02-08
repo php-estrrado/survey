@@ -24,6 +24,7 @@ use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
 use App\Models\OrganisationType;
+use App\Models\DataCollectionEquipment;
 class HydrographicsurveyController extends Controller
 {
     /**
@@ -48,11 +49,14 @@ class HydrographicsurveyController extends Controller
     { 
         $data['title']        =  'Hydrofraphic Survey';
         $data['menu']         =  'Hydrofraphic Survey';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 1; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
         $data['org_types']    = OrganisationType::selectOption();
+        $data['data_collection']    = DataCollectionEquipment::selectOption();
         // dd($data);
         return view('customer.hydrographic_survey.hydrographicsurvey_form',$data);
     }
@@ -121,6 +125,22 @@ class HydrographicsurveyController extends Controller
             $hydrographic_survey['updated_by'] = auth()->user()->id;
             $hydrographic_survey['created_at'] = date('Y-m-d H:i:s');
             $hydrographic_survey['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $hydrographic_survey['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $hydrographic_survey['additional_services'] = "";
+            }
+
+             if($input['data_collection_equipments'])
+            {
+                
+               $hydrographic_survey['data_collection_equipments'] = implode(",", $input['data_collection_equipments']); 
+            }else{
+                $hydrographic_survey['data_collection_equipments'] = "";
+            }
 
             $hydrographic_survey_id = Hydrographic_survey::create($hydrographic_survey)->id;
 

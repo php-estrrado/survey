@@ -1,7 +1,11 @@
 php:
   preset: laravel
   disabled:
+<<<<<<< HEAD
     - unused_use
+=======
+    - no_unused_imports
+>>>>>>> cdac3d3d8f751f58cc91ca13bb018f52aa4d56fe
   finder:
     not-name:
       - index.php

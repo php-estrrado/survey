@@ -50,6 +50,11 @@ Route::middleware('role:customer')->group(function () {
     Route::get('/customer/hydrographic_survey/create', [App\Http\Controllers\Customer\HydrographicsurveyController::class, 'create'])->name('hydrographic_survey.create');
     Route::post('/customer/hydrographic_survey/save', [App\Http\Controllers\Customer\HydrographicsurveyController::class, 'saveSurvey']);
 
+        //Bathymetry Survey
+    Route::get('/customer/bathymetry_survey', [App\Http\Controllers\Customer\BathymetrySurveyController::class, 'index'])->name('customer.bathymetry_survey');
+    Route::get('/customer/bathymetry_survey/create', [App\Http\Controllers\Customer\BathymetrySurveyController::class, 'create'])->name('bathymetry_survey.create');
+    Route::post('/customer/bathymetry_survey/save', [App\Http\Controllers\Customer\BathymetrySurveyController::class, 'saveSurvey']);
+
 
     //Tidal Observation survey
     Route::get('/customer/tidal_observation', [App\Http\Controllers\Customer\TidalController::class, 'index'])->name('customer.tidal_observation');

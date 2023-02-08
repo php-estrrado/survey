@@ -234,10 +234,10 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Required Service From HSW
+												Additional service needed
 											</div>
 										</div>
-										<label class="form-label">{{$service}}</label>
+										<label class="form-label">{{$additional_services}}</label>
 									</div>
 								</div>
 							</div>

@@ -106,9 +106,10 @@
                                         <p style="color: red">{{ $message }}</p>
                                       @enderror
                                   </div>
-                                  <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="service">Required service from HSW</label>
-                                    <select class="js-example-basic-single col-sm-12" name="service" id="service">
+                                   <div class="col-sm-6">
+                                    <input type="hidden" name="service" value="{{ $service }}">
+                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
+                                    <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
                                           <option value="{{$service['id']}}" {{ old('service') == $service['id'] ? 'selected' : '' }}>{{$service['service_name']}}</option>
@@ -116,7 +117,7 @@
                                       @endif
                                     </select>
                                     <div id="service_error"></div>
-                                    @error('service')
+                                    @error('additional_services')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>

@@ -45,7 +45,7 @@
     margin: 0 auto;
     left: 0;
     right: 0;
-    top: 22px;
+    top: 20px;
     z-index: 1;
   }
   
@@ -78,15 +78,15 @@
     color: #555555;
   }
   .wizard li.active span.round-tab {
-    background: #ffbf00;
+    background: #4CA3D8;
     color: #fff;
-    border-color: #ffbf00;
+    border-color: #4CA3D8;
   }
   .wizard li.active span.round-tab i {
     color: #5bc0de;
   }
   .wizard .nav-tabs > li.active > a i {
-    color: #ffbf00;
+    color: #4CA3D8;
   }
   
   .wizard .nav-tabs > li {
@@ -149,7 +149,7 @@
     margin-top: 30px;
   }
   .next-step {
-    background-color: #0c0c5d;
+    background-color: #4CA3D8;
     color: #fff;
   }
   .skip-btn {
@@ -299,8 +299,7 @@
     padding: 15px 15px;
 }
 .card-blog .card-caption {
-    margin-top: 8px;
-    margin-bottom: 15px;
+    margin-top: 5px;
 }
 
 .card-caption {
@@ -408,8 +407,8 @@
     background-size: cover;
   }
   section {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
   
   .lnr {
@@ -549,7 +548,7 @@
   background-color: #ffab00 !important;
 }
 .bg-pink {
-  background-color: #007474 !important;
+  background-color: #bb08c0 !important;
   color: #fff !important;
 }
 .bg-orange {

@@ -48,7 +48,9 @@ class CurrentmeterobservationController extends Controller
     { 
         $data['title']        =  'Current meter observation';
         $data['menu']         =  'Current meter observation';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 7; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -114,6 +116,14 @@ class CurrentmeterobservationController extends Controller
             $currentmeter_observation['updated_by'] = auth()->user()->id;
             $currentmeter_observation['created_at'] = date('Y-m-d H:i:s');
             $currentmeter_observation['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $currentmeter_observation['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $currentmeter_observation['additional_services'] = "";
+            }
 
             $currentmeter_observation_id = Currentmeter_observation::create($currentmeter_observation)->id;
 

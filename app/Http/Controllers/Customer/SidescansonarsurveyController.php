@@ -48,7 +48,9 @@ class SidescansonarsurveyController extends Controller
     { 
         $data['title']        =  'Side scanning sonar';
         $data['menu']         =  'Side scanning sonar';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 8; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -114,6 +116,15 @@ class SidescansonarsurveyController extends Controller
             $sidescansonar['updated_by'] = auth()->user()->id;
             $sidescansonar['created_at'] = date('Y-m-d H:i:s');
             $sidescansonar['updated_at'] = date('Y-m-d H:i:s');
+
+            if($input['additional_services'])
+            {
+                
+               $sidescansonar['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $sidescansonar['additional_services'] = "";
+            }
+
 
             $sidescansonar_id = Sidescansonar::create($sidescansonar)->id;
 

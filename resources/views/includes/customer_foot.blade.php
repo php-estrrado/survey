@@ -37,7 +37,7 @@
 <!-- Theme js-->
 <script src="{{URL::asset('public/assets/js/script.js')}}"></script>
 <!-- <script src="{{URL::asset('public/assets/js/jquery.validate.min.js')}}"></script> -->
-
+  <script src="{{URL::asset('public/assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
 <script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
 
 <script type="text/javascript">
@@ -53,7 +53,20 @@
 </script>
 <script>
     $(document).ready(function(){
+
+        $('.multiselect').SumoSelect();
+        
         $(".sidebar-submenu.customer").show();
         $(".sidebar-submenu.customer").parents("li.sidebar-list").find(".sidebar-link.sidebar-title").addClass('active');
     });
 </script>
+
+                        <!-- INTERNAL File uploads js -->
+                <script src="{{URL::asset('public/admin/assets/plugins/fileupload/js/dropify.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/js/filupload.js')}}"></script>
+                                <!-- INTERNAL File-Uploads Js-->
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>

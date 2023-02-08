@@ -47,7 +47,9 @@ class TidalController extends Controller
     { 
         $data['title']        =  'Tidal observation';
         $data['menu']         =  'Tidal observation';
-        $data['services']     =  Services::where('is_deleted',0)->orderby('id','ASC')->get();
+        $service              = 2; 
+        $data['service']         =  $service;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service])->orderby('id','ASC')->get();
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
@@ -77,7 +79,7 @@ class TidalController extends Controller
             'district' => ['required'],
             'place' => ['required'],
             'tidal_area' => ['required'],
-            'period_of_observation' => ['required'],
+            // 'period_of_observation' => ['required'],
             'benchmark_chart_datum' => ['required']
         ]);
 
@@ -99,18 +101,31 @@ class TidalController extends Controller
             $tidal_observation['district'] = $input['district'];
             $tidal_observation['place'] = $input['place'];
             $tidal_observation['tidal_area_location'] = $input['tidal_area'];
-            $tidal_observation['period_of_observation'] = $input['period_of_observation'];
+            // $tidal_observation['period_of_observation'] = $input['period_of_observation'];
             $tidal_observation['benchmark_chart_datum'] = $input['benchmark_chart_datum'];
                         $tidal_observation['lattitude'] = $input['lattitude'];
             $tidal_observation['longitude'] = $input['longitude'];
             $tidal_observation['x_coordinates'] = $input['x_coordinates'];
             $tidal_observation['y_coordinates'] = $input['y_coordinates'];
+            $tidal_observation['start_date'] = $input['start_date'];
+            $tidal_observation['end_date'] = $input['end_date'];
+            $tidal_observation['duration'] = $input['duration'];
+            $tidal_observation['description_of_benchmark'] = $input['description_of_benchmark'];
+            $tidal_observation['method_of_observation'] = $input['method_of_observation'];
             $tidal_observation['is_active'] = 1;
             $tidal_observation['is_deleted'] = 0;
             $tidal_observation['created_by'] = auth()->user()->id;
             $tidal_observation['updated_by'] = auth()->user()->id;
             $tidal_observation['created_at'] = date('Y-m-d H:i:s');
             $tidal_observation['updated_at'] = date('Y-m-d H:i:s');
+            // dd($input);
+             if($input['additional_services'])
+            {
+                
+               $tidal_observation['additional_services'] = implode(",", $input['additional_services']); 
+            }else{
+                $tidal_observation['additional_services'] = "";
+            }
 
             $tidal_observation_id = Tidal_observation::create($tidal_observation)->id;
 
