@@ -116,11 +116,16 @@ class DredgingsurveyController extends Controller
             $dredging['length'] = $input['length'];
             $dredging['width'] = $input['width'];
             $dredging['depth'] = $input['depth'];
-                        $dredging['lattitude'] = $input['lattitude'];
+            $dredging['lattitude'] = $input['lattitude'];
             $dredging['longitude'] = $input['longitude'];
             $dredging['x_coordinates'] = $input['x_coordinates'];
             $dredging['y_coordinates'] = $input['y_coordinates'];
+            $dredging['lattitude2'] = $input['lattitude2'];
+            $dredging['longitude2'] = $input['longitude2'];
+            $dredging['x_coordinates2'] = $input['x_coordinates2'];
+            $dredging['y_coordinates2'] = $input['y_coordinates2'];            
             $dredging['level_upto'] = $input['level_upto'];
+            $dredging['no_of_surveys'] = $input['no_of_surveys'];
             $dredging['is_active'] = 1;
             $dredging['is_deleted'] = 0;
             $dredging['created_by'] = auth()->user()->id;
@@ -134,6 +139,14 @@ class DredgingsurveyController extends Controller
                $dredging['additional_services'] = implode(",", $input['additional_services']); 
             }else{
                 $dredging['additional_services'] = "";
+            }
+
+            if($input['dredging_survey_method'])
+            {
+                
+               $dredging['dredging_survey_method'] = implode(",", $input['dredging_survey_method']); 
+            }else{
+                $dredging['dredging_survey_method'] = "";
             }
             
             $dredging_id = Dredging_survey::create($dredging)->id;

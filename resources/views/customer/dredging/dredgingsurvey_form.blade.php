@@ -182,12 +182,12 @@
                                   </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for=""><b>Location Coordinates</b></label>
+                                      <label class="form-label-title mt-3" for=""><b>Limit of survey Location Coordinates</b></label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude">Lattitude</label>
+                                      <label class="form-label-title mt-3" for="lattitude">Lattitude 1</label>
                                       <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -197,7 +197,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude">Longitude </label>
+                                      <label class="form-label-title mt-3" for="longitude">Longitude 1</label>
                                       <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -208,7 +208,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates </label>
+                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates 1</label>
                                       <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -219,7 +219,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates </label>
+                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates 1</label>
                                       <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -227,6 +227,51 @@
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
+
+
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="lattitude2">Lattitude 2</label>
+                                      <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude2" id="lattitude2" value="{{ old('lattitude2') }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('lattitude2')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="longitude2">Longitude 2</label>
+                                      <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude2" id="longitude2" value="{{ old('longitude2') }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('longitude2')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="x_coordinates2">X Coordinates 2</label>
+                                      <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates2" id="x_coordinates2" value="{{ old('x_coordinates2') }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('x_coordinates2')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="y_coordinates2">Y Coordinates 2</label>
+                                      <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates2" id="y_coordinates2" value="{{ old('y_coordinates2') }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('y_coordinates2')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+
                                 </div>
                                 <ul class="list-inline pull-right">
                                   <li><button type="button" class="default-btn prev-step">Back</button></li>
@@ -245,29 +290,31 @@
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
-                                  <div class="col-md-6">
-                                    <div class="form-group">
-                                      <label class="form-label-title mt-3" for="dredging_survey_method">Whether pre/post dredging survey required or both</label>
-                                      <div>
-                                        <div class="form-check form-check-inline">
-                                          <input class="form-check-input" type="radio" name="dredging_survey_method" id="dredging_survey_method1" value="pre" {{ old('dredging_survey_method') == "pre" ? 'checked' : '' }}>
-                                          <label class="form-check-label" for="dredging_survey_method1">Pre</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                          <input class="form-check-input" type="radio" name="dredging_survey_method" id="dredging_survey_method2" value="post" {{ old('dredging_survey_method') == "post" ? 'checked' : '' }}>
-                                          <label class="form-check-label" for="dredging_survey_method2">Post</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                          <input class="form-check-input" type="radio" name="dredging_survey_method" id="dredging_survey_method3" value="both" {{ old('dredging_survey_method') == "both" ? 'checked' : '' }}>
-                                          <label class="form-check-label" for="dredging_survey_method3">Both</label>
-                                        </div>
-                                      </div>
-                                    </div>
+                                  <div class="col-sm-6">
+                                    <label class="form-label-title mt-3" for="no_of_surveys">Number of Surveys needed</label>
+                                    <input class="form-control" type="number" placeholder="Number of Surveys needed" min="0" max="5" name="no_of_surveys" id="no_of_surveys">
+                                    <div id="no_of_surveys_error"></div>
+                                    @error('no_of_surveys')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-sm-6">
+                        
+                                    <label class="form-label-title mt-3" for="dredging_survey_method">Whether pre/post dredging survey required or both</label>
+                                    <select class="js-example-basic-single col-sm-12 multiselect" name="dredging_survey_method[]" id="dredging_survey_method" multiple="multiple" >
+                                      
+                                          <option value="pre" {{ old('dredging_survey_method') == "pre" ? 'selected' : '' }}>Pre</option>
+                                          <option value="post" {{ old('dredging_survey_method') == "post" ? 'selected' : '' }}>Post</option>
+                                          <option value="intermediate" {{ old('dredging_survey_method') == "intermediate" ? 'selected' : '' }}>Intermediate</option>
+                                        
+                                    </select>
                                     <div id="dredging_survey_method_error"></div>
                                     @error('dredging_survey_method')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
+
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="interim_surveys_needed_infuture">Whether interim surveys are needed in future</label>

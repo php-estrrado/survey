@@ -268,11 +268,41 @@
 
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="duration">Duration (Years, Weeks, Days, Hours)</label>
-                                      <input class="form-control" type="text" placeholder="Duration (Years, Weeks, Days, Hours)" name="duration" id="duration" value="{{ old('duration') }}">
+                                      <label class="form-label-title mt-3" for="duration">Duration (Years)</label>
+                                      <input class="form-control" type="text" placeholder="Duration (Years)" name="duration" id="duration" value="{{ old('duration') }}">
                                     </div>
                                     <div id="duration_error"></div>
                                     @error('duration')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="duration_weeks">Duration (Weeks)</label>
+                                      <input class="form-control" type="text" placeholder="Duration (Weeks)" name="duration_weeks" id="duration_weeks" value="{{ old('duration_weeks') }}">
+                                    </div>
+                                    <div id="duration_weeks_error"></div>
+                                    @error('duration_weeks')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="duration_days">Duration (Days)</label>
+                                      <input class="form-control" type="text" placeholder="Duration (Days)" name="duration_days" id="duration_days" value="{{ old('duration_days') }}">
+                                    </div>
+                                    <div id="duration_days_error"></div>
+                                    @error('duration_days')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="duration_hours">Duration (Hours)</label>
+                                      <input class="form-control" type="text" placeholder="Duration (Hours)" name="duration_hours" id="duration_hours" value="{{ old('duration_hours') }}">
+                                    </div>
+                                    <div id="duration_hours_error"></div>
+                                    @error('duration_hours')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>

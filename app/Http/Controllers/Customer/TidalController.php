@@ -110,6 +110,9 @@ class TidalController extends Controller
             $tidal_observation['start_date'] = $input['start_date'];
             $tidal_observation['end_date'] = $input['end_date'];
             $tidal_observation['duration'] = $input['duration'];
+            $tidal_observation['duration_weeks'] = $input['duration_weeks'];
+            $tidal_observation['duration_days'] = $input['duration_days'];
+            $tidal_observation['duration_hours'] = $input['duration_hours'];
             $tidal_observation['description_of_benchmark'] = $input['description_of_benchmark'];
             $tidal_observation['method_of_observation'] = $input['method_of_observation'];
             $tidal_observation['is_active'] = 1;

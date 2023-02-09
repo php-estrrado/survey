@@ -258,7 +258,7 @@
 									</div>
 								</div>
 								@endif
-								@if($data_collection)
+									@if(isset($data_collection))
 								<div class="col-md-12">
 									<div class="form-group">
 										<div class="media-body">
@@ -307,6 +307,107 @@
 									</div>
 								@endif
 							</div>
+							
+							<div class="card-title font-weight-bold mt-5">Location Coordinates</div>
+				<div class="row">
+								@if($request_data->lattitude)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Lattitude
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->lattitude}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->longitude)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Longitude
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->longitude}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->x_coordinates)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													X Coordinates
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->x_coordinates}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->y_coordinates)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Y Coordinates
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->y_coordinates}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->lattitude2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Lattitude 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->lattitude2}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->longitude2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Longitude 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->longitude2}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->x_coordinates2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													X Coordinates 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->x_coordinates2}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->y_coordinates2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Y Coordinates 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->y_coordinates2}}</label>
+										</div>
+									</div>
+								@endif
+								</div>
 							<hr />
 							<div class="card-title font-weight-bold mt-5">Details</div>
 							<div class="row">
@@ -363,10 +464,49 @@
 										<div class="form-group">
 											<div class="media-body">
 												<div class="font-weight-normal1">
-													Duration (Years, Weeks, Days, Hours)
+													Duration (Years)
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->duration}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->duration_weeks)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration (Weeks)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration_weeks}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->duration_days)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration ( Days)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration_days}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->duration_hours)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration ( Hours)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration_hours}}</label>
 										</div>
 									</div>
 								@endif
