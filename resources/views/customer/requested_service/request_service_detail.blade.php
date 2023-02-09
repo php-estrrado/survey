@@ -33,7 +33,9 @@
                                                 @foreach($survey_datas as $survey_data)
                                                     <li> <i class="fa fa-clock-o bg-pink"></i>
                                                         <div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y',strtotime($survey_data->log_date))}}</span>
-                                                            @if($survey_data->survey_status == 15)
+                                                            @if($survey_data->survey_status == 27)
+                                                                <h3 class="timelineleft-header"><a href="{{url($survey_data->final_report)}}" target="_blank">{{$survey_data->status_name}}</a></h3>
+                                                            @elseif($survey_data->survey_status == 15)
                                                                 <h3 class="timelineleft-header"><a href="{{url('/customer/request_service_performa_invoice')}}/{{$survey_data->survey_request_id}}">{{$survey_data->status_name}}</a></h3>
                                                             @elseif($survey_data->survey_status == 51)
                                                                 <h3 class="timelineleft-header"><a href="{{url('/customer/request_service_invoice')}}/{{$survey_data->survey_request_id}}">{{$survey_data->status_name}}</a></h3>

@@ -125,9 +125,9 @@ class Modules extends Model
     }
 
     static function visibleModules($role){ 
-        if($role ==1) {
-            $role = '';
-        }
+        // if($role ==1) {
+        //     $role = '';
+        // }
             $parent                 =   Modules::getAllModulesByParentId(0,$role); 
             
 			$data                   =   [];

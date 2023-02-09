@@ -25,7 +25,7 @@
 <!-- Row -->
 <div class="row">
 	<div class="col-12">
-        <form method="POST" id="saveModule" action="{{ url('/superadmin/user-roles/save') }}" class="theme-form">
+        <form method="POST" id="saveModule" action="{{ url('/superadmin/modules/save') }}" class="theme-form">
             @csrf
             {{Form::hidden('id',0,['id'=>'roleid'])}}									
 			{{Form::hidden('is_selected',0,['is_selected'=>'is_selected'])}}

@@ -668,13 +668,16 @@ class ServicerequestsController extends Controller
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
 
         // dd($data);
+        if($status == 24)
+        {
+            $data['final_report'] = Survey_requests::where('id',$id)->first()->final_report;
 
-        if($status == 19)
+            return view('superadmin.requested_services.dh_final_report',$data);
+        }
+        elseif($status == 19)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
-
-            // dd($data);
 
             return view('admin.survey_study_report',$data);
         }
@@ -694,8 +697,6 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
 
-            // dd($data);
-
             return view('admin.requested_services.assign_survey_study',$data);
         }
         elseif($status == 47)
@@ -703,16 +704,12 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
 
-            // dd($data);
-
             return view('admin.requested_services.invoice_submitted',$data);
         }
         elseif($status == 11)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
-
-            // dd($data);
 
             return view('admin.requested_services.performa_invoice_submitted',$data);
         }
@@ -933,6 +930,41 @@ class ServicerequestsController extends Controller
         else
         {
             Session::flash('message', ['text'=>'Survey Study Not Verified Successfully !','type'=>'danger']);
+        }
+
+        return redirect('admin/requested_services');
+    }
+
+    public function verify_final_report(Request $request)
+    {
+        $id = $request->id;
+
+        Survey_requests::where('id',$id)->update(['request_status'=>25]);
+
+        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+        $survey_request_logs = [];
+
+        $survey_request_logs['survey_request_id'] = $id;
+        $survey_request_logs['cust_id'] = $cust_id;
+        $survey_request_logs['survey_status'] = 25;
+        $survey_request_logs['remarks'] = $request->remarks;
+        $survey_request_logs['is_active'] = 1;
+        $survey_request_logs['is_deleted'] = 0;
+        $survey_request_logs['created_by'] = auth()->user()->id;
+        $survey_request_logs['updated_by'] = auth()->user()->id;
+        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+        if(isset($survey_request_log_id))
+        {   
+            Session::flash('message', ['text'=>'Final Report Verified Successfully !','type'=>'success']);  
+        }
+        else
+        {
+            Session::flash('message', ['text'=>'Final Report Not Verified Successfully !','type'=>'danger']);
         }
 
         return redirect('admin/requested_services');

@@ -34,12 +34,12 @@
 					<div class="mt-1">
 						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
 						<ul class="mb-0 pro-details">
-							<li><span class="h6 mt-3">Name: John</span></li>
-							<li><span class="h6 mt-3">Name of the firm: XYZ</span></li>
-							<li><span class="h6 mt-3">Type of firm: Private</span></li>
-							<li><span class="h6 mt-3">Email ID: xyz@gmail.com</span></li>
-							<li><span class="h6 mt-3">Mobile No.: Private</span></li>
-							<li><span class="h6 mt-3">Valid ID Proof: xyz@gmail.com</span></li>
+							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
+							<li><span class="h6 mt-3">Name of the firm: {{$request_data->firm}}</span></li>
+							<li><span class="h6 mt-3">Type of firm: {{$request_data->sector}}</span></li>
+							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
+							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
+							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
 						</ul>
 					</div>
 				</div>
@@ -47,7 +47,7 @@
 		</div>
 		<div class="col-lg-6 col-md-auto">
 			<div class="text-lg-right btn-list mt-4 mt-lg-0">
-				<a href="#" class="modal-effect btn btn-primary">Verify</a>
+				<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal">Verify</a>
 				<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
 			</div>
 			<div class="mt-5">
@@ -59,7 +59,7 @@
 						<div class="media-body">
 							<small class="text-muted">Date</small>
 							<div class="font-weight-normal1">
-								11/12/2022
+								{{date('d/m/Y',strtotime($request_data->created_at))}}
 							</div>
 						</div>
 					</div>
@@ -70,7 +70,7 @@
 						<div class="media-body">
 							<small class="text-muted">Requested Service</small>
 							<div class="font-weight-normal1">
-								Hydrographic Survey
+								{{$service}}
 							</div>
 						</div>
 					</div>
@@ -81,7 +81,7 @@
 						<div class="media-body">
 							<small class="text-muted">Status</small>
 							<div class="font-weight-normal1">
-								DH Verified Final Report
+								{{$survey_status}}
 							</div>
 						</div>
 					</div>
@@ -107,15 +107,14 @@
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-12 col-md-12">
-						<div style="float: right;"><a href="">View</a></div>
+						<div style="float: right;"><a href="{{url($final_report)}}" target="_blank">View</a></div>
 						<div class="form-group">
 							<div class="card border-0 p-0 shadow-none">
 								<div class="card-body pt-0 text-center">
 									<div class="file-manger-icon">
-										<img src="https://laravel.spruko.com/admitro/Vertical-IconSidedar-Light/assets/images/files/file.png" alt="img" class="br-7">
+										<a href="{{url($final_report)}}" target="_blank"><img src="{{url('admin/assets/images/file_image.png')}}" alt="img" class="br-7"></a>
 									</div>
-									<h6 class="mb-1 font-weight-semibold mt-4">document.pdf</h6>
-									<span class="text-muted">23kb</span>
+									<h6 class="mb-1 font-weight-semibold mt-4"><a href="{{url($final_report)}}" target="_blank">Final Report</a></h6>
 								</div>
 							</div>
 						</div>
@@ -146,26 +145,24 @@
 <div class="modal" id="modaldemo1">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Assign</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="form-label">Recipient <span class="text-red">*</span></label>
-						<select class="form-control custom-select select2">
-							<option value="0">--Select--</option>
-							<option value="1">Germany</option>
-							<option value="2">Canada</option>
-							<option value="3">Usa</option>
-							<option value="4">Aus</option>
-						</select>
+			<form action="{{url('/admin/verify_final_report')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$survey_id}}" name="id" id="id">
+				<div class="modal-header">
+					<h6 class="modal-title">Verify Final Report</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks</label>
+							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary" type="button">Assign</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-			</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Submit</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

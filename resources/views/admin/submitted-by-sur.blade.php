@@ -48,7 +48,7 @@
 		<div class="col-lg-6 col-md-auto">
 			<div class="text-lg-right btn-list mt-4 mt-lg-0">
 				@if(isset($status) && $status == 7)
-        			<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Add ETA</a>
+					<a href="{{URL('/admin/createETA')}}/{{$survey_id}}" class="btn btn-primary">Add ETA</a>
         			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
         		@endif
 			</div>

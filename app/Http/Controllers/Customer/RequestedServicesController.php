@@ -73,8 +73,9 @@ class RequestedServicesController extends Controller
 
         $data['survey_datas'] = DB::table('survey_request_logs')
                                 ->leftjoin('survey_status', 'survey_request_logs.survey_status', '=', 'survey_status.id')
+                                ->leftjoin('survey_requests', 'survey_request_logs.survey_request_id', '=', 'survey_requests.id')
                                 ->where('survey_request_logs.cust_id',$cust_id)->where('survey_request_logs.survey_request_id',$id)->where('survey_request_logs.is_active',1)->where('survey_request_logs.is_deleted',0)
-                                ->select('survey_request_logs.created_at AS log_date','survey_request_logs.*','survey_status.*')
+                                ->select('survey_request_logs.created_at AS log_date','survey_request_logs.*','survey_status.*','survey_requests.*')
                                 ->orderBy('survey_request_logs.id','DESC')
                                 ->get();
 

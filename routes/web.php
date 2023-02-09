@@ -194,6 +194,8 @@ Route::middleware('role:superadmin')->group(function () {
     Route::post('/superadmin/assign_survey_study', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_survey_study']);
     Route::post('/superadmin/assign_draftsman_final', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman_final']);
 
+    Route::post('/superadmin/verify_final_report', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'verify_final_report']);
+
     Route::get('/superadmin/logout', [App\Http\Controllers\Superadmin\AdminController::class, 'adminLogout']);
 });
 
@@ -239,6 +241,9 @@ Route::middleware('role:admin')->group(function () {
     Route::post('/admin/verify_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_invoice']);
     
     Route::post('/admin/verify_survey_study', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_survey_study']);
+
+    Route::post('/admin/verify_final_report', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_final_report']);
+    
 });
 
 //Draftsman

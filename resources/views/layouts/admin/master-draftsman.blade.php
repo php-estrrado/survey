@@ -19,7 +19,7 @@
 		<!-- Page -->
 		<div class="page">
 			<div class="page-main">
-				@include('layouts.admin.aside-menu-draftsman')
+				@include('layouts.admin.aside-menu')
 				<!-- App-Content -->			
 				<div class="app-content main-content">
 					<div class="side-app">

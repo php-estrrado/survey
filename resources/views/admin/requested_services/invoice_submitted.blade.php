@@ -81,7 +81,7 @@
 						<div class="media-body">
 							<small class="text-muted">Status</small>
 							<div class="font-weight-normal1">
-								Draftman Submitted Performa Invoice
+								{{$survey_status}}
 							</div>
 						</div>
 					</div>
