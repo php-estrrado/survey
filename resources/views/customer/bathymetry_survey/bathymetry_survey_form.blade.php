@@ -46,7 +46,7 @@
                                 <h4 class="text-center">Basic Details</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="fname">Name</label>
+                                    <label class="form-label-title mt-3" for="fname">Name <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ old('fname') }}">
                                     <div id="fname_error"></div>
                                     @error('fname')
@@ -54,7 +54,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="designation">Designation</label>
+                                    <label class="form-label-title mt-3" for="designation">Designation <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation" value="{{ old('designation') }}">
                                     <div id="designation_error"></div>
                                     @error('designation')
@@ -62,7 +62,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person</label>
+                                    <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12" name="sector" id="sector">
                                       <option value="government" {{ old('sector') == 'government' ? 'selected' : '' }}>Government</option>
                                       <option value="private" {{ old('sector') == 'private' ? 'selected' : '' }}>Private</option>
@@ -75,7 +75,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="department">Name of Department (for government departments)</label>
+                                    <label class="form-label-title mt-3" for="department">Name of Department (for government departments) <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department" value="{{ old('department') }}">
                                     <div id="department_error"></div>
                                     @error('department')
@@ -83,7 +83,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                      <label class="form-label-title mt-3" for="firm">Type of organization</label>
+                                      <label class="form-label-title mt-3" for="firm">Type of organization <span class="text-red">*</span></label>
                                       <!--<input class="form-control" type="text" placeholder="Type of organization" name="firm" id="firm" value="{{ old('firm') }}">-->
                                       {{ Form::select('firm', $org_types, null,['id'=>'firm','class'=>'form-control']); }}
                                       <div id="firm_error"></div>
@@ -100,7 +100,7 @@
                                       @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                      <label class="form-label-title mt-3" for="purpose">Purpose</label>
+                                      <label class="form-label-title mt-3" for="purpose">Purpose <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Name of project or specify the purpose" name="purpose" id="purpose" value="{{ old('purpose') }}">
                                       <div id="purpose_error"></div>
                                       @error('purpose')
@@ -109,7 +109,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
@@ -123,7 +123,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-12">
-                                    <label class="form-label-title mt-3" for="description">Brief description of type of work</label>
+                                    <label class="form-label-title mt-3" for="description">Brief description of type of work <span class="text-red">*</span></label>
                                     <textarea id="description" name="description" placeholder="Location, scale, format of result required" rows="4" style="width:100%;">{{ old('description') }}</textarea>
                                     <div id="description_error"></div>
                                     @error('description')
@@ -139,7 +139,7 @@
                                 <h4 class="text-center">Location</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="state">State</label>
+                                    <label class="form-label-title mt-3" for="state">State <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12" name="state" id="state" onchange="getCity()">
                                       <option value="">Select</option>
                                       @if($states && count($states)>0)
@@ -154,7 +154,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="district">District</label>
+                                    <label class="form-label-title mt-3" for="district">District <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12" name="district" id="district">
                                       <option value="ST">select</option>
                                     </select>
@@ -164,7 +164,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="place">Name of Place</label>
+                                    <label class="form-label-title mt-3" for="place">Name of Place <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" placeholder="Place" name="place" id="place" value="{{ old('place') }}">
                                     <div id="place_error"></div>
                                     @error('place')
@@ -173,7 +173,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location</label>
+                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ old('survey_area') }}">
                                     </div>
                                     <div id="survey_area_error"></div>
@@ -184,7 +184,7 @@
 
                                    <div class="col-sm-6">
                                    
-                                    <label class="form-label-title mt-3" for="service">Data Required</label>
+                                    <label class="form-label-title mt-3" for="service">Data Required <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="data_required[]" id="data_required" multiple="multiple" >
                                       
                                           <option value="sounding" {{ old('data_required') == 'sounding' ? 'selected' : '' }}>Sounding</option>
@@ -203,7 +203,7 @@
 
                                   <div class="col-sm-6">
                           
-                                    <label class="form-label-title mt-3" for="service">Method/Equipment for Data Collection </label>
+                                    <label class="form-label-title mt-3" for="service">Method/Equipment for Data Collection  <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="data_collection_equipments[]" id="data_collection_equipments" multiple="multiple" >
                                       @if($data_collection && count($data_collection)>0)
                                         @foreach($data_collection as $data_collections)
@@ -224,7 +224,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude">Lattitude</label>
+                                      <label class="form-label-title mt-3" for="lattitude">Lattitude <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -234,7 +234,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude">Longitude </label>
+                                      <label class="form-label-title mt-3" for="longitude">Longitude  <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -245,7 +245,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates </label>
+                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates  <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -256,7 +256,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates </label>
+                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates  <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -275,7 +275,7 @@
                                 <h4 class="text-center">Details</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="type_of_waterbody">Type of Waterbody</label>
+                                    <label class="form-label-title mt-3" for="type_of_waterbody">Type of Waterbody <span class="text-red">*</span></label>
                                     <select id="menu-type" class="js-example-basic-single col-sm-12" name="type_of_waterbody" id="type_of_waterbody">
                                       <option value="sea" {{ old('type_of_waterbody') == 'sea' ? 'selected' : '' }}>Sea</option>
                                       <option value="river" {{ old('type_of_waterbody') == 'river' ? 'selected' : '' }}>River</option>
@@ -292,7 +292,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="area_of_survey">Area Of Survey</label>
+                                      <label class="form-label-title mt-3" for="area_of_survey">Area Of Survey <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Area Of Survey" name="area_of_survey" id="area_of_survey" value="{{ old('area_of_survey') }}">
                                     </div>
                                     <div id="area_of_survey_error"></div>
@@ -301,7 +301,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="scale_of_survey">Scale of Survey</label>
+                                    <label class="form-label-title mt-3" for="scale_of_survey">Scale of Survey <span class="text-red">*</span></label>
                                     <input class="form-control" type="number" placeholder="Scale Of Survey (metres)" name="scale_of_survey" id="scale_of_survey" value="{{ old('scale_of_survey') }}">
                                     <div id="scale_of_survey_error"></div>
                                     @error('scale_of_survey')
@@ -310,7 +310,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="service_to_be_conducted">When Service to be conducted</label>
+                                      <label class="form-label-title mt-3" for="service_to_be_conducted">When Service to be conducted <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" name="service_to_be_conducted" id="service_to_be_conducted" placeholder="When Service to be conducted" value="{{ old('service_to_be_conducted') }}">
                                     </div>
                                     <div id="service_to_be_conducted_error"></div>
@@ -320,7 +320,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="interim_surveys_needed_infuture">Whether interim surveys are needed in future</label>
+                                      <label class="form-label-title mt-3" for="interim_surveys_needed_infuture">Whether interim surveys are needed in future <span class="text-red">*</span></label>
                                       <div>
                                         <div class="form-check form-check-inline">
                                           <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture1" value="yes" {{ old('interim_surveys_needed_infuture') == "yes" ? 'checked' : '' }}>
@@ -339,7 +339,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="benchmark_chart_datum">Whether Bench mark/Chart Datum available in the area</label>
+                                      <label class="form-label-title mt-3" for="benchmark_chart_datum">Whether Bench mark/Chart Datum available in the area <span class="text-red">*</span></label>
                                       <div>
                                         <div class="form-check form-check-inline">
                                           <input class="form-check-input" type="radio" name="benchmark_chart_datum" id="benchmark_chart_datum1" value="yes" {{ old('benchmark_chart_datum') == "yes" ? 'checked' : '' }}>
@@ -358,7 +358,7 @@
                                   </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location</label>
+                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location <span class="text-red">*</span></label>
                                       <div class="dropzone" id="singleFileUpload">
                                         <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
                                           <h6>Drop files here or click to upload.</h6>

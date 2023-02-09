@@ -23,7 +23,7 @@
                             <div class="row">
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="name">Name</label>
+                                    <label class="form-label-title mt-3" for="name">Name <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="name" placeholder="Name" value="{{ old('name') }}">
                                     <div id="name_error"></div>
                                     @error('name')
@@ -32,7 +32,7 @@
                                 </div>
                 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="firm">Name of Firm</label>
+                                    <label class="form-label-title mt-3" for="firm">Name of Firm <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="firm" placeholder="Name of Firm" value="{{ old('firm') }}">
                                     <div id="firm_error"></div>
                                     @error('firm')
@@ -41,7 +41,7 @@
                                 </div>
                 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="firm_type">Type of Firm</label>
+                                    <label class="form-label-title mt-3" for="firm_type">Type of Firm <span class="text-red">*</span></label>
                                     <select id="menu-type" class="js-example-basic-single col-sm-12" name="firm_type">
                                         <option value="">Select</option>
                                         <option value="1" {{ old('firm_type') == 1 ? 'selected' : '' }}>Government</option>
@@ -59,7 +59,7 @@
                                 </div>
                 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="email">Email ID</label>
+                                    <label class="form-label-title mt-3" for="email">Email ID <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="email" placeholder="Email ID" value="{{ old('email') }}">
                                     <div id="email_error"></div>
                                     @error('email')
@@ -68,7 +68,7 @@
                                 </div>
                 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="mobile">Mobile Number</label>
+                                    <label class="form-label-title mt-3" for="mobile">Mobile Number <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="mobile" placeholder="Mobile Number" value="{{ old('mobile') }}">
                                     <div id="mobile_error"></div>
                                     @error('mobile')
@@ -78,7 +78,7 @@
                                 </div>
                 
                                 <!-- <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="otp">OTP</label>
+                                    <label class="form-label-title mt-3" for="otp">OTP <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="otp" placeholder="OTP" value="{{ old('otp') }}">
                                     <div id="otp_error"></div>
                                     @error('otp')
@@ -88,7 +88,7 @@
                                 </div> -->
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="valid_id">Valid ID Proof Number (Aadhaar, Voter ID, License)</label>
+                                    <label class="form-label-title mt-3" for="valid_id">Valid ID Proof Number (Aadhaar, Voter ID, License) <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="valid_id" placeholder="Valid Proof" value="{{ old('valid_id') }}">
                                     <div id="valid_id_error"></div>
                                     @error('valid_id')
@@ -97,7 +97,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="id_file_front">Upload ID Proof Front</label>
+                                    <label class="form-label-title mt-3" for="id_file_front">Upload ID Proof Front <span class="text-red">*</span></label>
                                     <input class="form-control" type="file" name="id_file_front" id="id_file_front" placeholder="Choose Valid ID">
                                     <div id="id_file_front_error"></div>
                                     @error('id_file_front')
@@ -106,7 +106,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="id_file_back">Upload ID Proof Back</label>
+                                    <label class="form-label-title mt-3" for="id_file_back">Upload ID Proof Back <span class="text-red">*</span></label>
                                     <input class="form-control" type="file" name="id_file_back" id="id_file_back" placeholder="Choose Valid ID">
                                     <div id="id_file_back_error"></div>
                                     @error('id_file_back')
@@ -118,7 +118,7 @@
                             <div class="row">
                 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="password">Password</label>
+                                    <label class="form-label-title mt-3" for="password">Password <span class="text-red">*</span></label>
                                     <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}">
                                     <div id="password_error"></div>
                                     @error('password')
@@ -127,7 +127,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="password_confirmation">Confirm Password</label>
+                                    <label class="form-label-title mt-3" for="password_confirmation">Confirm Password <span class="text-red">*</span></label>
                                     <input class="form-control" type="password" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}">
                                     <div id="password_confirmation_error"></div>
                                     @error('password_confirmation')

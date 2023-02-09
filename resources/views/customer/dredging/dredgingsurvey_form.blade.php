@@ -45,7 +45,7 @@
                                 <h4 class="text-center">Basic Details</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="fname">Name</label>
+                                    <label class="form-label-title mt-3" for="fname">Name <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ old('fname') }}">
                                     <div id="fname_error"></div>
                                     @error('fname')
@@ -53,7 +53,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="designation">Designation</label>
+                                    <label class="form-label-title mt-3" for="designation">Designation <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation" value="{{ old('fname') }}">
                                     <div id="designation_error"></div>
                                     @error('designation')
@@ -61,7 +61,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person</label>
+                                    <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12" name="sector" id="sector">
                                       <option value="government" {{ old('sector') == 'government' ? 'selected' : '' }}>Government</option>
                                       <option value="private" {{ old('sector') == 'private' ? 'selected' : '' }}>Private</option>
@@ -74,7 +74,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="department">Name of Department (for government departments)</label>
+                                    <label class="form-label-title mt-3" for="department">Name of Department (for government departments) <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department" value="{{ old('fname') }}">
                                     <div id="department_error"></div>
                                     @error('department')
@@ -82,7 +82,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                      <label class="form-label-title mt-3" for="firm">Type of organization</label>
+                                      <label class="form-label-title mt-3" for="firm">Type of organization <span class="text-red">*</span></label>
                                       <!--<input class="form-control" type="text" placeholder="Type of organization" name="firm" id="firm" value="{{ old('fname') }}">-->
                                       {{ Form::select('firm', $org_types, null,['id'=>'firm','class'=>'form-control']); }}
                                       <div id="firm_error"></div>
@@ -99,7 +99,7 @@
                                       @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                      <label class="form-label-title mt-3" for="purpose">Purpose</label>
+                                      <label class="form-label-title mt-3" for="purpose">Purpose <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Name of project or specify the purpose" name="purpose" id="purpose" value="{{ old('fname') }}">
                                       <div id="purpose_error"></div>
                                       @error('purpose')
@@ -108,7 +108,7 @@
                                   </div>
                                    <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
@@ -122,7 +122,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-12">
-                                    <label class="form-label-title mt-3" for="description">Brief description of type of work</label>
+                                    <label class="form-label-title mt-3" for="description">Brief description of type of work <span class="text-red">*</span></label>
                                     <textarea id="description" name="description" placeholder="Location, scale, format of result required" rows="4" style="width:100%;"></textarea>
                                     <div id="description_error"></div>
                                     @error('description')
@@ -138,7 +138,7 @@
                                 <h4 class="text-center">Location</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="state">State</label>
+                                    <label class="form-label-title mt-3" for="state">State <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12" name="state" id="state" onchange="getCity()">
                                       <option value="">Select</option>
                                       @if($states && count($states)>0)
@@ -153,7 +153,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="district">District</label>
+                                    <label class="form-label-title mt-3" for="district">District <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12" name="district" id="district">
                                       <option value="ST">select</option>
                                     </select>
@@ -163,7 +163,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="place">Name of Place</label>
+                                    <label class="form-label-title mt-3" for="place">Name of Place <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" placeholder="Place" name="place" id="place" value="{{ old('fname') }}">
                                     <div id="place_error"></div>
                                     @error('place')
@@ -172,7 +172,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location</label>
+                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ old('fname') }}">
                                     </div>
                                     <div id="survey_area_error"></div>
@@ -187,7 +187,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude">Lattitude 1</label>
+                                      <label class="form-label-title mt-3" for="lattitude">Lattitude 1 <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -197,7 +197,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude">Longitude 1</label>
+                                      <label class="form-label-title mt-3" for="longitude">Longitude 1 <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -208,7 +208,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates 1</label>
+                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates 1 <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -219,7 +219,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates 1</label>
+                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates 1 <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -231,7 +231,7 @@
 
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude2">Lattitude 2</label>
+                                      <label class="form-label-title mt-3" for="lattitude2">Lattitude 2 <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude2" id="lattitude2" value="{{ old('lattitude2') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -241,7 +241,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude2">Longitude 2</label>
+                                      <label class="form-label-title mt-3" for="longitude2">Longitude 2 <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude2" id="longitude2" value="{{ old('longitude2') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -252,7 +252,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates2">X Coordinates 2</label>
+                                      <label class="form-label-title mt-3" for="x_coordinates2">X Coordinates 2 <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates2" id="x_coordinates2" value="{{ old('x_coordinates2') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -263,7 +263,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates2">Y Coordinates 2</label>
+                                      <label class="form-label-title mt-3" for="y_coordinates2">Y Coordinates 2 <span class="text-red">*</span></label>
                                       <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates2" id="y_coordinates2" value="{{ old('y_coordinates2') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -282,7 +282,7 @@
                                 <h4 class="text-center">Details</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="detailed_description_area">Detailed description of area (Type of waterbody)</label>
+                                    <label class="form-label-title mt-3" for="detailed_description_area">Detailed description of area (Type of waterbody) <span class="text-red">*</span></label>
                                    
                                       <input class="form-control" type="text" placeholder="Detailed description of area" name="detailed_description_area" id="detailed_description_area" value="{{ old('detailed_description_area') }}">
                                     <div id="detailed_description_area_error"></div>
@@ -291,7 +291,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="no_of_surveys">Number of Surveys needed</label>
+                                    <label class="form-label-title mt-3" for="no_of_surveys">Number of Surveys needed <span class="text-red">*</span></label>
                                     <input class="form-control" type="number" placeholder="Number of Surveys needed" min="0" max="5" name="no_of_surveys" id="no_of_surveys">
                                     <div id="no_of_surveys_error"></div>
                                     @error('no_of_surveys')
@@ -301,7 +301,7 @@
                                   
                                   <div class="col-sm-6">
                         
-                                    <label class="form-label-title mt-3" for="dredging_survey_method">Whether pre/post dredging survey required or both</label>
+                                    <label class="form-label-title mt-3" for="dredging_survey_method">Whether pre/post dredging survey required or both <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="dredging_survey_method[]" id="dredging_survey_method" multiple="multiple" >
                                       
                                           <option value="pre" {{ old('dredging_survey_method') == "pre" ? 'selected' : '' }}>Pre</option>
@@ -317,7 +317,7 @@
 
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="interim_surveys_needed_infuture">Whether interim surveys are needed in future</label>
+                                      <label class="form-label-title mt-3" for="interim_surveys_needed_infuture">Whether interim surveys are needed in future <span class="text-red">*</span></label>
                                       <div>
                                         <div class="form-check form-check-inline">
                                           <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture1" value="yes" {{ old('interim_surveys_needed_infuture') == "yes" ? 'checked' : '' }}>
@@ -336,7 +336,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="dredging_quantity_calculation">Whether dredging quantity calculation required</label>
+                                      <label class="form-label-title mt-3" for="dredging_quantity_calculation">Whether dredging quantity calculation required <span class="text-red">*</span></label>
                                       <div>
                                         <div class="form-check form-check-inline">
                                           <input class="form-check-input" type="radio" name="dredging_quantity_calculation" id="dredging_quantity_calculation1" value="yes" {{ old('dredging_quantity_calculation') == "yes" ? 'checked' : '' }}>
@@ -355,7 +355,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="method_volume_calculation">Method to be adopted for volume calculation</label>
+                                      <label class="form-label-title mt-3" for="method_volume_calculation">Method to be adopted for volume calculation <span class="text-red">*</span></label>
                                       <div>
                                         <div class="form-check form-check-inline">
                                           <input class="form-check-input" type="radio" name="method_volume_calculation" id="method_volume_calculation1" value="manual" {{ old('method_volume_calculation') == "manual" ? 'checked' : '' }}>
@@ -373,7 +373,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="length">Length for Survey Calculation</label>
+                                    <label class="form-label-title mt-3" for="length">Length for Survey Calculation <span class="text-red">*</span></label>
                                     <input class="form-control" type="number" placeholder="Length for Survey Calculation (metres)" name="length" id="length">
                                     <div id="length_error"></div>
                                     @error('length')
@@ -381,7 +381,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="width">Width for Survey Calculation</label>
+                                    <label class="form-label-title mt-3" for="width">Width for Survey Calculation <span class="text-red">*</span></label>
                                     <input class="form-control" type="number" placeholder="Width for Survey Calculation (metres)" name="width" id="width" value="{{ old('fname') }}">
                                     <div id="width_error"></div>
                                     @error('width')
@@ -389,7 +389,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="depth">Depth for Survey Calculation</label>
+                                    <label class="form-label-title mt-3" for="depth">Depth for Survey Calculation <span class="text-red">*</span></label>
                                     <input class="form-control" type="number" placeholder="Depth for Survey Calculation (metres)" name="depth" id="depth" value="{{ old('fname') }}">
                                     <div id="depth_error"></div>
                                     @error('depth')
@@ -397,7 +397,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="level_upto">Level upto which dredged (in meter)</label>
+                                    <label class="form-label-title mt-3" for="level_upto">Level upto which dredged (in meter) <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" placeholder="Level upto which dredged (in meter)" name="level_upto" id="level_upto" value="{{ old('fname') }}">
                                     <div id="level_upto_error"></div>
                                     @error('level_upto')

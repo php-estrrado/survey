@@ -4,7 +4,9 @@
     width: calc(200px + (120 - 94) * ((100vw - 320px) / (1920 - 320)))
 }
 /* -----------------form---------------------- */
-
+.text-red {
+  color: #dc0441 !important;
+}
 /*----------step-wizard------------*/
 .d-flex {
     display: flex;
