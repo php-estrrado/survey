@@ -348,7 +348,7 @@
                      <div class="col-xxl-4 col-md-4">
                             <div class="card card-blog">
                                 <div class="card-image">
-                                    <a href="#"> <img class="img" src="{{URL::asset('public/admin/assets/images/00.jpg')}}"> </a>
+                                    <a href="#"> <img class="img" src="{{URL::asset('public/admin/assets/images/11.jpg')}}"> </a>
                                     <div class="ripple-cont"></div>
                                 </div>
                                 <div class="table">
