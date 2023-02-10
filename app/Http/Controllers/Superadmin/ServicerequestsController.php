@@ -204,7 +204,7 @@ class ServicerequestsController extends Controller
             $title      = 'New Field Study Request';
             $desc       = 'New Field Study Request. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
-            $reflink    = 'surveyor';
+            $reflink    = 'field_study_request';
             $notify     = 'surveyor';
             $notify_from_role_id = 1;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
@@ -583,7 +583,7 @@ class ServicerequestsController extends Controller
             $title      = 'New Survey Study Request';
             $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
-            $reflink    = 'surveyor';
+            $reflink    = 'survey_study_request';
             $notify     = 'surveyor';
             $notify_from_role_id = 1;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);

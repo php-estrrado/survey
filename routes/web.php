@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showAdminLoginForm']);
-Route::get('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showAdminLoginForm']);
+Route::get('/login', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showAdminLoginForm'])->name('login');
 
 Route::get('/customer', [App\Http\Controllers\Customer\Auth\LoginController::class, 'showAdminLoginForm']);
 
