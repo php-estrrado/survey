@@ -34,7 +34,7 @@
                                 <div class="description-section tab-section">
                                     <center>
                                         <div class="detail-img">
-                                        <img src="{{URL('public/admin/assets/images/00.jpg')}}"
+                                        <img src="{{URL('public/admin/assets/images/11.jpg')}}"
                                             class="img-fluid blur-up lazyload" alt="">
                                     </div>
                                     </center>
