@@ -122,7 +122,7 @@
 												Date And Time Of Inspection
 											</div>
 										</div>
-										<label class="form-label">{{date('d/m/Y H:i:s',strtotime($field_study->datetime_inspection))}}</label>
+										<label class="form-label">{{date('d/m/Y H:i:s',strtotime($survey_study->datetime_inspection))}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -132,7 +132,7 @@
 												Name Of Department / Firm With Which Reconnaissance Survey Is Conducted
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->survey_department_name}}</label>
+										<label class="form-label">{{$survey_study->survey_department_name}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -142,7 +142,7 @@
 												From Hydrographic Survey Wing
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->from_hsw}}</label>
+										<label class="form-label">{{$survey_study->from_hsw}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -152,7 +152,7 @@
 												Name Of Officers Participating In Field Inspection
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->officer_participating_field_inspection}}</label>
+										<label class="form-label">{{$survey_study->officer_participating_field_inspection}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -162,7 +162,7 @@
 												Location
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->location}}</label>
+										<label class="form-label">{{$survey_study->location}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -172,7 +172,7 @@
 												Type Of Water Body
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->type_of_waterbody}}</label>
+										<label class="form-label">{{$survey_study->type_of_waterbody}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -182,7 +182,7 @@
 												Limit Of Survey Area
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->limit_of_survey_area}}</label>
+										<label class="form-label">{{$survey_study->limit_of_survey_area}}</label>
 									</div>
 								</div>
 							</div>
@@ -195,7 +195,7 @@
                                                 Whether Topographic survey required
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->whether_topographic_survey_required}}</label>
+										<label class="form-label">{{$survey_study->whether_topographic_survey_required}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -205,7 +205,7 @@
                                                 Method to be adopted for Topographic survey
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->methods_to_be_adopted_for_topographic_survey}}</label>
+										<label class="form-label">{{$survey_study->methods_to_be_adopted_for_topographic_survey}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -215,7 +215,7 @@
                                                 Instruments to be used for Topographic survey
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->instruments_to_be_used_for_topographic_survey}}</label>
+										<label class="form-label">{{$survey_study->instruments_to_be_used_for_topographic_survey}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -225,7 +225,7 @@
                                                 Availability of previous shoreline data
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->availability_of_previous_shoreline_data}}</label>
+										<label class="form-label">{{$survey_study->availability_of_previous_shoreline_data}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -235,7 +235,7 @@
                                                 Accessibility of shoreline
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->availability_of_shoreline}}</label>
+										<label class="form-label">{{$survey_study->availability_of_shoreline}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -245,7 +245,7 @@
                                                 Nature of shore
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->nature_of_shore}}</label>
+										<label class="form-label">{{$survey_study->nature_of_shore}}</label>
 									</div>
 								</div>
                                 <div class="col-sm-6 col-md-6">
@@ -255,7 +255,7 @@
                                                 Bathymetric Area
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->bathymetric_area}}</label>
+										<label class="form-label">{{$survey_study->bathymetric_area}}</label>
 									</div>
 								</div>
                                 <div class="col-sm-6 col-md-6">
@@ -265,7 +265,7 @@
                                                 Scale of Survey planned
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->scale_of_survey_planned}}</label>
+										<label class="form-label">{{$survey_study->scale_of_survey_planned}}</label>
 									</div>
 								</div>
                                 <div class="col-sm-6 col-md-6">
@@ -275,7 +275,7 @@
                                                 Method adopted for bathymetric survey
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->method_adopted_for_bathymetric_survey}}</label>
+										<label class="form-label">{{$survey_study->method_adopted_for_bathymetric_survey}}</label>
 									</div>
 								</div>
                                 <div class="col-sm-6 col-md-6">
@@ -285,7 +285,7 @@
                                                 Is manual Survey require
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->is_manual_survey_required}}</label>
+										<label class="form-label">{{$survey_study->is_manual_survey_required}}</label>
 									</div>
 								</div>
 							</div>
@@ -298,7 +298,7 @@
                                                 Type of Survey vessel that can be used for bathymetric survey
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->type_of_survey_vessel_used_for_bathymetric_survey}}</label>
+										<label class="form-label">{{$survey_study->type_of_survey_vessel_used_for_bathymetric_survey}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -308,7 +308,7 @@
                                                 Estimated period of survey work in days
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->estimated_period_of_survey_days}}</label>
+										<label class="form-label">{{$survey_study->estimated_period_of_survey_days}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -318,7 +318,7 @@
                                                 Instruments to be used for bathymetric survey
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->instruments_to_be_used_for_bathymetric_survey}}</label>
+										<label class="form-label">{{$survey_study->instruments_to_be_used_for_bathymetric_survey}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -328,7 +328,7 @@
                                                 Availability of previous shoreline data
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->availability_of_previous_shoreline_data}}</label>
+										<label class="form-label">{{$survey_study->availability_of_previous_shoreline_data}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -338,7 +338,7 @@
                                                 Accessibility of shoreline
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->availability_of_shoreline}}</label>
+										<label class="form-label">{{$survey_study->availability_of_shoreline}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -348,7 +348,7 @@
                                                 Nearest available Benchmark detai
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->nearest_available_benchmark_detail}}</label>
+										<label class="form-label">{{$survey_study->nearest_available_benchmark_detail}}</label>
 									</div>
 								</div>
                                 <div class="col-sm-6 col-md-6">
@@ -358,7 +358,7 @@
                                                 is Local Benchmark needs to be established
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->is_local_benchmark_needs_to_be_established}}</label>
+										<label class="form-label">{{$survey_study->is_local_benchmark_needs_to_be_established}}</label>
 									</div>
 								</div>
                                 <div class="col-sm-6 col-md-6">
@@ -368,7 +368,7 @@
                                                 Detailed report of the officer
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->detailed_report_of_the_officer}}</label>
+										<label class="form-label">{{$survey_study->detailed_report_of_the_officer}}</label>
 									</div>
 								</div>
                                 <div class="col-sm-6 col-md-6">
@@ -378,7 +378,7 @@
                                                 Remarks
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->remarks}}</label>
+										<label class="form-label">{{$survey_study->remarks}}</label>
 									</div>
 								</div>
                                 <div class="col-sm-6 col-md-6">
@@ -388,7 +388,7 @@
                                                 Presence and nature of obstructions in the survey area
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->presence_and_nature_of_obstructions_in_survey}}</label>
+										<label class="form-label">{{$survey_study->presence_and_nature_of_obstructions_in_survey}}</label>
 									</div>
 								</div>
 							</div>
@@ -965,7 +965,7 @@
 		<div class="modal-content modal-content-demo">
 			<form action="{{url('/superadmin/assign_draftsman_final')}}" method="post">
 				@csrf
-				<input type="hidden" value="{{$field_study->survey_request_id}}" name="id" id="id">
+				<input type="hidden" value="{{$survey_study->survey_request_id}}" name="id" id="id">
 				<div class="modal-header">
 					<h6 class="modal-title">Assign</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 				</div>

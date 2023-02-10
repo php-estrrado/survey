@@ -932,6 +932,10 @@
 								@endif
 							</select>
 						</div>
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks</label>
+							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">

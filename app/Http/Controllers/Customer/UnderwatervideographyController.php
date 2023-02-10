@@ -74,7 +74,6 @@ $data['org_types']    = OrganisationType::selectOption();
             'department' => ['required'],
             'firm' => ['required'],
             'purpose' => ['required'],
-            'service' => ['required'],
             'description' => ['required'],
             'state' => ['required'],
             'district' => ['required'],

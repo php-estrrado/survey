@@ -108,7 +108,7 @@
                                   </div>
                                    <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
@@ -188,7 +188,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude">Lattitude <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="lattitude">Lattitude</label>
                                       <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -198,7 +198,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude">Longitude  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="longitude">Longitude</label>
                                       <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -209,7 +209,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates</label>
                                       <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -220,7 +220,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates</label>
                                       <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -240,14 +240,14 @@
                                 <div class="row">
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="period_of_observation"><b>Period of observation</b> <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="period_of_observation"><b>Period of observation</b></label>
                                    
                                     </div>
                                    
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="start_date">Start Date <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="start_date">Start Date</label>
                                       <input class="form-control" type="date" placeholder="Period of observation" name="start_date" id="start_date" value="{{ old('start_date') }}">
                                     </div>
                                     <div id="start_date_error"></div>
@@ -257,7 +257,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="end_date">End Date <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="end_date">End Date</label>
                                       <input class="form-control" type="date" placeholder="Period of observation" name="end_date" id="end_date" value="{{ old('end_date') }}">
                                     </div>
                                     <div id="end_date_error"></div>
@@ -268,7 +268,7 @@
 
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="duration">Duration (Years) <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="duration">Duration (Years)</label>
                                       <input class="form-control" type="text" placeholder="Duration (Years)" name="duration" id="duration" value="{{ old('duration') }}">
                                     </div>
                                     <div id="duration_error"></div>
@@ -278,7 +278,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="duration_weeks">Duration (Weeks) <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="duration_weeks">Duration (Weeks)</label>
                                       <input class="form-control" type="text" placeholder="Duration (Weeks)" name="duration_weeks" id="duration_weeks" value="{{ old('duration_weeks') }}">
                                     </div>
                                     <div id="duration_weeks_error"></div>
@@ -288,7 +288,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="duration_days">Duration (Days) <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="duration_days">Duration (Days)</label>
                                       <input class="form-control" type="text" placeholder="Duration (Days)" name="duration_days" id="duration_days" value="{{ old('duration_days') }}">
                                     </div>
                                     <div id="duration_days_error"></div>
@@ -298,7 +298,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="duration_hours">Duration (Hours) <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="duration_hours">Duration (Hours)</label>
                                       <input class="form-control" type="text" placeholder="Duration (Hours)" name="duration_hours" id="duration_hours" value="{{ old('duration_hours') }}">
                                     </div>
                                     <div id="duration_hours_error"></div>
@@ -329,7 +329,7 @@
 
                                   <div class="col-md-6 description_of_benchmark_class">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="description_of_benchmark">Description of Benchmark <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="description_of_benchmark">Description of Benchmark</label>
                                       <textarea class="form-control" type="text" placeholder="Description of Benchmark" name="description_of_benchmark" id="description_of_benchmark" value="{{ old('description_of_benchmark') }}"></textarea>
                                     </div>
                                     <div id="description_of_benchmark_error"></div>
@@ -339,7 +339,7 @@
                                   </div>
                                   
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="method_of_observation">Method of observation <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="method_of_observation">Method of observation</label>
                                     <select class="js-example-basic-single col-sm-12" name="method_of_observation" id="method_of_observation">
                                       <option value="manual">Manual</option>
                                       <option value="automatic">Automatic</option>
@@ -353,7 +353,7 @@
 
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location</label>
                                       <div class="dropzone" id="singleFileUpload">
                                         <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
                                           <h6>Drop files here or click to upload.</h6>

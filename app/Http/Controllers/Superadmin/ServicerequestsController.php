@@ -609,7 +609,7 @@ class ServicerequestsController extends Controller
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Draftsman for Invoice Preparation is Not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Surveyor for Survey Study is Not Successfull !','type'=>'danger']);
             }
 
             return redirect('/superadmin/requested_services');

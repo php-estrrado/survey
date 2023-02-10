@@ -108,7 +108,7 @@
                                   </div>
                                    <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
@@ -187,7 +187,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude">Lattitude 1 <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="lattitude">Lattitude 1</label>
                                       <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -197,7 +197,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude">Longitude 1 <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="longitude">Longitude 1</label>
                                       <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -208,7 +208,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates 1 <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates 1</label>
                                       <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -219,7 +219,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates 1 <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates 1</label>
                                       <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -231,7 +231,7 @@
 
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude2">Lattitude 2 <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="lattitude2">Lattitude 2</label>
                                       <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude2" id="lattitude2" value="{{ old('lattitude2') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -241,7 +241,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude2">Longitude 2 <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="longitude2">Longitude 2</label>
                                       <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude2" id="longitude2" value="{{ old('longitude2') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -252,7 +252,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates2">X Coordinates 2 <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="x_coordinates2">X Coordinates 2</label>
                                       <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates2" id="x_coordinates2" value="{{ old('x_coordinates2') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -263,7 +263,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates2">Y Coordinates 2 <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="y_coordinates2">Y Coordinates 2</label>
                                       <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates2" id="y_coordinates2" value="{{ old('y_coordinates2') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -291,7 +291,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="no_of_surveys">Number of Surveys needed <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="no_of_surveys">Number of Surveys needed</label>
                                     <input class="form-control" type="number" placeholder="Number of Surveys needed" min="0" max="5" name="no_of_surveys" id="no_of_surveys">
                                     <div id="no_of_surveys_error"></div>
                                     @error('no_of_surveys')
@@ -382,7 +382,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="width">Width for Survey Calculation <span class="text-red">*</span></label>
-                                    <input class="form-control" type="number" placeholder="Width for Survey Calculation (metres)" name="width" id="width" value="{{ old('fname') }}">
+                                    <input class="form-control" type="number" placeholder="Width for Survey Calculation (metres)" name="width" id="width" value="{{ old('width') }}">
                                     <div id="width_error"></div>
                                     @error('width')
                                       <p style="color: red">{{ $message }}</p>
@@ -390,15 +390,15 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="depth">Depth for Survey Calculation <span class="text-red">*</span></label>
-                                    <input class="form-control" type="number" placeholder="Depth for Survey Calculation (metres)" name="depth" id="depth" value="{{ old('fname') }}">
+                                    <input class="form-control" type="number" placeholder="Depth for Survey Calculation (metres)" name="depth" id="depth" value="{{ old('depth') }}">
                                     <div id="depth_error"></div>
                                     @error('depth')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="level_upto">Level upto which dredged (in meter) <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" placeholder="Level upto which dredged (in meter)" name="level_upto" id="level_upto" value="{{ old('fname') }}">
+                                    <label class="form-label-title mt-3" for="level_upto">Level upto which dredged (in meter)</label>
+                                    <input class="form-control" type="text" placeholder="Level upto which dredged (in meter)" name="level_upto" id="level_upto" value="{{ old('level_upto') }}">
                                     <div id="level_upto_error"></div>
                                     @error('level_upto')
                                       <p style="color: red">{{ $message }}</p>

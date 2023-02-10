@@ -108,7 +108,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
@@ -183,7 +183,7 @@
 
                                   <div class="col-sm-6">
                           
-                                    <label class="form-label-title mt-3" for="service">Method/Equipment for Data Collection  <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="service">Method/Equipment for Data Collection</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="data_collection_equipments[]" id="data_collection_equipments" multiple="multiple" >
                                       @if($data_collection && count($data_collection)>0)
                                         @foreach($data_collection as $data_collections)
@@ -204,7 +204,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude">Lattitude <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="lattitude">Lattitude</label>
                                       <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -214,7 +214,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude">Longitude  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="longitude">Longitude</label>
                                       <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -225,7 +225,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates</label>
                                       <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -236,7 +236,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates</label>
                                       <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -338,7 +338,7 @@
                                   </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location </label>
                                       <div class="dropzone" id="singleFileUpload">
                                         <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
                                           <h6>Drop files here or click to upload.</h6>

@@ -24,6 +24,7 @@ use App\Models\UserRole;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Models\Field_study_report;
+use App\Models\Survey_study_report;
 use App\Models\Fieldstudy_eta;
 use App\Models\Survey_invoice;
 use App\Models\Survey_performa_invoice;
@@ -672,11 +673,11 @@ class ServicerequestsController extends Controller
         {
             $data['final_report'] = Survey_requests::where('id',$id)->first()->final_report;
 
-            return view('superadmin.requested_services.dh_final_report',$data);
+            return view('admin.requested_services.draftsman_submitted_final_report',$data);
         }
         elseif($status == 19)
         {
-            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['survey_study'] = Survey_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
 
             return view('admin.survey_study_report',$data);

@@ -74,7 +74,6 @@ class SubbottomprofillingController extends Controller
             'department' => ['required'],
             'firm' => ['required'],
             'purpose' => ['required'],
-            'service' => ['required'],
             'description' => ['required'],
             'state' => ['required'],
             'district' => ['required'],

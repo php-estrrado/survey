@@ -108,7 +108,7 @@
                                   </div>
                                    <div class="col-sm-6">
                                     <input type="hidden" name="service_id" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
@@ -183,12 +183,12 @@
                                   
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for=""><b>Location of sampling</b> <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for=""><b>Location of sampling</b></label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude">Lattitude <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="lattitude">Lattitude</label>
                                       <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -198,7 +198,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude">Longitude  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="longitude">Longitude</label>
                                       <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -209,7 +209,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates</label>
                                       <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -220,7 +220,7 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates</label>
                                       <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
@@ -261,7 +261,7 @@
 
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="interval_bottom_sample">Interval (in kms)  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="interval_bottom_sample">Interval (in kms)</label>
                                       <input class="form-control" type="text" placeholder="Interval (in kms)" name="interval_bottom_sample" id="interval_bottom_sample" value="{{ old('interval_bottom_sample') }}">
                                     </div>
                                     <div id="interval_bottom_sample_error"></div>
@@ -271,7 +271,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="quantity_bottom_sample">Quantity (kg)  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="quantity_bottom_sample">Quantity (kg)</label>
                                       <select class="js-example-basic-single col-sm-12" name="quantity_bottom_sample" id="quantity_bottom_sample">
                                       <option value="0.4">0.4</option>
                                       <option value="0.5">0.5</option>
@@ -289,7 +289,7 @@
 
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="method_of_sampling">Method of sampling  <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="method_of_sampling">Method of sampling</label>
                                       <select class="js-example-basic-single col-sm-12" name="method_of_sampling" id="method_of_sampling">
                                       <option value="bucket">Bucket</option>
                                       <option value="boring">Boring</option>
@@ -305,7 +305,7 @@
 
                                   <div class="col-md-6 ">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="description_of_requirement">Description of Requirement <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="description_of_requirement">Description of Requirement</label>
                                       <textarea class="form-control" type="text" placeholder="Description of Requirement" name="description_of_requirement" id="description_of_requirement" value="{{ old('description_of_requirement') }}"></textarea>
                                     </div>
                                     <div id="description_of_requirement_error"></div>
@@ -316,7 +316,7 @@
 
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">File upload (jpg, pdf) <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="drawing_maps">File upload (jpg, pdf)</label>
                                       <input type="file" class="dropify" data-height="180" name="file_upload" id="file_upload" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' />
                                     </div>
                                   </div>

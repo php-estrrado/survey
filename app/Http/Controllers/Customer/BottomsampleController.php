@@ -74,7 +74,6 @@ class BottomsampleController extends Controller
             'department' => ['required'],
             'firm' => ['required'],
             'purpose' => ['required'],
-            'service_id' => ['required'],
             'description' => ['required'],
             'state' => ['required'],
             'district' => ['required'],
