@@ -115,7 +115,14 @@
 						<div class="card-body">
                             <div class="card-title font-weight-bold">Remarks:</div>
                             <div class="row">
-                                <div class="col-sm-12 col-md-12">{{$surveyor_remarks}}</div>
+								<div class="col-sm-6 col-md-6">
+									<div><strong>Remarks :</strong></div>
+									<div><strong>{{$surveyor_remarks}}</strong></div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div><strong>Rescheduled Date :</strong></div>
+                                	<div><strong>{{date('d/m/Y',strtotime($survey_study_reschedule))}}</strong></div>
+								</div>
                             </div>
 						</div>
 					</div>
@@ -128,21 +135,8 @@
 								<div class="row">
 									<div class="col-sm-6 col-md-6">
 										<div class="form-group">
-											<label class="form-label" for="assign_surveyor">Assign Surveyor <span class="text-red">*</span></label>
-											<select class="form-control select2" name="assign_surveyor" id="assign_surveyor">
-												<option value="">Select</option>
-												@if($surveyors && count($surveyors)>0)
-													@foreach($surveyors as $surveyor)
-														<option value="{{$surveyor['id']}}">{{$surveyor['email']}}</option>
-													@endforeach
-												@endif
-											</select>
-										</div>
-									</div>
-									<div class="col-sm-6 col-md-6">
-										<div class="form-group">
 											<label class="form-label" for="survey_study">Date for Survey study <span class="text-red">*</span></label>
-											<input type="text" class="form-control" name="survey_study" id="survey_study" placeholder="dd-mm-yyyy">
+											<input type="text" class="form-control" name="survey_study" id="survey_study" placeholder="dd-mm-yyyy" value="{{date('d-m-Y',strtotime($survey_study_reschedule))}}">
 										</div>
 									</div>
 									<div class="col-sm-12 col-md-12">

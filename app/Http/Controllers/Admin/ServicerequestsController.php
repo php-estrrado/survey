@@ -30,6 +30,7 @@ use App\Models\Survey_invoice;
 use App\Models\Survey_performa_invoice;
 use App\Models\Survey_status;
 use App\Models\AdminNotification;
+use App\Models\UserNotification;
 
 use App\Rules\Name;
 use Validator;
@@ -237,7 +238,6 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'assign_surveyor'=>['required'],
             'field_study'=>['required'],
             'remarks'=>['nullable'],
         ]);
@@ -247,24 +247,11 @@ class ServicerequestsController extends Controller
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
 
             $assign_arr['request_status'] = 62;
-            $assign_arr['assigned_surveyor'] = $input['assign_surveyor'];
             $assign_arr['field_study'] = date('Y-m-d',strtotime($input['field_study']));
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_requests::where('id',$input['id'])->update($assign_arr);
-
-            $from       = auth()->user()->id; 
-            $utype      = 3;
-            $to         = $input['assign_surveyor']; 
-            $ntype      = 'field_study_assigned';
-            $title      = 'New Field Study Request';
-            $desc       = 'New Field Study Request. Request ID:HSW'.$input['id'];
-            $refId      = $input['id'];
-            $reflink    = 'field_study_request';
-            $notify     = 'surveyor';
-            $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             $survey_request_logs = [];
 
@@ -281,22 +268,22 @@ class ServicerequestsController extends Controller
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-            $admin_noti = [];
+            $usr_noti = [];
 
-            $admin_noti['notify_from'] = auth()->user()->id;
-            $admin_noti['notify_to'] = 6;
-            $admin_noti['role_id'] = 6;
-            $admin_noti['notify_from_role_id'] = 2;
-            $admin_noti['notify_type'] = 0;
-            $admin_noti['title'] = 'Field Study Rescheduled';
-            $admin_noti['ref_id'] = auth()->user()->id;
-            $admin_noti['ref_link'] = '#';
-            $admin_noti['viewed'] = 0;
-            $admin_noti['created_at'] = date('Y-m-d H:i:s');
-            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
-            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+            $usr_noti['notify_from'] = auth()->user()->id;
+            $usr_noti['notify_to'] = 6;
+            $usr_noti['role_id'] = 6;
+            $usr_noti['notify_from_role_id'] = 2;
+            $usr_noti['notify_type'] = 0;
+            $usr_noti['title'] = 'Field Study Rescheduled';
+            $usr_noti['ref_id'] = auth()->user()->id;
+            $usr_noti['ref_link'] = '#';
+            $usr_noti['viewed'] = 0;
+            $usr_noti['created_at'] = date('Y-m-d H:i:s');
+            $usr_noti['updated_at'] = date('Y-m-d H:i:s');
+            $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
 
-            AdminNotification::create($admin_noti);
+            UserNotification::create($usr_noti);
 
             if(isset($survey_request_log_id))
             {   
@@ -388,7 +375,6 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'assign_surveyor'=>['required'],
             'survey_study'=>['required'],
             'remarks' => ['nullable']
         ]);
@@ -398,24 +384,11 @@ class ServicerequestsController extends Controller
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
 
             $assign_arr['request_status'] = 65;
-            $assign_arr['assigned_surveyor_survey'] = $input['assign_surveyor'];
             $assign_arr['survey_study'] = date('Y-m-d',strtotime($input['survey_study']));
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_requests::where('id',$input['id'])->update($assign_arr);
-
-            $from       = auth()->user()->id; 
-            $utype      = 3;
-            $to         = $input['assign_surveyor']; 
-            $ntype      = 'survey_study_assigned';
-            $title      = 'New Survey Study Request';
-            $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
-            $refId      = $input['id'];
-            $reflink    = 'survey_study_request';
-            $notify     = 'surveyor';
-            $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             $survey_request_logs = [];
 
@@ -432,22 +405,22 @@ class ServicerequestsController extends Controller
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-            $admin_noti = [];
+            $usr_noti = [];
 
-            $admin_noti['notify_from'] = auth()->user()->id;
-            $admin_noti['notify_to'] = 6;
-            $admin_noti['role_id'] = 6;
-            $admin_noti['notify_from_role_id'] = 2;
-            $admin_noti['notify_type'] = 0;
-            $admin_noti['title'] = 'Survey Study Rescheduled';
-            $admin_noti['ref_id'] = auth()->user()->id;
-            $admin_noti['ref_link'] = '#';
-            $admin_noti['viewed'] = 0;
-            $admin_noti['created_at'] = date('Y-m-d H:i:s');
-            $admin_noti['updated_at'] = date('Y-m-d H:i:s');
-            $admin_noti['deleted_at'] = date('Y-m-d H:i:s');
+            $usr_noti['notify_from'] = auth()->user()->id;
+            $usr_noti['notify_to'] = 6;
+            $usr_noti['role_id'] = 6;
+            $usr_noti['notify_from_role_id'] = 2;
+            $usr_noti['notify_type'] = 0;
+            $usr_noti['title'] = 'Survey Study Rescheduled';
+            $usr_noti['ref_id'] = auth()->user()->id;
+            $usr_noti['ref_link'] = '#';
+            $usr_noti['viewed'] = 0;
+            $usr_noti['created_at'] = date('Y-m-d H:i:s');
+            $usr_noti['updated_at'] = date('Y-m-d H:i:s');
+            $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
 
-            AdminNotification::create($admin_noti);
+            UserNotification::create($usr_noti);
 
             if(isset($survey_request_log_id))
             {   
@@ -685,6 +658,7 @@ class ServicerequestsController extends Controller
         elseif($status == 64)
         {
             $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',64)->first()->remarks;
+            $data['survey_study_reschedule'] = Survey_requests::where('id',$id)->first()->survey_study_reschedule;
 
             return view('admin.requested_services.surveryor_rescheduled_surveystudy',$data);
         }
@@ -723,7 +697,8 @@ class ServicerequestsController extends Controller
         elseif($status == 61)
         {
             $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',61)->first()->remarks;
-
+            $data['field_study_reschedule'] = Survey_requests::where('id',$id)->first()->field_study_reschedule;
+            // dd($data);
             return view('admin.requested_services.surveryor_rescheduled_fieldstudy',$data);
         }
         elseif($status == 45)
