@@ -360,6 +360,7 @@ class Homepage extends Controller
             $req_logs['survey_request_id'] = $request_id;
             $req_logs['cust_id'] = $assignment_requests->cust_id;
             $req_logs['survey_status'] =$request_status;
+            $req_logs['remarks'] =$remarks;
             $req_logs['is_active'] = 1;
             $req_logs['created_by'] = $user_id;
 
@@ -393,6 +394,7 @@ class Homepage extends Controller
             $req_logs['survey_request_id'] = $request_id;
             $req_logs['cust_id'] = $assignment_requests->cust_id;
             $req_logs['survey_status'] =$request_status;
+            $req_logs['remarks'] =$remarks;
             $req_logs['is_active'] = 1;
             $req_logs['created_by'] = $user_id;
 
@@ -437,6 +439,7 @@ class Homepage extends Controller
             $req_logs['survey_request_id'] = $request_id;
             $req_logs['cust_id'] = $assignment_requests->cust_id;
             $req_logs['survey_status'] =$request_status;
+            $req_logs['remarks'] =$remarks;
             $req_logs['is_active'] = 1;
             $req_logs['created_by'] = $user_id;
             
@@ -537,6 +540,117 @@ class Homepage extends Controller
         }
 
         return ['httpcode'=>200,'status'=>'success','page'=>'Home','message'=>'Success','data'=>['assignments_list'=>$assignments_list]];
+    }
+
+
+      public function reschedule_assignments(Request $request)
+    {  
+
+        $login=0;
+        $user_id=null;
+        $user = [];
+        
+        $validator=  Validator::make($request->all(),[
+            'device_id' => ['required'],
+            'type' => ['required', Rule::in(['survey', 'field_study','reassignment'])],
+            'access_token' => ['required'],
+            'date' => ['required'],
+            'remarks' => ['required'],
+            'request_id' => ['required'],
+            'os_type'=> ['required','string','min:3','max:3'],
+            'page_url'=>['required']
+        ]);
+        if ($validator->fails()) 
+            {    
+              return ['httpcode'=>400,'status'=>'error','message'=>'invalid','data'=>['errors'=>$validator->messages()]];
+            }
+            
+            
+        
+        if($request->post('access_token')){
+            if(!$user = validateToken($request->post('access_token'))){ return invalidToken(); }
+            $login=1;
+            $user_id = $user['user_id'];
+            
+        }
+        
+        $req_type = $request->type;
+        $request_id = $request->request_id;
+        $req_action = $request->action;
+        if($req_type =="survey")
+        {
+            $assignment_requests = Survey_requests::where('assigned_surveyor_survey',$user_id)->where("id",$request_id)->where('request_status',40)->first();
+        }else if($req_type =="reassignment")
+        {
+            $assignment_requests = Survey_requests::where('assigned_surveyor_survey',$user_id)->orWhere('assigned_surveyor',$user_id)->whereIn('request_status',[60,59])->where("id",$request_id)->first();
+        }else{
+            $assignment_requests = Survey_requests::where('assigned_surveyor',$user_id)->where("id",$request_id)->where('request_status',42)->first();  
+        }
+      
+
+  
+        if($assignment_requests)
+        {   
+            if($req_type =="survey")
+            {
+                 $request_status = 64;  $remarks = $request->remarks; $date = $request->date; 
+            Survey_requests::where("id",$request_id)->update(["survey_study_reschedule"=>$date,"request_status"=>$request_status,"remarks"=>$remarks]);
+            // $assignment_requests = Survey_requests::where('assigned_surveyor_survey',$user_id)->where("id",$request_id)->where('request_status',43)->first();
+            
+            $req_logs = [];
+            $req_logs['survey_request_id'] = $request_id;
+            $req_logs['cust_id'] = $assignment_requests->cust_id;
+            $req_logs['survey_status'] =$request_status;
+            $req_logs['remarks'] =$remarks;
+            $req_logs['is_active'] = 1;
+            $req_logs['created_by'] = $user_id;
+
+
+
+        
+            }else if($req_type =="reassignment")
+            {
+               
+        
+            }else{
+               $request_status = 61;  $remarks = $request->remarks;  $date = $request->date; 
+              Survey_requests::where("id",$request_id)->update(["field_study_reschedule"=>$date,"request_status"=>$request_status,"remarks"=>$remarks]);
+                
+                            $req_logs = [];
+            $req_logs['survey_request_id'] = $request_id;
+            $req_logs['cust_id'] = $assignment_requests->cust_id;
+            $req_logs['survey_status'] =$request_status;
+            $req_logs['remarks'] =$remarks;
+            $req_logs['is_active'] = 1;
+            $req_logs['created_by'] = $user_id;
+            
+            // if($req_action == "accept") {
+            //         $from       = $user_id; 
+            //         $utype      = 6;
+            //         $to         = $assignment_requests->cust_id; 
+            //         $ntype      = 'field_study_accepted';
+            //         $title      = 'Field Study Accepted';
+            //         $desc       = 'Field Study Request Accepted. Request ID: HSW'.$request_id;
+            //         $refId      = $request_id;
+            //         $reflink    = 'customer';
+            //         $notify     = 'customer';
+            //         $notify_from_role_id = 3;
+            //         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+            //     }
+            
+            }
+            Survey_request_logs::create($req_logs);
+
+                
+                
+            return ['httpcode'=>200,'status'=>'success','message'=>'Status Updated Successfully','data'=>['assignment_request'=>$assignment_requests]];
+
+        }else{
+
+           return ['httpcode'=>400,'status'=>'error','message'=>'Invalid Request Status or Request Not Found']; 
+        }
+
+        
     }
 
    
