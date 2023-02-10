@@ -36,6 +36,8 @@ Route::put('/surveyor/survey-study-report', [App\Http\Controllers\Api\Surveyor\S
 Route::get('/surveyor/bathymetric-survey-instruments', [App\Http\Controllers\Api\Surveyor\GeneralController::class, 'get_bathymeteric_ins']);
 Route::get('/surveyor/waterbody-types', [App\Http\Controllers\Api\Surveyor\GeneralController::class, 'get_waterbody']);
 
+Route::post('/surveyor/assignments-reschedule', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'reschedule_assignments']);
+
 
 
 

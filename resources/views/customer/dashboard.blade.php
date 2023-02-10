@@ -345,6 +345,29 @@
                         </div>
                      </div>
 
+                     <div class="col-xxl-4 col-md-4">
+                            <div class="card card-blog">
+                                <div class="card-image">
+                                    <a href="#"> <img class="img" src="{{URL::asset('public/admin/assets/images/00.jpg')}}"> </a>
+                                    <div class="ripple-cont"></div>
+                                </div>
+                                <div class="table">
+                                    <h4 class="card-caption">
+                                <a href="#">Bathymetry Survey</a>
+                                </h4>
+                                    <p class="card-description"> Hydrographic Surveying is an important civil engineering service that determines the physical features of an underwater area.  The user is advised to keep the following information’s ready before beginning of service requesting.  Purpose of study, location, type of water body, scale (line spacing), tentative data, Bench mark details and drawings or maps if available are the pre requisites.  The result of Hydrographic surveying will be provided in the form of bathy metric charts or xyz data in some cases. </p>
+                                    <div class="ftr">
+                                        <!--<div class="author">-->
+                                        <!--    <a href="#"><span>Read More</span> </a>-->
+                                        <!--</div>-->
+                                        <div class="btn btn-theme">
+                                            <a href="{{url('/customer/bathymetry_survey')}}"><span>Request Survey</span> </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+
                     </div>
 
                 </div>
