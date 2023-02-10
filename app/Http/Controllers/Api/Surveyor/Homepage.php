@@ -211,6 +211,20 @@ class Homepage extends Controller
                 $a_list['cust_id'] = $av->cust_id;
                 $a_list['service_id'] = $av->service_id;
                 $a_list['service_request_id'] = $av->service_request_id;
+                if($av->service_info)
+                {
+                    // dd($av->service_info);
+                   $a_list['description'] = $av->service_info->description; 
+                }else{
+                    $a_list['description'] = ""; 
+                }
+                  $a_list['service_name'] = $av->Service_data->service_name;    
+                if(isset($av->service_info->additional_services))
+                {
+                $a_list['additional_services'] = explode(", ",$av->services_selected($av->service_info->additional_services));
+                }else{
+                $a_list['additional_services'] ="";
+                }
                 $assignments_list[] = $a_list;
             }
         }
@@ -268,12 +282,20 @@ class Homepage extends Controller
                 $a_list['customer_name'] = $av->CustomerInfo->name;
                 $a_list['cust_id'] = $av->cust_id;
                 $a_list['service_id'] = $av->service_id;
+                 $a_list['service_name'] = $av->Service_data->service_name; 
                 if($av->service_info)
                 {
                     // dd($av->service_info);
                    $a_list['description'] = $av->service_info->description; 
                 }else{
                     $a_list['description'] = ""; 
+                }
+                  $a_list['service_name'] = $av->Service_data->service_name;    
+                if(isset($av->service_info->additional_services))
+                {
+                $a_list['additional_services'] = explode(", ",$av->services_selected($av->service_info->additional_services));
+                }else{
+                $a_list['additional_services'] ="";
                 }
                 $a_list['service_request_id'] = $av->service_request_id;
                 $assignments_list[] = $a_list;
