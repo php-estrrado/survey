@@ -133,6 +133,10 @@ class ServicerequestsController extends Controller
         {
             $data['request_data'] = $datas->Subbottom_profilling->first();
         }
+        elseif($datas->service_id == 11)
+        {
+            $data['request_data'] = $datas->Bathymetry_survey->first();
+        }
 
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;

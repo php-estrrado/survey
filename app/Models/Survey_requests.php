@@ -99,6 +99,9 @@ class Survey_requests extends Model{
                case 10:
                 return $this->belongsTo(Subbottom_profilling::class,'service_request_id');
                 break; 
+                case 11:
+                return $this->belongsTo(Bathymetry_survey::class,'service_request_id');
+                break; 
                   
             default:
                 return NULL;
