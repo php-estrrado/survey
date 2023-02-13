@@ -2,6 +2,8 @@
 @section('css')
     <link href="{{URL::asset('admin/assets/traffic/web-traffic.css')}}" rel="stylesheet" type="text/css">
     		<link href="{{URL::asset('admin/assets/css/daterangepicker.css')}}" rel="stylesheet" />
+          
+            
 <style>
 .card-options {
 	margin-left: 50%;
@@ -9,6 +11,7 @@
 </style>
 @endsection
 @section('content')
+  <link href="{{URL::asset('assets/css/jQuery-plugin-progressbar.css')}}" rel="stylesheet" />
 <div class="page-body">
     <div class="container-fluid">
         <div class="row">
@@ -48,7 +51,10 @@
                                                     <td class="fw-bold"><a href="{{URL('/customer/request_service_detail')}}/{{$requested_service->survey_id}}/{{$requested_service->request_status}}">HSW{{$requested_service->survey_id}}</a></td>
                                                     <td>{{$requested_service->service_name}}</td>
                                                     <td>{{$requested_service->current_status}}</td>
-                                                    <td>{{ request_progress($requested_service->id); }}</td>
+                                                    <td>
+
+                                                    <div class="progress-bar-cust position" data-percent='{{ request_progress($requested_service->id); }}' data-color="#ccc,#4aa4d9" ></div>
+                                    </td>
                                                     <td><a href="{{URL('/customer/request_service_detail')}}/{{$requested_service->survey_id}}/{{$requested_service->request_status}}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
                                                 </tr>
                                                 @php $i++; @endphp
@@ -218,4 +224,9 @@
         </footer>
     </div>
 </div>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="{{URL::asset('assets/js/jQuery-plugin-progressbar.js')}}"></script>
+        <script type="text/javascript">
+            $(".progress-bar-cust").loading();
+        </script>
 @endsection
