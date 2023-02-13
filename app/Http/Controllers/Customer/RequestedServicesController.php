@@ -14,15 +14,27 @@ use DB;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\Admin;
+use App\Models\Bathymetry_survey;
 use App\Models\City;
 use App\Models\customer\CustomerMaster;
 use App\Models\UserVisit;
 use App\Models\Bottom_sample_collection;
+use App\Models\Currentmeter_observation;
 use App\Models\Services;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Models\Cust_receipt;
-
+use App\Models\Dredging_survey;
+use App\Models\Hydrographic_chart;
+use App\Models\Hydrographic_survey;
+use App\Models\Survey_status;
+use App\Models\OrganisationType;
+use App\Models\Sidescansonar;
+use App\Models\Subbottom_profilling;
+use App\Models\Tidal_observation;
+use App\Models\Topographic_survey;
+use App\Models\Underwater_videography;
+use App\Models\DataCollectionEquipment;
 use App\Rules\Name;
 use PDF;
 use Validator;
@@ -79,18 +91,31 @@ class RequestedServicesController extends Controller
                                 ->orderBy('survey_request_logs.id','DESC')
                                 ->get();
 
-        $data['id'] = $id;
-        $data['status'] = $status;
+        $service_id = Survey_requests::where('id',$id)->first()->service_id;
 
-        // dd($data);
+        $service_request_id = Survey_requests::where('id',$id)->first()->service_request_id;
+
+        $data['service'] = Services::where('id',$service_id)->first()->service_name;
+        
+        $data['id'] = $id;
+        $data['status'] = Survey_status::where('id',$status)->first()->status_name;
+
+        $data['service_id'] = $service_id;
+        $data['service_request_id'] = $service_request_id;
         
         if($status == 3)
         {
-            return view('/customer/reject_closed',$data);
+            $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+
+            return view('customer.requested_service.request_rejected',$data);
         }
         elseif($status == 4)
         {
-            return view('/customer/reject_open',$data);
+            $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+
+            // dd($data);
+
+            return view('customer.requested_service.request_rejected_open',$data);
         }
         else
         {
@@ -272,6 +297,88 @@ class RequestedServicesController extends Controller
         else
         {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function edit_survey_request($survey_id,$service_id,$service_request_id)
+    {
+        $data['title']        =  'Edit Requested Service';
+        $data['menu']         =  'edit-requested-service';
+
+        $data['service']      =  $service_id;
+        $data['services']     =  Services::where('is_deleted',0)->whereNotIn('id',[$service_id])->orderby('id','ASC')->get();
+        $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
+        $data['states']       =  State::where('is_deleted',0)->get();
+        $data['cities']       =  City::where('is_deleted',0)->get();
+        $data['org_types']    =  OrganisationType::selectOption();
+        $data['data_collection']    = DataCollectionEquipment::selectOption();
+
+        $data['survey_id']           =  $survey_id;
+        $data['service_id']          =  $service_id;
+        $data['service_request_id']  =  $service_request_id;
+
+        if($service_id == 1)
+        {
+            $data['survey_data'] = Hydrographic_survey::where('id',$service_request_id)->first();
+            return view('customer.hydrographic_survey.hydrographicsurvey_edit_form',$data);
+        }
+        elseif($service_id == 2)
+        {
+            $data['survey_data'] = Tidal_observation::where('id',$service_request_id)->first();
+            return view('customer.tidal_observation.tidalobservation_edit_form',$data);
+        }
+        elseif($service_id == 3)
+        {
+            $data['survey_data'] = Bottom_sample_collection::where('id',$service_request_id)->first();
+
+            // dd($data);
+
+            return view('customer.bottomsample.bottomsample_edit_form',$data);
+        }
+        elseif($service_id == 4)
+        {
+            $data['survey_data'] = Dredging_survey::where('id',$service_request_id)->first();
+
+            return view('customer.dredging.dredgingsurvey_edit_form',$data);
+        }
+        elseif($service_id == 5)
+        {
+            $data['survey_data'] = Hydrographic_chart::where('id',$service_request_id)->first();
+            return view('customer.hydrographic_data.hydrographicdata_edit_form',$data);
+        }
+        elseif($service_id == 6)
+        {
+            $data['survey_data'] = Underwater_videography::where('id',$service_request_id)->first();
+
+            // dd($data);
+
+            return view('customer.underwater_videography.underwatervideographysurvey_edit_form',$data);
+        }
+        elseif($service_id == 7)
+        {
+            $data['survey_data'] = Currentmeter_observation::where('id',$service_request_id)->first();
+            return view('customer.currentmeter_observation.currentmeterobservation_edit_form',$data);
+        }
+        elseif($service_id == 8)
+        {
+            $data['survey_data'] = Sidescansonar::where('id',$service_request_id)->first();
+            return view('customer.sidesonarscan.sidesonarscan_edit_form',$data);
+        }
+        elseif($service_id == 9)
+        {
+            $data['survey_data'] = Topographic_survey::where('id',$service_request_id)->first();
+            return view('customer.topographic_survey.topographicsurvey_edit_form',$data);
+        }
+        elseif($service_id == 10)
+        {
+            $data['survey_data'] = Subbottom_profilling::where('id',$service_request_id)->first();
+            return view('customer.subbottom_profilling.subbottomprofilling_edit_form',$data);
+        }
+        elseif($service_id == 11)
+        {
+            $data['survey_data'] = Bathymetry_survey::where('id',$service_request_id)->first();
+
+            return view('customer.bathymetry_survey.bathymetry_survey_edit_form',$data);
         }
     }
 }

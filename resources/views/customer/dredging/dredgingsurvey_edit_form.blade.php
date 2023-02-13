@@ -2,7 +2,6 @@
 @section('css')
   <link href="{{URL::asset('admin/assets/traffic/web-traffic.css')}}" rel="stylesheet" type="text/css">
   <link href="{{URL::asset('admin/assets/css/daterangepicker.css')}}" rel="stylesheet" />
-
   <style>
     .card-options {
 	    margin-left: 50%;
@@ -16,7 +15,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header-title card-header">
-              <h5>Bathymetry Survey</h5>
+              <h5>{{$title}}</h5>
             </div>
             <div class="card-body">
               <div class="row">
@@ -39,16 +38,18 @@
                               </li>
                             </ul>
                           </div>                            
-                          <form action="{{url('/customer/bathymetry_survey/save')}}" method="post" id="bathymetry_survey" class="theme-form">
+                          <form action="{{url('/customer/dredging_survey/save')}}" method="post" id="dredging_survey" class="theme-form">
                             @csrf
-                            <input type="hidden" name="id" id="id" value="0">
+                            <input type="hidden" name="id" id="id" value="{{$survey_data->id}}">
+                            <input type="hidden" name="service_id" id="service_id" value="{{$service_id}}">
+                            <input type="hidden" name="survey_request_id" id="survey_request_id" value="{{$survey_id}}">
                             <div class="tab-content" id="main_form">
                               <div class="tab-pane active" role="tabpanel" id="step1">
                                 <h4 class="text-center">Basic Details</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="fname">Name <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ old('fname') }}">
+                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ $survey_data->fname }}">
                                     <div id="fname_error"></div>
                                     @error('fname')
                                       <p style="color: red">{{ $message }}</p>
@@ -56,7 +57,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="designation">Designation <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation" value="{{ old('designation') }}">
+                                    <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation" value="{{ $survey_data->designation }}">
                                     <div id="designation_error"></div>
                                     @error('designation')
                                       <p style="color: red">{{ $message }}</p>
@@ -65,10 +66,10 @@
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12" name="sector" id="sector">
-                                      <option value="government" {{ old('sector') == 'government' ? 'selected' : '' }}>Government</option>
-                                      <option value="private" {{ old('sector') == 'private' ? 'selected' : '' }}>Private</option>
-                                      <option value="public" {{ old('sector') == 'public' ? 'selected' : '' }}>Public Sector</option>
-                                      <option value="person" {{ old('sector') == 'person' ? 'selected' : '' }}>Person</option>
+                                      <option value="government" {{ $survey_data->sector == 'government' ? 'selected' : '' }}>Government</option>
+                                      <option value="private" {{ $survey_data->sector == 'private' ? 'selected' : '' }}>Private</option>
+                                      <option value="public" {{ $survey_data->sector == 'public' ? 'selected' : '' }}>Public Sector</option>
+                                      <option value="person" {{ $survey_data->sector == 'person' ? 'selected' : '' }}>Person</option>
                                     </select>
                                     <div id="sector_error"></div>
                                     @error('sector')
@@ -77,7 +78,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="department">Name of Department (for government departments) <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department" value="{{ old('department') }}">
+                                    <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department" value="{{ $survey_data->department }}">
                                     <div id="department_error"></div>
                                     @error('department')
                                       <p style="color: red">{{ $message }}</p>
@@ -85,8 +86,8 @@
                                   </div>
                                   <div class="col-sm-6">
                                       <label class="form-label-title mt-3" for="firm">Type of organization <span class="text-red">*</span></label>
-                                      <!--<input class="form-control" type="text" placeholder="Type of organization" name="firm" id="firm" value="{{ old('firm') }}">-->
-                                      {{ Form::select('firm', $org_types, null,['id'=>'firm','class'=>'form-control']); }}
+                                      <!--<input class="form-control" type="text" placeholder="Type of organization" name="firm" id="firm" value="{{ old('fname') }}">-->
+                                      {{ Form::select('firm', $org_types, $survey_data->firm,['id'=>'firm','class'=>'form-control']); }}
                                       <div id="firm_error"></div>
                                       @error('firm')
                                         <p style="color: red">{{ $message }}</p>
@@ -94,7 +95,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="others">Others</label>
-                                    <input class="form-control" type="text" placeholder="Others" name="others" id="others" value="{{ old('others') }}">
+                                    <input class="form-control" type="text" placeholder="Others" name="others" id="others" value="{{ $survey_data->others }}">
                                     <div id="others_error"></div>
                                       @error('others')
                                         <p style="color: red">{{ $message }}</p>
@@ -102,19 +103,20 @@
                                   </div>
                                   <div class="col-sm-6">
                                       <label class="form-label-title mt-3" for="purpose">Purpose <span class="text-red">*</span></label>
-                                      <input class="form-control" type="text" placeholder="Name of project or specify the purpose" name="purpose" id="purpose" value="{{ old('purpose') }}">
+                                      <input class="form-control" type="text" placeholder="Name of project or specify the purpose" name="purpose" id="purpose" value="{{ $survey_data->purpose }}">
                                       <div id="purpose_error"></div>
                                       @error('purpose')
                                         <p style="color: red">{{ $message }}</p>
                                       @enderror
                                   </div>
-                                  <div class="col-sm-6">
+                                   <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
                                     <label class="form-label-title mt-3" for="service">Additional service needed</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
+                                      <?php $additional_services_arr = explode(',', $survey_data->additional_services);?>
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
-                                          <option value="{{$service['id']}}" {{ old('service') == $service['id'] ? 'selected' : '' }}>{{$service['service_name']}}</option>
+                                          <option value="{{$service['id']}}" {{in_array($service['id'],$additional_services_arr) ? 'selected' : '' }}>{{$service['service_name']}}</option>
                                         @endforeach
                                       @endif
                                     </select>
@@ -125,7 +127,7 @@
                                   </div>
                                   <div class="col-sm-12">
                                     <label class="form-label-title mt-3" for="description">Brief description of type of work <span class="text-red">*</span></label>
-                                    <textarea id="description" name="description" placeholder="Location, scale, format of result required" rows="4" style="width:100%;">{{ old('description') }}</textarea>
+                                    <textarea id="description" name="description" placeholder="Location, scale, format of result required" rows="4" style="width:100%;">{{$survey_data->description}}</textarea>
                                     <div id="description_error"></div>
                                     @error('description')
                                       <p style="color: red">{{ $message }}</p>
@@ -145,7 +147,7 @@
                                       <option value="">Select</option>
                                       @if($states && count($states)>0)
                                         @foreach($states as $state)
-                                          <option value="{{$state['id']}}" {{ old('state') == $state['id'] ? 'selected' : '' }}>{{$state['state_name']}}</option>
+                                          <option value="{{$state['id']}}" {{ $survey_data->state == $state['id'] ? "selected" : "" }}>{{$state['state_name']}}</option>
                                         @endforeach  
                                       @endif
                                     </select>
@@ -160,7 +162,7 @@
                                       <option value="">Select</option>
                                       @if($cities && count($cities)>0)
                                         @foreach($cities as $city)
-                                          <option value="{{$city['id']}}" {{ old('district') == $city['id'] ? 'selected' : '' }}>{{$city['city_name']}}</option>
+                                          <option value="{{$city['id']}}" {{ $survey_data->district == $city['id'] ? 'selected' : '' }}>{{$city['city_name']}}</option>
                                         @endforeach  
                                       @endif
                                     </select>
@@ -171,7 +173,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="place">Name of Place <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" placeholder="Place" name="place" id="place" value="{{ old('place') }}">
+                                    <input class="form-control" type="text" placeholder="Place" name="place" id="place" value="{{ $survey_data->place }}">
                                     <div id="place_error"></div>
                                     @error('place')
                                       <p style="color: red">{{ $message }}</p>
@@ -180,58 +182,22 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="survey_area">Survey Area Location <span class="text-red">*</span></label>
-                                      <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ old('survey_area') }}">
+                                      <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ $survey_data->survey_area }}">
                                     </div>
                                     <div id="survey_area_error"></div>
                                     @error('survey_area')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
-
-                                   <div class="col-sm-6">
-                                   
-                                    <label class="form-label-title mt-3" for="service">Data Required</label>
-                                    <select class="js-example-basic-single col-sm-12 multiselect" name="data_required[]" id="data_required" multiple="multiple" >
-                                      
-                                          <option value="sounding" {{ old('data_required') == 'sounding' ? 'selected' : '' }}>Sounding</option>
-                                          <option value="current_meter_survey" {{ old('data_required') == 'current_meter_survey' ? 'selected' : '' }}>Current meter survey</option>
-                                          <option value="bottom_profile" {{ old('data_required') == 'bottom_profile' ? 'selected' : '' }}>Bottom profile</option>
-                                          <option value="velocity" {{ old('data_required') == 'velocity' ? 'selected' : '' }}>Velocity</option>
-                                          <option value="bottom_sample_collection" {{ old('data_required') == 'bottom_sample_collection' ? 'selected' : '' }}>Bottom sample collection</option>
-                                          <option value="tide_data" {{ old('data_required') == 'tide_data' ? 'selected' : '' }}>Tide data</option>
-                                        
-                                    </select>
-                                    <div id="service_error"></div>
-                                    @error('data_required')
-                                      <p style="color: red">{{ $message }}</p>
-                                    @enderror
-                                  </div>
-
-                                  <div class="col-sm-6">
-                          
-                                    <label class="form-label-title mt-3" for="service">Method/Equipment for Data Collection</label>
-                                    <select class="js-example-basic-single col-sm-12 multiselect" name="data_collection_equipments[]" id="data_collection_equipments" multiple="multiple" >
-                                      @if($data_collection && count($data_collection)>0)
-                                        @foreach($data_collection as $data_collections)
-                                          <option value="{{$data_collections->id}}" {{ old('data_collection_equipments') == $data_collections->id ? 'selected' : '' }}>{{$data_collections->title}}</option>
-                                        @endforeach
-                                      @endif
-                                    </select>
-                                    <div id="service_error"></div>
-                                    @error('data_collection_equipments')
-                                      <p style="color: red">{{ $message }}</p>
-                                    @enderror
-                                  </div>
-                                  
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for=""><b>Location Coordinates</b></label>
+                                      <label class="form-label-title mt-3" for=""><b>Limit of survey Location Coordinates</b></label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="lattitude">Lattitude</label>
-                                      <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
+                                      <label class="form-label-title mt-3" for="lattitude">Lattitude 1</label>
+                                      <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ $survey_data->lattitude }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
                                     @error('lattitude')
@@ -240,8 +206,8 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="longitude">Longitude</label>
-                                      <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
+                                      <label class="form-label-title mt-3" for="longitude">Longitude 1</label>
+                                      <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ $survey_data->longitude }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
                                     @error('depth_at_saples_collected')
@@ -251,8 +217,8 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates</label>
-                                      <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
+                                      <label class="form-label-title mt-3" for="x_coordinates">X Coordinates 1</label>
+                                      <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ $survey_data->x_coordinates }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
                                     @error('x_coordinates')
@@ -262,15 +228,59 @@
                                   
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates</label>
-                                      <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
+                                      <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates 1</label>
+                                      <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ $survey_data->y_coordinates }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
                                     @error('y_coordinates')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
+
+
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="lattitude2">Lattitude 2</label>
+                                      <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude2" id="lattitude2" value="{{ $survey_data->lattitude2 }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('lattitude2')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="longitude2">Longitude 2</label>
+                                      <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude2" id="longitude2" value="{{ $survey_data->longitude2 }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('longitude2')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
                                   
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="x_coordinates2">X Coordinates 2</label>
+                                      <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates2" id="x_coordinates2" value="{{ $survey_data->x_coordinates2 }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('x_coordinates2')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="y_coordinates2">Y Coordinates 2</label>
+                                      <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates2" id="y_coordinates2" value="{{ $survey_data->y_coordinates2 }}">
+                                    </div>
+                                    <div id="depth_at_saples_collected_error"></div>
+                                    @error('y_coordinates2')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+
                                 </div>
                                 <ul class="list-inline pull-right">
                                   <li><button type="button" class="default-btn prev-step">Back</button></li>
@@ -281,59 +291,49 @@
                                 <h4 class="text-center">Details</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="type_of_waterbody">Type of Waterbody <span class="text-red">*</span></label>
-                                    <select id="menu-type" class="js-example-basic-single col-sm-12" name="type_of_waterbody" id="type_of_waterbody">
-                                      <option value="sea" {{ old('type_of_waterbody') == 'sea' ? 'selected' : '' }}>Sea</option>
-                                      <option value="river" {{ old('type_of_waterbody') == 'river' ? 'selected' : '' }}>River</option>
-                                      <option value="lake" {{ old('type_of_waterbody') == 'lake' ? 'selected' : '' }}>Lake</option>
-                                      <option value="pond" {{ old('type_of_waterbody') == 'pond' ? 'selected' : '' }}>Pond</option>
-                                      <option value="canal" {{ old('type_of_waterbody') == 'canal' ? 'selected' : '' }}>Canal</option>
-                                            <option value="reservoir" {{ old('type_of_waterbody') == 'reservoir' ? 'selected' : '' }}>Reservoir</option>
-                                            <option value="backwater" {{ old('type_of_waterbody') == 'backwater' ? 'selected' : '' }}>Backwater</option>
-                                    </select>
-                                    <div id="type_of_waterbody_error"></div>
-                                    @error('type_of_waterbody')
-                                      <p style="color: red">{{ $message }}</p>
-                                    @enderror
-                                  </div>
-                                  <div class="col-md-6">
-                                    <div class="form-group">
-                                      <label class="form-label-title mt-3" for="area_of_survey">Area Of Survey <span class="text-red">*</span></label>
-                                      <input class="form-control" type="text" placeholder="Area Of Survey" name="area_of_survey" id="area_of_survey" value="{{ old('area_of_survey') }}">
-                                    </div>
-                                    <div id="area_of_survey_error"></div>
-                                    @error('area_of_survey')
+                                    <label class="form-label-title mt-3" for="detailed_description_area">Detailed description of area (Type of waterbody) <span class="text-red">*</span></label>
+                                   
+                                      <input class="form-control" type="text" placeholder="Detailed description of area" name="detailed_description_area" id="detailed_description_area" value="{{ $survey_data->detailed_description_area }}">
+                                    <div id="detailed_description_area_error"></div>
+                                    @error('detailed_description_area')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="scale_of_survey">Scale of Survey <span class="text-red">*</span></label>
-                                    <input class="form-control" type="number" placeholder="Scale Of Survey (metres)" name="scale_of_survey" id="scale_of_survey" value="{{ old('scale_of_survey') }}">
-                                    <div id="scale_of_survey_error"></div>
-                                    @error('scale_of_survey')
+                                    <label class="form-label-title mt-3" for="no_of_surveys">Number of Surveys needed</label>
+                                    <input class="form-control" type="number" placeholder="Number of Surveys needed" min="0" max="5" name="no_of_surveys" id="no_of_surveys" value="{{ $survey_data->no_of_surveys }}">
+                                    <div id="no_of_surveys_error"></div>
+                                    @error('no_of_surveys')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
-                                  <div class="col-md-6">
-                                    <div class="form-group">
-                                      <label class="form-label-title mt-3" for="service_to_be_conducted">When Service to be conducted <span class="text-red">*</span></label>
-                                      <input class="form-control" type="text" name="service_to_be_conducted" id="service_to_be_conducted" placeholder="When Service to be conducted" value="{{ old('service_to_be_conducted') }}">
-                                    </div>
-                                    <div id="service_to_be_conducted_error"></div>
-                                    @error('service_to_be_conducted')
+                                  
+                                  <div class="col-sm-6">
+                        
+                                    <label class="form-label-title mt-3" for="dredging_survey_method">Whether pre/post dredging survey required or both <span class="text-red">*</span></label>
+                                    <select class="js-example-basic-single col-sm-12 multiselect" name="dredging_survey_method[]" id="dredging_survey_method" multiple="multiple" >
+                                      
+                                          <option value="pre" {{ $survey_data->dredging_survey_method == "pre" ? 'selected' : '' }}>Pre</option>
+                                          <option value="post" {{ $survey_data->dredging_survey_method == "post" ? 'selected' : '' }}>Post</option>
+                                          <option value="intermediate" {{ $survey_data->dredging_survey_method == "intermediate" ? 'selected' : '' }}>Intermediate</option>
+                                        
+                                    </select>
+                                    <div id="dredging_survey_method_error"></div>
+                                    @error('dredging_survey_method')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
+
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="interim_surveys_needed_infuture">Whether interim surveys are needed in future <span class="text-red">*</span></label>
                                       <div>
                                         <div class="form-check form-check-inline">
-                                          <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture1" value="yes" {{ old('interim_surveys_needed_infuture') == "yes" ? 'checked' : '' }}>
+                                          <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture1" value="yes" {{ $survey_data->interim_surveys_needed_infuture == "yes" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="interim_surveys_needed_infuture1">Yes</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                          <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture2" value="no" {{ old('interim_surveys_needed_infuture') == "no" ? 'checked' : '' }}>
+                                          <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture2" value="no" {{ $survey_data->interim_surveys_needed_infuture == "no" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="interim_surveys_needed_infuture2">No</label>
                                         </div>
                                       </div>
@@ -345,37 +345,75 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="benchmark_chart_datum">Whether Bench mark/Chart Datum available in the area <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="dredging_quantity_calculation">Whether dredging quantity calculation required <span class="text-red">*</span></label>
                                       <div>
                                         <div class="form-check form-check-inline">
-                                          <input class="form-check-input" type="radio" name="benchmark_chart_datum" id="benchmark_chart_datum1" value="yes" {{ old('benchmark_chart_datum') == "yes" ? 'checked' : '' }}>
-                                          <label class="form-check-label" for="benchmark_chart_datum1">Yes</label>
+                                          <input class="form-check-input" type="radio" name="dredging_quantity_calculation" id="dredging_quantity_calculation1" value="yes" {{ $survey_data->dredging_quantity_calculation == "yes" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="dredging_quantity_calculation1">Yes</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                          <input class="form-check-input" type="radio" name="benchmark_chart_datum" id="benchmark_chart_datum2" value="no" {{ old('benchmark_chart_datum') == "no" ? 'checked' : '' }}>
-                                          <label class="form-check-label" for="benchmark_chart_datum2">No</label>
+                                          <input class="form-check-input" type="radio" name="dredging_quantity_calculation" id="dredging_quantity_calculation2" value="no" {{ $survey_data->dredging_quantity_calculation == "no" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="dredging_quantity_calculation2">No</label>
                                         </div>
                                       </div>
                                     </div>
-                                    <div id="benchmark_chart_datum_error"></div>
-                                    @error('benchmark_chart_datum')
+                                    <div id="dredging_quantity_calculation_error"></div>
+                                    @error('dredging_quantity_calculation')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
-                                  <div class="col-md-12">
+                                  <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location <span class="text-red">*</span></label>
-                                      <div class="dropzone" id="singleFileUpload">
-                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
-                                          <h6>Drop files here or click to upload.</h6>
-                                          <spanclass="note needsclick">(This is just a
-                                            demo dropzone. Selected files are <strong>not</strong>
-                                            actually uploaded.)
-                                          </span>
+                                      <label class="form-label-title mt-3" for="method_volume_calculation">Method to be adopted for volume calculation <span class="text-red">*</span></label>
+                                      <div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="method_volume_calculation" id="method_volume_calculation1" value="manual" {{ $survey_data->method_volume_calculation == "manual" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="method_volume_calculation1">Manual</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="method_volume_calculation" id="method_volume_calculation2" value="software" {{ $survey_data->method_volume_calculation == "software" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="method_volume_calculation2">Software</label>
                                         </div>
                                       </div>
                                     </div>
+                                    <div id="method_volume_calculation_error"></div>
+                                    @error('method_volume_calculation')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
                                   </div>
+                                  <div class="col-sm-6">
+                                    <label class="form-label-title mt-3" for="length">Length for Survey Calculation <span class="text-red">*</span></label>
+                                    <input class="form-control" type="number" placeholder="Length for Survey Calculation (metres)" name="length" id="length" value="{{$survey_data->length}}">
+                                    <div id="length_error"></div>
+                                    @error('length')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <label class="form-label-title mt-3" for="width">Width for Survey Calculation <span class="text-red">*</span></label>
+                                    <input class="form-control" type="number" placeholder="Width for Survey Calculation (metres)" name="width" id="width" value="{{ $survey_data->width }}">
+                                    <div id="width_error"></div>
+                                    @error('width')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <label class="form-label-title mt-3" for="depth">Depth for Survey Calculation <span class="text-red">*</span></label>
+                                    <input class="form-control" type="number" placeholder="Depth for Survey Calculation (metres)" name="depth" id="depth" value="{{ $survey_data->depth }}">
+                                    <div id="depth_error"></div>
+                                    @error('depth')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-sm-6">
+                                    <label class="form-label-title mt-3" for="level_upto">Level upto which dredged (in meter)</label>
+                                    <input class="form-control" type="text" placeholder="Level upto which dredged (in meter)" name="level_upto" id="level_upto" value="{{ $survey_data->level_upto }}">
+                                    <div id="level_upto_error"></div>
+                                    @error('level_upto')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
                                 </div>
                                 <ul class="list-inline pull-right">
                                   <li><button type="button" class="default-btn prev-step">Back</button></li>
@@ -410,7 +448,6 @@
 @endsection
 @section('js')
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
   <script type="text/javascript">
     // ------------step-wizard-------------
     $(document).ready(function () {
@@ -475,7 +512,7 @@
     }); 
   </script>
   <script type="text/javascript">
-    $("#bathymetry_survey").validate({
+    $("#dredging_survey").validate({
       rules: {
         fname: {
           required: true,
@@ -513,22 +550,28 @@
         survey_area: {
           required: true,
         },
-        type_of_waterbody: {
+        detailed_description_area: {
           required: true,
         },
-        area_of_survey: {
-          required: true,
-        },
-        scale_of_survey: {
-          required: true,
-        },
-        service_to_be_conducted: {
+        dredging_survey_method: {
           required: true,
         },
         interim_surveys_needed_infuture: {
           required: true,
         },
-        benchmark_chart_datum: {
+        dredging_quantity_calculation: {
+          required: true,
+        },
+        method_volume_calculation: {
+          required: true,
+        },
+        length: {
+          required: true,
+        },
+        width: {
+          required: true,
+        },
+        depth: {
           required: true,
         }
       },
@@ -569,23 +612,29 @@
         survey_area: {
           required: "Please enter Survey Area Location",
         },
-        type_of_waterbody: {
+        detailed_description_area: {
           required: "Please enter Type of Waterbody",
         },
-        area_of_survey: {
-          required: "Please enter Area Of Survey",
-        },
-        scale_of_survey: {
-          required: "Please enter Scale of Survey",
-        },
-        service_to_be_conducted: {
-          required: "Please enter When Service to be conducted",
+        dredging_survey_method: {
+          required: "Please select Dredging Survey Method",
         },
         interim_surveys_needed_infuture: {
           required: "Please select Whether interim surveys are needed in future",
         },
-        benchmark_chart_datum: {
-          required: "Please select Whether Bench mark/Chart Datum available in the area",
+        dredging_quantity_calculation: {
+          required: "Please select Dredging Quantity Calculation",
+        },
+        method_volume_calculation: {
+          required: "Please select Method of Volume Calculation",
+        },
+        length: {
+          required: "Please enter Length",
+        },
+        width: {
+          required: "Please enter Width",
+        },
+        depth: {
+          required: "Please enter Depth",
         }
       },
       errorPlacement: function (error, element) 
@@ -642,29 +691,37 @@
         {
           error.appendTo("#survey_area_error");
         }
-        else if (element.attr("name") == "type_of_waterbody")
+        else if (element.attr("name") == "detailed_description_area")
         {
-          error.appendTo("#type_of_waterbody_error");
+          error.appendTo("#detailed_description_area_error");
         }
-        else if (element.attr("name") == "area_of_survey")
+        else if (element.attr("name") == "dredging_survey_method")
         {
-          error.appendTo("#area_of_survey_error");
-        }
-        else if (element.attr("name") == "scale_of_survey")
-        {
-          error.appendTo("#scale_of_survey_error");
-        }
-        else if (element.attr("name") == "service_to_be_conducted")
-        {
-          error.appendTo("#service_to_be_conducted_error");
+          error.appendTo("#dredging_survey_method_error");
         }
         else if (element.attr("name") == "interim_surveys_needed_infuture")
         {
           error.appendTo("#interim_surveys_needed_infuture_error");
         }
-        else if (element.attr("name") == "benchmark_chart_datum")
+        else if (element.attr("name") == "dredging_quantity_calculation")
         {
-          error.appendTo("#benchmark_chart_datum_error");
+          error.appendTo("#dredging_quantity_calculation_error");
+        }
+        else if (element.attr("name") == "method_volume_calculation")
+        {
+          error.appendTo("#method_volume_calculation_error");
+        }
+        else if (element.attr("name") == "length")
+        {
+          error.appendTo("#length_error");
+        }
+        else if (element.attr("name") == "width")
+        {
+          error.appendTo("#width_error");
+        }
+        else if (element.attr("name") == "depth")
+        {
+          error.appendTo("#depth_error");
         }
         else
         {

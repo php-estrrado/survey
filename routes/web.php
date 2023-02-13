@@ -126,6 +126,8 @@ Route::middleware('role:customer')->group(function () {
 
     Route::post('/customer/performa_invoice_remarks', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_remarks']);
 
+    Route::get('/customer/edit_survey_request/{survey_id}/{service_id}/{service_request_id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'edit_survey_request']);
+
     Route::post('/customer/getCity', [App\Http\Controllers\Customer\CityController::class, 'getCity']);
 
     Route::get('/customer/logout', [App\Http\Controllers\Customer\AdminController::class, 'adminLogout']);
@@ -195,6 +197,9 @@ Route::middleware('role:superadmin')->group(function () {
     Route::post('/superadmin/assign_draftsman_final', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman_final']);
 
     Route::post('/superadmin/verify_final_report', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'verify_final_report']);
+
+    Route::post('/superadmin/reject_close', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_close']);
+    Route::post('/superadmin/reject_open', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_open']);
 
     Route::get('/superadmin/logout', [App\Http\Controllers\Superadmin\AdminController::class, 'adminLogout']);
 });

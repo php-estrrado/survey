@@ -34,6 +34,7 @@ use App\Models\Survey_performa_invoice;
 use App\Models\Survey_status;
 use App\Rules\Name;
 use Svg\Tag\Rect;
+use Twilio\TwiML\Voice\Reject;
 use Validator;
 
 class ServicerequestsController extends Controller
@@ -245,6 +246,7 @@ class ServicerequestsController extends Controller
     { 
         $data['title']              =   'Requested Services';
         $data['menu']               =   'requested-services';
+        
         $data['survey_requests']    =   DB::table('survey_requests')
                                         ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
                                         ->leftjoin('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
@@ -821,5 +823,124 @@ class ServicerequestsController extends Controller
 
         return redirect('superadmin/requested_services');
     }
-    
+
+    public function reject_close(Request $request)    
+    {
+        $id = $request->id;
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'remarks'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            Survey_requests::where('id',$id)->update(['request_status'=>3]);
+
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 3;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $usr_noti = [];
+
+            $usr_noti['notify_from'] = auth()->user()->id;
+            $usr_noti['notify_to'] = $cust_id;
+            $usr_noti['role_id'] = 6;
+            $usr_noti['notify_from_role_id'] = 1;
+            $usr_noti['notify_type'] = 0;
+            $usr_noti['title'] = 'Request Rejected';
+            $usr_noti['ref_id'] = auth()->user()->id;
+            $usr_noti['ref_link'] = '#';
+            $usr_noti['viewed'] = 0;
+            $usr_noti['created_at'] = date('Y-m-d H:i:s');
+            $usr_noti['updated_at'] = date('Y-m-d H:i:s');
+            $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            UserNotification::create($usr_noti);
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Request Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Request Not Rejected Successfully !','type'=>'danger']);
+            }
+
+            return redirect('superadmin/new_service_requests');            
+        }
+    }
+
+    public function reject_open(Request $request)    
+    {
+        $id = $request->id;
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'remarks'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            Survey_requests::where('id',$id)->update(['request_status'=>4]);
+
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 4;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $usr_noti = [];
+
+            $usr_noti['notify_from'] = auth()->user()->id;
+            $usr_noti['notify_to'] = $cust_id;
+            $usr_noti['role_id'] = 6;
+            $usr_noti['notify_from_role_id'] = 1;
+            $usr_noti['notify_type'] = 0;
+            $usr_noti['title'] = 'Request Reject Open';
+            $usr_noti['ref_id'] = auth()->user()->id;
+            $usr_noti['ref_link'] = '#';
+            $usr_noti['viewed'] = 0;
+            $usr_noti['created_at'] = date('Y-m-d H:i:s');
+            $usr_noti['updated_at'] = date('Y-m-d H:i:s');
+            $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+            UserNotification::create($usr_noti);
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Request Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Request Not Rejected Successfully !','type'=>'danger']);
+            }
+
+            return redirect('superadmin/new_service_requests');            
+        }
+    }
 }
