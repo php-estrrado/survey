@@ -13,6 +13,7 @@ use App\Models\SubcategoryList;
 use App\Models\MetalRates;
 use App\Models\Currency;
 use App\Models\Survey_requests;
+use App\Models\Survey_request_logs;
 
 use App\Models\AdminNotification;
 
@@ -445,4 +446,38 @@ if (!function_exists('twilio_send_otp')) {
         );
         // clear config cache
         // Artisan::call('cache:clear');
+    }
+
+    if (!function_exists('request_progress')) {
+
+        function request_progress($id){ 
+            
+            $progress = 0;
+            $logs = Survey_request_logs::where("survey_request_id",$id)->where('cust_id',auth()->user()->id)->distinct()
+            ->pluck('survey_status')->toArray();
+            if($logs)
+            {   
+                $percentage = array(2=>5,41=>5,8=>5,40=>20,19=>20,25=>20,27=>25);
+
+                // CH-status: 2, points: 5
+                // MS -status: 41, points: 5
+                // ETA Approval-status: 8, points: 5
+                // Surveyor Accept - status: 40, points: 20
+                // AMS Approval -status: 19, points: 20
+                // MS Approval- status: 25, points: 20
+                // CH Final Approval-status: 27, points: 25
+
+               foreach($logs as $req_status)
+               {
+
+                if(in_array($req_status, $percentage))
+                {
+                    $progress +=$percentage[$req_status];
+                }
+               
+               }
+            }
+
+        return $progress; 
+        } 
     }
