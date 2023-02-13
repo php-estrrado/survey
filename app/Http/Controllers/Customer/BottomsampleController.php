@@ -15,6 +15,7 @@ use App\Models\State;
 use App\Models\Admin;
 use App\Models\City;
 use App\Models\customer\CustomerMaster;
+use App\Models\customer\CustomerInfo;
 use App\Models\UserVisit;
 use App\Models\Bottom_sample_collection;
 use App\Models\Services;
@@ -54,6 +55,10 @@ class BottomsampleController extends Controller
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
         $data['org_types']    = OrganisationType::selectOption();
+        $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
+        $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
+        $cust_info = CustomerInfo::where('cust_id',$cust_id)->first();
+        $data['cust_info']    = $cust_info;        
         // dd($data);
         return view('customer.bottomsample.bottomsample_form',$data);
     }

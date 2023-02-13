@@ -33,6 +33,7 @@
                                             <th>File Number</th>
                                             <th>Requested Services</th>
                                             <th>Service Status</th>
+                                            <th>Progress</th>
                                             <th>View</th>
                                             
                                         </tr>
@@ -47,6 +48,7 @@
                                                     <td class="fw-bold"><a href="{{URL('/customer/request_service_detail')}}/{{$requested_service->survey_id}}/{{$requested_service->request_status}}">HSW{{$requested_service->survey_id}}</a></td>
                                                     <td>{{$requested_service->service_name}}</td>
                                                     <td>{{$requested_service->current_status}}</td>
+                                                    <td>{{ request_progress($requested_service->id); }}</td>
                                                     <td><a href="{{URL('/customer/request_service_detail')}}/{{$requested_service->survey_id}}/{{$requested_service->request_status}}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
                                                 </tr>
                                                 @php $i++; @endphp

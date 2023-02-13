@@ -45,8 +45,10 @@
                                 <h4 class="text-center">Basic Details</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="fname">Name <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ old('fname') }}">
+
+                                    <?php if($cust_info->name){ $cname =$cust_info->name;  }else{ $cname = ""; } ?>
+                                    <label class="form-label-title mt-3" for="fname">Name</label>
+                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="<?php if($cname){ echo $cname; }else{ echo old('fname'); } ?>">
                                     <div id="fname_error"></div>
                                     @error('fname')
                                       <p style="color: red">{{ $message }}</p>
@@ -61,12 +63,17 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person <span class="text-red">*</span></label>
+
+                                    <?php if($cust_info->firm_type){ $firm_type =$cust_info->firm_type;  }else{ $firm_type = ""; } ?>
+                                    <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person</label>
                                     <select class="js-example-basic-single col-sm-12" name="sector" id="sector">
-                                      <option value="government" {{ old('sector') == 'government' ? 'selected' : '' }}>Government</option>
-                                      <option value="private" {{ old('sector') == 'private' ? 'selected' : '' }}>Private</option>
-                                      <option value="public" {{ old('sector') == 'public' ? 'selected' : '' }}>Public Sector</option>
-                                      <option value="person" {{ old('sector') == 'person' ? 'selected' : '' }}>Person</option>
+                                           <option value="1" {{ $firm_type == 1 ? 'selected' : '' }}>Government</option>
+                                        <option value="2" {{ $firm_type == 2 ? 'selected' : '' }}>Private</option>
+                                        <option value="3" {{ $firm_type == 3 ? 'selected' : '' }}>Individual</option>
+                                        <option value="4" {{ $firm_type == 4 ? 'selected' : '' }}>Quasi Government</option>
+                                        <option value="5" {{ $firm_type == 5 ? 'selected' : '' }}>Research Organisation</option>
+                                        <option value="6" {{ $firm_type == 6 ? 'selected' : '' }}>State Government</option>
+                                        <option value="7" {{ $firm_type == 7 ? 'selected' : '' }}>Central Government</option>
                                     </select>
                                     <div id="sector_error"></div>
                                     @error('sector')
