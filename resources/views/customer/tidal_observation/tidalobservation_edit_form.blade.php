@@ -15,7 +15,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header-title card-header">
-              <h5>{{$title}}</h5>
+              <h5>Tidal observation</h5>
             </div>
             <div class="card-body">
               <div class="row">
@@ -38,18 +38,18 @@
                               </li>
                             </ul>
                           </div>                            
-                          <form action="{{url('/customer/bottomsample/save')}}" method="post" id="bottom_sample" class="theme-form" enctype="multipart/form-data">
+                          <form action="{{url('/customer/tidal_observation/save')}}" method="post" id="tidal_observation" class="theme-form">
                             @csrf
-                            <input type="hidden" name="id" id="id" value="0">
+                            <input type="hidden" name="id" id="id" value="{{$survey_data->id}}">
+                            <input type="hidden" name="service_id" id="service_id" value="{{$service_id}}">
+                            <input type="hidden" name="survey_request_id" id="survey_request_id" value="{{$survey_id}}">
                             <div class="tab-content" id="main_form">
                               <div class="tab-pane active" role="tabpanel" id="step1">
                                 <h4 class="text-center">Basic Details</h4>
                                 <div class="row">
                                   <div class="col-sm-6">
-
-                                    <?php if($cust_info->name){ $cname =$cust_info->name;  }else{ $cname = ""; } ?>
-                                    <label class="form-label-title mt-3" for="fname">Name</label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="<?php if($cname){ echo $cname; }else{ echo old('fname'); } ?>">
+                                    <label class="form-label-title mt-3" for="fname">Name <span class="text-red">*</span></label>
+                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ $survey_data->fname }}">
                                     <div id="fname_error"></div>
                                     @error('fname')
                                       <p style="color: red">{{ $message }}</p>
@@ -57,24 +57,19 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="designation">Designation <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation" value="{{ old('designation') }}">
+                                    <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation" value="{{ $survey_data->designation }}">
                                     <div id="designation_error"></div>
                                     @error('designation')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-
-                                    <?php if($cust_info->firm_type){ $firm_type =$cust_info->firm_type;  }else{ $firm_type = ""; } ?>
-                                    <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person</label>
+                                    <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12" name="sector" id="sector">
-                                           <option value="1" {{ $firm_type == 1 ? 'selected' : '' }}>Government</option>
-                                        <option value="2" {{ $firm_type == 2 ? 'selected' : '' }}>Private</option>
-                                        <option value="3" {{ $firm_type == 3 ? 'selected' : '' }}>Individual</option>
-                                        <option value="4" {{ $firm_type == 4 ? 'selected' : '' }}>Quasi Government</option>
-                                        <option value="5" {{ $firm_type == 5 ? 'selected' : '' }}>Research Organisation</option>
-                                        <option value="6" {{ $firm_type == 6 ? 'selected' : '' }}>State Government</option>
-                                        <option value="7" {{ $firm_type == 7 ? 'selected' : '' }}>Central Government</option>
+                                      <option value="government" {{ $survey_data->sector == 'government' ? 'selected' : '' }}>Government</option>
+                                      <option value="private" {{ $survey_data->sector == 'private' ? 'selected' : '' }}>Private</option>
+                                      <option value="public" {{ $survey_data->sector == 'public' ? 'selected' : '' }}>Public Sector</option>
+                                      <option value="person" {{ $survey_data->sector == 'person' ? 'selected' : '' }}>Person</option>
                                     </select>
                                     <div id="sector_error"></div>
                                     @error('sector')
@@ -83,7 +78,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="department">Name of Department (for government departments) <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department" value="{{ old('department') }}">
+                                    <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department" value="{{ $survey_data->department }}">
                                     <div id="department_error"></div>
                                     @error('department')
                                       <p style="color: red">{{ $message }}</p>
@@ -92,7 +87,7 @@
                                   <div class="col-sm-6">
                                       <label class="form-label-title mt-3" for="firm">Type of organization <span class="text-red">*</span></label>
                                       <!--<input class="form-control" type="text" placeholder="Type of organization" name="firm" id="firm" value="{{ old('firm') }}">-->
-                                       {{ Form::select('firm', $org_types, null,['id'=>'firm','class'=>'form-control']); }}
+                                      {{ Form::select('firm', $org_types, $survey_data->firm,['id'=>'firm','class'=>'form-control']); }}
                                       <div id="firm_error"></div>
                                       @error('firm')
                                         <p style="color: red">{{ $message }}</p>
@@ -100,7 +95,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="others">Others</label>
-                                    <input class="form-control" type="text" placeholder="Others" name="others" id="others" value="{{ old('others') }}">
+                                    <input class="form-control" type="text" placeholder="Others" name="others" id="others" value="{{ $survey_data->others }}">
                                     <div id="others_error"></div>
                                       @error('others')
                                         <p style="color: red">{{ $message }}</p>
@@ -108,19 +103,20 @@
                                   </div>
                                   <div class="col-sm-6">
                                       <label class="form-label-title mt-3" for="purpose">Purpose <span class="text-red">*</span></label>
-                                      <input class="form-control" type="text" placeholder="Name of project or specify the purpose" name="purpose" id="purpose" value="{{ old('purpose') }}">
+                                      <input class="form-control" type="text" placeholder="Name of project or specify the purpose" name="purpose" id="purpose" value="{{ $survey_data->purpose }}">
                                       <div id="purpose_error"></div>
                                       @error('purpose')
                                         <p style="color: red">{{ $message }}</p>
                                       @enderror
                                   </div>
                                    <div class="col-sm-6">
-                                    <input type="hidden" name="service_id" value="{{ $service }}">
+                                    <input type="hidden" name="service" value="{{ $service }}">
                                     <label class="form-label-title mt-3" for="service">Additional service needed</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
+                                      <?php $additional_services_arr = explode(',', $survey_data->additional_services);?>
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
-                                          <option value="{{$service['id']}}" {{ old('service') == $service['id'] ? 'selected' : '' }}>{{$service['service_name']}}</option>
+                                          <option value="{{$service['id']}}" {{in_array($service['id'],$additional_services_arr) ? 'selected' : '' }}>{{$service['service_name']}}</option>
                                         @endforeach
                                       @endif
                                     </select>
@@ -131,7 +127,7 @@
                                   </div>
                                   <div class="col-sm-12">
                                     <label class="form-label-title mt-3" for="description">Brief description of type of work <span class="text-red">*</span></label>
-                                    <textarea id="description" name="description" placeholder="Location, scale, format of result required" rows="4" style="width:100%;">{{ old('description') }}</textarea>
+                                    <textarea id="description" name="description" placeholder="Location, scale, format of result required" rows="4" style="width:100%;">{{ $survey_data->description }}</textarea>
                                     <div id="description_error"></div>
                                     @error('description')
                                       <p style="color: red">{{ $message }}</p>
@@ -151,7 +147,7 @@
                                       <option value="">Select</option>
                                       @if($states && count($states)>0)
                                         @foreach($states as $state)
-                                          <option value="{{$state['id']}}" {{ old('state') == $state['id'] ? "selected" : "" }}>{{$state['state_name']}}</option>
+                                          <option value="{{$state['id']}}" {{ $survey_data->state == $state['id'] ? 'selected' : '' }}>{{$state['state_name']}}</option>
                                         @endforeach  
                                       @endif
                                     </select>
@@ -166,7 +162,7 @@
                                       <option value="">Select</option>
                                       @if($cities && count($cities)>0)
                                         @foreach($cities as $city)
-                                          <option value="{{$city['id']}}" {{ old('district') == $city['id'] ? 'selected' : '' }}>{{$city['city_name']}}</option>
+                                          <option value="{{$city['id']}}" {{ $survey_data->district == $city['id'] ? 'selected' : '' }}>{{$city['city_name']}}</option>
                                         @endforeach  
                                       @endif
                                     </select>
@@ -176,33 +172,33 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="place">Name of waterbody <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" placeholder="Name of waterbody" name="place" id="place" value="{{ old('place') }}">
+                                    <label class="form-label-title mt-3" for="place">Name of Place <span class="text-red">*</span></label>
+                                    <input class="form-control" type="text" placeholder="Place" name="place" id="place" value="{{ $survey_data->place }}">
                                     <div id="place_error"></div>
                                     @error('place')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
-                                  <!-- <div class="col-md-6">
+                                  <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="depth_at_saples_collected">Depth at which samples to be collected (add value in meters) <span class="text-red">*</span></label>
-                                      <input class="form-control" type="number" placeholder="Depth at which samples to be collected" name="depth_at_saples_collected" id="depth_at_saples_collected" value="{{ old('depth_at_saples_collected') }}">
+                                      <label class="form-label-title mt-3" for="tidal_area">Tidal area location <span class="text-red">*</span></label>
+                                      <input class="form-control" type="text" placeholder="Tidal Area Location" name="tidal_area" id="tidal_area" value="{{ $survey_data->tidal_area_location }}"`>
                                     </div>
-                                    <div id="depth_at_saples_collected_error"></div>
-                                    @error('depth_at_saples_collected')
+                                    <div id="tidal_area_error"></div>
+                                    @error('tidal_area')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
-                                  </div> -->
+                                  </div>
                                   
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for=""><b>Location of sampling</b></label>
+                                      <label class="form-label-title mt-3" for=""><b>Location Coordinates</b></label>
                                     </div>
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="lattitude">Lattitude</label>
-                                      <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ old('lattitude') }}">
+                                      <input class="form-control" type="text" placeholder="Lattitude, deg, min, sec" name="lattitude" id="lattitude" value="{{ $survey_data->lattitude }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
                                     @error('lattitude')
@@ -212,7 +208,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="longitude">Longitude</label>
-                                      <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ old('longitude') }}">
+                                      <input class="form-control" type="text" placeholder="Longitude , deg, min, sec" name="longitude" id="longitude" value="{{ $survey_data->longitude }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
                                     @error('depth_at_saples_collected')
@@ -223,7 +219,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="x_coordinates">X Coordinates</label>
-                                      <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ old('x_coordinates') }}">
+                                      <input class="form-control" type="text" placeholder="X Coordinates" name="x_coordinates" id="x_coordinates" value="{{ $survey_data->x_coordinates }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
                                     @error('x_coordinates')
@@ -234,7 +230,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="y_coordinates">Y Coordinates</label>
-                                      <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ old('y_coordinates') }}">
+                                      <input class="form-control" type="text" placeholder="Y Coordinates" name="y_coordinates" id="y_coordinates" value="{{ $survey_data->y_coordinates }}">
                                     </div>
                                     <div id="depth_at_saples_collected_error"></div>
                                     @error('y_coordinates')
@@ -251,86 +247,131 @@
                               <div class="tab-pane" role="tabpanel" id="step4">
                                 <h4 class="text-center">Details</h4>
                                 <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="period_of_observation"><b>Period of observation</b></label>
+                                   
+                                    </div>
+                                   
+                                  </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="number_of_locations">No. of locations from which samples to be collected <span class="text-red">*</span></label>
-                                      <input class="form-control" type="number" placeholder="No. of locations from which samples to be collected" name="number_of_locations" id="number_of_locations" value="{{ old('number_of_locations') }}">
+                                      <label class="form-label-title mt-3" for="start_date">Start Date</label>
+                                      <input class="form-control" type="date" placeholder="Period of observation" name="start_date" id="start_date" value="{{ date('d-m-Y',strtotime($survey_data->start_date)) }}">
                                     </div>
-                                    <div id="number_of_locations_error"></div>
-                                    @error('number_of_locations')
+                                    <div id="start_date_error"></div>
+                                    @error('start_date')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="quantity_of_samples">Quantity of sample to be collected in each location(enter value in grams) <span class="text-red">*</span></label>
-                                      <input class="form-control" type="number" placeholder="Quantity of sample to be collected in each location(enter value in grams)" name="quantity_of_samples" id="quantity_of_samples" value="{{ old('quantity_of_samples') }}">
+                                      <label class="form-label-title mt-3" for="end_date">End Date</label>
+                                      <input class="form-control" type="date" placeholder="Period of observation" name="end_date" id="end_date" value="{{ date('d-m-Y',strtotime($survey_data->end_date)) }}">
                                     </div>
-                                    <div id="quantity_of_samples_error"></div>
-                                    @error('quantity_of_samples')
+                                    <div id="end_date_error"></div>
+                                    @error('end_date')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
 
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="interval_bottom_sample">Interval (in kms)</label>
-                                      <input class="form-control" type="text" placeholder="Interval (in kms)" name="interval_bottom_sample" id="interval_bottom_sample" value="{{ old('interval_bottom_sample') }}">
+                                      <label class="form-label-title mt-3" for="duration">Duration (Years)</label>
+                                      <input class="form-control" type="text" placeholder="Duration (Years)" name="duration" id="duration" value="{{ $survey_data->duration }}">
                                     </div>
-                                    <div id="interval_bottom_sample_error"></div>
-                                    @error('interval_bottom_sample')
+                                    <div id="duration_error"></div>
+                                    @error('duration')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="quantity_bottom_sample">Quantity (kg)</label>
-                                      <select class="js-example-basic-single col-sm-12" name="quantity_bottom_sample" id="quantity_bottom_sample">
-                                      <option value="0.4">0.4</option>
-                                      <option value="0.5">0.5</option>
-                                      <option value="1">1</option>
-                                      <option value="2">2</option>
-                                      <option value="5">5</option>
+                                      <label class="form-label-title mt-3" for="duration_weeks">Duration (Weeks)</label>
+                                      <input class="form-control" type="text" placeholder="Duration (Weeks)" name="duration_weeks" id="duration_weeks" value="{{ $survey_data->duration_weeks }}">
+                                    </div>
+                                    <div id="duration_weeks_error"></div>
+                                    @error('duration_weeks')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="duration_days">Duration (Days)</label>
+                                      <input class="form-control" type="text" placeholder="Duration (Days)" name="duration_days" id="duration_days" value="{{ $survey_data->duration_days }}">
+                                    </div>
+                                    <div id="duration_days_error"></div>
+                                    @error('duration_days')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="duration_hours">Duration (Hours)</label>
+                                      <input class="form-control" type="text" placeholder="Duration (Hours)" name="duration_hours" id="duration_hours" value="{{ $survey_data->duration_hours }}">
+                                    </div>
+                                    <div id="duration_hours_error"></div>
+                                    @error('duration_hours')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-md-6">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="benchmark_chart_datum">Whether Bench mark/Chart Datum available in the area <span class="text-red">*</span></label>
+                                      <div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" onclick="displayDesc(1);" name="benchmark_chart_datum" id="benchmark_chart_datum1" value="yes" checked {{ $survey_data->benchmark_chart_datum == "yes" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="benchmark_chart_datum1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" onclick="displayDesc(0);" name="benchmark_chart_datum" id="benchmark_chart_datum2" value="no" {{ $survey_data->benchmark_chart_datum == "no" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="benchmark_chart_datum2">No</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div id="benchmark_chart_datum_error"></div>
+                                    @error('benchmark_chart_datum')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+
+                                  <div class="col-md-6 description_of_benchmark_class">
+                                    <div class="form-group">
+                                      <label class="form-label-title mt-3" for="description_of_benchmark">Description of Benchmark</label>
+                                      <textarea class="form-control" type="text" placeholder="Description of Benchmark" name="description_of_benchmark" id="description_of_benchmark">{{ $survey_data->description_of_benchmark }}</textarea>
+                                    </div>
+                                    <div id="description_of_benchmark_error"></div>
+                                    @error('description_of_benchmark')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                  </div>
+                                  
+                                  <div class="col-sm-6">
+                                    <label class="form-label-title mt-3" for="method_of_observation">Method of observation</label>
+                                    <select class="js-example-basic-single col-sm-12" name="method_of_observation" id="method_of_observation">
+                                      <option value="manual" {{ $survey_data->method_of_observation == 'manual' ? 'selected' : '' }}>Manual</option>
+                                      <option value="automatic" {{ $survey_data->method_of_observation == 'automatic' ? 'selected' : '' }}>Automatic</option>
                                     </select>
-
-                                    </div>
-                                    <div id="quantity_bottom_sample_error"></div>
-                                    @error('quantity_bottom_sample')
+                                    <div id="method_of_observation_error"></div>
+                                    @error('method_of_observation')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
-
-                                  <div class="col-md-6">
-                                    <div class="form-group">
-                                      <label class="form-label-title mt-3" for="method_of_sampling">Method of sampling</label>
-                                      <select class="js-example-basic-single col-sm-12" name="method_of_sampling" id="method_of_sampling">
-                                      <option value="bucket">Bucket</option>
-                                      <option value="boring">Boring</option>
-                                      
-                                    </select>
-
-                                    </div>
-                                    <div id="method_of_sampling_error"></div>
-                                    @error('method_of_sampling')
-                                      <p style="color: red">{{ $message }}</p>
-                                    @enderror
-                                  </div>
-
-                                  <div class="col-md-6 ">
-                                    <div class="form-group">
-                                      <label class="form-label-title mt-3" for="description_of_requirement">Description of Requirement</label>
-                                      <textarea class="form-control" type="text" placeholder="Description of Requirement" name="description_of_requirement" id="description_of_requirement" value="{{ old('description_of_requirement') }}"></textarea>
-                                    </div>
-                                    <div id="description_of_requirement_error"></div>
-                                    @error('description_of_requirement')
-                                      <p style="color: red">{{ $message }}</p>
-                                    @enderror
-                                  </div>
+                                  
 
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">File upload (jpg, pdf)</label>
-                                      <input type="file" class="dropify" data-height="180" name="file_upload" id="file_upload" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' />
+                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location</label>
+                                      <div class="dropzone" id="singleFileUpload">
+                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
+                                          <h6>Drop files here or click to upload.</h6>
+                                          <spanclass="note needsclick">(This is just a
+                                            demo dropzone. Selected files are <strong>not</strong>
+                                            actually uploaded.)
+                                          </span>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -358,7 +399,7 @@
       <footer class="footer">
         <div class="row">
           <div class="col-md-12 footer-copyright text-center">
-            <p class="mb-0">Copyright © 2022 . Powered by GAUDE.  All rights reserved. </p>
+            <p class="mb-0">Copyright 2022 © HSW </p>
           </div>
         </div>
       </footer>
@@ -368,6 +409,16 @@
 @section('js')
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script type="text/javascript">
+
+    function displayDesc(disp)
+    {
+      if(disp == 1)
+      {
+        $(".description_of_benchmark_class").show();
+      }else{
+        $(".description_of_benchmark_class").hide();
+      }
+    }
     // ------------step-wizard-------------
     $(document).ready(function () {
       $(".nav-tabs > li a[title]").tooltip();
@@ -431,7 +482,7 @@
     }); 
   </script>
   <script type="text/javascript">
-    $("#bottom_sample").validate({
+    $("#tidal_observation").validate({
       rules: {
         fname: {
           required: true,
@@ -466,10 +517,10 @@
         place: {
           required: true,
         },
-        depth_at_saples_collected: {
+        tidal_area: {
           required: true,
         },
-        number_of_locations: {
+        period_of_observation: {
           required: true,
         },
         benchmark_chart_datum: {
@@ -510,10 +561,10 @@
         place: {
           required: "Please enter Place",
         },
-        depth_at_saples_collected: {
+        tidal_area: {
           required: "Please enter Survey Area Location",
         },
-        number_of_locations: {
+        period_of_observation: {
           required: "Please enter Period of Observation",
         },
         benchmark_chart_datum: {
@@ -570,13 +621,13 @@
         {
           error.appendTo("#place_error");
         }
-        else if (element.attr("name") == "depth_at_saples_collected")
+        else if (element.attr("name") == "tidal_area")
         {
-          error.appendTo("#depth_at_saples_collected_error");
+          error.appendTo("#tidal_area_error");
         }
-        else if (element.attr("name") == "number_of_locations")
+        else if (element.attr("name") == "period_of_observation")
         {
-          error.appendTo("#number_of_locations_error");
+          error.appendTo("#period_of_observation_error");
         }
         else if (element.attr("name") == "benchmark_chart_datum")
         {

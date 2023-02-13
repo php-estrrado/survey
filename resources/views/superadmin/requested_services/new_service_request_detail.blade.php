@@ -960,20 +960,25 @@
 <div class="modal" id="modaldemo2">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Reject Open</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="form-label">Remark <span class="text-red">*</span></label>
-						<textarea class="form-control" rows="3">Type Here...</textarea>
+			<form action="{{url('/superadmin/reject_open')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$survey_id}}" id="id" name="id">
+				<div class="modal-header">
+					<h6 class="modal-title">Reject Open</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control" rows="3" name="remarks" id="remarks" placeholder="Type Here..."></textarea>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary" type="button">Send Notification</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-			</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Send Notification</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+				</div>
+			</form>
+			
 		</div>
 	</div>
 </div>
@@ -981,21 +986,25 @@
 <div class="modal" id="modaldemo3">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Reject Closed</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="form-label">Remark <span class="text-red">*</span></label>
-						<textarea class="form-control" rows="3">Type Here...</textarea>
-					</div>
-					<p class="text-center">Your request has been rejected with closed file. You will not be able to resubmit this request.</p>
+			<form action="{{url('/superadmin/reject_close')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$survey_id}}" id="id" name="id">
+				<div class="modal-header">
+					<h6 class="modal-title">Reject Closed</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary" type="button">Send</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-			</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+						</div>
+						<p class="text-center">Your request has been rejected with closed file. You will not be able to resubmit this request.</p>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Send</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

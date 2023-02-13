@@ -40,6 +40,7 @@
                           </div>                            
                           <form action="{{url('/customer/dredging_survey/save')}}" method="post" id="dredging_survey" class="theme-form">
                             @csrf
+                            <input type="hidden" name="id" id="id" value="0">
                             <div class="tab-content" id="main_form">
                               <div class="tab-pane active" role="tabpanel" id="step1">
                                 <h4 class="text-center">Basic Details</h4>
@@ -147,7 +148,7 @@
                                 <div class="row">
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="state">State <span class="text-red">*</span></label>
-                                    <select class="js-example-basic-single col-sm-12" name="state" id="state" onchange="getCity()">
+                                    <select class="js-example-basic-single col-sm-12" name="state" id="state">
                                       <option value="">Select</option>
                                       @if($states && count($states)>0)
                                         @foreach($states as $state)
@@ -163,7 +164,12 @@
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="district">District <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12" name="district" id="district">
-                                      <option value="ST">select</option>
+                                      <option value="">Select</option>
+                                      @if($cities && count($cities)>0)
+                                        @foreach($cities as $city)
+                                          <option value="{{$city['id']}}" {{ old('district') == $city['id'] ? 'selected' : '' }}>{{$city['city_name']}}</option>
+                                        @endforeach  
+                                      @endif
                                     </select>
                                     <div id="district_error"></div>
                                     @error('district')

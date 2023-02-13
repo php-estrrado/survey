@@ -28,6 +28,7 @@ use App\Models\Fieldstudy_eta;
 use App\Models\Survey_invoice;
 use App\Models\Survey_performa_invoice;
 use App\Models\Survey_study_report;
+use App\Models\Survey_status;
 
 use PDF;
 use App\Rules\Name;
@@ -63,12 +64,13 @@ class ServicerequestsController extends Controller
                                         ->leftjoin('institution', 'survey_requests.assigned_institution', '=', 'institution.id')
                                         ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
                                         ->whereIn('survey_requests.request_status',$status_in)->where('survey_requests.request_status','!=',NULL)->Where('survey_requests.is_deleted',0)
-                                        ->where('survey_requests.assigned_draftsman',auth()->user()->id)
+                                        ->where(function ($query) { $query->where('survey_requests.assigned_draftsman',auth()->user()->id)->orWhere('survey_requests.assigned_draftsman_final',auth()->user()->id);})                                        
                                         ->where('cust_mst.is_deleted',0)
                                         ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
                                         ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*','institution.*','survey_status.status_name AS current_status')
                                         ->orderBy('survey_requests.id','DESC')
                                         ->get();
+                                        
 
         return view('draftsman.requested_services.services_requests',$data);
     }
@@ -89,6 +91,8 @@ class ServicerequestsController extends Controller
         $data['survey_id'] = $id;
         $data['institutions'] = Institution::where('is_deleted',0)->where('is_active',1) ->get();
         $data['admins'] = Admin::where('role_id',2)->get();
+
+        $data['survey_status'] = Survey_status::where('id',$datas->request_status)->first()->status_name;
 
         $data['survey_datas'] = DB::table('survey_request_logs')
                                 ->leftjoin('survey_status', 'survey_request_logs.survey_status', '=', 'survey_status.id')
@@ -152,13 +156,13 @@ class ServicerequestsController extends Controller
         {
             return view('draftsman.requested_services.survey_report',$data);
         }
-        else if($status == 46)
+        elseif($status == 46)
         {
             $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',46)->first()->remarks;
 
             return view('draftsman.requested_services.assigned_draftsman_invoice',$data);
         }
-        else
+        elseif($status == 10)
         {
             $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',10)->first()->remarks;
             
