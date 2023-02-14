@@ -53,7 +53,7 @@
                                                     <td>{{$requested_service->current_status}}</td>
                                                     <td>
 
-                                                    <div class="progress-bar-cust position" data-percent='{{ request_progress($requested_service->id); }}' data-color="#ccc,#4aa4d9" ></div>
+                                                    <div class="progress-bar-cust position" data-percent='{{ request_progress($requested_service->survey_id); }}' data-color="#ccc,#4aa4d9" ></div>
                                     </td>
                                                     <td><a href="{{URL('/customer/request_service_detail')}}/{{$requested_service->survey_id}}/{{$requested_service->request_status}}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
                                                 </tr>
@@ -224,7 +224,7 @@
         </footer>
     </div>
 </div>
-    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
         <script src="{{URL::asset('assets/js/jQuery-plugin-progressbar.js')}}"></script>
         <script type="text/javascript">
             $(".progress-bar-cust").loading();
