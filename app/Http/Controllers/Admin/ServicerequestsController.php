@@ -541,6 +541,159 @@ class ServicerequestsController extends Controller
         }
     }
 
+    public function reject_fieldstudy(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'remarks'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 30;
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 30;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Field Study Report Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Field Study Report Not Rejected Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function reject_surveystudy(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'remarks'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 20;
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 20;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Study Report Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Study Report Not Rejected Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function reject_final_report(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'remarks'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 28;
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 28;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Final Survey Report Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Final Survey Report Not Rejected Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
     public function requested_services()
     { 
         $data['title']              =   'Requested Services';
@@ -645,10 +798,11 @@ class ServicerequestsController extends Controller
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
 
-        // dd($data);
         if($status == 24)
         {
             $data['final_report'] = Survey_requests::where('id',$id)->first()->final_report;
+
+            // dd($data);
 
             return view('admin.requested_services.draftsman_submitted_final_report',$data);
         }

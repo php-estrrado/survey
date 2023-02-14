@@ -236,6 +236,8 @@ Route::middleware('role:admin')->group(function () {
     Route::post('/admin/reject_fieldstudy_reschedule', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_fieldstudy_reschedule']);
     Route::post('/admin/reject_surveystudy_reschedule', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_survey_reschedule']);
 
+    Route::post('/admin/reject_fieldstudy', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_fieldstudy']);
+
     Route::get('/admin/requested_services', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_services'])->name('admin.requested_services');
     Route::get('/admin/requested_service_detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_service_detail'])->name('admin.requested_service_detail');
 
@@ -246,8 +248,10 @@ Route::middleware('role:admin')->group(function () {
     Route::post('/admin/verify_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_invoice']);
     
     Route::post('/admin/verify_survey_study', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_survey_study']);
+    Route::post('/admin/reject_surveystudy', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_surveystudy']);
 
     Route::post('/admin/verify_final_report', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_final_report']);
+    Route::post('/admin/reject_final_report', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_final_report']);
     
 });
 
