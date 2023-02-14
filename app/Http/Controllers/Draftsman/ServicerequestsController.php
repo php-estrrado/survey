@@ -54,7 +54,7 @@ class ServicerequestsController extends Controller
         $data['title']              =   'Requested Services';
         $data['menu']               =   'requested-services';
 
-        $status_in                  =   array(10,12,34,35,46,48,52,53,23);
+        $status_in                  =   array(10,12,34,35,46,48,52,53,23,28,38,39);
 
         $data['survey_requests']    =   DB::table('survey_requests')
                                         ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
@@ -152,7 +152,7 @@ class ServicerequestsController extends Controller
         
         // dd($data);
 
-        if($status == 23)
+        if($status == 23 || $status == 28 || $status == 38 || $status == 39)
         {
             return view('draftsman.requested_services.survey_report',$data);
         }
