@@ -72,10 +72,10 @@ class Homepage extends Controller
         $dashboard_data = [];
         $dashboard_data['field']['assignment_requests'] = Survey_requests::where('assigned_surveyor',$user_id)->whereIn('request_status',[41])->count();
         $dashboard_data['field']['accepted_assignments'] = Survey_requests::where('assigned_surveyor',$user_id)->whereIn('request_status',[42,62])->count();
-        $dashboard_data['field']['accepted_reassignments'] = Survey_requests::where('assigned_surveyor',$user_id)->whereIn('request_status',[60])->count();
+        $dashboard_data['field']['accepted_reassignments'] = Survey_requests::where('assigned_surveyor',$user_id)->whereIn('request_status',[60,30,32,33])->count();
         $dashboard_data['survey']['assignment_requests'] = Survey_requests::where('assigned_surveyor_survey',$user_id)->whereIn('request_status',[43])->count();
         $dashboard_data['survey']['accepted_assignments'] = Survey_requests::where('assigned_surveyor_survey',$user_id)->whereIn('request_status',[40,65])->count();
-        $dashboard_data['survey']['accepted_reassignments'] = Survey_requests::where('assigned_surveyor_survey',$user_id)->whereIn('request_status',[59])->count();
+        $dashboard_data['survey']['accepted_reassignments'] = Survey_requests::where('assigned_surveyor_survey',$user_id)->whereIn('request_status',[59,20,36,37])->count();
         return ['httpcode'=>200,'status'=>'success','page'=>'Home','message'=>'Success','data'=>['user_data'=>$user,'dashboard_data'=>$dashboard_data]];
     }
 

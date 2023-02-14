@@ -466,10 +466,7 @@ if (!function_exists('twilio_send_otp')) {
                 // AMS Approval -status: 19, points: 20
                 // MS Approval- status: 25, points: 20
                 // CH Final Approval-status: 27, points: 25
-               if($id == 31)
-               {
-                dd($logs);
-               }
+            
                foreach($logs as $req_status)
                {
 
