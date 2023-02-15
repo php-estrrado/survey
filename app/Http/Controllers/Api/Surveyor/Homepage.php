@@ -120,7 +120,7 @@ class Homepage extends Controller
         return $item->created_at->format('d-M-y');
         });
 
-         $days_notify = []; $c=0;
+         $days_notify = []; $c=0; $n_count = 0;
         foreach($grouped as $days_row)
             {   
                 $notification_date = ""; $all = []; //dd($grouped);
@@ -145,7 +145,7 @@ class Homepage extends Controller
                    $msgs['viewed']      = $row->viewed;
                    $msgs['created_at'] = date('Y-m-d H:i:s', strtotime($row->created_at));
 
-                   
+                   if($row->viewed ==0){ $n_count++; }
                    $all[]              = $msgs;
                    
                }
@@ -157,9 +157,9 @@ class Homepage extends Controller
  
          if(isset($days_notify) && count($days_notify)>0)
             {
-                return ['httpcode'=>200,'status'=>'success','message'=>'Success','data'=>['user_data'=>$user,'notifications'=>$days_notify]]; 
+                return ['httpcode'=>200,'status'=>'success','message'=>'Success','data'=>['user_data'=>$user,'notifications'=>$days_notify,'notifications_count'=>$n_count]]; 
             }else{
-                 return ['httpcode'=>400,'status'=>'error','message'=>'Notifications not found','data'=>['user_data'=>$user,'notifications'=>$days_notify]];
+                 return ['httpcode'=>400,'status'=>'error','message'=>'Notifications not found','data'=>['user_data'=>$user,'notifications'=>$days_notify,'notifications_count'=>0]];
             }
     }
 
@@ -206,7 +206,15 @@ class Homepage extends Controller
                 
                 $a_list['id'] = $av->id;
                 $a_list['file_no'] = "HSW".$av->id;
-                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->created_at));
+                if($req_type =="survey")
+                {
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->survey_study));
+                }else  if($req_type =="field_study")
+                {
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->field_study));
+                }else{
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->survey_study));
+                }
                 $a_list['customer_name'] = $av->CustomerInfo->name;
                 $a_list['cust_id'] = $av->cust_id;
                 $a_list['service_id'] = $av->service_id;
@@ -278,7 +286,16 @@ class Homepage extends Controller
                
                 $a_list['id'] = $av->id;
                 $a_list['file_no'] = "HSW".$av->id;
-                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->created_at));
+                if($req_type =="survey")
+                {
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->survey_study));
+                }else  if($req_type =="field_study")
+                {
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->field_study));
+                }else{
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->survey_study));
+                }
+                
                 $a_list['customer_name'] = $av->CustomerInfo->name;
                 $a_list['cust_id'] = $av->cust_id;
                 $a_list['service_id'] = $av->service_id;
@@ -296,6 +313,13 @@ class Homepage extends Controller
                 $a_list['additional_services'] = explode(", ",$av->services_selected($av->service_info->additional_services));
                 }else{
                 $a_list['additional_services'] ="";
+                }
+
+                if(isset($av->service_info->data_collection_equipments))
+                {
+                $a_list['data_collection_equipments'] = explode(", ",$av->datacollection_selected($av->service_info->data_collection_equipments));
+                }else{
+                $a_list['data_collection_equipments'] ="";
                 }
                 $a_list['service_request_id'] = $av->service_request_id;
                 $assignments_list[] = $a_list;
@@ -388,7 +412,7 @@ class Homepage extends Controller
                 $refId      = $request_id;
                 $reflink    = 'admin';
                 $notify     = 'admin';
-                $notify_from_role_id = 6;
+                $notify_from_role_id = 3;
                 addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
                 }
 
@@ -481,7 +505,7 @@ class Homepage extends Controller
                     $refId      = $request_id;
                     $reflink    = 'admin';
                     $notify     = 'admin';
-                    $notify_from_role_id = 6;
+                    $notify_from_role_id = 3;
                     addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
                 }
             
@@ -555,7 +579,15 @@ class Homepage extends Controller
                 if($form_id){ $form_id = $form_id->id; }
                 $a_list['id'] = $av->id;
                 $a_list['file_no'] = "HSW".$av->id;
-                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->created_at));
+                if($req_type =="survey")
+                {
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->survey_study));
+                }else  if($req_type =="field_study")
+                {
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->field_study));
+                }else{
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->survey_study));
+                }
                 $a_list['customer_name'] = $av->CustomerInfo->name;
                 $a_list['cust_id'] = $av->cust_id;
                 $a_list['service_id'] = $av->service_id;

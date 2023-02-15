@@ -86,8 +86,11 @@ if (!function_exists('geSiteName')) {
       
 
        if($notify                ==  'admin'){
-             DB::table('admin_notifications')->insert(['notify_from'=>$from,'user_type'=>$utype,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s')]);
-        }
+            //  DB::table('admin_notifications')->insert(['notify_from'=>$from,'user_type'=>$utype,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s')]);
+        
+            DB::table('admin_notifications')->insert(['notify_from'=>$from,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
+            
+       }
         else if($notify                ==  'seller'){
             
             $seller_token = DB::table('usr_seller_logins')->where('seller_id',$to)->where('is_login',1)->get();
@@ -128,7 +131,7 @@ if (!function_exists('geSiteName')) {
             }
             $pushData['title'] = $title;
             $pushData['message'] = $desc;
-            $pushData['data'] = array('ref_id'=>$refId,'time'=>date('H:i:s'));
+            $pushData['data'] = array('ref_id'=>$refId,'time'=>date('H:i:s'),'ref_link'=>$reflink);
             sendPush($deviceTokens,$pushData);
              
             
@@ -140,11 +143,28 @@ if (!function_exists('sendPush')){
 function sendPush($deviceTokens,$pushData=[]){
     $fb                     =   Setting::where('is_active',1)->where('type','firebase')->first();
     if($fb){ $accessKey    =   $fb->value; }else{ $accessKey = ''; } 
-    $msg          =   array( 'title' => $pushData['title'],'body'=>$pushData['message'],'data'=>$pushData['data']);
-    $fields       =   array( 'registration_ids' => $deviceTokens, 'notification' => $msg );
-    $headers      =   array( 'Authorization: key='.$accessKey, 'Content-Type: application/json' );
-    $ch = curl_init();
+    // $msg          =   array( 'title' => $pushData['title'],'body'=>$pushData['message'],'data'=>$pushData['data']);
+    // $fields       =   array( 'registration_ids' => $deviceTokens, 'notification' => $msg );
+    // $headers      =   array( 'Authorization: key='.$accessKey, 'Content-Type: application/json' );
+    // $ch = curl_init();
     // curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
+    // curl_setopt( $ch,CURLOPT_POST, true );
+    // curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
+    // curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
+    // curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
+    // curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields));
+    // $result = curl_exec($ch );
+    // curl_close( $ch );
+    
+        $data_arr =  $pushData['data'];
+    $msg          =   array( 'title' => $pushData['title'],'body'=>$pushData['message']);
+    $data_array['data']       = array_merge($data_arr,$msg);
+    $fields       =   array( 'registration_ids' => $deviceTokens );
+    $fields       = array_merge($fields,$data_array);
+    $headers      =   array( 'Authorization: key='.$accessKey, 'Content-Type: application/json' );
+    // dd(json_encode( $fields));
+    $ch = curl_init();
+    curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
     curl_setopt( $ch,CURLOPT_POST, true );
     curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
     curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
@@ -152,7 +172,7 @@ function sendPush($deviceTokens,$pushData=[]){
     curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields));
     $result = curl_exec($ch );
     curl_close( $ch );
-
+   
     return json_encode($result);
 }
 }
