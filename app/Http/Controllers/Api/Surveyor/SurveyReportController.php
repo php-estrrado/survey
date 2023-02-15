@@ -51,7 +51,10 @@ class SurveyReportController extends Controller
             'from_hsw' => ['required'],
             'location' => ['required'],
             'type_of_waterbody' => ['required'],
-            'limit_of_survey_area' => ['required'],
+            'lattitude' => ['required'],
+            'longitude' => ['required'],
+            'x_coordinates' => ['required'],
+            'y_coordinates' => ['required'],
             'whether_topographic_survey_required' => ['required'],
             'methods_to_be_adopted_for_topographic_survey' => ['required'],
             'instruments_to_be_used_for_topographic_survey' => ['required'],
@@ -90,7 +93,7 @@ class SurveyReportController extends Controller
         }
         
         $ins = Survey_study_report::create($request->only([
-                'survey_request_id','service_id','service_request_id','cust_id','datetime_inspection','survey_department_name','officer_participating_field_inspection','from_hsw','location','type_of_waterbody','limit_of_survey_area','whether_topographic_survey_required','methods_to_be_adopted_for_topographic_survey','instruments_to_be_used_for_topographic_survey','availability_of_previous_shoreline_data','availability_of_shoreline','nature_of_shore','bathymetric_area','scale_of_survey_planned','method_adopted_for_bathymetric_survey','is_manual_survey_required','line_interval_planned_for_survey','type_of_survey_vessel_used_for_bathymetric_survey','estimated_period_of_survey_days','instruments_to_be_used_for_bathymetric_survey','nearest_available_benchmark_detail','is_local_benchmark_needs_to_be_established','detailed_report_of_the_officer','remarks','presence_and_nature_of_obstructions_in_survey','details_location_for_setting_tide_pole'
+                'survey_request_id','service_id','service_request_id','cust_id','datetime_inspection','survey_department_name','officer_participating_field_inspection','from_hsw','location','type_of_waterbody','limit_of_survey_area','lattitude','longitude','x_coordinates','y_coordinates','whether_topographic_survey_required','methods_to_be_adopted_for_topographic_survey','instruments_to_be_used_for_topographic_survey','availability_of_previous_shoreline_data','availability_of_shoreline','nature_of_shore','bathymetric_area','scale_of_survey_planned','method_adopted_for_bathymetric_survey','is_manual_survey_required','line_interval_planned_for_survey','type_of_survey_vessel_used_for_bathymetric_survey','estimated_period_of_survey_days','instruments_to_be_used_for_bathymetric_survey','nearest_available_benchmark_detail','is_local_benchmark_needs_to_be_established','detailed_report_of_the_officer','remarks','presence_and_nature_of_obstructions_in_survey','details_location_for_setting_tide_pole'
             ]))->id;
 
         if(isset($request->upload_photos_of_study_area) && count($request->upload_photos_of_study_area)>0)
@@ -133,7 +136,10 @@ class SurveyReportController extends Controller
             'from_hsw' => ['required'],
             'location' => ['required'],
             'type_of_waterbody' => ['required'],
-            'limit_of_survey_area' => ['required'],
+            'lattitude' => ['required'],
+            'longitude' => ['required'],
+            'x_coordinates' => ['required'],
+            'y_coordinates' => ['required'],
             'whether_topographic_survey_required' => ['required'],
             'methods_to_be_adopted_for_topographic_survey' => ['required'],
             'instruments_to_be_used_for_topographic_survey' => ['required'],
@@ -172,7 +178,7 @@ class SurveyReportController extends Controller
         }
         
         $ins = Field_study_report::create($request->only([
-                'survey_request_id','service_id','service_request_id','cust_id','datetime_inspection','survey_department_name','officer_participating_field_inspection','from_hsw','location','type_of_waterbody','limit_of_survey_area','whether_topographic_survey_required','methods_to_be_adopted_for_topographic_survey','instruments_to_be_used_for_topographic_survey','availability_of_previous_shoreline_data','availability_of_shoreline','nature_of_shore','bathymetric_area','scale_of_survey_planned','method_adopted_for_bathymetric_survey','is_manual_survey_required','line_interval_planned_for_survey','type_of_survey_vessel_used_for_bathymetric_survey','estimated_period_of_survey_days','instruments_to_be_used_for_bathymetric_survey','nearest_available_benchmark_detail','is_local_benchmark_needs_to_be_established','detailed_report_of_the_officer','remarks','presence_and_nature_of_obstructions_in_survey','details_location_for_setting_tide_pole'
+                'survey_request_id','service_id','service_request_id','cust_id','datetime_inspection','survey_department_name','officer_participating_field_inspection','from_hsw','location','type_of_waterbody','limit_of_survey_area','lattitude','longitude','x_coordinates','y_coordinates','whether_topographic_survey_required','methods_to_be_adopted_for_topographic_survey','instruments_to_be_used_for_topographic_survey','availability_of_previous_shoreline_data','availability_of_shoreline','nature_of_shore','bathymetric_area','scale_of_survey_planned','method_adopted_for_bathymetric_survey','is_manual_survey_required','line_interval_planned_for_survey','type_of_survey_vessel_used_for_bathymetric_survey','estimated_period_of_survey_days','instruments_to_be_used_for_bathymetric_survey','nearest_available_benchmark_detail','is_local_benchmark_needs_to_be_established','detailed_report_of_the_officer','remarks','presence_and_nature_of_obstructions_in_survey','details_location_for_setting_tide_pole'
             ]))->id;
 
         if(isset($request->upload_photos_of_study_area) && count($request->upload_photos_of_study_area)>0)
@@ -333,7 +339,10 @@ class SurveyReportController extends Controller
             'from_hsw' => ['required'],
             'location' => ['required'],
             'type_of_waterbody' => ['required'],
-            'limit_of_survey_area' => ['required'],
+                        'lattitude' => ['required'],
+            'longitude' => ['required'],
+            'x_coordinates' => ['required'],
+            'y_coordinates' => ['required'],
             'whether_topographic_survey_required' => ['required'],
             'methods_to_be_adopted_for_topographic_survey' => ['required'],
             'instruments_to_be_used_for_topographic_survey' => ['required'],
@@ -372,7 +381,7 @@ class SurveyReportController extends Controller
         }
         
         $ins = Survey_study_report::where("id",$request->form_id)->update($request->only([
-                'survey_request_id','service_id','service_request_id','cust_id','datetime_inspection','survey_department_name','officer_participating_field_inspection','from_hsw','location','type_of_waterbody','limit_of_survey_area','whether_topographic_survey_required','methods_to_be_adopted_for_topographic_survey','instruments_to_be_used_for_topographic_survey','availability_of_previous_shoreline_data','availability_of_shoreline','nature_of_shore','bathymetric_area','scale_of_survey_planned','method_adopted_for_bathymetric_survey','is_manual_survey_required','line_interval_planned_for_survey','type_of_survey_vessel_used_for_bathymetric_survey','estimated_period_of_survey_days','instruments_to_be_used_for_bathymetric_survey','nearest_available_benchmark_detail','is_local_benchmark_needs_to_be_established','detailed_report_of_the_officer','remarks','presence_and_nature_of_obstructions_in_survey','details_location_for_setting_tide_pole'
+                'survey_request_id','service_id','service_request_id','cust_id','datetime_inspection','survey_department_name','officer_participating_field_inspection','from_hsw','location','type_of_waterbody','limit_of_survey_area','lattitude','longitude','x_coordinates','y_coordinates','whether_topographic_survey_required','methods_to_be_adopted_for_topographic_survey','instruments_to_be_used_for_topographic_survey','availability_of_previous_shoreline_data','availability_of_shoreline','nature_of_shore','bathymetric_area','scale_of_survey_planned','method_adopted_for_bathymetric_survey','is_manual_survey_required','line_interval_planned_for_survey','type_of_survey_vessel_used_for_bathymetric_survey','estimated_period_of_survey_days','instruments_to_be_used_for_bathymetric_survey','nearest_available_benchmark_detail','is_local_benchmark_needs_to_be_established','detailed_report_of_the_officer','remarks','presence_and_nature_of_obstructions_in_survey','details_location_for_setting_tide_pole'
             ]));
 
         if($request->upload_photos_of_study_area)
@@ -417,7 +426,10 @@ class SurveyReportController extends Controller
             'from_hsw' => ['required'],
             'location' => ['required'],
             'type_of_waterbody' => ['required'],
-            'limit_of_survey_area' => ['required'],
+                        'lattitude' => ['required'],
+            'longitude' => ['required'],
+            'x_coordinates' => ['required'],
+            'y_coordinates' => ['required'],
             'whether_topographic_survey_required' => ['required'],
             'methods_to_be_adopted_for_topographic_survey' => ['required'],
             'instruments_to_be_used_for_topographic_survey' => ['required'],
@@ -456,7 +468,7 @@ class SurveyReportController extends Controller
         }
         
         $ins = Field_study_report::where("id",$request->form_id)->update($request->only([
-                'survey_request_id','service_id','service_request_id','cust_id','datetime_inspection','survey_department_name','officer_participating_field_inspection','from_hsw','location','type_of_waterbody','limit_of_survey_area','whether_topographic_survey_required','methods_to_be_adopted_for_topographic_survey','instruments_to_be_used_for_topographic_survey','availability_of_previous_shoreline_data','availability_of_shoreline','nature_of_shore','bathymetric_area','scale_of_survey_planned','method_adopted_for_bathymetric_survey','is_manual_survey_required','line_interval_planned_for_survey','type_of_survey_vessel_used_for_bathymetric_survey','estimated_period_of_survey_days','instruments_to_be_used_for_bathymetric_survey','nearest_available_benchmark_detail','is_local_benchmark_needs_to_be_established','detailed_report_of_the_officer','remarks','presence_and_nature_of_obstructions_in_survey','details_location_for_setting_tide_pole'
+                'survey_request_id','service_id','service_request_id','cust_id','datetime_inspection','survey_department_name','officer_participating_field_inspection','from_hsw','location','type_of_waterbody','limit_of_survey_area','lattitude','longitude','x_coordinates','y_coordinates','whether_topographic_survey_required','methods_to_be_adopted_for_topographic_survey','instruments_to_be_used_for_topographic_survey','availability_of_previous_shoreline_data','availability_of_shoreline','nature_of_shore','bathymetric_area','scale_of_survey_planned','method_adopted_for_bathymetric_survey','is_manual_survey_required','line_interval_planned_for_survey','type_of_survey_vessel_used_for_bathymetric_survey','estimated_period_of_survey_days','instruments_to_be_used_for_bathymetric_survey','nearest_available_benchmark_detail','is_local_benchmark_needs_to_be_established','detailed_report_of_the_officer','remarks','presence_and_nature_of_obstructions_in_survey','details_location_for_setting_tide_pole'
             ]));
 
         if($request->upload_photos_of_study_area)
