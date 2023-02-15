@@ -378,6 +378,20 @@ class Homepage extends Controller
                 addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
                 }
 
+                if($req_action == "reject") {
+                $from       = $user_id; 
+                $utype      = 2;
+                $to         = $assignment_requests->cust_id; 
+                $ntype      = 'survey_study_rejected';
+                $title      = 'Survey Study Rejected';
+                $desc       = 'Survey Study Request Rejected. Request ID: HSW'.$request_id;
+                $refId      = $request_id;
+                $reflink    = 'admin';
+                $notify     = 'admin';
+                $notify_from_role_id = 6;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+                }
+
         
             }else if($req_type =="reassignment")
             {
@@ -456,6 +470,20 @@ class Homepage extends Controller
                     $notify_from_role_id = 3;
                     addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
                 }
+
+                if($req_action == "reject") {
+                    $from       = $user_id; 
+                    $utype      = 2;
+                    $to         = $assignment_requests->cust_id; 
+                    $ntype      = 'field_study_rejected';
+                    $title      = 'Field Study Rejected';
+                    $desc       = 'Field Study Request Rejected. Request ID: HSW'.$request_id;
+                    $refId      = $request_id;
+                    $reflink    = 'admin';
+                    $notify     = 'admin';
+                    $notify_from_role_id = 6;
+                    addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+                }
             
             }
             Survey_request_logs::create($req_logs);
@@ -504,9 +532,9 @@ class Homepage extends Controller
         $req_type = $request->type;
         if($req_type =="survey")
         {
-            $accepted_assignments = Survey_requests::where('assigned_surveyor_survey',$user_id)->where('request_status',59)->get();
+            $accepted_assignments = Survey_requests::where('assigned_surveyor_survey',$user_id)->whereIn('request_status',[59,20,36,37])->get(); 
         }else{
-            $accepted_assignments = Survey_requests::where('assigned_surveyor',$user_id)->where('request_status',60)->get();  
+            $accepted_assignments = Survey_requests::where('assigned_surveyor',$user_id)->whereIn('request_status',[60,30,32,33])->get(); 
         }
         
         if($accepted_assignments)
