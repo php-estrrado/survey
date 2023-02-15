@@ -195,7 +195,7 @@
 				<div class="col-md-12">
 					<div class="form-group">
 						<label class="form-label">Remark <span class="text-red">*</span></label>
-						<textarea class="form-control" rows="3">Type Here...</textarea>
+						<textarea class="form-control" rows="3" placeholder="Type Here..."></textarea>
 					</div>
 				</div>
 			</div>

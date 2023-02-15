@@ -889,7 +889,7 @@
 		<div class="btn-list d-flex justify-content-end">
 			<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Assign Survey Study</a>
 			<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Send</a>
-			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
+			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo3" data-toggle="modal" href="">Reject</a>
 		</div>
 	</div>
 </div>
@@ -965,6 +965,31 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-primary" type="submit">Submit</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="modaldemo3">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content modal-content-demo">
+			<form action="{{url('/superadmin/reject_performa_invoice')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$survey_id}}" name="id" id="id">
+				<div class="modal-header">
+					<h6 class="modal-title">Reject</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Reject</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
 				</div>
 			</form>
 		</div>

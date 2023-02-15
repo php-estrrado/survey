@@ -48,7 +48,7 @@
 		<div class="col-lg-6 col-md-auto">
 			<div class="text-lg-right btn-list mt-4 mt-lg-0">
 				<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Assign</a>
-				<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
+				<!-- <a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a> -->
 			</div>
 			<div class="mt-5">
 				<div class="main-profile-contact-list row">
@@ -900,7 +900,7 @@
 	<div class="col-12">
 		<div class="btn-list d-flex justify-content-end">
 			<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Assign</a>
-			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
+			<!-- <a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a> -->
 		</div>
 	</div>
 </div>

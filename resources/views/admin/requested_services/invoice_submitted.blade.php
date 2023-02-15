@@ -967,20 +967,24 @@
 <div class="modal" id="modaldemo2">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Reject</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="form-label">Remark <span class="text-red">*</span></label>
-						<textarea class="form-control" rows="3">Type Here...</textarea>
+			<form action="{{url('/admin/reject_invoice')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$survey_id}}" name="id" id="id">
+				<div class="modal-header">
+					<h6 class="modal-title">Reject</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary" type="button">Notify</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-			</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Reject</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

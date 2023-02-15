@@ -186,17 +186,25 @@ Route::middleware('role:superadmin')->group(function () {
 
     Route::get('/superadmin/requested_services', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'requested_services'])->name('superadmin.requested_services');
     Route::get('/superadmin/requested_service_detail/{id}/{status}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'requested_service_detail'])->name('superadmin.requested_service_detail');
+
     Route::get('/superadmin/verify_field_study/{id}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'verify_field_study']);
     Route::post('/superadmin/assign_draftsman', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman']);
+
     Route::post('/superadmin/send_performa_invoice_customer', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'send_performa_invoice_customer']);
+    Route::post('/superadmin/reject_performa_invoice', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_performa_invoice']);
 
     Route::post('/superadmin/assign_draftsman_invoice', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman_invoice']);
+    Route::post('/superadmin/reject_invoice', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_invoice']);
     Route::post('/superadmin/send_invoice_customer', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'send_invoice_customer']);
 
     Route::post('/superadmin/assign_survey_study', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_survey_study']);
     Route::post('/superadmin/assign_draftsman_final', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman_final']);
 
+    Route::post('/superadmin/reject_fieldstudy', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_fieldstudy']);
+    Route::post('/superadmin/reject_surveystudy', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_surveystudy']);
+    
     Route::post('/superadmin/verify_final_report', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'verify_final_report']);
+    Route::post('/superadmin/reject_final_report', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_final_report']);
 
     Route::post('/superadmin/reject_close', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_close']);
     Route::post('/superadmin/reject_open', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_open']);
@@ -245,7 +253,10 @@ Route::middleware('role:admin')->group(function () {
     Route::post('/admin/add_eta', [App\Http\Controllers\Admin\ServicerequestsController::class, 'add_eta']);
 
     Route::post('/admin/verify_performa_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_performa_invoice']);
+    Route::post('/admin/reject_performa_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_performa_invoice']);
+
     Route::post('/admin/verify_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_invoice']);
+    Route::post('/admin/reject_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_invoice']);
     
     Route::post('/admin/verify_survey_study', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_survey_study']);
     Route::post('/admin/reject_surveystudy', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_surveystudy']);
