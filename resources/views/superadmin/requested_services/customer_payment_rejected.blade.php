@@ -151,7 +151,7 @@
 												Remarks
 											</div>
 										</div>
-										<textarea class="form-control mb-4" placeholder="Textarea" rows="3"></textarea>
+										<textarea class="form-control mb-4" placeholder="Type Here..." rows="3"></textarea>
 									</div>
 								</div>
 							</div>
@@ -562,7 +562,7 @@
 												Remarks
 											</div>
 										</div>
-										<textarea class="form-control mb-4" placeholder="Textarea" rows="3"></textarea>
+										<textarea class="form-control mb-4" placeholder="Type Here..." rows="3"></textarea>
 									</div>
 								</div>
 							</div>

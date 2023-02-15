@@ -245,6 +245,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+            $assigned_surveyor = survey_requests::where('id',$input['id'])->first()->assigned_surveyor;
 
             $assign_arr['request_status'] = 62;
             $assign_arr['field_study'] = date('Y-m-d',strtotime($input['field_study']));
@@ -267,6 +268,18 @@ class ServicerequestsController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $assigned_surveyor; 
+            $ntype      = 'field_study_rescheduled';
+            $title      = 'Field Study Rescheduled';
+            $desc       = 'Field Study Rescheduled. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'field_study_rescheduled';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             $usr_noti = [];
 
@@ -325,7 +338,7 @@ class ServicerequestsController extends Controller
 
             Survey_requests::where('id',$input['id'])->update($assign_arr);
 
-           $from       = auth()->user()->id; 
+            $from       = auth()->user()->id; 
             $utype      = 3;
             $to         = $input['assign_surveyor']; 
             $ntype      = 'survey_study_assigned';
@@ -382,6 +395,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+            $assigned_surveyor = survey_requests::where('id',$input['id'])->first()->assigned_surveyor_survey;
 
             $assign_arr['request_status'] = 65;
             $assign_arr['survey_study'] = date('Y-m-d',strtotime($input['survey_study']));
@@ -404,6 +418,18 @@ class ServicerequestsController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $assigned_surveyor; 
+            $ntype      = 'survey_study_rescheduled';
+            $title      = 'Survey Study Rescheduled';
+            $desc       = 'Survey Study Rescheduled. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'survey_study_rescheduled';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             $usr_noti = [];
 
@@ -451,6 +477,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+            $assigned_surveyor = survey_requests::where('id',$input['id'])->first()->assigned_surveyor;
 
             $assign_arr['request_status'] = 63;
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -472,6 +499,18 @@ class ServicerequestsController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $assigned_surveyor; 
+            $ntype      = 'field_study_reschedule_rejected';
+            $title      = 'Field Study Reschedule Rejected';
+            $desc       = 'Field Study Reschedule Rejected. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'field_study_reschedule_rejected';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             if(isset($survey_request_log_id))
             {   
@@ -502,6 +541,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+            $assigned_surveyor = survey_requests::where('id',$input['id'])->first()->assigned_surveyor_survey;
 
             $assign_arr['request_status'] = 66;
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -523,6 +563,18 @@ class ServicerequestsController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $assigned_surveyor; 
+            $ntype      = 'survey_study_reschedule_rejected';
+            $title      = 'Survey Study Reschedule Rejected';
+            $desc       = 'Survey Study Reschedule Rejected. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'survey_study_reschedule_rejected';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);            
 
             if(isset($survey_request_log_id))
             {   
@@ -553,6 +605,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+            $assigned_surveyor = survey_requests::where('id',$input['id'])->first()->assigned_surveyor;
 
             $assign_arr['request_status'] = 30;
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -574,6 +627,18 @@ class ServicerequestsController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $assigned_surveyor; 
+            $ntype      = 'field_study_rejected';
+            $title      = 'Field Study Report Rejected';
+            $desc       = 'Field Study Report Rejected. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'field_study_rejected';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             if(isset($survey_request_log_id))
             {   
@@ -604,6 +669,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+            $assigned_surveyor = survey_requests::where('id',$input['id'])->first()->assigned_surveyor_survey;
 
             $assign_arr['request_status'] = 20;
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -625,6 +691,18 @@ class ServicerequestsController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 3;
+            $to         = $assigned_surveyor; 
+            $ntype      = 'survey_study_rejected';
+            $title      = 'Survey Study Report Rejected';
+            $desc       = 'Survey Study Report Rejected. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    = 'survey_study_rejected';
+            $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             if(isset($survey_request_log_id))
             {   
@@ -1032,6 +1110,108 @@ class ServicerequestsController extends Controller
         }
 
         return redirect('admin/requested_services');
+    }
+
+    public function reject_performa_invoice(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'remarks'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 12;
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 12;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Performa Invoice Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Performa Invoice Not Rejected Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function reject_invoice(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id'=>['required'],
+            'remarks'=>['required'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+
+            $assign_arr['request_status'] = 48;
+            $assign_arr['updated_by'] = auth()->user()->id;
+            $assign_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['id'])->update($assign_arr);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 48;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Invoice Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Invoice Not Rejected Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
     }
 
     public function verify_survey_study(Request $request)

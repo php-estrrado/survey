@@ -170,35 +170,24 @@
 <div class="modal" id="modaldemo2">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<div class="modal-header">
-				<h6 class="modal-title">Reject</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="form-label">Select which are needs to be rejected <span class="text-red">*</span></label>
-						<div class="custom-controls-stacked">
-							<label class="custom-control custom-checkbox d-inline-block mr-3">
-								<input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1">
-								<span class="custom-control-label">Report</span>
-							</label>
-							<label class="custom-control custom-checkbox d-inline-block">
-								<input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1">
-								<span class="custom-control-label">ETA</span>
-							</label>
+			<form action="{{url('/superadmin/reject_final_report')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$survey_id}}" name="id" id="id">
+				<div class="modal-header">
+					<h6 class="modal-title">Reject</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-12">
-					<div class="form-group">
-						<label class="form-label">Remark <span class="text-red">*</span></label>
-						<textarea class="form-control" rows="3">Type Here...</textarea>
-					</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="submit">Notify</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary" type="button">Send</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-			</div>
+			</form>
 		</div>
 	</div>
 </div>
