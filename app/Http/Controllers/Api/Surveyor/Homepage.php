@@ -136,7 +136,7 @@ class Homepage extends Controller
                     }
 
 
-
+                    $msgs['id']       = $row->id;
                    $msgs['title']       = $row->title;
                    $msgs['description'] = $row->description;
                    $msgs['icon']      = $row->icon;
@@ -161,6 +161,58 @@ class Homepage extends Controller
             }else{
                  return ['httpcode'=>400,'status'=>'error','message'=>'Notifications not found','data'=>['user_data'=>$user,'notifications'=>$days_notify,'notifications_count'=>0]];
             }
+    }
+
+
+    public function mark_notification(Request $request)
+    {  
+
+        $login=0;
+        $user_id=null;
+        $user = [];
+        
+        $validator=  Validator::make($request->all(),[
+
+            'id' => ['required'],
+            'access_token' => ['required']
+        ]);
+        if ($validator->fails()) 
+            {    
+              return ['httpcode'=>400,'status'=>'error','message'=>'invalid','data'=>['errors'=>$validator->messages()]];
+            }
+            
+            
+        
+        if($request->post('access_token')){
+            if(!$user = validateToken($request->post('access_token'))){ return invalidToken(); }
+            $login=1;
+            $user_id = $user['user_id'];
+            
+            $admin_user =Admin::where('id',$user['user_id'])->first();
+            if($admin_user && isset($admin_user->role))
+            {
+                $user['user_role'] = $admin_user->role->usr_role_name;
+            }
+            else{
+                $user['user_role'] = "Surveyor";
+            }
+            
+        }
+        
+        $dashboard_data = [];
+        $notify_id = $request->post('id');
+        $notifications = UserNotification::where('notify_to',$user_id)->where('role_id',3)->whereNull('deleted_at')->where("id",$notify_id)->first();
+
+        if($notifications)
+        {
+            $notifications->update(['viewed'=>1]);
+            return ['httpcode'=>200,'status'=>'success','message'=>'Success','data'=>['user_data'=>$user]]; 
+
+        }else{
+            return ['httpcode'=>400,'status'=>'error','message'=>'Notification not found','data'=>['user_data'=>$user]];
+        }
+ 
+  
     }
 
    public function accepted_assignments(Request $request)
@@ -233,6 +285,14 @@ class Homepage extends Controller
                 }else{
                 $a_list['additional_services'] ="";
                 }
+
+                if(isset($av->service_info->data_collection_equipments))
+                {
+                $a_list['data_collection_equipments'] = explode(", ",$av->datacollection_selected($av->service_info->data_collection_equipments));
+                }else{
+                $a_list['data_collection_equipments'] ="";
+                }
+
                 $assignments_list[] = $a_list;
             }
         }
