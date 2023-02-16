@@ -25,6 +25,7 @@ Route::post('/surveyor/assignments-requests', [App\Http\Controllers\Api\Surveyor
 Route::post('/surveyor/assignments-requests-status', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'assignments_requests_status']);
 
 Route::post('/surveyor/notifications', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'notifications']);
+Route::post('/surveyor/mark-notification', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'mark_notification']);
 
 Route::post('/surveyor/accepted-reassignments', [App\Http\Controllers\Api\Surveyor\Homepage::class, 'accepted_reassignments']);
 Route::get('/surveyor/field-study-report', [App\Http\Controllers\Api\Surveyor\SurveyReportController::class, 'get_field_study']);
