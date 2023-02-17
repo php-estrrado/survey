@@ -128,6 +128,8 @@ Route::middleware('role:customer')->group(function () {
 
     Route::get('/customer/edit_survey_request/{survey_id}/{service_id}/{service_request_id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'edit_survey_request']);
 
+    Route::get('/customer/survey_report/{survey_id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'survey_report']);
+
     Route::post('/customer/getCity', [App\Http\Controllers\Customer\CityController::class, 'getCity']);
 
     Route::get('/customer/logout', [App\Http\Controllers\Customer\AdminController::class, 'adminLogout']);
@@ -196,6 +198,8 @@ Route::middleware('role:superadmin')->group(function () {
     Route::post('/superadmin/assign_draftsman_invoice', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman_invoice']);
     Route::post('/superadmin/reject_invoice', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_invoice']);
     Route::post('/superadmin/send_invoice_customer', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'send_invoice_customer']);
+
+    Route::post('/superadmin/send_rejected_receipt_customer', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'send_rejected_receipt_customer']);
 
     Route::post('/superadmin/assign_survey_study', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_survey_study']);
     Route::post('/superadmin/assign_draftsman_final', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'assign_draftsman_final']);
@@ -289,6 +293,9 @@ Route::middleware('role:draftsman')->group(function () {
     Route::get('/draftsman/create_invoice/{id}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'create_invoice']);
     Route::post('/draftsman/save_invoice', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'save_invoice']);
 
+    Route::get('/draftsman/edit_performa_invoice/{id}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'edit_performa_invoice']);
+    Route::get('/draftsman/edit_invoice/{id}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'edit_invoice']);
+
     Route::get('/draftsman/download_report/{id}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'download_report']);
     
     Route::post('/draftsman/upload_final_report', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'upload_final_report']);
@@ -314,6 +321,25 @@ Route::middleware('role:accountant')->group(function () {
     Route::get('/accountant/receipt_received/{id}', [App\Http\Controllers\Accountant\ServicerequestsController::class, 'receipt_received'])->name('accountant.receipt_received');
 
     Route::post('/accountant/verify_customer_receipt', [App\Http\Controllers\Accountant\ServicerequestsController::class, 'verify_customer_receipt'])->name('accountant.verify_customer_receipt');
+    Route::post('/accountant/reject_customer_receipt', [App\Http\Controllers\Accountant\ServicerequestsController::class, 'reject_customer_receipt'])->name('accountant.reject_customer_receipt');
+});
+
+//Surveyor
+
+Route::get('/surveyor', [App\Http\Controllers\Surveyor\Auth\LoginController::class, 'admin']);
+Route::get('/surveyor/login', [App\Http\Controllers\Surveyor\Auth\LoginController::class, 'admin']);
+Route::post('/surveyor/sendotpemail', [App\Http\Controllers\Surveyor\Auth\LoginController::class, 'loginSendotpemail']);
+Route::post('/surveyor/regVerifyotpemail', [App\Http\Controllers\Surveyor\Auth\LoginController::class, 'regVerifyotpemail']);
+
+Route::middleware('role:surveyor')->group(function () {
+    Route::get('/surveyor/dashboard', [App\Http\Controllers\Surveyor\AdminController::class, 'index']);
+
+    Route::get('/surveyor/notifications', [App\Http\Controllers\Surveyor\AdminController::class, 'notifications']);
+
+    Route::get('/surveyor/logout', [App\Http\Controllers\Surveyor\AdminController::class, 'adminLogout']);    
+
+    Route::get('/surveyor/service_requests', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'requested_services'])->name('surveyor.requested_services');
+    Route::get('/surveyor/requested_service_detail/{id}/{status}', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'requested_service_detail']);
 });
 
 //Default Pages

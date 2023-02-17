@@ -26,7 +26,7 @@
 											</div>
 										</div>
 										<div class="input-group mb-4">
-											<input type="text" class="form-control" name="otp" id="otp" placeholder="OTP">
+											<input type="password" class="form-control" name="otp" id="otp" placeholder="OTP">
 										</div>
 										<div class="row justify-content-end">
 											<div class="col-4">

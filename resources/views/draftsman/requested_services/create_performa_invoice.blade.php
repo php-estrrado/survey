@@ -67,6 +67,7 @@
                 <form action="{{URL('/draftsman/save_performa_invoice')}}" method="POST">
                     @csrf
                     <input type="hidden" value="{{$survey_id}}" name="id" id="id">
+                    <input type="hidden" value="0" name="performa_invoice_id" id="performa_invoice_id">
                     <input type="hidden" value="" name="survey_charges_words" id="survey_charges_words">
                     <div class="row">
                         <div class="col-sm-6">

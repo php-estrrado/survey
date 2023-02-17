@@ -910,7 +910,7 @@ class ServicerequestsController extends Controller
 
             return view('admin.requested_services.assign_survey_study',$data);
         }
-        elseif($status == 47)
+        elseif($status == 47 || $status == 69)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();

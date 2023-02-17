@@ -134,6 +134,10 @@ class ServicerequestsController extends Controller
         {
             $data['request_data'] = $datas->Subbottom_profilling->first();
         }
+        elseif($datas->service_id == 11)
+        {
+            $data['request_data'] = $datas->Bathymetry_survey->first();
+        }
 
         // dd($data);
 
@@ -204,6 +208,10 @@ class ServicerequestsController extends Controller
         {
             $data['request_data'] = $datas->Subbottom_profilling->first();
         }
+        elseif($datas->service_id == 11)
+        {
+            $data['request_data'] = $datas->Bathymetry_survey->first();
+        }
 
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
@@ -251,6 +259,45 @@ class ServicerequestsController extends Controller
         else
         {
             Session::flash('message', ['text'=>'Receipt Not Verified Successfully !','type'=>'danger']);
+        }
+
+        return redirect('/accountant/service_requests');
+    }
+
+    public function reject_customer_receipt(Request $request)
+    {
+        $id = $request->id;
+
+        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+        Survey_requests::where('id',$id)->update([
+            'request_status' => 17,
+            'updated_by' => auth()->user()->id,
+            'updated_at'=>date("Y-m-d H:i:s")
+        ]);
+
+        $survey_request_logs = [];
+
+        $survey_request_logs['survey_request_id'] = $id;
+        $survey_request_logs['cust_id'] = $cust_id;
+        $survey_request_logs['survey_status'] = 17;
+        $survey_request_logs['remarks'] = $request->remarks;
+        $survey_request_logs['is_active'] = 1;
+        $survey_request_logs['is_deleted'] = 0;
+        $survey_request_logs['created_by'] = auth()->user()->id;
+        $survey_request_logs['updated_by'] = auth()->user()->id;
+        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id; 
+
+        if(isset($survey_request_log_id))
+        {   
+            Session::flash('message', ['text'=>'Receipt Rejected Successfully !','type'=>'success']);  
+        }
+        else
+        {
+            Session::flash('message', ['text'=>'Receipt Not Rejected Successfully !','type'=>'danger']);
         }
 
         return redirect('/accountant/service_requests');

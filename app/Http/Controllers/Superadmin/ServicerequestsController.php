@@ -370,10 +370,22 @@ class ServicerequestsController extends Controller
 
             return view('superadmin.requested_services.dh_verified_survey_study',$data);
         }
+        elseif($status == 17)
+        {
+            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
+            $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
+            $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',17)->first()->remarks;
+
+            // dd($data);
+
+            return view('superadmin.requested_services.customer_payment_rejected',$data);
+        }
         elseif($status == 16)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
+            $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
 
             return view('superadmin.requested_services.customer_payment_verified',$data);
         }
@@ -689,6 +701,60 @@ class ServicerequestsController extends Controller
         else
         {
             Session::flash('message', ['text'=>'Invoice Send to Customer is not Successfull !','type'=>'danger']);
+        }
+
+        return redirect('superadmin/requested_services');
+    }
+
+    public function send_rejected_receipt_customer(Request $request)
+    {
+        $id = $request->id;
+
+        // dd($id);
+
+        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+        // Survey_requests::where('id',$id)->update(['request_status'=>51]);
+
+        // $survey_request_logs = [];
+
+        // $survey_request_logs['survey_request_id'] = $id;
+        // $survey_request_logs['cust_id'] = $cust_id;
+        // $survey_request_logs['survey_status'] = 51;
+        // $survey_request_logs['remarks'] = $request->remarks;
+        // $survey_request_logs['is_active'] = 1;
+        // $survey_request_logs['is_deleted'] = 0;
+        // $survey_request_logs['created_by'] = auth()->user()->id;
+        // $survey_request_logs['updated_by'] = auth()->user()->id;
+        // $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        // $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+        // $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+        $usr_noti = [];
+
+        $usr_noti['notify_from'] = auth()->user()->id;
+        $usr_noti['notify_to'] = $cust_id;
+        $usr_noti['role_id'] = 6;
+        $usr_noti['notify_from_role_id'] = 1;
+        $usr_noti['notify_type'] = 0;
+        $usr_noti['title'] = 'Payment Rejected';
+        $usr_noti['ref_id'] = auth()->user()->id;
+        $usr_noti['ref_link'] = '#';
+        $usr_noti['viewed'] = 0;
+        $usr_noti['created_at'] = date('Y-m-d H:i:s');
+        $usr_noti['updated_at'] = date('Y-m-d H:i:s');
+        $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
+
+        $user_noti_id = UserNotification::create($usr_noti)->id;
+
+        if(isset($user_noti_id))
+        {   
+            Session::flash('message', ['text'=>'Rejected receipt Send to Customer Successfully !','type'=>'success']);  
+        }
+        else
+        {
+            Session::flash('message', ['text'=>'Rejected receipt Send to Customer is not Successfull !','type'=>'danger']);
         }
 
         return redirect('superadmin/requested_services');

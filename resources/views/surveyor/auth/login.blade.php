@@ -15,7 +15,7 @@
 										<h1 class="mb-2">Sign in to account</h1>
 										<p class="text-muted text-left">Enter your email and OTP to login</p>
 									</div>
-									<form method="POST" id="adminLogin" action="{{ url('/accountant/regVerifyotpemail') }}" class="theme-form">
+									<form method="POST" id="adminLogin" action="{{ url('/surveyor/regVerifyotpemail') }}" class="theme-form">
 										@csrf
 										<div class="input-group mb-4">
 											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID">
@@ -49,7 +49,7 @@
 			var email = $('#email').val();
 
 			$.ajax({
-				url: "{{url('/accountant/sendotpemail')}}",
+				url: "{{url('/surveyor/sendotpemail')}}",
 				type: "post",
 				data: {
 					"_token": "{{ csrf_token() }}",
