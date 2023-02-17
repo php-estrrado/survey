@@ -25,6 +25,10 @@ class Role
     {
       return $next($request);
     }
+    elseif(Auth::user() &&  Auth::user()->role_id == 3 && $type == 'surveyor')
+    {
+      return $next($request);
+    }
     elseif(Auth::user() &&  Auth::user()->role_id == 4 && $type == 'draftsman')
     {
       return $next($request);
@@ -46,6 +50,10 @@ class Role
       elseif(Auth::user() &&  Auth::user()->role_id != 2 && $type == 'admin')
       {
         return redirect('admin/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
+      }
+      elseif(Auth::user() &&  Auth::user()->role_id != 3 && $type == 'surveyor')
+      {
+        return redirect('surveyor/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
       }
       elseif(Auth::user() &&  Auth::user()->role_id != 4 && $type == 'draftsman')
       {

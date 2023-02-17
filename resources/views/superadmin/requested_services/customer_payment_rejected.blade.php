@@ -34,21 +34,21 @@
 					<div class="mt-1">
 						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
 						<ul class="mb-0 pro-details">
-							<li><span class="h6 mt-3">Name: John</span></li>
-							<li><span class="h6 mt-3">Name of the firm: XYZ</span></li>
-							<li><span class="h6 mt-3">Type of firm: Private</span></li>
-							<li><span class="h6 mt-3">Email ID: xyz@gmail.com</span></li>
-							<li><span class="h6 mt-3">Mobile No.: Private</span></li>
-							<li><span class="h6 mt-3">Valid ID Proof: xyz@gmail.com</span></li>
+							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
+							<li><span class="h6 mt-3">Name of the firm: {{$request_data->firm}}</span></li>
+							<li><span class="h6 mt-3">Type of firm: {{$request_data->sector}}</span></li>
+							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
+							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
+							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-auto">
-			<div class="text-lg-right btn-list mt-4 mt-lg-0">
+			<!-- <div class="text-lg-right btn-list mt-4 mt-lg-0">
 				<a href="#" class="modal-effect btn btn-primary" href="">Send</a>
-			</div>
+			</div> -->
 			<div class="mt-5">
 				<div class="main-profile-contact-list row">
 					<div class="media col-sm-3">
@@ -58,7 +58,7 @@
 						<div class="media-body">
 							<small class="text-muted">Date</small>
 							<div class="font-weight-normal1">
-								11/12/2022
+								{{date('d/m/Y',strtotime($request_data->created_at))}}
 							</div>
 						</div>
 					</div>
@@ -69,7 +69,7 @@
 						<div class="media-body">
 							<small class="text-muted">Requested Service</small>
 							<div class="font-weight-normal1">
-								Hydrographic Survey
+								{{$service}}
 							</div>
 						</div>
 					</div>
@@ -132,27 +132,31 @@
 							<div class="card-title font-weight-bold mt-5">Remarks From AO</div>
 							<div class="row">
 								<div class="col-sm-12 col-md-12">
-									<ul class="list-style3">
-										<li>ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores </li>
-										<li>quas molestias excepturi sint occaecati cupiditate non provident</li>
-										<li>Nam libero tempore, cum soluta nobis est eligendi optio cumque</li>
-										<li>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates</li>
-										<li>epudiandae sint et molestiae non recusandae itaque earum rerum hic tenetur a sapiente delectus</li>
-										<li>ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat</li>
-									</ul>
+									{{$ao_remarks}}
 								</div>
 							</div>
 							<hr>
 							<div class="row">
 								<div class="col-sm-12 col-md-12">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Remarks
+									<form action="{{url('/superadmin/send_rejected_receipt_customer')}}" method="post">
+										@csrf
+										<input type="hidden" name="id" id="id" value="{{$survey_id}}">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Remarks
+												</div>
+											</div>
+											<textarea class="form-control mb-4" placeholder="Type Here..." rows="3" name="remarks" id="remarks"></textarea>
+										</div>
+										<div class="row">
+											<div class="col-12">
+												<div class="btn-list d-flex justify-content-end">
+													<button class="btn btn-primary" type="submit">Send</button>
+												</div>
 											</div>
 										</div>
-										<textarea class="form-control mb-4" placeholder="Type Here..." rows="3"></textarea>
-									</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -170,7 +174,7 @@
 												Bill / Invoice No.
 											</div>
 										</div>
-										<label class="form-label">123456</label>
+										<label class="form-label">{{$survey_invoice->bill_invoice_no}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -180,7 +184,7 @@
 												Name Of Work
 											</div>
 										</div>
-										<label class="form-label">Hydrographic</label>
+										<label class="form-label">{{$survey_invoice->name_of_work}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -190,7 +194,7 @@
 												Work Order No And Date
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$survey_invoice->work_orderno_date}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -200,7 +204,7 @@
 												Service code (SAC)
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$survey_invoice->service_code}}</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-8">
@@ -210,7 +214,7 @@
 												Description of Service:
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$survey_invoice->service_description}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -220,7 +224,7 @@
 												Name of organisation:
 											</div>
 										</div>
-										<label class="form-label">Hydrographic Survey Wing</label>
+										<label class="form-label">{{$survey_invoice->organization_name}}</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-8">
@@ -246,7 +250,7 @@
 												Name
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$survey_invoice->receiver_name}}</label>
 									</div>
 								</div>
 								<div class="col-sm-84 col-md-8">
@@ -256,9 +260,7 @@
 												Address
 											</div>
 										</div>
-										<label class="form-label">Chief Hydrographer,
-											Hydrographic Survey wing,
-											Thiruvananthapuram-695009</label>
+										<label class="form-label">{{$survey_invoice->receiver_address}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -268,7 +270,7 @@
 												State Code
 											</div>
 										</div>
-										<label class="form-label">1234</label>
+										<label class="form-label">{{$survey_invoice->state_code}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -278,7 +280,7 @@
 												GSTIN/ Unique ID
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$survey_invoice->gstin_unique_id}}</label>
 									</div>
 								</div>
 							</div>
@@ -298,13 +300,13 @@
 												</tr>
 												<tr>
 													<td width="11%">In Figures</td>
-													<td width="37%"></td>
+													<td width="37%">{{$survey_invoice->survey_charges}}</td>
 													<td rowspan="2" align="center">1051-80-800-96-03-mis-HSW
 														(through Treasury In words / e-treasury)</td>
 												</tr>
 												<tr>
 													<td>In Words</td>
-													<td>&nbsp;</td>
+													<td>{{$survey_invoice->survey_charges}}</td>
 												</tr>
 											</tbody>
 										</table>
@@ -328,7 +330,7 @@
 												<tr>
 													<td width="16%">CGST</td>
 													<td width="4%">9%</td>
-													<td width="38%">&nbsp;</td>
+													<td width="38%">{{$survey_invoice->cgst_amount}}</td>
 													<td rowspan="5" align="center">A/c no: 00000037884341757,
 														SBI, Fort, Trivandrum.
 														IFSC: SBIN0060333</td>
@@ -336,20 +338,20 @@
 												<tr>
 													<td>SGST</td>
 													<td>9%</td>
-													<td>&nbsp;</td>
+													<td>{{$survey_invoice->sgst_amount}}</td>
 												</tr>
 												<tr>
 													<td>IGST</td>
 													<td>9%</td>
-													<td>&nbsp;</td>
+													<td>{{$survey_invoice->igst_amount}}</td>
 												</tr>
 												<tr>
 													<td>Total(in figures)</td>
-													<td colspan="2">&nbsp;</td>
+													<td colspan="2">{{$survey_invoice->total_tax_amount}}</td>
 												</tr>
 												<tr>
 													<td>Total(in words)</td>
-													<td colspan="2">&nbsp;</td>
+													<td colspan="2">{{$survey_invoice->total_tax_amount_words}}</td>
 												</tr>
 											</tbody>
 										</table>
@@ -365,7 +367,7 @@
 												Grand Total (a+b) (in figures):
 											</div>
 										</div>
-										<label class="form-label">Rs. 100.00</label>
+										<label class="form-label">Rs. {{$survey_invoice->total_invoice_amount}}</label>
 									</div>
 								</div>
 								<div class="col-sm-6 col-md-6">
@@ -375,13 +377,13 @@
 												Grand Total (a+b) (in words):
 											</div>
 										</div>
-										<label class="form-label">Rs. Hundred Only</label>
+										<label class="form-label">Rs. {{$survey_invoice->total_invoice_amount_words}}</label>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>				
 				<div class="tab-pane" id="tab-7">
 					<div class="card newser">
 						<div class="card-body">
@@ -394,7 +396,7 @@
 												Date And Time Of Inspection
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{date('d/m/Y H:i:s',strtotime($field_study->datetime_inspection))}}</label>
 									</div>
 								</div>
 								<div class="col-sm-8 col-md-8">
@@ -404,7 +406,7 @@
 												Name Of Department / Firm With Which Reconnaissance Survey Is Conducted
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$field_study->survey_department_name}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -414,7 +416,7 @@
 												From Hydrographic Survey Wing
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$field_study->from_hsw}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -424,7 +426,7 @@
 												Name Of Officers Participating In Field Inspection
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$field_study->officer_participating_field_inspection}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -434,7 +436,7 @@
 												Location
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$field_study->location}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -444,7 +446,7 @@
 												Type Of Water Body
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$field_study->type_of_waterbody}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -454,7 +456,7 @@
 												Limit Of Survey Area
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$field_study->limit_of_survey_area}}</label>
 									</div>
 								</div>
 							</div>
@@ -468,7 +470,7 @@
 												General Area
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$fieldstudy_eta->general_area}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -478,7 +480,7 @@
 												Location
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$fieldstudy_eta->location}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -488,7 +490,7 @@
 												No. Of Days Required
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$fieldstudy_eta->no_of_days_required}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -498,7 +500,7 @@
 												Scale Of Survey Recommended
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$fieldstudy_eta->scale_of_survey_recomended}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -508,7 +510,7 @@
 												Type Of Survey
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$fieldstudy_eta->type_of_survey}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -518,7 +520,7 @@
 												Charges
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$fieldstudy_eta->charges}}</label>
 									</div>
 								</div>
 							</div>
@@ -562,7 +564,7 @@
 												Remarks
 											</div>
 										</div>
-										<textarea class="form-control mb-4" placeholder="Type Here..." rows="3"></textarea>
+										<label class="form-label">{{$field_study->remarks}}</label>
 									</div>
 								</div>
 							</div>
@@ -587,7 +589,7 @@
 				<div class="tab-pane" id="tab-9">
 					<div class="card newser">
 						<div class="card-body">
-							<div class="card-title font-weight-bold">Basci info:</div>
+							<div class="card-title font-weight-bold">Basic info:</div>
 							<div class="row">
 								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
@@ -596,7 +598,7 @@
 												Name
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$request_data->fname}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -606,7 +608,7 @@
 												Designation
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$request_data->designation}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -616,7 +618,7 @@
 												Name Of Department
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$request_data->department}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -626,7 +628,7 @@
 												Name Of Firm
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$request_data->firm}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -636,7 +638,7 @@
 												Type Of Organization
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$request_data->sector}}</label>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -646,7 +648,7 @@
 												Purpose
 											</div>
 										</div>
-										<label class="form-label">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </label>
+										<label class="form-label">{{$request_data->purpose}}. </label>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -656,7 +658,7 @@
 												Brief Description Of Type Of Work
 											</div>
 										</div>
-										<label class="form-label">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. </label>
+										<label class="form-label">{{$request_data->description}}. </label>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -666,7 +668,7 @@
 												Required Service From HSW
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$service}}</label>
 									</div>
 								</div>
 							</div>
@@ -680,7 +682,7 @@
 												State
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$state_name}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -690,7 +692,7 @@
 												District
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$district_name}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -700,84 +702,386 @@
 												Name Of Place
 											</div>
 										</div>
-										<label class="form-label">John Jerry</label>
+										<label class="form-label">{{$request_data->place}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Survey Area Location
+								@if($request_data->survey_area_location)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Survey Area Location
+												</div>
 											</div>
+											<label class="form-label">{{$request_data->survey_area_location}}</label>
 										</div>
-										<label class="form-label">John Jerry</label>
 									</div>
-								</div>
+								@endif
+								@if($request_data->tidal_area_location)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Tidal area location
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->tidal_area_location}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->depth_at_saples_collected)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Depth at which samples to be collected
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->depth_at_saples_collected}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->location)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Survey Area Location
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->location}}</label>
+										</div>
+									</div>
+								@endif
 							</div>
 							<hr />
 							<div class="card-title font-weight-bold mt-5">Details</div>
 							<div class="row">
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Type Of Waterbody
+								@if($request_data->type_of_waterbody)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Type Of Waterbody
+												</div>
 											</div>
+											<label class="form-label">{{$request_data->type_of_waterbody}}</label>
 										</div>
-										<label class="form-label">John Jerry</label>
 									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Area Of Survey
+								@endif
+								@if($request_data->period_of_observation)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Period of observation
+												</div>
 											</div>
+											<label class="form-label">{{$request_data->period_of_observation}}</label>
 										</div>
-										<label class="form-label">John Jerry</label>
 									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Scale Of Survey
+								@endif
+								@if($request_data->number_of_locations)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													No. of locations from which samples to be collected
+												</div>
 											</div>
+											<label class="form-label">{{$request_data->number_of_locations}}</label>
 										</div>
-										<label class="form-label">John Jerry</label>
 									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												When Service To Be Conducted
+								@endif
+								@if($request_data->quantity_of_samples)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Quantity of sample to be collected in each location
+												</div>
 											</div>
+											<label class="form-label">{{$request_data->quantity_of_samples}}</label>
 										</div>
-										<label class="form-label">John Jerry</label>
 									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Whether Interim Surveys Are Needed In Future
+								@endif
+								@if($request_data->area_of_survey)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Area Of Survey
+												</div>
 											</div>
+											<label class="form-label">{{$request_data->area_of_survey}}</label>
 										</div>
-										<label class="form-label">John Jerry</label>
 									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Whether Benchmark / Chart Datum Available In The Area
+								@endif
+								@if($request_data->scale_of_survey)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Scale Of Survey
+												</div>
 											</div>
+											<label class="form-label">{{$request_data->scale_of_survey}}</label>
 										</div>
-										<label class="form-label">John Jerry</label>
 									</div>
-								</div>
-								<div class="col-sm-12 col-md-12">
+								@endif
+								@if($request_data->service_to_be_conducted)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													When Service To Be Conducted
+												</div>
+											</div>
+											<label class="form-label">@php echo date('d/m/Y',strtotime($request_data->service_to_be_conducted)); @endphp</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->interim_surveys_needed_infuture)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Whether Interim Surveys Are Needed In Future
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->interim_surveys_needed_infuture}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->benchmark_chart_datum)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Whether Benchmark / Chart Datum Available In The Area
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->benchmark_chart_datum}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->detailed_description_area)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Detailed description of area
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->detailed_description_area}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->dredging_survey_method)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Whether pre/post dredging survey required or both
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->dredging_survey_method}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->interim_survey)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Whether interim surveys are needed in future
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->interim_survey}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->dredging_quantity_calculation)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Whether dredging quantity calculation required
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->dredging_quantity_calculation}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->method_volume_calculation)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method to be adopted for volume calculation
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->method_volume_calculation}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->length)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Length for Survey Calculation
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->length}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->width)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Width for Survey Calculation
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->width}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->depth)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Depth for Survey Calculation
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->depth}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->water_bodies)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Type of Waterbody
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->water_bodies}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->year_of_survey_chart)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Year of survey chart required
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->year_of_survey_chart}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->copies_required)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													No. of copies required
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->copies_required}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->copy_type)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Whether print/soft copy required or both
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->copy_type}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->observation_start_date)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Period of observation Start Date
+												</div>
+											</div>
+											<label class="form-label">@php echo date('d/m/Y',strtotime($request_data->observation_start_date)); @endphp</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->observation_end_date)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Period of observation End Date
+												</div>
+											</div>
+											<label class="form-label">@php echo date('d/m/Y',strtotime($request_data->observation_end_date)); @endphp</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->area_to_scan)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Area to be scanned
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->area_to_scan}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->depth_of_area)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Depth of the area
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->depth_of_area}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->interval)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Line / scanning interval
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->interval}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->area_to_survey)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Area to be scanned
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->area_to_survey}}</label>
+										</div>
+									</div>
+								@endif
+								<!-- <div class="col-sm-12 col-md-12">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -807,7 +1111,7 @@
 											</li>
 										</ul>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -816,16 +1120,6 @@
 		</div>
 	</div>
 </div>
-
-
-<div class="row">
-	<div class="col-12">
-		<div class="btn-list d-flex justify-content-end">
-			<a href="#" class="modal-effect btn btn-primary" href="">Send</a>
-		</div>
-	</div>
-</div>
-
 
 </div>
 </div><!-- end app-content-->

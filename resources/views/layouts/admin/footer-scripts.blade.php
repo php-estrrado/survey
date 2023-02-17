@@ -34,6 +34,16 @@
 
 		<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
 
+		<!-- INTERNAL File uploads js -->
+		<script src="{{URL::asset('public/admin/assets/plugins/fileupload/js/dropify.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/js/filupload.js')}}"></script>
+                                <!-- INTERNAL File-Uploads Js-->
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.ui.widget.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.fileupload.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
+                <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+
 		<script type="text/javascript">
 			$(document).ready(function(){
 				@if(Session::has('message'))

@@ -381,4 +381,16 @@ class RequestedServicesController extends Controller
             return view('customer.bathymetry_survey.bathymetry_survey_edit_form',$data);
         }
     }
+
+    public function survey_report($survey_id)
+    {
+        $datas = Survey_requests::where('id',$survey_id)->first();
+        $data['id'] = $survey_id;
+        $data['service_name'] = Services::where('id',$datas->service_id)->first()->service_name;
+        $data['final_report'] = $datas->final_report;
+
+        // dd($data);
+
+        return view('customer.requested_service.survey_report',$data);
+    }
 }

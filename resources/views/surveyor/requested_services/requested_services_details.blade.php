@@ -46,9 +46,6 @@
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-auto">
-			<div class="text-lg-right btn-list mt-4 mt-lg-0">
-				<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Assign Survey Study</a>
-			</div>
 			<div class="mt-5">
 				<div class="main-profile-contact-list row">
 					<div class="media col-sm-3">
@@ -80,7 +77,7 @@
 						<div class="media-body">
 							<small class="text-muted">Status</small>
 							<div class="font-weight-normal1">
-								AO (Name) Customer Payment Verified
+								{{$survey_status}}
 							</div>
 						</div>
 					</div>
@@ -93,11 +90,7 @@
 			<div class="tab-menu-heading p-0">
 				<div class="tabs-menu1 px-3">
 					<ul class="nav">
-						<li><a href="#tab-5" class="active fs-14" data-toggle="tab">Basic</a></li>
-						<li><a href="#tab-6" data-toggle="tab" class="fs-14">Invoice</a></li>
-						<li><a href="#tab-7" class="fs-14" data-toggle="tab">Report</a></li>
-						<li><a href="#tab-8" data-toggle="tab" class="fs-14">Timeline</a></li>
-						<li><a href="#tab-9" data-toggle="tab" class="fs-14">Submitted Form</a></li>
+						<li><a href="#tab-9" data-toggle="tab" class="active fs-14">Submitted Form</a></li>
 					</ul>
 				</div>
 			</div>
@@ -111,451 +104,7 @@
 	<div class="col-xl-12 col-lg-12 col-md-12">
 		<div class="border-0">
 			<div class="tab-content">
-				<div class="tab-pane active" id="tab-5">
-					<div class="card newser">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-sm-12 col-md-12">
-									<div class="verif">Verified By AO (name) </div>
-									<div class="form-group">
-										<ul id="lightgallery" class="list-unstyled row">
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/1.jpg')}}" data-src="{{URL::asset('assets/images/photos/1.jpg')}}" data-sub-html="<h4>Gallery Image 1</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/1.jpg')}}" alt="Thumb-1">
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="tab-pane" id="tab-6">
-					<div class="card newser">
-						<div class="card-body">
-							<div class="card-title font-weight-bold">Basic info:</div>
-							<div class="row">
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Bill / Invoice No.
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->bill_invoice_no}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Name Of Work
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->name_of_work}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Work Order No And Date
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->work_orderno_date}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Service code (SAC)
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->service_code}}</label>
-									</div>
-								</div>
-								<div class="col-sm-8 col-md-8">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Description of Service:
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->service_description}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Name of organisation:
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->organization_name}}</label>
-									</div>
-								</div>
-								<div class="col-sm-8 col-md-8">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Address
-											</div>
-										</div>
-										<label class="form-label">Chief Hydrographer,
-											Hydrographic Survey wing,
-											Thiruvananthapuram-695009</label>
-									</div>
-								</div>
-							</div>
-							<hr />
-							<div class="card-title font-weight-bold mt-5">Details Of Receiver (Billed To)</div>
-							<div class="row">
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Name
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->receiver_name}}</label>
-									</div>
-								</div>
-								<div class="col-sm-84 col-md-8">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Address
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->receiver_address}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												State Code
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->state_code}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												GSTIN/ Unique ID
-											</div>
-										</div>
-										<label class="form-label">{{$survey_invoice->gstin_unique_id}}</label>
-									</div>
-								</div>
-							</div>
-							<hr />
-							<div class="row">
-								<div class="col-sm-12 col-md-12">
-									<div class="table-responsive">
-										<table class="table table-bordered card-table table-vcenter text-nowrap">
-											<tbody>
-												<tr>
-													<td width="2%" rowspan="4">a</td>
-													<td colspan="3" align="center">Survey Charges</td>
-												</tr>
-												<tr>
-													<td colspan="2" align="center">Amount</td>
-													<td width="50%" align="center">Head Of Account</td>
-												</tr>
-												<tr>
-													<td width="11%">In Figures</td>
-													<td width="37%">{{$survey_invoice->survey_charges}}</td>
-													<td rowspan="2" align="center">1051-80-800-96-03-mis-HSW
-														(through Treasury In words / e-treasury)</td>
-												</tr>
-												<tr>
-													<td>In Words</td>
-													<td>{{$survey_invoice->survey_charges}}</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<hr />
-							<div class="row">
-								<div class="col-sm-12 col-md-12">
-									<div class="table-responsive">
-										<table class="table table-bordered card-table table-vcenter text-nowrap">
-											<tbody>
-												<tr>
-													<td width="2%" rowspan="7">b</td>
-													<td colspan="4" align="center">GST (GSTIN: 32AAAGH0628E1Z2)</td>
-												</tr>
-												<tr>
-													<td colspan="3" align="center">Amount</td>
-													<td width="40%" align="center">Bank Account Details</td>
-												</tr>
-												<tr>
-													<td width="16%">CGST</td>
-													<td width="4%">9%</td>
-													<td width="38%">{{$survey_invoice->cgst_amount}}</td>
-													<td rowspan="5" align="center">A/c no: 00000037884341757,
-														SBI, Fort, Trivandrum.
-														IFSC: SBIN0060333</td>
-												</tr>
-												<tr>
-													<td>SGST</td>
-													<td>9%</td>
-													<td>{{$survey_invoice->sgst_amount}}</td>
-												</tr>
-												<tr>
-													<td>IGST</td>
-													<td>9%</td>
-													<td>{{$survey_invoice->igst_amount}}</td>
-												</tr>
-												<tr>
-													<td>Total(in figures)</td>
-													<td colspan="2">{{$survey_invoice->total_tax_amount}}</td>
-												</tr>
-												<tr>
-													<td>Total(in words)</td>
-													<td colspan="2">{{$survey_invoice->total_tax_amount_words}}</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-							<hr />
-							<div class="row">
-								<div class="col-sm-6 col-md-6">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Grand Total (a+b) (in figures):
-											</div>
-										</div>
-										<label class="form-label">Rs. {{$survey_invoice->total_invoice_amount}}</label>
-									</div>
-								</div>
-								<div class="col-sm-6 col-md-6">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Grand Total (a+b) (in words):
-											</div>
-										</div>
-										<label class="form-label">Rs. {{$survey_invoice->total_invoice_amount_words}}</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="tab-pane" id="tab-7">
-					<div class="card newser">
-						<div class="card-body">
-							<div class="card-title font-weight-bold">Basic info:</div>
-							<div class="row">
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Date And Time Of Inspection
-											</div>
-										</div>
-										<label class="form-label">{{date('d/m/Y H:i:s',strtotime($field_study->datetime_inspection))}}</label>
-									</div>
-								</div>
-								<div class="col-sm-8 col-md-8">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Name Of Department / Firm With Which Reconnaissance Survey Is Conducted
-											</div>
-										</div>
-										<label class="form-label">{{$field_study->survey_department_name}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												From Hydrographic Survey Wing
-											</div>
-										</div>
-										<label class="form-label">{{$field_study->from_hsw}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Name Of Officers Participating In Field Inspection
-											</div>
-										</div>
-										<label class="form-label">{{$field_study->officer_participating_field_inspection}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Location
-											</div>
-										</div>
-										<label class="form-label">{{$field_study->location}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Type Of Water Body
-											</div>
-										</div>
-										<label class="form-label">{{$field_study->type_of_waterbody}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Limit Of Survey Area
-											</div>
-										</div>
-										<label class="form-label">{{$field_study->limit_of_survey_area}}</label>
-									</div>
-								</div>
-							</div>
-							<hr />
-							<div class="card-title font-weight-bold mt-5">ETA</div>
-							<div class="row">
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												General Area
-											</div>
-										</div>
-										<label class="form-label">{{$fieldstudy_eta->general_area}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Location
-											</div>
-										</div>
-										<label class="form-label">{{$fieldstudy_eta->location}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												No. Of Days Required
-											</div>
-										</div>
-										<label class="form-label">{{$fieldstudy_eta->no_of_days_required}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Scale Of Survey Recommended
-											</div>
-										</div>
-										<label class="form-label">{{$fieldstudy_eta->scale_of_survey_recomended}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Type Of Survey
-											</div>
-										</div>
-										<label class="form-label">{{$fieldstudy_eta->type_of_survey}}</label>
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Charges
-											</div>
-										</div>
-										<label class="form-label">{{$fieldstudy_eta->charges}}</label>
-									</div>
-								</div>
-							</div>
-							<hr />
-							<div class="row">
-								<div class="col-sm-12 col-md-12">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Upload Images
-											</div>
-										</div>
-										<ul id="lightgallery" class="list-unstyled row">
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/1.jpg')}}" data-src="{{URL::asset('assets/images/photos/1.jpg')}}" data-sub-html="<h4>Gallery Image 1</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/1.jpg')}}" alt="Thumb-1">
-												</a>
-											</li>
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/2.jpg')}}" data-src="{{URL::asset('assets/images/photos/2.jpg')}}" data-sub-html="<h4>Gallery Image 2</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/2.jpg')}}" alt="Thumb-2">
-												</a>
-											</li>
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/3.jpg')}}" data-src="{{URL::asset('assets/images/photos/3.jpg')}}" data-sub-html="<h4>Gallery Image 3</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/3.jpg')}}" alt="Thumb-1">
-												</a>
-											</li>
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/4.jpg')}}" data-src="{{URL::asset('assets/images/photos/4.jpg')}}" data-sub-html=" <h4>Gallery Image 4</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/4.jpg')}}" alt="Thumb-2">
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<div class="col-sm-12 col-md-12">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Remarks
-											</div>
-										</div>
-										<label class="form-label">{{$field_study->remarks}}</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="tab-pane" id="tab-8">
-					<div class="card p-5">
-						<ul class="timelineleft pb-5">
-							@if($survey_datas && count($survey_datas) > 0)
-								@foreach($survey_datas as $survey_data)
-									<li> <i class="fa fa-clock-o bg-pink"></i>
-										<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y',strtotime($survey_data->log_date))}}</span>
-											<h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>											
-										</div>
-									</li>
-								@endforeach
-							@endif
-						</ul>
-					</div>
-				</div>
-				<div class="tab-pane" id="tab-9">
+				<div class="tab-pane active" id="tab-9">
 					<div class="card newser">
 						<div class="card-body">
 							<div class="card-title font-weight-bold">Basic info:</div>
@@ -634,10 +183,10 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Required Service From HSW
+												Additional service needed
 											</div>
 										</div>
-										<label class="form-label">{{$service}}</label>
+										<label class="form-label">{{$additional_services}}</label>
 									</div>
 								</div>
 							</div>
@@ -668,7 +217,7 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Name Of Place
+												Name of waterbody
 											</div>
 										</div>
 										<label class="form-label">{{$request_data->place}}</label>
@@ -685,6 +234,41 @@
 											<label class="form-label">{{$request_data->survey_area_location}}</label>
 										</div>
 									</div>
+								@endif
+								@if($request_data->data_required)
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Data Required
+											</div>
+										</div>
+										<label class="form-label">
+											<?php $exp = explode(",", $request_data->data_required);
+												$data_arr = array('sounding' => "Sounding",'current_meter_survey' => "Current meter survey",
+												'bottom_profile' => "Bottom profile",'velocity' => "Velocity",'bottom_sample_collection' => "Bottom sample collection",'tide_data' => "Tide data");
+											if($exp){
+												foreach ($exp as $ek => $ev) {
+													echo $data_arr[$ev].",";
+												}
+											}
+											 ?>
+											
+											</label>
+									</div>
+								</div>
+								@endif
+									@if(isset($data_collection))
+								<div class="col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Method/Equipment for Data Collection
+											</div>
+										</div>
+										<label class="form-label">{{$data_collection}}</label>
+									</div>
+								</div>
 								@endif
 								@if($request_data->tidal_area_location)
 									<div class="col-sm-4 col-md-4">
@@ -723,6 +307,107 @@
 									</div>
 								@endif
 							</div>
+							
+							<div class="card-title font-weight-bold mt-5">Location Coordinates</div>
+				<div class="row">
+								@if($request_data->lattitude)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Lattitude
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->lattitude}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->longitude)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Longitude
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->longitude}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->x_coordinates)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													X Coordinates
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->x_coordinates}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->y_coordinates)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Y Coordinates
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->y_coordinates}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->lattitude2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Lattitude 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->lattitude2}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->longitude2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Longitude 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->longitude2}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->x_coordinates2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													X Coordinates 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->x_coordinates2}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->y_coordinates2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Y Coordinates 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->y_coordinates2}}</label>
+										</div>
+									</div>
+								@endif
+								</div>
 							<hr />
 							<div class="card-title font-weight-bold mt-5">Details</div>
 							<div class="row">
@@ -750,6 +435,94 @@
 										</div>
 									</div>
 								@endif
+								@if($request_data->start_date)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Period of observation Start Date
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->start_date}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->end_date)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Period of observation End Date
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->end_date}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->duration)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration (Years)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->duration_weeks)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration (Weeks)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration_weeks}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->duration_days)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration ( Days)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration_days}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->duration_hours)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration ( Hours)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration_hours}}</label>
+										</div>
+									</div>
+								@endif
+								
+								@if($request_data->method_of_observation)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method of observation
+												</div>
+											</div>
+											<label class="form-label">{{ ucfirst($request_data->method_of_observation) }}</label>
+										</div>
+									</div>
+								@endif
 								@if($request_data->number_of_locations)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">
@@ -759,6 +532,80 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->number_of_locations}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->quantity_of_samples)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Interval (in kms)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->quantity_of_samples}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->quantity_bottom_sample)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Quantity (kg)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->quantity_bottom_sample}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->method_of_sampling)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method of sampling
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->method_of_sampling}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->description_of_requirement)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Description of Requirement
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->description_of_requirement}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->file_upload)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Bottom Sample File upload
+												</div>
+											</div>
+											<label class="form-label">
+												<a href="{{ url('/').'/storage/'.$request_data->file_upload}}" target="_blank">View</a>
+												</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->interval_bottom_sample)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Quantity of sample to be collected in each location
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->interval_bottom_sample}}</label>
 										</div>
 									</div>
 								@endif
@@ -831,6 +678,18 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->benchmark_chart_datum}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->description_of_benchmark)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Description of Benchmark
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->description_of_benchmark}}</label>
 										</div>
 									</div>
 								@endif
@@ -927,6 +786,18 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->depth}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->level_upto)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Level upto which dredged (in meter)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->level_upto}}</label>
 										</div>
 									</div>
 								@endif
@@ -1091,65 +962,10 @@
 </div>
 
 
-<div class="row">
-	<div class="col-12">
-		<div class="btn-list d-flex justify-content-end">
-			<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Assign Survey Study</a>
-		</div>
-	</div>
-</div>
-
-
 </div>
 </div><!-- end app-content-->
 </div>
 
-<div class="modal" id="modaldemo1">
-	<div class="modal-dialog" role="document">
-		<form action="{{url('/superadmin/assign_survey_study')}}" method="post">
-			@csrf
-			<input type="hidden" value="{{$field_study->survey_request_id}}" name="id" id="id">
-			<div class="modal-content modal-content-demo">
-				<div class="modal-header">
-					<h6 class="modal-title">Assign</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-				</div>
-				<div class="modal-body">
-					<div class="col-md-12">
-						<div class="form-group">
-							<label class="form-label">Institution <span class="text-red">*</span></label>
-							<select class="form-control custom-select select2" name="assigned_survey_institution">
-								<option value="0">--Select--</option>
-								@if($institutions && count($institutions)>0)
-									@foreach($institutions as $institution)
-										<option value="{{$institution->id}}">{{$institution->institution_name}}</option>
-									@endforeach
-								@endif
-							</select>
-						</div>
-						<div class="form-group">
-							<label class="form-label">User <span class="text-red">*</span></label>
-							<select class="form-control custom-select select2" name="assigned_survey_user">
-								<option value="0">--Select--</option>
-								@if($admins && count($admins)>0)
-									@foreach($admins as $admin)
-										<option value="{{$admin->id}}">{{$admin->email}}</option>
-									@endforeach
-								@endif
-							</select>
-						</div>
-						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks</label>
-							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" type="submit">Assign</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
 
 
 @endsection

@@ -36,3 +36,8 @@
 		<link href="{{URL::asset('admin/assets/css/custom.css')}}" rel="stylesheet" />
 
 		<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />
+
+		<!-- INTERNAL File Uploads css -->
+        <link href="{{URL::asset('public/admin/assets/plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
+        <!-- INTERNAL File Uploads css-->
+        <link href="{{URL::asset('public/admin/assets/plugins/fileupload/css/fileupload.css')}}" rel="stylesheet" type="text/css" />

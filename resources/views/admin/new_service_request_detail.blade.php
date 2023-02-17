@@ -82,7 +82,7 @@
 						<div class="media-body">
 							<small class="text-muted">Status</small>
 							<div class="font-weight-normal1">
-								Field study report and ETA received
+								Service Request Accepted
 							</div>
 						</div>
 					</div>

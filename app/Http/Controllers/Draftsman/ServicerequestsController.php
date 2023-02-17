@@ -156,15 +156,27 @@ class ServicerequestsController extends Controller
         {
             return view('draftsman.requested_services.survey_report',$data);
         }
+        elseif($status == 48 || $status == 52 || $status == 53)
+        {
+            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+
+            return view('draftsman.requested_services.invoice_rejected',$data);
+        }
+        elseif($status == 12 || $status == 34 || $status == 35)
+        {
+            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+
+            return view('draftsman.requested_services.performa_invoice_rejected',$data);
+        }
         elseif($status == 46)
         {
-            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',46)->first()->remarks;
+            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
 
             return view('draftsman.requested_services.assigned_draftsman_invoice',$data);
         }
         elseif($status == 10)
         {
-            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',10)->first()->remarks;
+            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
             
             return view('draftsman.requested_services.invoice',$data);
         }
@@ -196,109 +208,241 @@ class ServicerequestsController extends Controller
         return view('draftsman.requested_services.create_performa_invoice',$data);
     }
 
+    public function edit_performa_invoice($id)
+    {
+        $data['title'] = 'Edit Performa Invoice';
+        $data['survey_id'] = $id;
+
+        $performa_invoice = Survey_performa_invoice::where('is_active',1)->where('is_deleted',0)->orderBy('id','DESC')->get();
+
+        if($performa_invoice && count($performa_invoice)>0)
+        {
+            $last_invoice = DB::table('survey_performa_invoice')->where('is_active',1)->where('is_deleted',0)->orderBy('id', 'DESC')->first()->bill_invoice_no;
+
+            if(isset($last_invoice) && $last_invoice > 0)
+            {
+                $data['bill_invoice_no'] = $last_invoice + 1;
+            }
+        }
+        else
+        {
+            $data['bill_invoice_no'] = 1;
+        }
+
+        $data['performa_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
+
+        // dd($data);
+        
+        return view('draftsman.requested_services.edit_performa_invoice',$data);
+    }
+
     public function save_performa_invoice(Request $request)
     {
         $input = $request->all();
 
         // dd($input);
 
-        $validator = Validator::make($request->all(), [
-            'id'=>['required'],
-            'bill_invoice_no'=>['required'],
-            'invoice_date'=>['required'],
-            'name_of_work'=>['required'],
-            'work_orderno_date' => ['required'],
-            'service_code'=>['required'],
-            'service_description'=>['required'],
-            'organization_name' =>['required'],
-            'payment_mode' =>['required'],
-            'receiver_name' =>['required'],
-            'receiver_address' =>['required'],
-            'state_code' =>['required'],
-            'gstin_unique_id' =>['required'],
-            'survey_charges' =>['required'],
-            'cgst_percentage' =>['required'],
-            'sgst_percentage' =>['required'],
-            'cgst_amount' =>['required'],
-            'sgst_amount' =>['required'],
-            'total_tax_amount' =>['required'],
-            'total_tax_amount_words' =>['required'],
-            'total_invoice_amount' =>['required'],
-            'total_invoice_amount_words' => ['required'],
-            'remarks'=>['nullable']
-        ]);
-
-        if($validator->passes())
+        if($input['performa_invoice_id'] > 0)
         {
-            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-            
-            Survey_performa_invoice::create([
-                'survey_request_id' => $request->id,
-                'bill_invoice_no' => $request->bill_invoice_no,
-                'invoice_date' => date('Y-m-d',strtotime($request->invoice_date)),
-                'name_of_work' => $request->name_of_work,
-                'work_orderno_date' => $request->work_orderno_date,
-                'service_code' => $request->service_code,
-                'service_description' => $request->service_description,
-                'organization_name' => $request->organization_name,
-                'payment_mode' => $request->payment_mode,
-                'receiver_name' => $request->receiver_name,
-                'receiver_address' => $request->receiver_address,
-                'state_code' => $request->state_code,
-                'gstin_unique_id' => $request->gstin_unique_id,
-                'survey_charges' => $request->survey_charges,
-                'survey_charges_words' => $request->survey_charges_words,
-                'cgst_percentage' => $request->cgst_percentage,
-                'sgst_percentage' => $request->sgst_percentage,
-                'cgst_amount' => $request->cgst_amount,
-                'sgst_amount' => $request->sgst_amount,
-                'total_tax_amount' => $request->total_tax_amount,
-                'total_tax_amount_words' => $request->total_tax_amount_words,
-                'total_invoice_amount' => $request->total_invoice_amount,
-                'total_invoice_amount_words' => $request->total_invoice_amount_words,
-                'is_active'=>1,
-                'is_deleted'=>0,
-                'created_by'=>auth()->user()->id,
-                'updated_by'=>auth()->user()->id,
-                'created_at'=>date("Y-m-d H:i:s"),
-                'updated_at'=>date("Y-m-d H:i:s")
+            $validator = Validator::make($request->all(), [
+                'id'=>['required'],
+                'bill_invoice_no'=>['required'],
+                'invoice_date'=>['required'],
+                'name_of_work'=>['required'],
+                'work_orderno_date' => ['required'],
+                'service_code'=>['required'],
+                'service_description'=>['required'],
+                'organization_name' =>['required'],
+                'payment_mode' =>['required'],
+                'receiver_name' =>['required'],
+                'receiver_address' =>['required'],
+                'state_code' =>['required'],
+                'gstin_unique_id' =>['required'],
+                'survey_charges' =>['required'],
+                'cgst_percentage' =>['required'],
+                'sgst_percentage' =>['required'],
+                'cgst_amount' =>['required'],
+                'sgst_amount' =>['required'],
+                'total_tax_amount' =>['required'],
+                'total_tax_amount_words' =>['required'],
+                'total_invoice_amount' =>['required'],
+                'total_invoice_amount_words' => ['required'],
+                'remarks'=>['nullable']
             ]);
-
-            Survey_requests::where('id',$request->id)->update([
-                'request_status' => 11,
-                'updated_by' => auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
-
-            $survey_request_logs = [];
-
-            $survey_request_logs['survey_request_id'] = $input['id'];
-            $survey_request_logs['cust_id'] = $cust_id;
-            $survey_request_logs['survey_status'] = 11;
-            $survey_request_logs['remarks'] = $input['remarks'];
-            $survey_request_logs['is_active'] = 1;
-            $survey_request_logs['is_deleted'] = 0;
-            $survey_request_logs['created_by'] = auth()->user()->id;
-            $survey_request_logs['updated_by'] = auth()->user()->id;
-            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
-
-            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
-
-            if(isset($survey_request_log_id))
-            {   
-                Session::flash('message', ['text'=>'Performa Invoice Created Successfully !','type'=>'success']);  
+    
+            if($validator->passes())
+            {
+                $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+                
+                Survey_performa_invoice::where('id',$input['performa_invoice_id'])->update([
+                    'survey_request_id' => $request->id,
+                    'bill_invoice_no' => $request->bill_invoice_no,
+                    'invoice_date' => date('Y-m-d',strtotime($request->invoice_date)),
+                    'name_of_work' => $request->name_of_work,
+                    'work_orderno_date' => $request->work_orderno_date,
+                    'service_code' => $request->service_code,
+                    'service_description' => $request->service_description,
+                    'organization_name' => $request->organization_name,
+                    'payment_mode' => $request->payment_mode,
+                    'receiver_name' => $request->receiver_name,
+                    'receiver_address' => $request->receiver_address,
+                    'state_code' => $request->state_code,
+                    'gstin_unique_id' => $request->gstin_unique_id,
+                    'survey_charges' => $request->survey_charges,
+                    'survey_charges_words' => $request->survey_charges_words,
+                    'cgst_percentage' => $request->cgst_percentage,
+                    'sgst_percentage' => $request->sgst_percentage,
+                    'cgst_amount' => $request->cgst_amount,
+                    'sgst_amount' => $request->sgst_amount,
+                    'total_tax_amount' => $request->total_tax_amount,
+                    'total_tax_amount_words' => $request->total_tax_amount_words,
+                    'total_invoice_amount' => $request->total_invoice_amount,
+                    'total_invoice_amount_words' => $request->total_invoice_amount_words,
+                    'is_active'=>1,
+                    'is_deleted'=>0,
+                    'created_by'=>auth()->user()->id,
+                    'updated_by'=>auth()->user()->id,
+                    'created_at'=>date("Y-m-d H:i:s"),
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+    
+                Survey_requests::where('id',$request->id)->update([
+                    'request_status' => 68,
+                    'updated_by' => auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+    
+                $survey_request_logs = [];
+    
+                $survey_request_logs['survey_request_id'] = $input['id'];
+                $survey_request_logs['cust_id'] = $cust_id;
+                $survey_request_logs['survey_status'] = 68;
+                $survey_request_logs['remarks'] = $input['remarks'];
+                $survey_request_logs['is_active'] = 1;
+                $survey_request_logs['is_deleted'] = 0;
+                $survey_request_logs['created_by'] = auth()->user()->id;
+                $survey_request_logs['updated_by'] = auth()->user()->id;
+                $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+                $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+    
+                $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+    
+                if(isset($survey_request_log_id))
+                {   
+                    Session::flash('message', ['text'=>'Performa Invoice Updated Successfully !','type'=>'success']);  
+                }
+                else
+                {
+                    Session::flash('message', ['text'=>'Performa Invoice Not Updated Successfully !','type'=>'danger']);
+                }
+    
+                return redirect('/draftsman/service_requests');
             }
             else
             {
-                Session::flash('message', ['text'=>'Performa Invoice Not Created Successfully !','type'=>'danger']);
+                return redirect()->back()->withErrors($validator)->withInput($request->all());
             }
-
-            return redirect('/draftsman/service_requests');
         }
         else
         {
-            return redirect()->back()->withErrors($validator)->withInput($request->all());
+            $validator = Validator::make($request->all(), [
+                'id'=>['required'],
+                'bill_invoice_no'=>['required'],
+                'invoice_date'=>['required'],
+                'name_of_work'=>['required'],
+                'work_orderno_date' => ['required'],
+                'service_code'=>['required'],
+                'service_description'=>['required'],
+                'organization_name' =>['required'],
+                'payment_mode' =>['required'],
+                'receiver_name' =>['required'],
+                'receiver_address' =>['required'],
+                'state_code' =>['required'],
+                'gstin_unique_id' =>['required'],
+                'survey_charges' =>['required'],
+                'cgst_percentage' =>['required'],
+                'sgst_percentage' =>['required'],
+                'cgst_amount' =>['required'],
+                'sgst_amount' =>['required'],
+                'total_tax_amount' =>['required'],
+                'total_tax_amount_words' =>['required'],
+                'total_invoice_amount' =>['required'],
+                'total_invoice_amount_words' => ['required'],
+                'remarks'=>['nullable']
+            ]);
+    
+            if($validator->passes())
+            {
+                $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+                
+                Survey_performa_invoice::create([
+                    'survey_request_id' => $request->id,
+                    'bill_invoice_no' => $request->bill_invoice_no,
+                    'invoice_date' => date('Y-m-d',strtotime($request->invoice_date)),
+                    'name_of_work' => $request->name_of_work,
+                    'work_orderno_date' => $request->work_orderno_date,
+                    'service_code' => $request->service_code,
+                    'service_description' => $request->service_description,
+                    'organization_name' => $request->organization_name,
+                    'payment_mode' => $request->payment_mode,
+                    'receiver_name' => $request->receiver_name,
+                    'receiver_address' => $request->receiver_address,
+                    'state_code' => $request->state_code,
+                    'gstin_unique_id' => $request->gstin_unique_id,
+                    'survey_charges' => $request->survey_charges,
+                    'survey_charges_words' => $request->survey_charges_words,
+                    'cgst_percentage' => $request->cgst_percentage,
+                    'sgst_percentage' => $request->sgst_percentage,
+                    'cgst_amount' => $request->cgst_amount,
+                    'sgst_amount' => $request->sgst_amount,
+                    'total_tax_amount' => $request->total_tax_amount,
+                    'total_tax_amount_words' => $request->total_tax_amount_words,
+                    'total_invoice_amount' => $request->total_invoice_amount,
+                    'total_invoice_amount_words' => $request->total_invoice_amount_words,
+                    'is_active'=>1,
+                    'is_deleted'=>0,
+                    'created_by'=>auth()->user()->id,
+                    'updated_by'=>auth()->user()->id,
+                    'created_at'=>date("Y-m-d H:i:s"),
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+    
+                Survey_requests::where('id',$request->id)->update([
+                    'request_status' => 11,
+                    'updated_by' => auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+    
+                $survey_request_logs = [];
+    
+                $survey_request_logs['survey_request_id'] = $input['id'];
+                $survey_request_logs['cust_id'] = $cust_id;
+                $survey_request_logs['survey_status'] = 11;
+                $survey_request_logs['remarks'] = $input['remarks'];
+                $survey_request_logs['is_active'] = 1;
+                $survey_request_logs['is_deleted'] = 0;
+                $survey_request_logs['created_by'] = auth()->user()->id;
+                $survey_request_logs['updated_by'] = auth()->user()->id;
+                $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+                $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+    
+                $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+    
+                if(isset($survey_request_log_id))
+                {   
+                    Session::flash('message', ['text'=>'Performa Invoice Created Successfully !','type'=>'success']);  
+                }
+                else
+                {
+                    Session::flash('message', ['text'=>'Performa Invoice Not Created Successfully !','type'=>'danger']);
+                }
+    
+                return redirect('/draftsman/service_requests');
+            }
+            else
+            {
+                return redirect()->back()->withErrors($validator)->withInput($request->all());
+            }
         }
     }
 
@@ -328,109 +472,241 @@ class ServicerequestsController extends Controller
         return view('draftsman.requested_services.create_invoice',$data);
     }
 
+    public function edit_invoice($id)
+    {
+        $data['title'] = 'Edit Invoice';
+        $data['survey_id'] = $id;
+
+        $performa_invoice = Survey_invoice::where('is_active',1)->where('is_deleted',0)->orderBy('id','DESC')->get();
+
+        if($performa_invoice && count($performa_invoice)>0)
+        {
+            $last_invoice = DB::table('survey_invoice')->where('is_active',1)->where('is_deleted',0)->orderBy('id', 'DESC')->first()->bill_invoice_no;
+
+            if(isset($last_invoice) && $last_invoice > 0)
+            {
+                $data['bill_invoice_no'] = $last_invoice + 1;
+            }
+        }
+        else
+        {
+            $data['bill_invoice_no'] = 1;
+        }
+
+        $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
+
+        // dd($data);
+        
+        return view('draftsman.requested_services.edit_invoice',$data);
+    }
+
     public function save_invoice(Request $request)
     {
         $input = $request->all();
 
         // dd($input);
 
-        $validator = Validator::make($request->all(), [
-            'id'=>['required'],
-            'bill_invoice_no'=>['required'],
-            'invoice_date'=>['required'],
-            'name_of_work'=>['required'],
-            'work_orderno_date' => ['required'],
-            'service_code'=>['required'],
-            'service_description'=>['required'],
-            'organization_name' =>['required'],
-            'payment_mode' =>['required'],
-            'receiver_name' =>['required'],
-            'receiver_address' =>['required'],
-            'state_code' =>['required'],
-            'gstin_unique_id' =>['required'],
-            'survey_charges' =>['required'],
-            'cgst_percentage' =>['required'],
-            'sgst_percentage' =>['required'],
-            'cgst_amount' =>['required'],
-            'sgst_amount' =>['required'],
-            'total_tax_amount' =>['required'],
-            'total_tax_amount_words' =>['required'],
-            'total_invoice_amount' =>['required'],
-            'total_invoice_amount_words' => ['required'],
-            'remarks' => ['nullable']
-        ]);
-
-        if($validator->passes())
+        if($input['invoice_id'] > 0)
         {
-            $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-            
-            Survey_invoice::create([
-                'survey_request_id' => $request->id,
-                'bill_invoice_no' => $request->bill_invoice_no,
-                'invoice_date' => date('Y-m-d',strtotime($request->invoice_date)),
-                'name_of_work' => $request->name_of_work,
-                'work_orderno_date' => $request->work_orderno_date,
-                'service_code' => $request->service_code,
-                'service_description' => $request->service_description,
-                'organization_name' => $request->organization_name,
-                'payment_mode' => $request->payment_mode,
-                'receiver_name' => $request->receiver_name,
-                'receiver_address' => $request->receiver_address,
-                'state_code' => $request->state_code,
-                'gstin_unique_id' => $request->gstin_unique_id,
-                'survey_charges' => $request->survey_charges,
-                'survey_charges_words' => $request->survey_charges_words,
-                'cgst_percentage' => $request->cgst_percentage,
-                'sgst_percentage' => $request->sgst_percentage,
-                'cgst_amount' => $request->cgst_amount,
-                'sgst_amount' => $request->sgst_amount,
-                'total_tax_amount' => $request->total_tax_amount,
-                'total_tax_amount_words' => $request->total_tax_amount_words,
-                'total_invoice_amount' => $request->total_invoice_amount,
-                'total_invoice_amount_words' => $request->total_invoice_amount_words,
-                'is_active'=>1,
-                'is_deleted'=>0,
-                'created_by'=>auth()->user()->id,
-                'updated_by'=>auth()->user()->id,
-                'created_at'=>date("Y-m-d H:i:s"),
-                'updated_at'=>date("Y-m-d H:i:s")
+            $validator = Validator::make($request->all(), [
+                'id'=>['required'],
+                'bill_invoice_no'=>['required'],
+                'invoice_date'=>['required'],
+                'name_of_work'=>['required'],
+                'work_orderno_date' => ['required'],
+                'service_code'=>['required'],
+                'service_description'=>['required'],
+                'organization_name' =>['required'],
+                'payment_mode' =>['required'],
+                'receiver_name' =>['required'],
+                'receiver_address' =>['required'],
+                'state_code' =>['required'],
+                'gstin_unique_id' =>['required'],
+                'survey_charges' =>['required'],
+                'cgst_percentage' =>['required'],
+                'sgst_percentage' =>['required'],
+                'cgst_amount' =>['required'],
+                'sgst_amount' =>['required'],
+                'total_tax_amount' =>['required'],
+                'total_tax_amount_words' =>['required'],
+                'total_invoice_amount' =>['required'],
+                'total_invoice_amount_words' => ['required'],
+                'remarks' => ['nullable']
             ]);
-
-            Survey_requests::where('id',$request->id)->update([
-                'request_status' => 47,
-                'updated_by' => auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
-
-            $survey_request_logs = [];
-
-            $survey_request_logs['survey_request_id'] = $input['id'];
-            $survey_request_logs['cust_id'] = $cust_id;
-            $survey_request_logs['survey_status'] = 47;
-            $survey_request_logs['remarks'] = $input['remarks'];
-            $survey_request_logs['is_active'] = 1;
-            $survey_request_logs['is_deleted'] = 0;
-            $survey_request_logs['created_by'] = auth()->user()->id;
-            $survey_request_logs['updated_by'] = auth()->user()->id;
-            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
-
-            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
-
-            if(isset($survey_request_log_id))
-            {   
-                Session::flash('message', ['text'=>'Invoice Created Successfully !','type'=>'success']);  
+    
+            if($validator->passes())
+            {
+                $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+                
+                Survey_invoice::where('id',$input['invoice_id'])->update([
+                    'survey_request_id' => $request->id,
+                    'bill_invoice_no' => $request->bill_invoice_no,
+                    'invoice_date' => date('Y-m-d',strtotime($request->invoice_date)),
+                    'name_of_work' => $request->name_of_work,
+                    'work_orderno_date' => $request->work_orderno_date,
+                    'service_code' => $request->service_code,
+                    'service_description' => $request->service_description,
+                    'organization_name' => $request->organization_name,
+                    'payment_mode' => $request->payment_mode,
+                    'receiver_name' => $request->receiver_name,
+                    'receiver_address' => $request->receiver_address,
+                    'state_code' => $request->state_code,
+                    'gstin_unique_id' => $request->gstin_unique_id,
+                    'survey_charges' => $request->survey_charges,
+                    'survey_charges_words' => $request->survey_charges_words,
+                    'cgst_percentage' => $request->cgst_percentage,
+                    'sgst_percentage' => $request->sgst_percentage,
+                    'cgst_amount' => $request->cgst_amount,
+                    'sgst_amount' => $request->sgst_amount,
+                    'total_tax_amount' => $request->total_tax_amount,
+                    'total_tax_amount_words' => $request->total_tax_amount_words,
+                    'total_invoice_amount' => $request->total_invoice_amount,
+                    'total_invoice_amount_words' => $request->total_invoice_amount_words,
+                    'is_active'=>1,
+                    'is_deleted'=>0,
+                    'created_by'=>auth()->user()->id,
+                    'updated_by'=>auth()->user()->id,
+                    'created_at'=>date("Y-m-d H:i:s"),
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+    
+                Survey_requests::where('id',$request->id)->update([
+                    'request_status' => 69,
+                    'updated_by' => auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+    
+                $survey_request_logs = [];
+    
+                $survey_request_logs['survey_request_id'] = $input['id'];
+                $survey_request_logs['cust_id'] = $cust_id;
+                $survey_request_logs['survey_status'] = 69;
+                $survey_request_logs['remarks'] = $input['remarks'];
+                $survey_request_logs['is_active'] = 1;
+                $survey_request_logs['is_deleted'] = 0;
+                $survey_request_logs['created_by'] = auth()->user()->id;
+                $survey_request_logs['updated_by'] = auth()->user()->id;
+                $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+                $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+    
+                $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+    
+                if(isset($survey_request_log_id))
+                {   
+                    Session::flash('message', ['text'=>'Invoice Updated Successfully !','type'=>'success']);  
+                }
+                else
+                {
+                    Session::flash('message', ['text'=>'Invoice Not Updated Successfully !','type'=>'danger']);
+                }
+    
+                return redirect('/draftsman/service_requests');
             }
             else
             {
-                Session::flash('message', ['text'=>'Invoice Not Created Successfully !','type'=>'danger']);
+                return redirect()->back()->withErrors($validator)->withInput($request->all());
             }
-
-            return redirect('/draftsman/service_requests');
         }
         else
         {
-            return redirect()->back()->withErrors($validator)->withInput($request->all());
+            $validator = Validator::make($request->all(), [
+                'id'=>['required'],
+                'bill_invoice_no'=>['required'],
+                'invoice_date'=>['required'],
+                'name_of_work'=>['required'],
+                'work_orderno_date' => ['required'],
+                'service_code'=>['required'],
+                'service_description'=>['required'],
+                'organization_name' =>['required'],
+                'payment_mode' =>['required'],
+                'receiver_name' =>['required'],
+                'receiver_address' =>['required'],
+                'state_code' =>['required'],
+                'gstin_unique_id' =>['required'],
+                'survey_charges' =>['required'],
+                'cgst_percentage' =>['required'],
+                'sgst_percentage' =>['required'],
+                'cgst_amount' =>['required'],
+                'sgst_amount' =>['required'],
+                'total_tax_amount' =>['required'],
+                'total_tax_amount_words' =>['required'],
+                'total_invoice_amount' =>['required'],
+                'total_invoice_amount_words' => ['required'],
+                'remarks' => ['nullable']
+            ]);
+    
+            if($validator->passes())
+            {
+                $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+                
+                Survey_invoice::create([
+                    'survey_request_id' => $request->id,
+                    'bill_invoice_no' => $request->bill_invoice_no,
+                    'invoice_date' => date('Y-m-d',strtotime($request->invoice_date)),
+                    'name_of_work' => $request->name_of_work,
+                    'work_orderno_date' => $request->work_orderno_date,
+                    'service_code' => $request->service_code,
+                    'service_description' => $request->service_description,
+                    'organization_name' => $request->organization_name,
+                    'payment_mode' => $request->payment_mode,
+                    'receiver_name' => $request->receiver_name,
+                    'receiver_address' => $request->receiver_address,
+                    'state_code' => $request->state_code,
+                    'gstin_unique_id' => $request->gstin_unique_id,
+                    'survey_charges' => $request->survey_charges,
+                    'survey_charges_words' => $request->survey_charges_words,
+                    'cgst_percentage' => $request->cgst_percentage,
+                    'sgst_percentage' => $request->sgst_percentage,
+                    'cgst_amount' => $request->cgst_amount,
+                    'sgst_amount' => $request->sgst_amount,
+                    'total_tax_amount' => $request->total_tax_amount,
+                    'total_tax_amount_words' => $request->total_tax_amount_words,
+                    'total_invoice_amount' => $request->total_invoice_amount,
+                    'total_invoice_amount_words' => $request->total_invoice_amount_words,
+                    'is_active'=>1,
+                    'is_deleted'=>0,
+                    'created_by'=>auth()->user()->id,
+                    'updated_by'=>auth()->user()->id,
+                    'created_at'=>date("Y-m-d H:i:s"),
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+    
+                Survey_requests::where('id',$request->id)->update([
+                    'request_status' => 47,
+                    'updated_by' => auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+    
+                $survey_request_logs = [];
+    
+                $survey_request_logs['survey_request_id'] = $input['id'];
+                $survey_request_logs['cust_id'] = $cust_id;
+                $survey_request_logs['survey_status'] = 47;
+                $survey_request_logs['remarks'] = $input['remarks'];
+                $survey_request_logs['is_active'] = 1;
+                $survey_request_logs['is_deleted'] = 0;
+                $survey_request_logs['created_by'] = auth()->user()->id;
+                $survey_request_logs['updated_by'] = auth()->user()->id;
+                $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+                $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+    
+                $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+    
+                if(isset($survey_request_log_id))
+                {   
+                    Session::flash('message', ['text'=>'Invoice Created Successfully !','type'=>'success']);  
+                }
+                else
+                {
+                    Session::flash('message', ['text'=>'Invoice Not Created Successfully !','type'=>'danger']);
+                }
+    
+                return redirect('/draftsman/service_requests');
+            }
+            else
+            {
+                return redirect()->back()->withErrors($validator)->withInput($request->all());
+            }
         }
     }    
 
