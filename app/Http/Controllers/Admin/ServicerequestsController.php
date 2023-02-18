@@ -188,7 +188,7 @@ class ServicerequestsController extends Controller
 
             Survey_requests::where('id',$input['id'])->update($assign_arr);
 
-                        $from       = auth()->user()->id; 
+            $from       = auth()->user()->id; 
             $utype      = 3;
             $to         = $input['assign_surveyor']; 
             $ntype      = 'field_study_assigned';
@@ -197,6 +197,19 @@ class ServicerequestsController extends Controller
             $refId      = $input['id'];
             $reflink    = 'field_study_request';
             $notify     = 'surveyor';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            // notify customer
+            $from       = auth()->user()->id; 
+            $utype      = 6;
+            $to         = $cust_id; 
+            $ntype      = 'field_study_assigned';
+            $title      = 'Field Study Request Created';
+            $desc       = 'Field Study Request Created To Surveyor. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink = '/customer/request_service_detail/'.$input['id'].'/41/';
+            $notify     = 'customer';
             $notify_from_role_id = 2;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
@@ -281,10 +294,23 @@ class ServicerequestsController extends Controller
             $notify_from_role_id = 2;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
+            // // notify customer
+            // $from       = auth()->user()->id; 
+            // $utype      = 6;
+            // $to         = $input['assign_surveyor']; 
+            // $ntype      = 'field_study_rescheduled';
+            // $title      = 'Field Study Rescheduled';
+            // $desc       = 'Field Study Rescheduled By Surveyor. Request ID:HSW'.$input['id'];
+            // $refId      = $input['id'];
+            // $reflink    = 'field_study_rescheduled';
+            // $notify     = 'customer';
+            // $notify_from_role_id = 2;
+            // addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
             $usr_noti = [];
 
             $usr_noti['notify_from'] = auth()->user()->id;
-            $usr_noti['notify_to'] = 6;
+            $usr_noti['notify_to'] = $cust_id;
             $usr_noti['role_id'] = 6;
             $usr_noti['notify_from_role_id'] = 2;
             $usr_noti['notify_type'] = 0;
@@ -349,6 +375,20 @@ class ServicerequestsController extends Controller
             $notify     = 'surveyor';
             $notify_from_role_id = 2;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            // notify customer
+            $from       = auth()->user()->id; 
+            $utype      = 6;
+            $to         = $cust_id; 
+            $ntype      = 'survey_study_assigned';
+            $title      = 'Survey Study Request Created';
+            $desc       = 'Survey Study Request Created To Surveyor. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+             $reflink = '/customer/request_service_detail/'.$input['id'].'/43/';
+            $notify     = 'customer';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
 
             $survey_request_logs = [];
 
@@ -431,10 +471,24 @@ class ServicerequestsController extends Controller
             $notify_from_role_id = 2;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
+            // // notify customer
+            // $from       = auth()->user()->id; 
+            // $utype      = 6;
+            // $to         = $input['assign_surveyor']; 
+            // $ntype      = 'survey_study_rescheduled';
+            // $title      = 'Survey Study Rescheduled';
+            // $desc       = 'Survey Study Rescheduled By Surveyor. Request ID:HSW'.$input['id'];
+            // $refId      = $input['id'];
+            // $reflink    = 'survey_study_rescheduled';
+            // $notify     = 'customer';
+            // $notify_from_role_id = 2;
+            // addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+
             $usr_noti = [];
 
             $usr_noti['notify_from'] = auth()->user()->id;
-            $usr_noti['notify_to'] = 6;
+            $usr_noti['notify_to'] = $cust_id;
             $usr_noti['role_id'] = 6;
             $usr_noti['notify_from_role_id'] = 2;
             $usr_noti['notify_type'] = 0;
@@ -755,6 +809,19 @@ class ServicerequestsController extends Controller
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
+                $from       = auth()->user()->id;
+                $utype      = 4;
+                $to         = $assignment_requests->assigned_draftsman_final; 
+                $ntype      = 'final_report_rejected';
+                $title      = 'Final Report Rejected by Admin';
+                $desc       = 'Final Report Rejected by Admin. Request ID: HSW'.$input['id'];
+                $refId      = $input['id'];
+                $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/28/';
+                $notify     = 'draftsman';
+                $notify_from_role_id = 2;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
+
             if(isset($survey_request_log_id))
             {   
                 Session::flash('message', ['text'=>'Final Survey Report Rejected Successfully !','type'=>'success']);  
@@ -1025,6 +1092,19 @@ class ServicerequestsController extends Controller
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
+
+                $from       = auth()->user()->id; 
+                $utype      = 1;
+                $to         = 1; 
+                $ntype      = 'added_eta';
+                $title      = 'ETA Added';
+                $desc       = 'ETA Added. Request ID: HSW'.$input['id'];
+                $refId      = $input['id'];
+                $reflink    = '/superadmin/requested_service_detail/'.$input['id'].'/8/';
+                $notify     = 'superadmin';
+                $notify_from_role_id = 2;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
             if(isset($survey_request_log_id))
             {   
                 Session::flash('message', ['text'=>'Field Study ETA added Successfully !','type'=>'success']);  
@@ -1065,6 +1145,18 @@ class ServicerequestsController extends Controller
 
         $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
+            $from       = auth()->user()->id; 
+            $utype      = 1;
+            $to         = 1; 
+            $ntype      = 'performa_invoice_verified';
+            $title      = 'Performa Invoice Verified';
+            $desc       = 'Performa Invoice Verified. Request ID:HSW'. $id;
+            $refId      = $id;
+            $reflink    = '/superadmin/requested_service_detail/'.$id.'/13/';
+            $notify     = 'superadmin';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
         if(isset($survey_request_log_id))
         {   
             Session::flash('message', ['text'=>'Performa Invoice Verified Successfully !','type'=>'success']);  
@@ -1099,6 +1191,18 @@ class ServicerequestsController extends Controller
         $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
         $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 1;
+            $to         = 1; 
+            $ntype      = 'invoice_verified_by_admin';
+            $title      = 'Invoice Verified by Admin';
+            $desc       = 'Invoice Verified by Admin. Request ID: HSW'.$id;
+            $refId      = $id;
+            $reflink    = '/superadmin/requested_service_detail/'.$input['id'].'/49/';
+            $notify     = 'superadmin';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
 
         if(isset($survey_request_log_id))
         {   
@@ -1145,6 +1249,18 @@ class ServicerequestsController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 4;
+            $to         = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
+            $ntype      = 'performa_invoice_rejected';
+            $title      = 'Performa Invoice Rejected by Admin';
+            $desc       = 'Performa Invoice Rejected by Admin. Request ID:HSW'.$input['id'];
+            $refId      =$input['id'];
+            $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/12/';
+            $notify     = 'draftsman';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             if(isset($survey_request_log_id))
             {   
@@ -1197,6 +1313,18 @@ class ServicerequestsController extends Controller
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
+            $from       = auth()->user()->id; 
+            $utype      = 4;
+            $to         = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
+            $ntype      = 'invoice_rejected';
+            $title      = 'Invoice Rejected by Admin';
+            $desc       = 'Invoice Rejected by Admin. Request ID:HSW'.$input['id'];
+            $refId      =$input['id'];
+            $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/48/';
+            $notify     = 'draftsman';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
             if(isset($survey_request_log_id))
             {   
                 Session::flash('message', ['text'=>'Invoice Rejected Successfully !','type'=>'success']);  
@@ -1237,6 +1365,18 @@ class ServicerequestsController extends Controller
 
         $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
+            $from       = auth()->user()->id; 
+            $utype      = 1;
+            $to         = 1; 
+            $ntype      = 'survey_study_verified';
+            $title      = 'Survey Study Report Verified By Admin';
+            $desc       = 'Survey Study Report Verified By Admin. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    = '/superadmin/requested_service_detail/'.$id.'/21/';
+            $notify     = 'superadmin';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
         if(isset($survey_request_log_id))
         {   
             Session::flash('message', ['text'=>'Survey Study Verified Successfully !','type'=>'success']);  
@@ -1271,6 +1411,18 @@ class ServicerequestsController extends Controller
         $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
         $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 1;
+            $to         = 1; 
+            $ntype      = 'final_report_verified';
+            $title      = 'Final Report Verified By Admin';
+            $desc       = 'Final Report Verified By Admin. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    = '/superadmin/requested_service_detail/'.$id.'/25/';
+            $notify     = 'superadmin';
+            $notify_from_role_id = 2;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
         if(isset($survey_request_log_id))
         {   

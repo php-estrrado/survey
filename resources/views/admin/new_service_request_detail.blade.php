@@ -35,8 +35,13 @@
 						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
-							<li><span class="h6 mt-3">Name of the firm: {{$request_data->firm}}</span></li>
-							<li><span class="h6 mt-3">Type of firm: {{$request_data->sector}}</span></li>
+<?php
+           $firm_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+ ?>
+
+
+							<li><span class="h6 mt-3">Name of the firm: {{ $firm_name[$request_data->firm]}}</span></li>
+							<li><span class="h6 mt-3">Type of firm: {{ getOrgType($request_data->sector) }}</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
 							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
@@ -195,7 +200,7 @@
 												Name Of Firm
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->firm}}</label>
+										<label class="form-label">{{ $firm_name[$request_data->firm]}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -205,7 +210,7 @@
 												Type Of Organization
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->sector}}</label>
+										<label class="form-label">{{ getOrgType($request_data->sector) }}</label>
 									</div>
 								</div>
 								<div class="col-md-12">

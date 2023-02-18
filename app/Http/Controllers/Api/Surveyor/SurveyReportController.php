@@ -113,6 +113,19 @@ class SurveyReportController extends Controller
 
 
         Survey_request_logs::create($req_logs);
+
+        $from       = $user_id; 
+        $utype      = 2;
+        $to         = $assignment_requests->assigned_user; 
+        $ntype      = 'survey_study_report';
+        $title      = 'Survey Study Report Submitted';
+        $desc       = 'Survey Study Report Submitted. Request ID: HSW'.$request_id;
+        $refId      = $request_id;
+        $reflink    = 'admin';
+        $notify     = 'admin';
+        $notify_from_role_id = 3;
+        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+              
         return ['httpcode'=>200,'status'=>'success','page'=>'Home','message'=>'Success','data'=>['survey_study_report_id'=>$ins]];
     }
 
@@ -197,6 +210,19 @@ class SurveyReportController extends Controller
 
 
         Survey_request_logs::create($req_logs);
+
+
+        $from       = $user_id; 
+        $utype      = 2;
+        $to         = $assignment_requests->assigned_user; 
+        $ntype      = 'field_study_report';
+        $title      = 'Field Study Report Submitted';
+        $desc       = 'Field Study Report Submitted. Request ID: HSW'.$request_id;
+        $refId      = $request_id;
+        $reflink    = 'admin';
+        $notify     = 'admin';
+        $notify_from_role_id = 3;
+        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
 
         return ['httpcode'=>200,'status'=>'success','page'=>'Home','message'=>'Success','data'=>['field_study_report_id'=>$ins]];
     }

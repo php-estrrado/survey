@@ -456,24 +456,40 @@ class Homepage extends Controller
                 $title      = 'Survey Study Accepted';
                 $desc       = 'Survey Study Request Accepted. Request ID: HSW'.$request_id;
                 $refId      = $request_id;
-                $reflink    = 'customer';
+                $reflink    = '/customer/request_service_detail/'.$request_id.'/'.$request_status;
                 $notify     = 'customer';
                 $notify_from_role_id = 3;
                 addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+                $from       = $user_id; 
+                $utype      = 2;
+                $to         = $assignment_requests->assigned_survey_user; 
+                $ntype      = 'survey_study_accepted';
+                $title      = 'Survey Study Accepted';
+                $desc       = 'Survey Study Request Accepted. Request ID: HSW'.$request_id;
+                $refId      = $request_id;
+                $reflink    = '/admin/requested_service_detail/'.$request_id.'/'.$request_status;
+                $notify     = 'admin';
+                $notify_from_role_id = 3;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
                 }
 
                 if($req_action == "reject") {
+
                 $from       = $user_id; 
                 $utype      = 2;
-                $to         = $assignment_requests->cust_id; 
+                $to         = $assignment_requests->assigned_survey_user; 
                 $ntype      = 'survey_study_rejected';
                 $title      = 'Survey Study Rejected';
                 $desc       = 'Survey Study Request Rejected. Request ID: HSW'.$request_id;
                 $refId      = $request_id;
-                $reflink    = 'admin';
+                $reflink    = '/admin/requested_service_detail/'.$request_id.'/'.$request_status;
                 $notify     = 'admin';
                 $notify_from_role_id = 3;
                 addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+
                 }
 
         
@@ -508,10 +524,23 @@ class Homepage extends Controller
                     $title      = 'Field Study Accepted';
                     $desc       = 'Field Study Request Accepted. Request ID: HSW'.$request_id;
                     $refId      = $request_id;
-                    $reflink    = 'customer';
+                    $reflink    = '/customer/request_service_detail/'.$request_id.'/'.$request_status;
                     $notify     = 'customer';
                     $notify_from_role_id = 3;
                     addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
+                    $from       = $user_id; 
+                    $utype      = 2;
+                    $to         = $assignment_requests->assigned_user; 
+                    $ntype      = 'field_study_accepted';
+                    $title      = 'Field Study Accepted';
+                    $desc       = 'Field Study Request Accepted. Request ID: HSW'.$request_id;
+                    $refId      = $request_id;
+                    $reflink    = '/admin/requested_service_detail/'.$request_id.'/'.$request_status;
+                    $notify     = 'admin';
+                    $notify_from_role_id = 3;
+                    addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
                 }else{
                     $from       = $user_id; 
                     $utype      = 6;
@@ -520,10 +549,23 @@ class Homepage extends Controller
                     $title      = 'Survey Study Accepted';
                     $desc       = 'Survey Study Request Accepted. Request ID: HSW'.$request_id;
                     $refId      = $request_id;
-                    $reflink    = 'customer';
+                    $reflink    = '/customer/request_service_detail/'.$request_id.'/'.$request_status;
                     $notify     = 'customer';
                     $notify_from_role_id = 3;
                     addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);  
+
+                    $from       = $user_id; 
+                    $utype      = 2;
+                    $to         = $assignment_requests->assigned_survey_user; 
+                    $ntype      = 'survey_study_accepted';
+                    $title      = 'Survey Study Accepted';
+                    $desc       = 'Survey Study Request Accepted. Request ID: HSW'.$request_id;
+                    $refId      = $request_id;
+                    $reflink    = '/admin/requested_service_detail/'.$request_id.'/'.$request_status;
+                    $notify     = 'admin';
+                    $notify_from_role_id = 3;
+                    addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
                 }
 
                 }
@@ -549,24 +591,40 @@ class Homepage extends Controller
                     $title      = 'Field Study Accepted';
                     $desc       = 'Field Study Request Accepted. Request ID: HSW'.$request_id;
                     $refId      = $request_id;
-                    $reflink    = 'customer';
+                    $reflink    = '/customer/request_service_detail/'.$request_id.'/'.$request_status;
                     $notify     = 'customer';
                     $notify_from_role_id = 3;
                     addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
+                    $from       = $user_id; 
+                    $utype      = 2;
+                    $to         = $assignment_requests->assigned_user; 
+                    $ntype      = 'field_study_accepted';
+                    $title      = 'Field Study Accepted';
+                    $desc       = 'Field Study Request Accepted. Request ID: HSW'.$request_id;
+                    $refId      = $request_id;
+                    $reflink    = '/admin/requested_service_detail/'.$request_id.'/'.$request_status;
+                    $notify     = 'admin';
+                    $notify_from_role_id = 3;
+                    addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
                 }
 
                 if($req_action == "reject") {
                     $from       = $user_id; 
                     $utype      = 2;
-                    $to         = $assignment_requests->cust_id; 
+                    $to         = $assignment_requests->assigned_user; 
                     $ntype      = 'field_study_rejected';
                     $title      = 'Field Study Rejected';
                     $desc       = 'Field Study Request Rejected. Request ID: HSW'.$request_id;
                     $refId      = $request_id;
-                    $reflink    = 'admin';
+                    $reflink    = '/admin/requested_service_detail/'.$request_id.'/'.$request_status;
                     $notify     = 'admin';
                     $notify_from_role_id = 3;
                     addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
+
+
                 }
             
             }
@@ -725,7 +783,17 @@ class Homepage extends Controller
             $req_logs['is_active'] = 1;
             $req_logs['created_by'] = $user_id;
 
-
+                    $from       = $user_id; 
+                    $utype      = 2;
+                    $to         = $assignment_requests->assigned_survey_user; 
+                    $ntype      = 'survey_study_reschedule';
+                    $title      = 'survey Study Reschedule';
+                    $desc       = 'Survey Study Request Reschedule. Request ID: HSW'.$request_id;
+                    $refId      = $request_id;
+                    $reflink    = '/admin/requested_service_detail/'.$request_id.'/'.$request_status;
+                    $notify     = 'admin';
+                    $notify_from_role_id = 3;
+                    addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
 
         
             }else if($req_type =="reassignment")
@@ -743,6 +811,18 @@ class Homepage extends Controller
             $req_logs['remarks'] =$remarks;
             $req_logs['is_active'] = 1;
             $req_logs['created_by'] = $user_id;
+
+            $from       = $user_id; 
+            $utype      = 2;
+            $to         = $assignment_requests->assigned_user; 
+            $ntype      = 'field_study_reschedule';
+            $title      = 'Field Study Reschedule';
+            $desc       = 'Field Study Request Reschedule. Request ID: HSW'.$request_id;
+            $refId      = $request_id;
+            $reflink    = '/admin/requested_service_detail/'.$request_id.'/'.$request_status;
+            $notify     = 'admin';
+            $notify_from_role_id = 3;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
             
             // if($req_action == "accept") {
             //         $from       = $user_id; 

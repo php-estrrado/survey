@@ -230,7 +230,7 @@ class ServicerequestsController extends Controller
         $id = $request->id;
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
-
+        $assigned_user = survey_requests::where('id',$id)->first()->assigned_user;
         Survey_requests::where('id',$id)->update([
             'request_status' => 16,
             'updated_by' => auth()->user()->id,
@@ -251,6 +251,30 @@ class ServicerequestsController extends Controller
         $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
         $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id; 
+
+            $from       = auth()->user()->id; 
+            $utype      = 2;
+            $to         = $assigned_user; 
+            $ntype      = 'payment_receipt_verified';
+            $title      = 'Payment Receipt Verified';
+            $desc       = 'Payment Receipt Verified. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    = '/admin/requested_service_detail/'.$id.'/16/';
+            $notify     = 'admin';
+            $notify_from_role_id = 5;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+                        $from       = auth()->user()->id; 
+            $utype      = 1;
+            $to         = 1; 
+            $ntype      = 'payment_receipt_verified';
+            $title      = 'Payment Receipt Verified';
+            $desc       = 'Payment Receipt Verified. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    =  '/superadmin/requested_service_detail/'.$id.'/16/';
+            $notify     = 'superadmin';
+            $notify_from_role_id = 5;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
         if(isset($survey_request_log_id))
         {   

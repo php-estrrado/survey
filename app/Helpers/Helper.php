@@ -18,6 +18,7 @@ use App\Models\Survey_request_logs;
 use App\Models\AdminNotification;
 
 use App\Models\Product;
+use App\Models\OrganisationType;
 use Twilio\Rest\Client;
 
 
@@ -91,20 +92,24 @@ if (!function_exists('geSiteName')) {
             DB::table('admin_notifications')->insert(['notify_from'=>$from,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
             
        }
-        else if($notify                ==  'seller'){
+        else if($notify                ==  'superadmin'){
             
-            $seller_token = DB::table('usr_seller_logins')->where('seller_id',$to)->where('is_login',1)->get();
-            $deviceTokens = [];
-            foreach($seller_token as $sk=>$tokens)
-            {
-                $deviceTokens[] = $tokens->device_token;
-            }
-            $pushData['title'] = $title;
-            $pushData['message'] = $desc;
-            $pushData['data'] = array('ref_id'=>$refId,'time'=>date('H:i:s'));
-            sendPush($deviceTokens,$pushData);
-             DB::table('seller_notifications')->insert(['notify_from'=>$from,'user_type'=>$utype,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s')]);
+         DB::table('admin_notifications')->insert(['notify_from'=>$from,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
+            
         }
+
+        else if($notify                ==  'draftsman'){
+            
+         DB::table('admin_notifications')->insert(['notify_from'=>$from,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
+            
+        }
+
+        else if($notify                ==  'accounts'){
+            
+         DB::table('admin_notifications')->insert(['notify_from'=>$from,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
+            
+        }
+
         else if($notify                ==  'customer'){
             
             //   $users_token = DB::table('usr_logins')->where('user_id',$to)->where('is_login',1)->get();
@@ -396,6 +401,21 @@ if (!function_exists('getProduct')) {
 
     function getProduct($id) {
         return Product::where('id', $id)->first(); 
+    }
+
+}
+
+if (!function_exists('getOrgType')) {
+
+    function getOrgType($id) {
+         $org_type = OrganisationType::where('id', $id)->first(); 
+         if($org_type)
+         {
+            $org_types = $org_type->type;
+         }else{
+            $org_types = "";
+         }
+         return $org_types;
     }
 
 }

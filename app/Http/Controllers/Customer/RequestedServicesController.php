@@ -169,6 +169,19 @@ class RequestedServicesController extends Controller
 
         $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
+            $from       = auth()->user()->id; 
+            $utype      = 1;
+            $to         = 1; 
+            $ntype      = 'performa_invice_accepted';
+            $title      = 'Customer Accepted Performa Invoice';
+            $desc       = 'Customer Accepted Performa Invoice. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    =  '/superadmin/requested_service_detail/'.$id.'/54/';
+            $notify     = 'superadmin';
+            $notify_from_role_id = 6;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+
         if(isset($survey_request_log_id))
         {   
             Session::flash('message', ['text'=>'Performa Invoice Accepted Successfully !','type'=>'success']);  
@@ -281,6 +294,18 @@ class RequestedServicesController extends Controller
                 $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
                 $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 5;
+            $to         = 5; 
+            $ntype      = 'payment_receipt_submitted';
+            $title      = 'Payment Receipt Submitted';
+            $desc       = 'Payment Receipt Submitted. Request ID:HSW'.$survey_id;
+            $refId      = $survey_id;
+            $reflink    = '/accountant/receipt_received/'.$survey_id;
+            $notify     = 'accounts';
+            $notify_from_role_id = 6;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
                 if(isset($survey_request_log_id))
                 {   

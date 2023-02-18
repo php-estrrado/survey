@@ -70,7 +70,10 @@
 									Name Of Firm
 								</div>
 							</div>
-							<label class="form-label">{{$request_data->firm}}</label>
+							<?php
+           $firm_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+ ?>
+							<label class="form-label">{{ $firm_name[$request_data->firm]}}</label>
 						</div>
 					</div>
 					<div class="col-sm-4 col-md-4">
@@ -80,7 +83,7 @@
 									Type Of Organization
 								</div>
 							</div>
-							<label class="form-label">{{$request_data->sector}}</label>
+							<label class="form-label">{{ getOrgType($request_data->sector) }}</label>
 						</div>
 					</div>
 					<div class="col-md-12">

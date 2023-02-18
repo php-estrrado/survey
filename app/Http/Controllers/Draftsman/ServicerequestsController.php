@@ -274,6 +274,7 @@ class ServicerequestsController extends Controller
             {
                 $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
                 
+                
                 Survey_performa_invoice::where('id',$input['performa_invoice_id'])->update([
                     'survey_request_id' => $request->id,
                     'bill_invoice_no' => $request->bill_invoice_no,
@@ -327,6 +328,8 @@ class ServicerequestsController extends Controller
     
                 $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
     
+
+
                 if(isset($survey_request_log_id))
                 {   
                     Session::flash('message', ['text'=>'Performa Invoice Updated Successfully !','type'=>'success']);  
@@ -374,7 +377,7 @@ class ServicerequestsController extends Controller
             if($validator->passes())
             {
                 $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-                
+                $assigned_survey_user = survey_requests::where('id',$input['id'])->first()->assigned_survey_user;
                 Survey_performa_invoice::create([
                     'survey_request_id' => $request->id,
                     'bill_invoice_no' => $request->bill_invoice_no,
@@ -427,7 +430,19 @@ class ServicerequestsController extends Controller
                 $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
     
                 $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
-    
+                
+                                $from       = auth()->user()->id; 
+            $utype      = 2;
+            $to         = $assigned_survey_user; 
+            $ntype      = 'performa_invoice_created';
+            $title      = 'Performa Invoice Created';
+            $desc       = 'Performa Invoice Created. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink    =  '/admin/requested_service_detail/'.$input['id'].'/11/';
+            $notify     = 'admin';
+            $notify_from_role_id = 4;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
                 if(isset($survey_request_log_id))
                 {   
                     Session::flash('message', ['text'=>'Performa Invoice Created Successfully !','type'=>'success']);  
@@ -638,7 +653,8 @@ class ServicerequestsController extends Controller
             if($validator->passes())
             {
                 $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-                
+                $assigned_survey_user = survey_requests::where('id',$input['id'])->first()->assigned_survey_user;
+
                 Survey_invoice::create([
                     'survey_request_id' => $request->id,
                     'bill_invoice_no' => $request->bill_invoice_no,
@@ -691,6 +707,19 @@ class ServicerequestsController extends Controller
                 $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
     
                 $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+                $from       = auth()->user()->id; 
+                $utype      = 2;
+                $to         = $assigned_survey_user; 
+                $ntype      = 'invoice_created';
+                $title      = 'Invoice Created by Draftsman';
+                $desc       = 'Invoice Created by Draftsman. Request ID:HSW'.$input['id'];
+                $refId      = $input['id'];
+                $reflink    = '/admin/requested_service_detail/'.$input['id'].'/47/';
+                $notify     = 'admin';
+                $notify_from_role_id = 4;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
     
                 if(isset($survey_request_log_id))
                 {   
@@ -732,7 +761,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-
+            $assigned_survey_user = survey_requests::where('id',$input['id'])->first()->assigned_survey_user;
             if($request->hasfile('upload_report'))
             {
                 $file = $request->upload_report;
@@ -769,6 +798,18 @@ class ServicerequestsController extends Controller
                 $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
                 $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+                $from       = auth()->user()->id; 
+                $utype      = 2;
+                $to         = $assigned_survey_user; 
+                $ntype      = 'final_report_submitted';
+                $title      = 'Final Report Submitted by Draftsman';
+                $desc       = 'Final Report Submitted by Draftsman. Request ID:HSW'.$input['id'];
+                $refId      = $input['id'];
+                $reflink    = '/admin/requested_service_detail/'.$input['id'].'/24/';
+                $notify     = 'admin';
+                $notify_from_role_id = 4;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
                 if(isset($survey_request_log_id))
                 {   
