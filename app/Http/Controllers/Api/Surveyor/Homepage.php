@@ -293,6 +293,16 @@ class Homepage extends Controller
                 $a_list['data_collection_equipments'] ="";
                 }
 
+                $remarks_log = Survey_request_logs::where('survey_request_id',$av->service_request_id)->where('survey_status',$av->request_status)->first();
+
+                if($remarks_log)
+                {
+                    $a_list['remarks'] =$remarks_log->remarks;
+                }else{
+                    $a_list['remarks'] ="";
+                }   
+
+
                 $assignments_list[] = $a_list;
             }
         }
@@ -381,6 +391,16 @@ class Homepage extends Controller
                 }else{
                 $a_list['data_collection_equipments'] ="";
                 }
+
+                $remarks_log = Survey_request_logs::where('survey_request_id',$av->service_request_id)->where('survey_status',$av->request_status)->first();
+
+                if($remarks_log)
+                {
+                $a_list['remarks'] =$remarks_log->remarks;
+                }else{
+                $a_list['remarks'] ="";
+                } 
+                
                 $a_list['service_request_id'] = $av->service_request_id;
                 $assignments_list[] = $a_list;
             }
