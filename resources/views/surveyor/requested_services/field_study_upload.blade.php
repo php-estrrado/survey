@@ -120,8 +120,8 @@
 								<div class="row">
 									<div class="col-md-12">
                                     	<div class="form-group">
-                                      		<label class="form-label-title mt-3" for="drawing_maps">File upload (jpg, pdf)</label>
-                                      		<input type="file" class="dropify" data-height="180" name="file_upload" id="file_upload" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple/>
+                                      		<label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
+                                      		<input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple/>
                                     	</div>
                                   	</div>
 									<div class="col-sm-12 col-md-12">
@@ -137,6 +137,23 @@
 									<a href="{{url('admin/new_service_requests')}}" class="btn btn-danger">Cancel</a>
 								</div>
 							</form>
+						</div>
+					</div>
+					<div class="card newser">
+						<div class="card-body">
+							<div class="card-title font-weight-bold">Uploaded Files:</div>
+							<div class="row">
+								@php
+									$file_name = json_decode($field_study->upload_photos_of_study_area,true);
+								@endphp
+								@if($file_name && count($file_name) > 0)
+									@foreach($file_name as $file)
+										<div class="col-md-3 col-sm-3">
+											<img src="{{$file}}" alt="" width="100px">
+										</div>
+									@endforeach
+								@endif
+							</div>
 						</div>
 					</div>
 				</div>

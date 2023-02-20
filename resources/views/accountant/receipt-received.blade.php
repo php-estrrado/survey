@@ -61,7 +61,7 @@
 						<div class="media-body">
 							<small class="text-muted">Date</small>
 							<div class="font-weight-normal1">
-								{{date('d/m/Y',strtotime($cust_receipt->created_at))}}
+								{{date('d/m/Y',strtotime($survey_request_data->created_at))}}
 							</div>
 						</div>
 					</div>
@@ -114,7 +114,7 @@
 							<div class="card border-0 p-0 shadow-none">
 								<div class="card-body pt-0 text-center">
 									<div class="file-manger-icon">
-										<a href="{{$cust_receipt->receipt_image}}" target="_blank"><img src="{{$cust_receipt->receipt_image}}" alt="img" class="br-7"></a>
+										<a href="{{$survey_request_data->receipt_image}}" target="_blank"><img src="{{url('admin/assets/images/file_image.png')}}" alt="img" class="br-7"><br />View</a>
 									</div>
 								</div>
 							</div>

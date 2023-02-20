@@ -936,7 +936,7 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label" for="invoice_remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control" rows="3" name="invoice_remarks" id="invoice_remarks">Type Here...</textarea>
+							<textarea class="form-control" rows="3" name="invoice_remarks" id="invoice_remarks" placeholder="Type Here..."></textarea>
 						</div>
 					</div>
 				</div>
@@ -957,23 +957,8 @@
 			<div class="modal-body">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label class="form-label">Select which are needs to be rejected <span class="text-red">*</span></label>
-						<div class="custom-controls-stacked">
-							<label class="custom-control custom-checkbox d-inline-block mr-3">
-								<input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1">
-								<span class="custom-control-label">Report</span>
-							</label>
-							<label class="custom-control custom-checkbox d-inline-block">
-								<input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1">
-								<span class="custom-control-label">ETA</span>
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-12">
-					<div class="form-group">
 						<label class="form-label">Remark <span class="text-red">*</span></label>
-						<textarea class="form-control" rows="3">Type Here...</textarea>
+						<textarea class="form-control" rows="3" placeholder="Type Here..."></textarea>
 					</div>
 				</div>
 			</div>

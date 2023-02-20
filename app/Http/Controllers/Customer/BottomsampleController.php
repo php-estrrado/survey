@@ -134,19 +134,31 @@ class BottomsampleController extends Controller
                 $bottomsample['method_of_sampling'] = $input['method_of_sampling'];
                 $bottomsample['description_of_requirement'] = $input['description_of_requirement'];
     
-                $file_upload               =   $request->file('file_upload');
-                 if($file_upload){ 
-                $fileName            =  'bottom_sample_'.time().'.'.$file_upload->getClientOriginalExtension();
-                $sheetTitle = $file_upload->getClientOriginalName();
-                
-                $file_path = '/app/public/uploads/bottom_sample/'.$fileName;
-                $destinationPath    =   storage_path('/app/public/uploads/bottom_sample/');
-                $file_upload->move($destinationPath, $fileName);
-                 }else{
-                    $file_path = "";
-                 }
+                $drawings = Bottom_sample_collection::where('id',$input['id'])->first()->file_upload;
+
+                $drawing = json_decode($drawings,true);
+
+                $files = $drawing;
+
+                if($request->hasfile('filenames'))
+                {
+                    foreach($request->file('filenames') as $file)
+                    {
+                        $folder_name = "uploads/survey_requests/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                        $upload_path = base_path() . '/public/' . $folder_name;
+
+                        $extension = strtolower($file->getClientOriginalExtension());
+
+                        $filename = "survey" . '_' . time() .rand(1,1000).'.' . $extension;
+
+                        $file->move($upload_path, $filename);
+
+                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                    }
+                }
     
-                $bottomsample['file_upload'] = $file_path;
+                $bottomsample['file_upload'] = $files;
     
                 Bottom_sample_collection::where('id',$input['id'])->update($bottomsample);
     
@@ -184,7 +196,7 @@ class BottomsampleController extends Controller
     
                 Session::flash('message', ['text'=>'Survey Requeste Updated Successfully !','type'=>'success']);
     
-                return redirect(route('customer.bottomsample'));
+                return redirect(route('customer.requested_services'));
             }
             else
             {
@@ -259,19 +271,28 @@ class BottomsampleController extends Controller
                 $bottomsample['method_of_sampling'] = $input['method_of_sampling'];
                 $bottomsample['description_of_requirement'] = $input['description_of_requirement'];
     
-                $file_upload               =   $request->file('file_upload');
-                 if($file_upload){ 
-                $fileName            =  'bottom_sample_'.time().'.'.$file_upload->getClientOriginalExtension();
-                $sheetTitle = $file_upload->getClientOriginalName();
                 
-                $file_path = '/app/public/uploads/bottom_sample/'.$fileName;
-                $destinationPath    =   storage_path('/app/public/uploads/bottom_sample/');
-                $file_upload->move($destinationPath, $fileName);
-                 }else{
-                    $file_path = "";
-                 }
-    
-                $bottomsample['file_upload'] = $file_path;
+                $files = [];
+
+                if($request->hasfile('filenames'))
+                {
+                    foreach($request->file('filenames') as $file)
+                    {
+                        $folder_name = "uploads/survey_requests/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                        $upload_path = base_path() . '/public/' . $folder_name;
+
+                        $extension = strtolower($file->getClientOriginalExtension());
+
+                        $filename = "survey" . '_' . time() .rand(1,1000).'.' . $extension;
+
+                        $file->move($upload_path, $filename);
+
+                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                    }
+                }
+
+                $bottomsample['file_upload'] = json_encode($files);
     
                 $bottomsample_id = Bottom_sample_collection::create($bottomsample)->id;
     

@@ -32,6 +32,7 @@ use App\Models\Survey_invoice;
 use App\Models\Survey_performa_invoice;
 
 use App\Models\Survey_status;
+use App\Models\SurveyType;
 use App\Rules\Name;
 use Svg\Tag\Rect;
 use Twilio\TwiML\Voice\Reject;
@@ -417,6 +418,8 @@ class ServicerequestsController extends Controller
             $data['draftmans'] = Admin::where('role_id',4)->get();
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['field_study_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
+            $data['cities'] = City::where('is_deleted',0)->get();
+            $data['survey_type'] = SurveyType::where('is_deleted',0)->get();
 
             return view('superadmin.requested_services.eta_received',$data);            
         }

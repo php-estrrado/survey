@@ -39,7 +39,7 @@
                               </li>
                             </ul>
                           </div>                            
-                          <form action="{{url('/customer/bathymetry_survey/save')}}" method="post" id="bathymetry_survey" class="theme-form">
+                          <form action="{{url('/customer/bathymetry_survey/save')}}" method="post" id="bathymetry_survey" class="theme-form" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="id" id="id" value="{{$survey_data->id}}">
                             <input type="hidden" name="service_id" id="service_id" value="{{$service_id}}">
@@ -195,14 +195,13 @@
                                    
                                     <label class="form-label-title mt-3" for="service">Data Required</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="data_required[]" id="data_required" multiple="multiple" >
-                                      
-                                          <option value="sounding" {{ $survey_data->data_required == 'sounding' ? 'selected' : '' }}>Sounding</option>
-                                          <option value="current_meter_survey" {{ $survey_data->data_required == 'current_meter_survey' ? 'selected' : '' }}>Current meter survey</option>
-                                          <option value="bottom_profile" {{ $survey_data->data_required == 'bottom_profile' ? 'selected' : '' }}>Bottom profile</option>
-                                          <option value="velocity" {{ $survey_data->data_required == 'velocity' ? 'selected' : '' }}>Velocity</option>
-                                          <option value="bottom_sample_collection" {{ $survey_data->data_required == 'bottom_sample_collection' ? 'selected' : '' }}>Bottom sample collection</option>
-                                          <option value="tide_data" {{ $survey_data->data_required == 'tide_data' ? 'selected' : '' }}>Tide data</option>
-                                        
+                                      <?php $data_required_arr = explode(',', $survey_data->data_required);?>
+                                      <option value="sounding" {{ in_array('sounding',$data_required_arr) ? 'selected' : '' }}>Sounding</option>
+                                      <option value="current_meter_survey" {{ in_array('current_meter_survey',$data_required_arr) ? 'selected' : '' }}>Current meter survey</option>
+                                      <option value="bottom_profile" {{ in_array('bottom_profile',$data_required_arr) ? 'selected' : '' }}>Bottom profile</option>
+                                      <option value="velocity" {{ in_array('velocity',$data_required_arr) ? 'selected' : '' }}>Velocity</option>
+                                      <option value="bottom_sample_collection" {{ in_array('bottom_sample_collection',$data_required_arr) ? 'selected' : '' }}>Bottom sample collection</option>
+                                      <option value="tide_data" {{ in_array('tide_data',$data_required_arr)? 'selected' : '' }}>Tide data</option>  
                                     </select>
                                     <div id="service_error"></div>
                                     @error('data_required')
@@ -366,18 +365,24 @@
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
+                                  @php
+                                    $drawings = json_decode($survey_data->drawing_maps,true);
+                                  @endphp
+                                  <div class="col-md-12">
+                                    <div class="row">
+                                      @if($drawings && count($drawings)>0)
+                                        @foreach($drawings as $image)
+                                          <div class="col-md-3">
+                                            <img src="{{$image}}" alt="" width="100px">
+                                          </div>
+                                        @endforeach
+                                      @endif
+                                    </div>
+                                  </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location <span class="text-red">*</span></label>
-                                      <div class="dropzone" id="singleFileUpload">
-                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
-                                          <h6>Drop files here or click to upload.</h6>
-                                          <spanclass="note needsclick">(This is just a
-                                            demo dropzone. Selected files are <strong>not</strong>
-                                            actually uploaded.)
-                                          </span>
-                                        </div>
-                                      </div>
+                                      <label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
+                                      <input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple />
                                     </div>
                                   </div>
                                 </div>

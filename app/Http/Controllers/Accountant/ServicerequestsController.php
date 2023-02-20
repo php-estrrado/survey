@@ -60,11 +60,10 @@ class ServicerequestsController extends Controller
                                         ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
                                         ->leftjoin('institution', 'survey_requests.assigned_institution', '=', 'institution.id')
                                         ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
-                                        ->leftjoin('cust_receipt', 'survey_requests.id', '=', 'cust_receipt.survey_request_id')
                                         ->where('survey_requests.request_status',58)->where('survey_requests.request_status','!=',NULL)->Where('survey_requests.is_deleted',0)
                                         ->where('cust_mst.is_deleted',0)
                                         ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
-                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*','institution.*','survey_status.status_name AS current_status','cust_receipt.*')
+                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*','institution.*','survey_status.status_name AS current_status')
                                         ->orderBy('survey_requests.id','DESC')
                                         ->get();
 
@@ -92,7 +91,7 @@ class ServicerequestsController extends Controller
 
         $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->where('is_deleted',0)->where('is_active',1)->first();
 
-        $data['cust_receipt'] = Cust_receipt::where('survey_request_id',$id)->where('is_deleted',0)->where('is_active',1)->first();
+        $data['survey_request_data'] = Survey_requests::where('id',$id)->where('is_deleted',0)->where('is_active',1)->first();
 
         if($datas->service_id == 1)
         {
@@ -138,8 +137,6 @@ class ServicerequestsController extends Controller
         {
             $data['request_data'] = $datas->Bathymetry_survey->first();
         }
-
-        // dd($data);
 
         return view('accountant.receipt-received',$data);
     }

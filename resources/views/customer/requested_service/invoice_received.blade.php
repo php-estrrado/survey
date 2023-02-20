@@ -266,7 +266,7 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-md-12">
                                         <label class="form-label-title mt-3" for="receipt">Upload receipt</label>
-                                        <input class="form-control" type="file" name="receipt" id="receipt" placeholder="Choose Valid ID">
+                                        <input class="form-control" type="file" name="receipt" id="receipt" placeholder="Choose Valid File">
                                         <div id="receipt_error"></div>
                                         @error('receipt')
                                             <p style="color: red">{{ $message }}</p>

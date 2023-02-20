@@ -251,20 +251,7 @@ class RequestedServicesController extends Controller
 
                 $file_path = config('app.url') . "/public/$folder_name/$filename";
 
-                $cust_arr = [];
-
-                $cust_arr['survey_request_id'] = $input['id'];
-                $cust_arr['receipt_image'] = $file_path;
-                $cust_arr['is_active'] = 1;
-                $cust_arr['is_deleted'] = 0;
-                $cust_arr['created_by'] = auth()->user()->id;
-                $cust_arr['updated_by'] = auth()->user()->id;
-                $cust_arr['created_at'] = date('Y-m-d H:i:s');
-                $cust_arr['updated_at'] = date('Y-m-d H:i:s');
-
-                $cust_receipt_id = Cust_receipt::create($cust_arr)->id;
-
-                Survey_requests::where('id',$survey_id)->update(['request_status'=>58]);
+                Survey_requests::where('id',$survey_id)->update(['receipt_image'=>$file_path,'request_status'=>58]);
 
                 $cust_id = survey_requests::where('id',$survey_id)->first()->cust_id;
 
@@ -300,6 +287,20 @@ class RequestedServicesController extends Controller
         }
     }
 
+    public function receipt_rejected($survey_id)
+    {
+        $datas = Survey_requests::where('id',$survey_id)->first();
+        // dd($datas);
+        $data['id'] = $survey_id;
+        $data['service_name'] = Services::where('id',$datas->service_id)->first()->service_name;
+        $data['status_name'] = Survey_status::where('id',$datas->request_status)->first()->status_name;
+        $data['remarks'] = Survey_request_logs::where('survey_request_id',$survey_id)->where('survey_status',$datas->request_status)->first()->remarks;
+
+        // dd($data);
+
+        return view('customer.requested_service.receipt_rejected',$data);
+    }
+
     public function edit_survey_request($survey_id,$service_id,$service_request_id)
     {
         $data['title']        =  'Edit Requested Service';
@@ -320,6 +321,8 @@ class RequestedServicesController extends Controller
         if($service_id == 1)
         {
             $data['survey_data'] = Hydrographic_survey::where('id',$service_request_id)->first();
+
+            // dd($data);
             return view('customer.hydrographic_survey.hydrographicsurvey_edit_form',$data);
         }
         elseif($service_id == 2)
