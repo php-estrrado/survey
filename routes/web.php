@@ -41,6 +41,7 @@ Route::middleware('role:customer')->group(function () {
 
     // Route::view('/admin', 'admin.admin');
     Route::get('/customer/profile', [App\Http\Controllers\Customer\AdminController::class, 'profile']);
+    Route::post('/customer/edit_profile', [App\Http\Controllers\Customer\AdminController::class, 'edit_profile']);
     Route::post('customer/validate/profile', [App\Http\Controllers\Customer\AdminController::class, 'validateUser']);
 
     Route::get('/customer/dashboard', [App\Http\Controllers\Customer\AdminController::class, 'index']);
@@ -125,6 +126,8 @@ Route::middleware('role:customer')->group(function () {
     Route::get('/customer/performa_invoice_received', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_received']);
 
     Route::post('/customer/performa_invoice_remarks', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_remarks']);
+
+    Route::get('/customer/receipt_rejected/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'receipt_rejected']);
 
     Route::get('/customer/edit_survey_request/{survey_id}/{service_id}/{service_request_id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'edit_survey_request']);
 
@@ -340,6 +343,9 @@ Route::middleware('role:surveyor')->group(function () {
 
     Route::get('/surveyor/service_requests', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'requested_services'])->name('surveyor.requested_services');
     Route::get('/surveyor/requested_service_detail/{id}/{status}', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'requested_service_detail']);
+
+    Route::post('/surveyor/upload_fieldstudy', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload_fieldstudy']);
+    Route::post('/surveyor/upload_surveystudy', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload_surveystudy']);    
 });
 
 //Default Pages

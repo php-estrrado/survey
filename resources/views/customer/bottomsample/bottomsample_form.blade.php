@@ -329,8 +329,8 @@
 
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">File upload (jpg, pdf)</label>
-                                      <input type="file" class="dropify" data-height="180" name="file_upload" id="file_upload" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' />
+                                      <label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
+                                      <input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple />
                                     </div>
                                   </div>
                                 </div>

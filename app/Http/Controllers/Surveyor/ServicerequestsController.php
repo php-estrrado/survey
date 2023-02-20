@@ -26,6 +26,7 @@ use App\Models\Survey_status;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
 use App\Models\Field_study_report;
+use App\Models\Survey_study_report;
 use App\Models\Fieldstudy_eta;
 use App\Models\Survey_invoice;
 use App\Models\Survey_performa_invoice;
@@ -54,7 +55,7 @@ class ServicerequestsController extends Controller
         $data['title']              =   'Requested Services';
         $data['menu']               =   'requested-services';
 
-        $status_in                  =   array(41,42,62,60,30,32,33,43,40,65,59,20,36,37);
+        $status_in                  =   array(41,42,7,62,60,30,32,33,43,40,19,65,59,20,36,37);
 
         $data['survey_requests']    =   DB::table('survey_requests')
                                         ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
@@ -70,8 +71,6 @@ class ServicerequestsController extends Controller
                                         ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*','institution.*','survey_status.status_name AS current_status')
                                         ->orderBy('survey_requests.id','DESC')
                                         ->get();
-
-        // dd($data);
 
         return view('surveyor.requested_services.services_requests',$data);
     }
@@ -167,18 +166,95 @@ class ServicerequestsController extends Controller
         $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
         $data['field_study_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
         
+        $data['survey_study'] = Survey_study_report::where('survey_request_id',$id)->first();
+
         // dd($data);
+
         if($status == 7)
         {
             return view('surveyor.requested_services.field_study_upload',$data);    
         }
         elseif($status == 19)
         {
-            return view('surveyor.requested_services.requested_services_details',$data);    
+            return view('surveyor.requested_services.survey_study_upload',$data);    
         }
         else
         {
             return view('surveyor.requested_services.requested_services_details',$data);
         }        
-    }    
+    }
+
+    public function upload_fieldstudy(Request $request)
+    {
+        $input = $request->all();
+
+        $files = [];
+
+        $drawings = Field_study_report::where('survey_request_id',$input['id'])->first()->upload_photos_of_study_area;
+
+        $drawing = json_decode($drawings,true);
+
+        $files = $drawing;
+
+        if($request->hasfile('filenames'))
+        {
+            foreach($request->file('filenames') as $file)
+            {
+                $folder_name = "uploads/study_report/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "survey" . '_' . time() .rand(1,1000).'.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $files[] = config('app.url') . "/public/$folder_name/$filename";
+            }
+        }
+
+        Field_study_report::where('survey_request_id',$input['id'])->update(['upload_photos_of_study_area'=>$files]);
+
+        Session::flash('message', ['text'=>'Field Study Files Uploaded Successfully !','type'=>'success']);
+
+        return redirect('surveyor/service_requests');
+    }
+
+    public function upload_surveystudy(Request $request)
+    {
+        $input = $request->all();
+
+        $files = [];
+
+        $drawings = Survey_study_report::where('survey_request_id',$input['id'])->first()->upload_photos_of_study_area;
+
+        $drawing = json_decode($drawings,true);
+
+        $files = $drawing;
+
+        if($request->hasfile('filenames'))
+        {
+            foreach($request->file('filenames') as $file)
+            {
+                $folder_name = "uploads/study_report/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "survey" . '_' . time() .rand(1,1000).'.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $files[] = config('app.url') . "/public/$folder_name/$filename";
+            }
+        }
+
+        Survey_study_report::where('survey_request_id',$input['id'])->update(['upload_photos_of_study_area'=>$files]);
+
+        Session::flash('message', ['text'=>'Survey Study Files Uploaded Successfully !','type'=>'success']);
+
+        return redirect('surveyor/service_requests');
+    }
 }

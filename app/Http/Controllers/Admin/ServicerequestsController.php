@@ -31,6 +31,7 @@ use App\Models\Survey_performa_invoice;
 use App\Models\Survey_status;
 use App\Models\AdminNotification;
 use App\Models\UserNotification;
+use App\Models\SurveyType;
 
 use App\Rules\Name;
 use Validator;
@@ -1030,6 +1031,10 @@ class ServicerequestsController extends Controller
 
         $data['id']         = $id;
         $data['recipients'] = Admin::where('role_id',1)->get();
+        $data['cities'] = City::where('is_deleted',0)->get();
+        $data['survey_type'] = SurveyType::where('is_deleted',0)->get();
+
+        // dd($data);
 
         return view('admin.requested_services.create_eta',$data);
     }

@@ -86,7 +86,7 @@
 										<td>{{$i;}}</td>
 										<td>{{date('d/m/Y',strtotime($survey_request->survey_date))}}</td>
 										<td>{{$survey_request->name}}</td>
-										<td><a href="{{URL('/accountant/receipt_received')}}/{{$survey_request->survey_id}}/{{$survey_request->request_status}}" style="color:#2b8fca; font-weight:bold;">HSW{{$survey_request->survey_id}}</a></td>
+										<td><a href="{{URL('/accountant/receipt_received')}}/{{$survey_request->survey_id}}" style="color:#2b8fca; font-weight:bold;">HSW{{$survey_request->survey_id}}</a></td>
 										<td>{{$survey_request->username}}</td>
 										<td>{{$survey_request->service_name}}</td>
 										<td>{{$survey_request->current_status}}</td>

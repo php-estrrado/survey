@@ -49,7 +49,7 @@
                         </div>
                     </div>
                     <ul class="profile-dropdown onhover-show-div">
-                        <li><a href="#"><i data-feather="user"></i><span>Account </span></a></li>
+                        <li><a href="{{ url('customer/profile') }}"><i data-feather="user"></i><span>Account </span></a></li>
                         <li><a href="{{ url('customer/logout') }}"><i data-feather="log-out"> </i><span>Logout</span></a></li>
                     </ul>
                 </li>

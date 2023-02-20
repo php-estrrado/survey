@@ -36,10 +36,11 @@
                                 <label class="form-label">General Area <span class="text-red">*</span></label>
                                 <select class="form-control custom-select select2" name="general_area" id="general_area">
                                     <option value="">--Select--</option>
-                                    <option value="area1" {{ old('general_area') == 'area1' ? 'selected' : '' }}>Area 1</option>
-                                    <option value="area2" {{ old('general_area') == 'area2' ? 'selected' : '' }}>Area 2</option>
-                                    <option value="area3" {{ old('general_area') == 'area3' ? 'selected' : '' }}>Area 3</option>
-                                    <option value="area4" {{ old('general_area') == 'area4' ? 'selected' : '' }}>Area 4</option>
+                                    @if($cities && count($cities)>0)
+                                        @foreach($cities as $city)
+                                            <option name="general_area" id="general_area" value="{{$city->id}}" {{ old('general_area') == $city->id ? 'selected' : '' }}>{{$city->city_name}}</option>        
+                                        @endforeach 
+                                    @endif
                                 </select>
                                 <div id="general_area_error"></div>
 								@error('general_area')
@@ -72,10 +73,11 @@
                                 <label class="form-label">Type Of Survey <span class="text-red">*</span></label>
                                 <select class="form-control custom-select select2" name="type_of_survey" id="type_of_survey">
                                     <option value="">--Select--</option>
-                                    <option value="type1" {{ old('type_of_survey') == 'type1' ? 'selected' : '' }}>Type 1</option>
-                                    <option value="type2" {{ old('type_of_survey') == 'type2' ? 'selected' : '' }}>Type 2</option>
-                                    <option value="type3" {{ old('type_of_survey') == 'type3' ? 'selected' : '' }}>Type 3</option>
-                                    <option value="type4" {{ old('type_of_survey') == 'type4' ? 'selected' : '' }}>Type 4</option>
+                                    @if($survey_type && count($survey_type)>0)
+                                        @foreach($survey_type as $type)
+                                            <option name="type_of_survey" id="type_of_survey" value="{{$type->id}}" {{ old('type_of_survey') == $type->id ? 'selected' : '' }}>{{$type->type}}</option>        
+                                        @endforeach 
+                                    @endif
                                 </select>
                                 <div id="type_of_survey_error"></div>
 								@error('type_of_survey')

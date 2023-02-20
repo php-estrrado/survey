@@ -136,6 +136,32 @@ class TidalController extends Controller
                 }else{
                     $tidal_observation['additional_services'] = "";
                 }
+
+                $drawings = Tidal_observation::where('id',$input['id'])->first()->drawing_maps;
+
+                $drawing = json_decode($drawings,true);
+
+                $files = $drawing;
+
+                if($request->hasfile('filenames'))
+                {
+                    foreach($request->file('filenames') as $file)
+                    {
+                        $folder_name = "uploads/survey_requests/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                        $upload_path = base_path() . '/public/' . $folder_name;
+
+                        $extension = strtolower($file->getClientOriginalExtension());
+
+                        $filename = "survey" . '_' . time() .rand(1,1000).'.' . $extension;
+
+                        $file->move($upload_path, $filename);
+
+                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                    }
+                }
+
+                $tidal_observation['drawing_maps'] = json_encode($files);
     
                 Tidal_observation::where('id',$input['id'])->update($tidal_observation);
     
@@ -173,7 +199,7 @@ class TidalController extends Controller
                 
                 Session::flash('message', ['text'=>'Survey Requested Updated Successfully !','type'=>'success']);
     
-                return redirect(route('customer.tidal_observation'));
+                return redirect(route('customer.requested_services'));
             }
             else
             {
@@ -251,6 +277,28 @@ class TidalController extends Controller
                     $tidal_observation['additional_services'] = "";
                 }
     
+                $files = [];
+
+                if($request->hasfile('filenames'))
+                {
+                    foreach($request->file('filenames') as $file)
+                    {
+                        $folder_name = "uploads/survey_requests/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                        $upload_path = base_path() . '/public/' . $folder_name;
+
+                        $extension = strtolower($file->getClientOriginalExtension());
+
+                        $filename = "survey" . '_' . time() .rand(1,1000).'.' . $extension;
+
+                        $file->move($upload_path, $filename);
+
+                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                    }
+                }
+
+                $tidal_observation['drawing_maps'] = json_encode($files);
+
                 $tidal_observation_id = Tidal_observation::create($tidal_observation)->id;
     
                 $survey_request = [];

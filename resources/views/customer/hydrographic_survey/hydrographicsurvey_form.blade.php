@@ -38,7 +38,7 @@
                               </li>
                             </ul>
                           </div>                            
-                          <form action="{{url('/customer/hydrographic_survey/save')}}" method="post" id="hydrographic_survey" class="theme-form">
+                          <form action="{{url('/customer/hydrographic_survey/save')}}" method="post" id="hydrographic_survey" class="theme-form" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="id" id="id" value="0">
                             <div class="tab-content" id="main_form">
@@ -353,16 +353,8 @@
                                   </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">Existing drawings/maps showing the location </label>
-                                      <div class="dropzone" id="singleFileUpload">
-                                        <div class="dz-message needsclick"><i class="icon-cloud-up"></i>
-                                          <h6>Drop files here or click to upload.</h6>
-                                          <spanclass="note needsclick">(This is just a
-                                            demo dropzone. Selected files are <strong>not</strong>
-                                            actually uploaded.)
-                                          </span>
-                                        </div>
-                                      </div>
+                                      <label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
+                                      <input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple />
                                     </div>
                                   </div>
                                 </div>

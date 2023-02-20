@@ -322,11 +322,24 @@
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                   </div>
-
+                                  @php
+                                    $drawings = json_decode($survey_data->file_upload,true);
+                                  @endphp
+                                  <div class="col-md-12">
+                                    <div class="row">
+                                      @if($drawings && count($drawings)>0)
+                                        @foreach($drawings as $image)
+                                          <div class="col-md-3">
+                                            <img src="{{$image}}" alt="" width="100px">
+                                          </div>
+                                        @endforeach
+                                      @endif
+                                    </div>
+                                  </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="drawing_maps">File upload (jpg, pdf)</label>
-                                      <input type="file" class="dropify" data-height="180" name="file_upload" id="file_upload" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' />
+                                      <label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
+                                      <input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple />
                                     </div>
                                   </div>
                                 </div>

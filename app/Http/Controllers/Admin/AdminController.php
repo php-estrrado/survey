@@ -73,7 +73,8 @@ class AdminController extends Controller
    
     }
     
-    function profile(){
+    function profile()
+    {
         return view('admin.profile');
     }
 

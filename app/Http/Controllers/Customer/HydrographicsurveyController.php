@@ -147,6 +147,32 @@ class HydrographicsurveyController extends Controller
                 }else{
                     $hydrographic_survey['data_collection_equipments'] = "";
                 }
+
+                $drawings = Hydrographic_survey::where('id',$input['id'])->first()->drawing_maps;
+
+                $drawing = json_decode($drawings,true);
+
+                $files = $drawing;
+
+                if($request->hasfile('filenames'))
+                {
+                    foreach($request->file('filenames') as $file)
+                    {
+                        $folder_name = "uploads/survey_requests/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                        $upload_path = base_path() . '/public/' . $folder_name;
+
+                        $extension = strtolower($file->getClientOriginalExtension());
+
+                        $filename = "survey" . '_' . time() .rand(1,1000).'.' . $extension;
+
+                        $file->move($upload_path, $filename);
+
+                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                    }
+                }
+
+                $hydrographic_survey['drawing_maps'] = json_encode($files);
     
                 Hydrographic_survey::where('id',$input['id'])->update($hydrographic_survey);
     
@@ -184,7 +210,7 @@ class HydrographicsurveyController extends Controller
     
                 Session::flash('message', ['text'=>'Survey Requested Updated Successfully !','type'=>'success']);
     
-                return redirect(route('customer.hydrographic_survey'));
+                return redirect(route('customer.requested_services'));
             }
             else
             {
@@ -221,6 +247,9 @@ class HydrographicsurveyController extends Controller
     
             if($validator->passes())
             {
+
+                $input = $request->all();
+
                 $hydrographic_survey = [];
     
                 $hydrographic_survey['cust_id'] = $cust_id;
@@ -270,6 +299,28 @@ class HydrographicsurveyController extends Controller
                 }else{
                     $hydrographic_survey['data_collection_equipments'] = "";
                 }
+
+                $files = [];
+
+                if($request->hasfile('filenames'))
+                {
+                    foreach($request->file('filenames') as $file)
+                    {
+                        $folder_name = "uploads/survey_requests/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                        $upload_path = base_path() . '/public/' . $folder_name;
+
+                        $extension = strtolower($file->getClientOriginalExtension());
+
+                        $filename = "survey" . '_' . time() .rand(1,1000).'.' . $extension;
+
+                        $file->move($upload_path, $filename);
+
+                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                    }
+                }
+
+                $hydrographic_survey['drawing_maps'] = json_encode($files);
     
                 $hydrographic_survey_id = Hydrographic_survey::create($hydrographic_survey)->id;
     

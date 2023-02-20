@@ -20,6 +20,10 @@ use App\Models\UserRole;
 use App\Models\SalesOrder;
 use App\Models\Product;
 use App\Models\customer\CustomerMaster;
+use App\Models\customer\CustomerSecurity;
+use App\Models\RegisterationToken;
+use App\Models\customer\CustomerInfo;
+use App\Models\customer\CustomerTelecom;
 use App\Models\Survey_requests;
 use App\Models\SellerInfo;
 use App\Models\UserVisit;
@@ -79,8 +83,193 @@ class AdminController extends Controller
    
     }
     
-    function profile(){
-        return view('admin.profile');
+    function profile()
+    {
+        $id = auth()->user()->id;
+        $email = auth()->user()->email;
+
+        $cust_id = CustomerMaster::where('username',$email)->first()->id;
+
+        $data['id'] = $id;
+        $data['cust_id'] = $cust_id;
+        $data['username'] = $email;
+        $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->first();
+        $data['cust_sec'] = CustomerSecurity::where('cust_id',$cust_id)->first();
+        $data['cust_mobile'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->first()->cust_telecom_value;
+
+        // dd($data);
+
+        return view('customer.profile',$data);
+    }
+
+    public function edit_profile(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name'=>['required','max:255'],
+            'firm'=>['required','max:255'],
+            'firm_type'=>['required','numeric'],
+            'email' => ['required','email','max:255',Rule::unique('cust_mst','username')->ignore($request->cust_id)],
+            'mobile'=>['required','max:255'],
+            'otp'=> ['nullable','max:255'],
+            'valid_id'=>['required','max:255'],
+            'id_file_front' => ['nullable','max:10000'],
+            'id_file_back' => ['nullable','max:10000'],
+            'password' =>['nullable','confirmed','min:6'],
+            'password_confirmation' =>['nullable','min:6'],
+            'g-recaptcha-response' => function ($attribute, $value, $fail) {
+                $data = array('secret' => config('services.recaptcha.secret'),'response' => $value,'remoteip' => $_SERVER['REMOTE_ADDR']);
+  
+                $verify = curl_init();
+                curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+                curl_setopt($verify, CURLOPT_POST, true);
+                curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+                curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+                $response = curl_exec($verify);
+                $response = json_decode($response);
+                
+                if(!$response->success)
+                {
+                    Session::flash('message', ['text'=>'Please check reCAptcha !','type'=>'danger']);
+                    $fail($attribute.'google reCaptcha failed');
+                }
+            },
+        ]);
+        $input = $request->all();
+
+        // dd($input);
+
+        if($validator->passes())
+        {
+            $master = CustomerMaster::where('id',$input['cust_id'])->update([
+                'username' => $request->email,
+                'is_active'=>1,
+                'is_deleted'=>0,
+                'created_by'=>1,
+                'updated_by'=>1,
+                'updated_at'=>date("Y-m-d H:i:s")
+            ]);
+
+            $info_id = CustomerInfo::where('cust_id',$input['cust_id'])->update([
+                'name' => $request->name,
+                'valid_id' => $request->valid_id,
+                'is_active'=>1,
+                'is_deleted'=>0,
+                'created_by'=>1,
+                'updated_by'=>1,
+                'updated_at'=>date("Y-m-d H:i:s")
+            ]);
+
+            if(isset($input['password']) && !empty($input['password']))
+            {
+                $security = CustomerSecurity::where('cust_id',$input['cust_id'])->update([
+                    'password' => Hash::make($request->password),
+                    'is_active'=>1,
+                    'is_deleted'=>0,
+                    'created_by'=>1,
+                    'updated_by'=>1,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+
+            $telecom_email = CustomerTelecom::where('cust_id',$input['cust_id'])->update([
+                'telecom_type' =>1,
+                'cust_telecom_value' => $request->email,
+                'is_active'=>1,
+                'is_deleted'=>0,
+                'created_by'=>1,
+                'updated_by'=>1,
+                'updated_at'=>date("Y-m-d H:i:s")
+            ]);
+
+            $telecom_mobile = CustomerTelecom::where('cust_id',$input['cust_id'])->update([
+                'telecom_type' =>2,
+                'cust_telecom_value' => $request->mobile,
+                'is_active'=>1,
+                'is_deleted'=>0,
+                'updated_by'=>1,
+                'updated_at'=>date("Y-m-d H:i:s")
+            ]);
+
+            if(isset($input['password']) && !empty($input['password']))
+            {
+                Admin::where('id',$input['id'])->update([
+                    'fname' => $request->name,
+                    'email' =>$request->email,
+                    'phone' => $request->mobile,
+                    'password' => Hash::make($request->password),
+                    'role_id' => 6,
+                    'is_active'=>1,
+                    'is_deleted'=>0,
+                    'updated_by'=>1,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+            else
+            {
+                Admin::where('id',$input['id'])->update([
+                    'fname' => $request->name,
+                    'email' =>$request->email,
+                    'phone' => $request->mobile,
+                    'role_id' => 6,
+                    'is_active'=>1,
+                    'is_deleted'=>0,
+                    'updated_by'=>1,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+
+            if($request->hasfile('id_file_front'))
+            {
+                $file = $request->id_file_front;
+                $folder_name = "uploads/customer_document/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "customer_id_front" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                CustomerInfo::where('id',$info_id)->update([
+                    'id_file_front' => $file_path,
+                    'updated_by'=>1,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+            if($request->hasfile('id_file_back'))
+            {
+                $file = $request->id_file_back;
+                $folder_name = "uploads/customer_document/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "customer_id_back" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                CustomerInfo::where('id',$info_id)->update([
+                    'id_file_back' => $file_path,
+                    'updated_by'=>1,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+
+            Session::flash('message', ['text'=>'Customer Profile Updated Successfully !','type'=>'success']);  
+
+            return redirect('customer/profile');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
     }
 
     function validateUser(Request $request){
