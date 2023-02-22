@@ -133,6 +133,12 @@ Route::middleware('role:customer')->group(function () {
 
     Route::get('/customer/survey_report/{survey_id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'survey_report']);
 
+    Route::get('/customer/help', [App\Http\Controllers\Customer\HelpController::class, 'help']);
+    Route::get('/customer/help_detail/{id}', [App\Http\Controllers\Customer\HelpController::class, 'help_detail']);
+
+    Route::post('/customer/saveHelp', [App\Http\Controllers\Customer\HelpController::class, 'saveHelp']);
+    Route::post('/customer/sendReply', [App\Http\Controllers\Customer\HelpController::class, 'sendReply']);
+
     Route::post('/customer/getCity', [App\Http\Controllers\Customer\CityController::class, 'getCity']);
 
     Route::get('/customer/logout', [App\Http\Controllers\Customer\AdminController::class, 'adminLogout']);
@@ -150,6 +156,9 @@ Route::middleware('role:superadmin')->group(function () {
     Route::get('/superadmin/dashboard', [App\Http\Controllers\Superadmin\AdminController::class, 'index']);
 
     Route::get('/superadmin/notifications', [App\Http\Controllers\Superadmin\AdminController::class, 'notifications']);
+
+    Route::get('/superadmin/profile', [App\Http\Controllers\Superadmin\AdminController::class, 'profile'])->name('superadmin.profile');
+    Route::post('/superadmin/edit_profile', [App\Http\Controllers\Superadmin\AdminController::class, 'edit_profile']);
 
     Route::get('/superadmin/user-roles', [App\Http\Controllers\Superadmin\UserRoleController::class, 'userRole'])->name('superadmin.user-roles');
     Route::get('/superadmin/user-roles/create', [App\Http\Controllers\Superadmin\UserRoleController::class, 'createRole'])->name('userRole.create');
@@ -177,6 +186,7 @@ Route::middleware('role:superadmin')->group(function () {
 
     Route::get('/superadmin/offices', [App\Http\Controllers\Superadmin\OfficeController::class, 'office'])->name('superadmin.offices');
     Route::post('/superadmin/offices/save', [App\Http\Controllers\Superadmin\OfficeController::class, 'officeSave']);
+    Route::get('/superadmin/suboffice/{id}', [App\Http\Controllers\Superadmin\OfficeController::class, 'suboffice'])->name('superadmin.suboffice');
 
     Route::get('/superadmin/customers', [App\Http\Controllers\Superadmin\CustomerController::class, 'index'])->name('superadmin.customers');
     Route::get('/superadmin/customers/create', [App\Http\Controllers\Superadmin\CustomerController::class, 'createCustomers']);
@@ -216,6 +226,11 @@ Route::middleware('role:superadmin')->group(function () {
     Route::post('/superadmin/reject_close', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_close']);
     Route::post('/superadmin/reject_open', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'reject_open']);
 
+    Route::get('/superadmin/help', [App\Http\Controllers\Superadmin\HelpController::class, 'help']);
+    Route::get('/superadmin/help_detail/{id}', [App\Http\Controllers\Superadmin\HelpController::class, 'help_detail']);
+
+    Route::post('/superadmin/sendReply', [App\Http\Controllers\Superadmin\HelpController::class, 'sendReply']);
+
     Route::get('/superadmin/logout', [App\Http\Controllers\Superadmin\AdminController::class, 'adminLogout']);
 });
 
@@ -231,6 +246,9 @@ Route::middleware('role:admin')->group(function () {
     Route::get('/admin/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index']);
 
     Route::get('/admin/notifications', [App\Http\Controllers\Admin\AdminController::class, 'notifications']);
+
+    Route::get('/admin/profile', [App\Http\Controllers\Admin\AdminController::class, 'profile'])->name('admin.profile');
+    Route::post('/admin/edit_profile', [App\Http\Controllers\Admin\AdminController::class, 'edit_profile']);
 
     Route::get('/admin/logout', [App\Http\Controllers\Admin\AdminController::class, 'adminLogout']);
 
@@ -285,6 +303,9 @@ Route::middleware('role:draftsman')->group(function () {
 
     Route::get('/draftsman/notifications', [App\Http\Controllers\Draftsman\AdminController::class, 'notifications']);
 
+    Route::get('/draftsman/profile', [App\Http\Controllers\Draftsman\AdminController::class, 'profile'])->name('draftsman.profile');
+    Route::post('/draftsman/edit_profile', [App\Http\Controllers\Draftsman\AdminController::class, 'edit_profile']);
+
     Route::get('/draftsman/logout', [App\Http\Controllers\Draftsman\AdminController::class, 'adminLogout']);    
 
     Route::get('/draftsman/service_requests', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'requested_services'])->name('draftsman.requested_services');
@@ -317,6 +338,9 @@ Route::middleware('role:accountant')->group(function () {
 
     Route::get('/accountant/notifications', [App\Http\Controllers\Accountant\AdminController::class, 'notifications']);
 
+    Route::get('/accountant/profile', [App\Http\Controllers\Accountant\AdminController::class, 'profile'])->name('accountant.profile');
+    Route::post('/accountant/edit_profile', [App\Http\Controllers\Accountant\AdminController::class, 'edit_profile']);
+
     Route::get('/accountant/logout', [App\Http\Controllers\Accountant\AdminController::class, 'adminLogout']);    
 
     Route::get('/accountant/service_requests', [App\Http\Controllers\Accountant\ServicerequestsController::class, 'requested_services'])->name('accountant.requested_services');
@@ -338,6 +362,9 @@ Route::middleware('role:surveyor')->group(function () {
     Route::get('/surveyor/dashboard', [App\Http\Controllers\Surveyor\AdminController::class, 'index']);
 
     Route::get('/surveyor/notifications', [App\Http\Controllers\Surveyor\AdminController::class, 'notifications']);
+
+    Route::get('/surveyor/profile', [App\Http\Controllers\Surveyor\AdminController::class, 'profile'])->name('surveyor.profile');
+    Route::post('/surveyor/edit_profile', [App\Http\Controllers\Surveyor\AdminController::class, 'edit_profile']);
 
     Route::get('/surveyor/logout', [App\Http\Controllers\Surveyor\AdminController::class, 'adminLogout']);    
 

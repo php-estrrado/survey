@@ -14,6 +14,7 @@ use Session;
 use DB;
 use App\Models\Institution;
 use App\Models\Modules;
+use App\Models\UserManagement;
 use App\Models\UserVisit;
 use App\Rules\Name;
 use Validator;
@@ -100,5 +101,16 @@ class OfficeController extends Controller
         }
 
         return redirect(route('superadmin.offices'));
+    }
+
+    public function suboffice($id)
+    {
+        $data['title']    =   'Sub Office';
+        $data['menu']     =   'Sub Office';
+        $data['users']    =   UserManagement::where('is_deleted',0)->where('institution',$id)->where('is_active',1)->get();
+        
+        // dd($data);
+
+        return view('superadmin.suboffice',$data);
     }
 }

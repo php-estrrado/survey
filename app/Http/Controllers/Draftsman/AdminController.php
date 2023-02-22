@@ -47,9 +47,81 @@ class AdminController extends Controller
         return view('draftsman.index');
     }
     
-    function profile()
+    public function profile()
     {
-        return view('admin.profile');
+        $admin_id = auth()->user()->id;
+        $email = auth()->user()->email;
+        $role_id = auth()->user()->role_id;
+
+        $data['role'] = UserRole::where('id',$role_id)->first()->usr_role_name;
+        $data['admin'] = Admin::where('id',$admin_id)->first();
+        $data['user'] = UserManagement::where('admin_id',$admin_id)->first();
+
+        $data['institutions'] = Institution::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
+
+        // dd($data);
+        
+        return view('draftsman.profile',$data);
+    }
+
+    public function edit_profile(Request $request)
+    {
+        $input = $request->all();
+
+        $admin_arr = [];
+        $admin_arr['fname'] = $input['name'];
+        $admin_arr['email'] = $input['email'];
+        $admin_arr['phone'] = $input['phone'];
+        $admin_arr['is_active'] = 1;
+        $admin_arr['is_deleted'] = 0;
+        $admin_arr['updated_by'] = auth()->user()->id;
+        $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+
+        Admin::where('id',$input['admin_id'])->update($admin_arr);
+
+        $usr_arr = [];
+        $usr_arr['fullname'] = $input['name'];
+        $usr_arr['email'] = $input['email'];
+        $usr_arr['phone'] = $input['phone'];
+        $usr_arr['designation'] = $input['designation'];
+        $usr_arr['pen'] = $input['pen'];
+        $usr_arr['institution'] = $input['institution'];
+        $usr_arr['is_active'] = 1;
+        $usr_arr['is_deleted'] = 0;
+        $usr_arr['updated_by'] = auth()->user()->id;
+        $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+
+        UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
+
+        if($request->hasfile('avatar'))
+        {
+            $file = $request->avatar;
+            $folder_name = "uploads/profile_images/";
+
+            $upload_path = base_path() . '/public/' . $folder_name;
+
+            $extension = strtolower($file->getClientOriginalExtension());
+
+            $filename = "profile" . '_' . time() . '.' . $extension;
+
+            $file->move($upload_path, $filename);
+
+            $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+            Admin::where('id',$input['admin_id'])->update([
+                'avatar' => $file_path,
+                'updated_by'=>auth()->user()->id,
+                'updated_at'=>date("Y-m-d H:i:s")
+            ]);
+            
+            UserManagement::where('admin_id',$input['admin_id'])->update([
+                'avatar' => $file_path,
+                'updated_by'=>auth()->user()->id,
+                'updated_at'=>date("Y-m-d H:i:s")
+            ]);
+        }
+
+        return redirect(route('draftsman.profile'));
     }
     
     function saveProfile(Request $request)
