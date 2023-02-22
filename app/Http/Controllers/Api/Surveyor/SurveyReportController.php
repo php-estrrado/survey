@@ -103,7 +103,7 @@ class SurveyReportController extends Controller
         }
 
         Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>19]);
-
+        $assignment_requests = Survey_requests::where("id",$request->survey_request_id)->first();
         $req_logs = [];
         $req_logs['survey_request_id'] = $request->survey_request_id;
         $req_logs['cust_id'] = $request->cust_id;
@@ -200,7 +200,7 @@ class SurveyReportController extends Controller
             Field_study_report::where("id",$ins)->update(["upload_photos_of_study_area"=>json_encode($request->upload_photos_of_study_area)]);
         }
         Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>7]);
-
+        $assignment_requests = Survey_requests::where("id",$request->survey_request_id)->first();
                 $req_logs = [];
         $req_logs['survey_request_id'] = $request->survey_request_id;
         $req_logs['cust_id'] = $request->cust_id;
