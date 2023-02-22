@@ -172,8 +172,7 @@ class AdminController extends Controller
                 ]);
             }
 
-            $telecom_email = CustomerTelecom::where('cust_id',$input['cust_id'])->update([
-                'telecom_type' =>1,
+            $telecom_email = CustomerTelecom::where('cust_id',$input['cust_id'])->where('telecom_type',1)->update([
                 'cust_telecom_value' => $request->email,
                 'is_active'=>1,
                 'is_deleted'=>0,
@@ -182,8 +181,7 @@ class AdminController extends Controller
                 'updated_at'=>date("Y-m-d H:i:s")
             ]);
 
-            $telecom_mobile = CustomerTelecom::where('cust_id',$input['cust_id'])->update([
-                'telecom_type' =>2,
+            $telecom_mobile = CustomerTelecom::where('cust_id',$input['cust_id'])->where('telecom_type',2)->update([
                 'cust_telecom_value' => $request->mobile,
                 'is_active'=>1,
                 'is_deleted'=>0,

@@ -518,7 +518,7 @@ class ServicerequestsController extends Controller
 
                 $from       = auth()->user()->id; 
                 $utype      = 4;
-                $to         = $assignment_requests->assigned_draftsman; 
+                $to         = $assignment_requests->assigned_draftsman;
                 $ntype      = 'request_assigned';
                 $title      = 'Request Assigned';
                 $desc       = 'Request Assigned. Request ID: HSW'.$input['id'];
