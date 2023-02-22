@@ -490,7 +490,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-
+            $assigned_draftsman = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
             $assign_arr['request_status'] = 10;
             $assign_arr['assigned_draftsman'] = $input['draftsman'];
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -515,7 +515,7 @@ class ServicerequestsController extends Controller
 
                 $from       = auth()->user()->id; 
                 $utype      = 4;
-                $to         = $assignment_requests->assigned_draftsman; 
+                $to         = $assigned_draftsman; 
                 $ntype      = 'request_assigned';
                 $title      = 'Request Assigned';
                 $desc       = 'Request Assigned. Request ID: HSW'.$input['id'];
@@ -554,7 +554,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-
+            $assigned_draftsman_final = survey_requests::where('id',$input['id'])->first()->assigned_draftsman_final;
             $assign_arr['request_status'] = 46;
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
@@ -578,7 +578,7 @@ class ServicerequestsController extends Controller
 
                 $from       = auth()->user()->id;
                 $utype      = 4;
-                $to         = $assignment_requests->assigned_draftsman_final; 
+                $to         = $assigned_draftsman_final; 
                 $ntype      = 'request_assigned_for_invoice';
                 $title      = 'Request Assigned for Invoice';
                 $desc       = 'Request Assigned for Invoice. Request ID: HSW'.$input['id'];
@@ -1525,6 +1525,7 @@ class ServicerequestsController extends Controller
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
              $assigned_user = survey_requests::where('id',$input['id'])->first()->assigned_user;
+             $assigned_draftsman_final = survey_requests::where('id',$input['id'])->first()->assigned_draftsman_final;
             $assign_arr['request_status'] = 39;
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
@@ -1549,7 +1550,7 @@ class ServicerequestsController extends Controller
 
                 $from       = auth()->user()->id;
                 $utype      = 4;
-                $to         = $assignment_requests->assigned_draftsman_final; 
+                $to         = $assigned_draftsman_final; 
                 $ntype      = 'final_report_rejected';
                 $title      = 'Final Report Rejected by CH';
                 $desc       = 'Final Report Rejected by CH. Request ID: HSW'.$input['id'];
