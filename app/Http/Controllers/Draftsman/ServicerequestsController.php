@@ -141,6 +141,10 @@ class ServicerequestsController extends Controller
         {
             $data['request_data'] = $datas->Subbottom_profilling->first();
         }
+        elseif($datas->service_id == 11)
+        {
+            $data['request_data'] = $datas->Bathymetry_survey->first();
+        }
 
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
@@ -377,7 +381,7 @@ class ServicerequestsController extends Controller
             if($validator->passes())
             {
                 $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-                $assigned_survey_user = survey_requests::where('id',$input['id'])->first()->assigned_survey_user;
+                $assigned_user = survey_requests::where('id',$input['id'])->first()->assigned_user;
                 Survey_performa_invoice::create([
                     'survey_request_id' => $request->id,
                     'bill_invoice_no' => $request->bill_invoice_no,
@@ -433,7 +437,7 @@ class ServicerequestsController extends Controller
                 
                                 $from       = auth()->user()->id; 
             $utype      = 2;
-            $to         = $assigned_survey_user; 
+            $to         = $assigned_user; 
             $ntype      = 'performa_invoice_created';
             $title      = 'Performa Invoice Created';
             $desc       = 'Performa Invoice Created. Request ID:HSW'.$input['id'];
@@ -653,7 +657,7 @@ class ServicerequestsController extends Controller
             if($validator->passes())
             {
                 $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-                $assigned_survey_user = survey_requests::where('id',$input['id'])->first()->assigned_survey_user;
+                $assigned_user = survey_requests::where('id',$input['id'])->first()->assigned_user;
 
                 Survey_invoice::create([
                     'survey_request_id' => $request->id,
@@ -710,7 +714,7 @@ class ServicerequestsController extends Controller
 
                 $from       = auth()->user()->id; 
                 $utype      = 2;
-                $to         = $assigned_survey_user; 
+                $to         = $assigned_user; 
                 $ntype      = 'invoice_created';
                 $title      = 'Invoice Created by Draftsman';
                 $desc       = 'Invoice Created by Draftsman. Request ID:HSW'.$input['id'];

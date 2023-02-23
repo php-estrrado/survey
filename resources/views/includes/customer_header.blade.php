@@ -17,25 +17,25 @@
                 <li class="onhover-dropdown">
                     <div class="notification-box"><i class="fa fa-bell-o"> </i><span class="badge rounded-pill badge-theme"> </span></div>
                     <ul class="notification-dropdown onhover-show-div">
+                        @php 
+							use App\Models\UsrNotification;
+
+							$newnotification = 0;
+							$notifications = UsrNotification::where('role_id',6)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();							
+					    @endphp
                         <li><i data-feather="bell"></i>
                             <h6 class="f-18 mb-0">Notitications</h6>
                         </li>
-                        <!-- <li>
-                            <p><i class="fa fa-circle-o me-3 font-primary"> </i>Delivery processing <span class="pull-right">10 min.</span></p>
-                        </li>
-                        <li>
-                            <p>
-                                <i class="fa fa-circle-o me-3 font-success"></i>Order Complete<span class="pull-right">1 hr</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p><i class="fa fa-circle-o me-3 font-info"></i>Tickets Generated<span class="pull-right">3 hr</span>
-                            </p>
-                        </li>
-                        <li>
-                            <p><i class="fa fa-circle-o me-3 font-danger"></i>Delivery Complete<span class="pull-right">6 hr</span></p>
-                        </li>
-                        <li><a class="btn btn-primary" href="#">Check all notification</a></li> -->
+                        @if($notifications && count($notifications)>0)
+                            @foreach($notifications as $notify)
+                                <li>
+                                    <a href="{{url($notify->ref_link)}}">
+                                        <p>{{$notify->title}} <span class="pull-right">{{date('d/m/Y',strtotime($notify->created_at))}}.</span></p>
+                                    </a>
+                                </li>
+                            @endforeach
+                        @endif
+                        <li><a class="btn btn-primary" href="{{url('/customer/notifications')}}">Check all notification</a></li>
                     </ul>
                 </li>
                 <li class="maximize">
