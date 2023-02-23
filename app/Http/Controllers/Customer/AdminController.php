@@ -27,6 +27,7 @@ use App\Models\customer\CustomerTelecom;
 use App\Models\Survey_requests;
 use App\Models\SellerInfo;
 use App\Models\UserVisit;
+use App\Models\UsrNotification;
 use App\Rules\Name;
 use Validator;
 
@@ -557,6 +558,15 @@ class AdminController extends Controller
         $message->subject('New email!!!');
         });
         dd($var);
+        }
+
+        public function notifications()
+        {
+            $data['title']           =   'Notifications';
+            $data['menu']            =   'notifications';
+            $data['notifications']   =   UsrNotification::where('role_id',6)->where('notify_to',auth()->user()->id)->orderby('id','DESC')->get();
+
+            return view('customer.notification',$data);
         }
     
 }

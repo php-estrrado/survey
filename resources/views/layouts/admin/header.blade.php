@@ -44,23 +44,23 @@
 
 							if(auth()->user()->role_id == 1)
 							{
-								$notifications = AdminNotification::where('role_id',1)->limit(5)->orderby('id','desc')->get();
+								$notifications = AdminNotification::where('role_id',1)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
 							}
 							elseif(auth()->user()->role_id == 2)
 							{
-								$notifications = AdminNotification::where('role_id',2)->limit(5)->orderby('id','desc')->get();
+								$notifications = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
 							}
 							elseif(auth()->user()->role_id == 3)
 							{
-								$notifications = AdminNotification::where('role_id',3)->limit(5)->orderby('id','desc')->get();
+								$notifications = AdminNotification::where('role_id',3)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
 							}
 							elseif(auth()->user()->role_id == 4)
 							{
-								$notifications = AdminNotification::where('role_id',4)->limit(5)->orderby('id','desc')->get();
+								$notifications = AdminNotification::where('role_id',4)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
 							}
 							elseif(auth()->user()->role_id == 5)
 							{
-								$notifications = AdminNotification::where('role_id',5)->limit(5)->orderby('id','desc')->get();
+								$notifications = AdminNotification::where('role_id',5)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
 							}
 						@endphp
 						@if($notifications)
@@ -74,7 +74,6 @@
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow  animated">
 						<div class="dropdown-header">
 							<h6 class="mb-0">Notifications</h6>
-							<span class="badge badge-pill badge-primary ml-auto">View all</span>
 						</div>
 						<div class="notify-menu">
 							@if($notifications && count($notifications)>0)

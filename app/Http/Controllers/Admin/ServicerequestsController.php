@@ -1176,6 +1176,7 @@ class ServicerequestsController extends Controller
 
     public function verify_invoice(Request $request)
     {
+        $input = $request->all();
         $id = $request->id;
 
         Survey_requests::where('id',$id)->update(['request_status'=>49]);
@@ -1204,7 +1205,7 @@ class ServicerequestsController extends Controller
             $title      = 'Invoice Verified by Admin';
             $desc       = 'Invoice Verified by Admin. Request ID: HSW'.$id;
             $refId      = $id;
-            $reflink    = '/superadmin/requested_service_detail/'.$input['id'].'/49/';
+            $reflink    = '/superadmin/requested_service_detail/'.$id.'/49/';
             $notify     = 'superadmin';
             $notify_from_role_id = 2;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 

@@ -172,6 +172,8 @@ class ServicerequestsController extends Controller
         //                                 ->orderBy('survey_requests.id','DESC')
         //                                 ->get();
 
+        // dd($data);
+
         return view('superadmin.requested_services.new_service_request_detail',$data);
     }
 
@@ -518,7 +520,7 @@ class ServicerequestsController extends Controller
 
                 $from       = auth()->user()->id; 
                 $utype      = 4;
-                $to         = $assignment_requests->assigned_draftsman;
+                $to         = $input['draftsman'];
                 $ntype      = 'request_assigned';
                 $title      = 'Request Assigned';
                 $desc       = 'Request Assigned. Request ID: HSW'.$input['id'];
@@ -558,6 +560,8 @@ class ServicerequestsController extends Controller
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
             $assigned_draftsman_final = survey_requests::where('id',$input['id'])->first()->assigned_draftsman_final;
+            $assigned_draftsman = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
+            
             $assign_arr['request_status'] = 46;
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
@@ -581,7 +585,7 @@ class ServicerequestsController extends Controller
 
                 $from       = auth()->user()->id;
                 $utype      = 4;
-                $to         = $assigned_draftsman_final; 
+                $to         = $assigned_draftsman; 
                 $ntype      = 'request_assigned_for_invoice';
                 $title      = 'Request Assigned for Invoice';
                 $desc       = 'Request Assigned for Invoice. Request ID: HSW'.$input['id'];
