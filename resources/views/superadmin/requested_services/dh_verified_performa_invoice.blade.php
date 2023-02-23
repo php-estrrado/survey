@@ -843,37 +843,56 @@
 										</div>
 									</div>
 								@endif
-								<!-- <div class="col-sm-12 col-md-12">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Existing Drawings / Maps Showing The Location
+								@if($request_data->drawing_maps)
+									@php
+										$drawings = json_decode($request_data->drawing_maps,true);
+									@endphp
+									<div class="col-sm-12 col-md-12">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Existing Drawings / Maps Showing The Location
+												</div>
 											</div>
+											<ul id="lightgallery" class="list-unstyled row">
+												@if($drawings && count($drawings) > 0)
+													@foreach($drawings as $image)
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$image}}" data-src="{{$image}}" data-sub-html="">
+															<a href="{{$image}}" target="_blank">
+																<img class="img-responsive" src="{{$image}}" alt="Thumb-1" width="100%">
+															</a>
+														</li>
+													@endforeach
+												@endif
+											</ul>
 										</div>
-										<ul id="lightgallery" class="list-unstyled row">
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/1.jpg')}}" data-src="{{URL::asset('assets/images/photos/1.jpg')}}" data-sub-html="<h4>Gallery Image 1</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/1.jpg')}}" alt="Thumb-1">
-												</a>
-											</li>
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/2.jpg')}}" data-src="{{URL::asset('assets/images/photos/2.jpg')}}" data-sub-html="<h4>Gallery Image 2</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/2.jpg')}}" alt="Thumb-2">
-												</a>
-											</li>
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/3.jpg')}}" data-src="{{URL::asset('assets/images/photos/3.jpg')}}" data-sub-html="<h4>Gallery Image 3</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/3.jpg')}}" alt="Thumb-1">
-												</a>
-											</li>
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/4.jpg')}}" data-src="{{URL::asset('assets/images/photos/4.jpg')}}" data-sub-html=" <h4>Gallery Image 4</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/4.jpg')}}" alt="Thumb-2">
-												</a>
-											</li>
-										</ul>
 									</div>
-								</div> -->
+								@endif
+								@if($request_data->file_upload)
+									@php
+										$files = json_decode($request_data->file_upload,true);
+									@endphp
+									<div class="col-sm-12 col-md-12">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Existing Drawings / Maps Showing The Location
+												</div>
+											</div>
+											<ul id="lightgallery" class="list-unstyled row">
+												@if($files && count($files) > 0)
+													@foreach($files as $file)
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$file}}" data-src="{{$file}}" data-sub-html="">
+															<a href="{{$file}}" target="_blank">
+																<img class="img-responsive" src="{{$file}}" alt="Thumb-1" width="100%">
+															</a>
+														</li>
+													@endforeach
+												@endif
+											</ul>
+										</div>
+									</div>
+								@endif
 							</div>
 						</div>
 					</div>
