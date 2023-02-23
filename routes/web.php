@@ -126,6 +126,7 @@ Route::middleware('role:customer')->group(function () {
     Route::get('/customer/performa_invoice_received', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_received']);
 
     Route::post('/customer/performa_invoice_remarks', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_remarks']);
+    Route::post('/customer/performa_invoice_reject', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_reject']);
 
     Route::get('/customer/receipt_rejected/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'receipt_rejected']);
 

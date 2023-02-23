@@ -26,7 +26,7 @@
 
                         @if(auth()->user()->role_id == 6)
                             <li class="sidebar-list">
-                                <a @if($pt['id'] == 1) class="sidebar-link sidebar-title link-nav" @else class="sidebar-link sidebar-title active" @endif @if($child && count($child) > 0)  data-toggle="slide" @endif @if($pt['link'] == '#') href="#" @else href="{{url('/customer')}}{{ $pt['link'] }}" @endif>
+                                <a @if($pt['id'] == 1) class="sidebar-link sidebar-title link-nav" @else class="sidebar-link sidebar-title active" @endif @if($child && count($child) > 0) @endif @if($pt['link'] == '#') href="#" @else href="{{url('/customer')}}{{ $pt['link'] }}" @endif>
                                     @if($pt['menu_icon'] !="")
                                         @if($pt['id'] == 1)
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>

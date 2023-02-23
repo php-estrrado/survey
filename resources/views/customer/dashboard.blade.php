@@ -92,8 +92,7 @@
                 <div class=" custome-3-bg b-r-4 card-body">
                     <div class="media static-top-widget">
                         <div class="media-body p-0"><span class="m-0">Total Rejected Requests</span>
-                            <h4 class="mb-0 counter">0
-                            </h4>
+                            <h4 class="mb-0 counter">{{$rejected_surveys}}</h4>
                         </div>
                         <div class="align-self-center text-center"><i data-feather="message-circle"></i>
                         </div>

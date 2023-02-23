@@ -197,7 +197,7 @@
 												General Area
 											</div>
 										</div>
-										<label class="form-label">{{$field_study_eta->general_area}}</label>
+										<label class="form-label">{{$field_study_eta->generalarea_name->city_name}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">

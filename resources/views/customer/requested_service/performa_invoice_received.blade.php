@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="card-header  card-header--2 package-card">
                     <div>
-                        <h5>File Number</h5>
+                        <h5>HSW{{$survey_data->survey_request_id}}</h5>
                     </div>
                 </div>
 
@@ -29,13 +29,13 @@
                         </div>
                         <div class="menu-top menu-up">
                             <ul class="nav nav-tabs" id="top-tab" role="tablist">
-                                <li class="nav-item"><a data-bs-toggle="tab" class="nav-link active" href="#highlight">Timeline</a></li>
-                                <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#itinerary">Invoice Details</a>
+                                <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#highlight">Timeline</a></li>
+                                <li class="nav-item"><a data-bs-toggle="tab" class="nav-link active" href="#itinerary">Invoice Details</a>
                                 </li>
                             </ul>
                         </div>
                         <div class="description-details tab-content" id="top-tabContent">
-                            <div class="menu-part about tab-pane fade show active" id="highlight">
+                            <div class="menu-part about tab-pane fade show" id="highlight">
                                 <ul class="timelineleft pb-5 mt-5">
                                     <li> <i class="fa fa-clock-o bg-primary"></i>
                                         <div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> 12:05</span>
@@ -89,7 +89,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="menu-part accordion tab-pane fade" id="itinerary">
+                            <div class="menu-part accordion tab-pane fade show active" id="itinerary">
                                 <div class="card-body">
                                     <div class="card-title font-weight-bold"><b>Basic info:</b></div>
                                     <div class="row">
@@ -307,22 +307,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form action="{{URL('/customer/performa_invoice_remarks')}}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="id" id="id" value="{{$survey_data->survey_request_id}}">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <label class="form-label-title mt-3" for="performa_remarks">Remarks</label>
-                                                <textarea id="performa_remarks" name="performa_remarks" placeholder="Type here..." rows="4" style="width:100%;"></textarea>
-                                            </div>
+                                    <div class="row g-2 mt-2" style="float: right;">
+                                        <div class="col-md-12">
+                                            <a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-bs-target="#modaldemo1" data-bs-toggle="modal" href=""> Accept </a>
+                                            <a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-bs-target="#modaldemo2" data-bs-toggle="modal" href=""> Reject </a>
                                         </div>
-                                        <div class="row g-2">
-                                            <div class="col-md-12">
-                                                <button class="btn btn-primary mt-3 ms-3" style="float:right ;" type="submit" name="submit">Accept</button>
-                                                <button class="btn btn-primary mt-3" style="float:right ;" data-bs-original-title="" title="">Reject</button>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -348,6 +338,58 @@
     </footer>
 </div>
 </div>
+<div class="modal" tabindex="-1" id="modaldemo1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Accept Performa Invoice</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{url('/customer/performa_invoice_remarks')}}" method="post">
+		@csrf
+        <input type="hidden" name="id" id="id" value="{{$survey_data->survey_request_id}}">
+		<div class="modal-body">
+			<div class="col-md-12">
+                <div class="form-group">
+					<label class="form-label" for="performa_remarks">Remarks <span class="text-red">*</span></label>
+					<textarea class="form-control mb-4" name="performa_remarks" id="performa_remarks" placeholder="Type Here..." rows="3"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-primary">Save</button>
+		</div>
+	  </form>
+    </div>
+  </div>
+</div>
+<div class="modal" tabindex="-1" id="modaldemo2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reject Performa Invoice</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="{{url('/customer/performa_invoice_reject')}}" method="post">
+		@csrf
+        <input type="hidden" name="id" id="id" value="{{$survey_data->survey_request_id}}">
+		<div class="modal-body">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label" for="performa_remarks">Remarks <span class="text-red">*</span></label>
+					<textarea class="form-control mb-4" name="performa_remarks" id="performa_remarks" placeholder="Type Here..." rows="3"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+			<button type="submit" class="btn btn-primary">Save</button>
+		</div>
+	  </form>
+    </div>
+  </div>
+</div>
 @endsection
 @section('js')
     <script type="text/javascript">
@@ -368,6 +410,25 @@
         });
     </script>
     <script>
+        function rejectPerformaInvoice($id)
+        {
+            var id = $id;
+            var remarks = $('#performa_remarks').val();
+
+			$.ajax({
+				url: "{{url('/customer/performa_invoice_reject')}}",
+				type: "post",
+				data: {
+					"_token": "{{ csrf_token() }}",
+                    "id" : id,
+					"remarks": remarks,
+				},
+				success: function(result)
+				{
+				}
+			});
+        }
+
         function printDiv()
         {
             var divToPrint=document.getElementById('invoice_div');

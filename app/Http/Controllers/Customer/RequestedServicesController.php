@@ -194,6 +194,68 @@ class RequestedServicesController extends Controller
         return redirect('customer/requested_services');
     }
 
+    public function performa_invoice_reject(Request $request)
+    {
+        $input = $request->all();
+
+        $id = $request->id;
+        Survey_requests::where('id',$id)->update(['request_status'=>29]);
+
+        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+        $survey_request_logs = [];
+
+        $survey_request_logs['survey_request_id'] = $id;
+        $survey_request_logs['cust_id'] = $cust_id;
+        $survey_request_logs['survey_status'] = 55;
+        $survey_request_logs['remarks'] = $request->performa_remarks;
+        $survey_request_logs['is_active'] = 1;
+        $survey_request_logs['is_deleted'] = 0;
+        $survey_request_logs['created_by'] = auth()->user()->id;
+        $survey_request_logs['updated_by'] = auth()->user()->id;
+        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+        $survey_request_logs['survey_request_id'] = $id;
+        $survey_request_logs['cust_id'] = $cust_id;
+        $survey_request_logs['survey_status'] = 29;
+        $survey_request_logs['remarks'] = $request->performa_remarks;
+        $survey_request_logs['is_active'] = 1;
+        $survey_request_logs['is_deleted'] = 0;
+        $survey_request_logs['created_by'] = auth()->user()->id;
+        $survey_request_logs['updated_by'] = auth()->user()->id;
+        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $from       = auth()->user()->id; 
+            $utype      = 1;
+            $to         = 1; 
+            $ntype      = 'performa_invice_accepted';
+            $title      = 'Customer Rejected Performa Invoice';
+            $desc       = 'Customer Rejected Performa Invoice. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    =  '/superadmin/requested_service_detail/'.$id.'/55/';
+            $notify     = 'superadmin';
+            $notify_from_role_id = 6;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+
+        if(isset($survey_request_log_id))
+        {   
+            Session::flash('message', ['text'=>'Performa Invoice Rejected Successfully !','type'=>'success']);  
+        }
+        else
+        {
+            Session::flash('message', ['text'=>'Performa Invoice Not Rejected Successfully !','type'=>'danger']);
+        }
+
+        return redirect('customer/requested_services');
+    }
+
     public function request_service_invoice($id)
     {
         $data['title']        =  'Requested Service Invoice';

@@ -155,10 +155,15 @@ class LoginController extends Controller
                 // });
 
                 Admin::where('email',$request->email)->update(['otp'=>$otp,'otp_sent_at'=>date('Y-m-d H:i:s')]);
+
+                Session::flash('message', ['text'=>'OTP Sent to E-mail !','type'=>'success']);  
+
                 return back()->withInput($request->only('email', 'remember'))->with('message',' OTP Sent to mail.');
             }
             else
             {
+                Session::flash('message', ['text'=>'E-mail does not exist !','type'=>'danger']);
+
                 return back()->withInput($request->only('email', 'remember'))->with('message',' Email does not exist!.');
             }
             
@@ -175,7 +180,7 @@ class LoginController extends Controller
         if ($validator->fails()) 
         {
             foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-            return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+            return back()->withInput($request->only('email', 'remember'))->with('message',['text'=>' This account is inactive !','type'=>'success']);
         }
         else
         { 
@@ -185,10 +190,11 @@ class LoginController extends Controller
                 $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
                 if($exist)
                 {
-                    return back()->withInput($request->all())->with('message',' OTP Verified Successfully.');
+                    return back()->withInput($request->all())->with('message',['text'=>'OTP Verified Successfully !','type'=>'success']);
                 }
                 else
                 {
+                    Session::flash('message', ['text'=>'Invalid OTP !','type'=>'danger']);
                     return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid OTP.');
                 }
             }
@@ -239,7 +245,7 @@ class LoginController extends Controller
   
                     Session::flash('message', ['text'=>'Password Changed Successfully !','type'=>'success']);  
 
-                    return redirect('customer/forgotPassword');
+                    return redirect('customer/login');
                 }
                 else
                 {

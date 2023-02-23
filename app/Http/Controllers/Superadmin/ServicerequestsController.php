@@ -217,6 +217,18 @@ class ServicerequestsController extends Controller
             $utype      = 6;
             $to         = $cust_id; 
             $ntype      = 'field_study_assigned';
+            $title      = 'Service Request Accepted';
+            $desc       = 'Service Request Accepted by CH. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
+            $reflink = '/customer/request_service_detail/'.$input['id'].'/2/';
+            $notify     = 'customer';
+            $notify_from_role_id = 1;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            
+            $from       = auth()->user()->id; 
+            $utype      = 6;
+            $to         = $cust_id; 
+            $ntype      = 'field_study_assigned';
             $title      = 'Field Study Request Assigned to Admin';
             $desc       = 'Field Study Request Assigned to Admin. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];

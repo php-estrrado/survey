@@ -28,9 +28,9 @@
                             <div class="form-group">
                                 <label class="col-form-label form-label-title ">Password</label>
                                 <div class="form-input position-relative">
-                                    <input class="form-control" type="password" name="password" required=""
+                                    <input class="form-control" type="password" name="password" id="password" required=""
                                         placeholder="*********">
-                                    <div class="show-hide"><span class="show"> </span></div>
+                                    <div class="show-hide"><span class="show" id="showPass" onclick="showPass()"> </span></div>
                                 </div>
                             </div>
                             <div class="form-group mb-0">
@@ -72,5 +72,21 @@
                 toastr.error("{{$errors->all()[0]}}"); 
             @endif
         });
+
+        function showPass()
+        {
+            var password=$("#password");
+
+            if(password.attr('type')==='password')
+            {
+                password.attr('type','text');
+                $('#showPass').addClass('hide').removeClass('show');
+            }
+            else
+            {
+                password.attr('type','password');
+                $('#showPass').addClass('show').removeClass('hide');
+            }
+        }
     </script>
 @endsection
