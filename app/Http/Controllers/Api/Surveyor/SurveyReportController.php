@@ -119,8 +119,8 @@ class SurveyReportController extends Controller
         $to         = $assignment_requests->assigned_user; 
         $ntype      = 'survey_study_report';
         $title      = 'Survey Study Report Submitted';
-        $desc       = 'Survey Study Report Submitted. Request ID: HSW'.$request_id;
-        $refId      = $request_id;
+        $desc       = 'Survey Study Report Submitted. Request ID: HSW'.$request->survey_request_id;
+        $refId      = $request->survey_request_id;
         $reflink    = 'admin';
         $notify     = 'admin';
         $notify_from_role_id = 3;
@@ -217,8 +217,8 @@ class SurveyReportController extends Controller
         $to         = $assignment_requests->assigned_user; 
         $ntype      = 'field_study_report';
         $title      = 'Field Study Report Submitted';
-        $desc       = 'Field Study Report Submitted. Request ID: HSW'.$request_id;
-        $refId      = $request_id;
+        $desc       = 'Field Study Report Submitted. Request ID: HSW'.$request->survey_request_id;
+        $refId      = $request->survey_request_id;
         $reflink    = 'admin';
         $notify     = 'admin';
         $notify_from_role_id = 3;
