@@ -1136,7 +1136,7 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label">Institution <span class="text-red">*</span></label>
-							<select class="form-control custom-select select2" name="assigned_survey_institution" id="assigned_survey_institution">
+							<select class="form-control custom-select select2" name="assigned_survey_institution" id="assigned_survey_institution" onchange="getAdmins()">
 								<option value="0">--Select--</option>
 								@if($institutions && count($institutions)>0)
 									@foreach($institutions as $institution)

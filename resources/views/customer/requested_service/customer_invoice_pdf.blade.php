@@ -9,6 +9,10 @@
         <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/bootstrap.css')}}">
         <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/bootstrap-datepicker.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/dropzone.css')}}">
+        
+        <!-- Icon css-->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    
         <!-- App css-->
         <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/style.css')}}">
         <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/custom.css')}}">
@@ -65,7 +69,51 @@
 
                 .col-sm-1 {
                         width: 8.333333333333332%;
-                    }            
+                }  
+                
+                table{
+                    table-layout: auto;
+                    width: 100%;
+                }
+                
+                .table-responsive {
+                    overflow-x: inherit;
+                }
+                
+                td {
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                }
+                
+                .mt-5 {
+                    margin-top: 0 !important;
+                }
+                
+                .card {;
+                    -webkit-box-shadow: none !important;
+                    box-shadow: none !important;
+                }
+                
+                .txtbrk{
+                    word-break: break-word;
+                    white-space: normal;
+                    width:100%;
+                }
+                
+                .table th, .table td {
+                    padding: 0.45rem;
+                }
+                
+                .lin{
+                    margin: .5rem 0;
+                    opacity: 1;
+                    border-top: 1px solid #d9d9d9;
+                }
+                
+                .table-bordered thead, .table-bordered tbody, .table-bordered tfoot, .table-bordered tr, .table-bordered td, .table-bordered th {
+                    border-color: #d9d9d9;
+                }
+                
             }
         </style>
     </head>
@@ -148,7 +196,7 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="lin">
                     <div class="card-title font-weight-bold mt-5"><b>Details Of Receiver (Billed To)</b></div>
                     <div class="row">
                         <div class="col-sm-4 col-md-4">
@@ -161,7 +209,7 @@
                                 <label class="form-label">{{$survey_data->receiver_name}}</label>
                             </div>
                         </div>
-                        <div class="col-sm-84 col-md-8">
+                        <div class="col-sm-8 col-md-8">
                             <div class="form-group">
                                 <div class="media-body">
                                     <div class="font-weight-normal1">
@@ -192,7 +240,7 @@
                             </div>
                         </div>
                     </div>
-                    <hr>
+                    <!--<hr class="lin">-->
                     <div class="row">
                         <div class="col-sm-12 col-md-12">
                             <div class="table-responsive">
@@ -209,12 +257,12 @@
                                         <tr>
                                             <td width="11%">In Figures</td>
                                             <td width="37%">{{$survey_data->survey_charges}}</td>
-                                            <td rowspan="2" align="center">1051-80-800-96-03-mis-HSW
+                                            <td rowspan="2" align="center" class="txtbrk" width="50%">1051-80-800-96-03-mis-HSW
                                                 (through Treasury In words / e-treasury)</td>
                                         </tr>
                                         <tr>
-                                            <td>In Words</td>
-                                            <td>{{$survey_data->survey_charges_words}}</td>
+                                            <td width="11%">In Words</td>
+                                            <td width="37%">{{$survey_data->survey_charges_words}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -242,7 +290,7 @@
                                             <td width="16%">CGST</td>
                                             <td width="4%">{{$survey_data->cgst_percentage}}%</td>
                                             <td width="38%">{{$survey_data->cgst_amount}}</td>
-                                            <td rowspan="5" align="center">A/c no: 00000037884341757,
+                                            <td rowspan="5" align="center" class="txtbrk">A/c no: 00000037884341757,
                                                 SBI, Fort, Trivandrum.
                                                 IFSC: SBIN0060333</td>
                                         </tr>
@@ -262,7 +310,7 @@
                                         </tr>
                                         <tr>
                                             <td>Total(in words)</td>
-                                            <td colspan="2">{{$survey_data->total_tax_amount_words}}</td>
+                                            <td colspan="2" class="txtbrk">{{$survey_data->total_tax_amount_words}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
