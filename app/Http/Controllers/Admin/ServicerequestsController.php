@@ -231,11 +231,11 @@ class ServicerequestsController extends Controller
 
             if(isset($survey_request_log_id))
             {   
-                Session::flash('message', ['text'=>'Successfully Assigned Surveyor !','type'=>'success']);  
+                Session::flash('message', ['text'=>'Successfully Assigned Marine Surveyor !','type'=>'success']);  
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Surveyor is not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Marine Surveyor is not Successfull !','type'=>'danger']);
             }
 
             return redirect('/admin/new_service_requests');
@@ -408,11 +408,11 @@ class ServicerequestsController extends Controller
 
             if(isset($survey_request_log_id))
             {   
-                Session::flash('message', ['text'=>'Successfully Assigned Surveyor !','type'=>'success']);  
+                Session::flash('message', ['text'=>'Successfully Assigned Marine Surveyor !','type'=>'success']);  
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Surveyor is not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Marine Surveyor is not Successfull !','type'=>'danger']);
             }
 
             return redirect('/admin/requested_services');

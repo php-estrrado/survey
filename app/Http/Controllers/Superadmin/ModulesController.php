@@ -87,7 +87,7 @@ class ModulesController extends Controller
                 // dd($input);
                 if($input['link'] !="#")
                 {
-                    $validator= $request->validate([
+                    $validator= Validator::make($request->all(),[
                         'module_name' => ['required', 'string'],
                         'class' => ['required'],
                         'link'  =>  ['required',Rule::unique('module')]
@@ -95,35 +95,45 @@ class ModulesController extends Controller
                 }
                 else
                 {
-                    $validator= $request->validate([
+                    $validator= Validator::make($request->all(),[
                         'module_name' => ['required', 'string'],
                         'class' => ['required'],
                         'link'  =>  ['required']
                     ]);
                 }
                 // dd($input);
-                $input['org_id'] = 1;
-                $input['is_active'] = 1;
-                $input['is_deleted'] = 0;
-                $Modules = Modules::create($input);
-                Session::flash('message', ['text'=>'Module created successfully','type'=>'success']);
+                if($validator->passes())
+                {
+                    $input['org_id'] = 1;
+                    $input['is_active'] = 1;
+                    $input['is_deleted'] = 0;
+                    $Modules = Modules::create($input);
+                    Session::flash('message', ['text'=>'Module created successfully','type'=>'success']);
+                }
+                else
+                {
+                    Session::flash('message', ['text'=>'Module Link Already Exixts !','type'=>'danger']);
+                    return redirect()->back()->withErrors($validator)->withInput($request->all());
+                }
             }
             return redirect(route('superadmin.modules'));
         }
 
         public function moduleDelete(Request $request)
         {
-        $input = $request->all();
+            $input = $request->all();
 
-        if($input['id']>0) {
-        $deleted =  Modules::where('id',$input['id'])->update(array('is_deleted'=>1));
-        Session::flash('message', ['text'=>'Module deleted successfully.','type'=>'success']);
-        return true;
-        }else {
-        Session::flash('message', ['text'=>'Module failed to delete.','type'=>'danger']);
-        return false;
-        }
-
+            if($input['id']>0)
+            {
+                $deleted =  Modules::where('id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
+                Session::flash('message', ['text'=>'Module deleted successfully.','type'=>'success']);
+                return true;
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Module failed to delete.','type'=>'danger']);
+                return false;
+            }
         }
     
         public function moduleStatus(Request $request)

@@ -890,7 +890,7 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label">Institution <span class="text-red">*</span></label>
-							<select class="form-control custom-select select2" name="assigned_survey_institution">
+							<select class="form-control custom-select select2" name="assigned_survey_institution" id="assigned_survey_institution">
 								<option value="0">--Select--</option>
 								@if($institutions && count($institutions)>0)
 									@foreach($institutions as $institution)
@@ -901,13 +901,8 @@
 						</div>
 						<div class="form-group">
 							<label class="form-label">User <span class="text-red">*</span></label>
-							<select class="form-control custom-select select2" name="assigned_survey_user">
+							<select class="form-control custom-select select2" name="assigned_survey_user" id="assigned_survey_user">
 								<option value="0">--Select--</option>
-								@if($admins && count($admins)>0)
-									@foreach($admins as $admin)
-										<option value="{{$admin->id}}">{{$admin->email}}</option>
-									@endforeach
-								@endif
 							</select>
 						</div>
 						<div class="form-group">
@@ -1005,30 +1000,51 @@
 
 @endsection
 @section('js')
-<!-- INTERNAL Data tables -->
-<!-- <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{URL::asset('assets/js/datatables.js')}}"></script> -->
-<!-- INTERNAL Gallery js -->
-<script src="{{URL::asset('assets/plugins/gallery/picturefill.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/gallery/lightgallery.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/gallery/lg-pager.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/gallery/lg-autoplay.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/gallery/lg-fullscreen.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/gallery/lg-zoom.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/gallery/lg-hash.js')}}"></script>
-<script src="{{URL::asset('assets/js/gallery.js')}}"></script>
+	<!-- INTERNAL Data tables -->
+	<!-- <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
+	<script src="{{URL::asset('assets/js/datatables.js')}}"></script> -->
+	<!-- INTERNAL Gallery js -->
+	<script src="{{URL::asset('assets/plugins/gallery/picturefill.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/gallery/lightgallery.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/gallery/lg-pager.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/gallery/lg-autoplay.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/gallery/lg-fullscreen.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/gallery/lg-zoom.js')}}"></script>
+	<script src="{{URL::asset('assets/plugins/gallery/lg-hash.js')}}"></script>
+	<script src="{{URL::asset('assets/js/gallery.js')}}"></script>
 
-<!-- INTERNAL Select2 js -->
-<script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
+	<!-- INTERNAL Select2 js -->
+	<script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
+
+	<script>
+		function getAdmins()
+		{
+			var institution = $('#assigned_survey_institution').val();
+			// alert(institution);
+
+			$.ajax({
+			url: "{{url('/superadmin/getAdmin')}}",
+			type: "post",
+			data: {
+			"_token": "{{ csrf_token() }}",
+			"institution_id": institution,
+			},
+			success: function(result)
+			{
+			$("#assigned_survey_user").html(result);
+			}
+		});
+		}
+	</script>
 @endsection

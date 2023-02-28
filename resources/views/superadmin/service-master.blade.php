@@ -20,7 +20,7 @@
 	</div>
 	<div class="page-rightheader">
 		<div class="btn btn-list">
-			<a href="#" class="btn btn-info"><i class="fe fe-plus mr-1"></i> Add </a>
+			<!-- <a href="#" class="btn btn-info"><i class="fe fe-plus mr-1"></i> Add </a> -->
 		</div>
 	</div>
 </div>

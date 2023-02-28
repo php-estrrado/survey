@@ -15,31 +15,9 @@
 @section('content')
 	<!-- Row-1 -->
 	<div class="row">
-
-		<div class="col-md-12 col-xl-3 col-lg-6">
-			<div class="card text-center">
-				<div class="card-body"> <span>Total Number Of Request To Be Approved</span>
-					<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
-				</div>
-			</div>
-		</div>
 		<div class="col-md-12 col-xl-3 col-lg-6">
 			<div class="card text-center">
 				<div class="card-body"> <span>No. Of Total Cancelled Service</span>
-					<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-12 col-xl-3 col-lg-6">
-			<div class="card text-center">
-				<div class="card-body"> <span>No. Of Active Queries</span>
-					<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-12 col-xl-3 col-lg-6">
-			<div class="card text-center">
-				<div class="card-body"> <span>Pending e Signature</span>
 					<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
 				</div>
 			</div>
@@ -52,18 +30,6 @@
 		<div class="col-xl-6 col-lg-6 col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<div class="card-title">Total Completed Work v/s Total Pending Works</div>
-				</div>
-				<div class="card-body">
-					<div class="chartjs-wrapper-demo">
-						<div id="chart" class="h-300 mh-300"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-xl-6 col-lg-6 col-md-12">
-			<div class="card">
-				<div class="card-header">
 					<div class="card-title">No. Of Service Request For Each Category</div>
 				</div>
 				<div class="card-body">
@@ -71,11 +37,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- End Row-2 -->
 
-	<!-- Row-3 -->
-	<div class="row">
 		<div class="col-xl-6 col-md-12">
 			<div class="card">
 				<div class="card-header">
@@ -89,7 +51,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- End Row-3 -->
+	<!-- End Row-2 -->
 
 </div>
 </div>

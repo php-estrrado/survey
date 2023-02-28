@@ -2,6 +2,7 @@
 @section('css')
 @endsection
 @section('content')
+<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />
 <div class="page">
 	<div class="page-single">
 		<div class="container">
@@ -9,6 +10,11 @@
 				<div class="col mx-auto">
 					<div class="row justify-content-center">
 						<div class="col-md-5">
+							<div>
+								<a class="logo" href="#">
+									<img class="img-fluid for-light" src="{{url('admin/assets/images/logo.png')}}" alt="looginpage">
+								</a>
+							</div>
 							<div class="card">
 								<div class="card-body">
 									<div class="text-center title-style mb-6">
@@ -18,7 +24,11 @@
 									<form method="POST" id="adminLogin" action="{{ url('/superadmin/regVerifyotpemail') }}" class="theme-form">
 										@csrf
 										<div class="input-group mb-4">
-											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID">
+											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" value="{{ old('email')}}">
+											<div id="email_error"></div>
+											@error('email')
+												<p style="color: red">{{ $message }}</p>
+											@enderror
 										</div>
 										<div class="row justify-content-end mb-4">
 											<div class="col-4">
@@ -27,6 +37,10 @@
 										</div>
 										<div class="input-group mb-4">
 											<input type="password" class="form-control" name="otp" id="otp" placeholder="OTP">
+											<div id="otp_error"></div>
+											@error('otp')
+												<p style="color: red">{{ $message }}</p>
+											@enderror
 										</div>
 										<div class="row justify-content-end">
 											<div class="col-4">
@@ -64,5 +78,18 @@
 	</script>
 @endsection
 @section('js')
-	
+	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+    <script type="text/javascript">
+		@if(Session::has('message'))
+			@if(session('message')['type'] =="success")
+				toastr.success("{{session('message')['text']}}"); 
+			@else
+				toastr.error("{{session('message')['text']}}"); 
+			@endif
+		@endif
+		
+		@if ($errors->any())          
+			toastr.error("{{$errors->all()[0]}}"); 
+		@endif
+    </script>
 @endsection

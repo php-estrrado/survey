@@ -9,6 +9,11 @@
 				<div class="col mx-auto">
 					<div class="row justify-content-center">
 						<div class="col-md-5">
+							<div>
+								<a class="logo" href="#">
+									<img class="img-fluid for-light" src="{{url('admin/assets/images/logo.png')}}" alt="looginpage">
+								</a>
+							</div>
 							<div class="card">
 								<div class="card-body">
 									<div class="text-center title-style mb-6">

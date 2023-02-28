@@ -936,7 +936,7 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label" for="assigned_institution">Assign Institution <span class="text-red">*</span></label>
-							<select class="form-control custom-select select2" id="assigned_institution" name="assigned_institution">
+							<select class="form-control custom-select select2" id="assigned_institution" name="assigned_institution" onchange="getAdmins()">
 								<option value="0">--Select--</option>
 								@if($institutions && count($institutions)>0)
 									@foreach($institutions as $institution)
@@ -951,12 +951,7 @@
 						<div class="form-group">
 							<label class="form-label" for="assigned_user">Assign User <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" id="assigned_user" name="assigned_user">
-								<option value="0">--Select--</option>
-								@if($admins && count($admins)>0)
-									@foreach($admins as $admin)
-										<option value="{{$admin->id}}">{{$admin->email}}</option>
-									@endforeach
-								@endif								
+								<option value="0">--Select--</option>								
 							</select>
 							@error('assigned_user')
 								<p style="color: red">{{ $message }}</p>
@@ -1060,4 +1055,25 @@
 
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
+
+<script>
+	function getAdmins()
+	{
+		var institution = $('#assigned_institution').val();
+		// alert(institution);
+
+		$.ajax({
+        url: "{{url('/superadmin/getAdmin')}}",
+        type: "post",
+        data: {
+          "_token": "{{ csrf_token() }}",
+          "institution_id": institution,
+        },
+        success: function(result)
+        {
+          $("#assigned_user").html(result);
+        }
+      });
+	}
+</script>
 @endsection
