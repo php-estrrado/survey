@@ -52,7 +52,7 @@ class AdminController extends Controller
     {
         $admin_id = auth()->user()->id;
         $email = auth()->user()->email;
-        $role_id = auth()->user()->role_id;
+        $role_id = 1;
 
         $data['role'] = UserRole::where('id',$role_id)->first()->usr_role_name;
         $data['admin'] = Admin::where('id',$admin_id)->first();
@@ -537,19 +537,23 @@ class AdminController extends Controller
         
         }
         
-          public function adminDelete(Request $request)
+        public function adminDelete(Request $request)
         {
-        $input = $request->all();
+            $input = $request->all();
 
-        if($input['id']>0) {
-        $deleted =  Admin::where('id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
-        Session::flash('message', ['text'=>'Admin deleted successfully.','type'=>'success']);
-        return true;
-        }else {
-        Session::flash('message', ['text'=>'Admin failed to delete.','type'=>'danger']);
-        return false;
-        }
+            if($input['id']>0) {
+                $admin_delete =  Admin::where('id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
+                $user_delete  =  UserManagement::where('admin_id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
 
+                Session::flash('message', ['text'=>'User deleted successfully.','type'=>'success']);
+
+                return true;
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'User failed to delete.','type'=>'danger']);
+                return false;
+            }
         }
         
         public function visitlog(Request $request)

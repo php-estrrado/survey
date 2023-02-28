@@ -86,7 +86,7 @@ class CustomerController extends Controller
             'firm'=>['required','max:255'],
             'firm_type'=>['required'],
             'email' => ['required','email','max:255','unique:cust_mst,username'],
-            'mobile'=>['required','max:255'],
+            'mobile'=>['required','numeric','max:10'],
             'valid_id'=>['required','max:255'],
             'id_file_front' => ['required','max:10000'],
             'id_file_back' => ['required','max:10000'],

@@ -23,7 +23,7 @@
                             <p>Enter your email & password to login</p>
                             <div class="form-group">
                                 <label class="col-form-label form-label-title ">Email ID</label>
-                                <input class="form-control" type="email" name="email" required="" placeholder="Email ID">
+                                <input class="form-control" type="email" name="email" required="" placeholder="Email ID" value="{{ old('email')}}">
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label form-label-title ">Password</label>

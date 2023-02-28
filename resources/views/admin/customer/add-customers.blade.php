@@ -186,4 +186,10 @@
 
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('admin/assets/plugins/select2/select2.full.min.js')}}"></script>
+<script>
+	$( document ).ready(function()
+	{
+    	$('input').attr('autocomplete','off');
+	});
+</script>
 @endsection

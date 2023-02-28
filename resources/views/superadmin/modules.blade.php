@@ -161,9 +161,9 @@
             data: { "_token": "{{csrf_token()}}", id: id},
             success: function (data) {
                 // alert(data);
-                if(data ==1){
-                    location.reload();
-                }
+                // if(data ==1){
+                //     location.reload();
+                // }
             }
         });
     }

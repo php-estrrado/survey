@@ -15,7 +15,9 @@ use App\Models\customer\CustomerTelecom;
 use App\Models\customer\CustomerSecurity;
 use App\Models\RegisterationToken;
 use App\Models\customer\CustomerInfo;
+use Error;
 use Mail;
+use Session;
 use Validator;
 
 class LoginController extends Controller
@@ -62,7 +64,7 @@ class LoginController extends Controller
         if ($validator->fails()) 
         {
             foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-            return back()->withInput($request->only('email', 'remember'))->with('message',' These credentials do not match our records. ');
+            return back()->withInput($request->only('email', 'remember'))->withErrors('error',' Enter Valid E-mail ID. ');
         }
         else
         {
@@ -83,11 +85,11 @@ class LoginController extends Controller
                 // });
 
                 Admin::where('email',$request->email)->update(['otp'=>$otp,'otp_sent_at'=>date('Y-m-d H:i:s')]);
-                return back()->withInput($request->only('email', 'remember'))->with('message',' OTP Sent to mail.');
+                return back()->withInput($request->only('email', 'remember'))->withErrors('error',' OTP Sent to mail.');
             }
             else
             {
-                return back()->withInput($request->only('email', 'remember'))->with('message',' Email does not exist!.');
+                return back()->withInput($request->only('email', 'remember'))->withErrors('error',' Email does not exist!.');
             }
             
         }
@@ -103,7 +105,7 @@ class LoginController extends Controller
         if ($validator->fails()) 
             {
                 foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-                return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                return back()->withInput($request->only('email', 'remember'))->withErrors('error',' This account is inactive.');
             }
         else
             { 
@@ -122,18 +124,18 @@ class LoginController extends Controller
                         else{
                             Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
                             //return redirect('/login')->withInput($request->only('email', 'remember'))->with('message',' The seller is not approved yet. ');
-                            return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                            return back()->withInput($request->only('email', 'remember'))->withErrors('error',' This account is inactive.');
                         }
                     }
                     }
                     else
                     {
-                        return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid OTP.');
+                        return back()->withInput($request->only('email', 'remember'))->withErrors('error',' Invalid OTP.');
                     }
                 }
                 else
                 {
-                    return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid Email.');
+                    return back()->withInput($request->only('email', 'remember'))->withErrors('error',' Invalid Email.');
                 }
               
             }

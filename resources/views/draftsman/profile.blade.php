@@ -77,7 +77,7 @@
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group">
 									<label class="form-label" for="designation">Designation <span class="text-red">*</span></label>
-									<input type="text" class="form-control" name="designation" id="designation" placeholder="Designation" value="{{ $user->designation }}">
+									<input type="text" class="form-control" name="designation" id="designation" placeholder="Designation" value="{{ $user_data->designation }}">
 									<div id="designation_error"></div>
 									@error('designation')
 										<p style="color: red">{{ $message }}</p>
@@ -87,7 +87,7 @@
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group">
 									<label class="form-label" for="pen">PEN Number <span class="text-red">*</span></label>
-									<input type="text" class="form-control" name="pen" id="pen" placeholder="PEN Number" value="{{ $user->pen }}">
+									<input type="text" class="form-control" name="pen" id="pen" placeholder="PEN Number" value="{{ $user_data->pen }}">
 									<div id="pen_error"></div>
 									@error('pen')
 										<p style="color: red">{{ $message }}</p>
@@ -116,7 +116,7 @@
 									<select class="form-control select2" name="institution" id="institution"> 
 										@if($institutions && count($institutions) > 0)
 											@foreach($institutions as $institution)
-												<option value="{{$institution['id']}}" {{ $user->institution == $institution['id'] ? 'selected' : '' }}>{{$institution['institution_name']}}</option>
+												<option value="{{$institution['id']}}" {{ $user_data->institution == $institution['id'] ? 'selected' : '' }}>{{$institution['institution_name']}}</option>
 											@endforeach
 										@endif
 									</select>

@@ -33,6 +33,7 @@ use App\Models\Survey_performa_invoice;
 
 use App\Models\Survey_status;
 use App\Models\SurveyType;
+use App\Models\UserManagement;
 use App\Rules\Name;
 use Svg\Tag\Rect;
 use Twilio\TwiML\Voice\Reject;
@@ -95,7 +96,7 @@ class ServicerequestsController extends Controller
 
         $data['institutions'] = Institution::where('is_deleted',0)->where('is_active',1) ->get();
 
-        $data['admins'] = Admin::where('role_id',2)->get();
+        // $data['admins'] = Admin::where('role_id',2)->get();
 
         if($datas->service_id == 1)
         {
@@ -1607,5 +1608,15 @@ class ServicerequestsController extends Controller
         {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
+    }
+
+    public function getAdmin(Request $request)
+    {
+        $input = $request->all();
+
+        $data['admins'] = UserManagement::where('institution',$input['institution_id'])->where('role',2)->where('is_deleted',0)->get();
+
+        // dd($data);
+        return view('superadmin.admins',$data);
     }
 }

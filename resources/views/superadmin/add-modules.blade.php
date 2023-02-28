@@ -36,13 +36,13 @@
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="module_name">Modules <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" name="module_name" id="module_name" placeholder="Module name">
+                                <input type="text" class="form-control" name="module_name" id="module_name" placeholder="Module name" value="{{ old('module_name')}}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="class">Class <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" name="class" id="class" placeholder="Class name">
+                                <input type="text" class="form-control" name="class" id="class" placeholder="Class name" value="{{ old('class')}}">
                             </div>
                         </div>
                     </div>
@@ -50,13 +50,13 @@
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="link">Slug <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" name="link" id="link" placeholder="Slug">
+                                <input type="text" class="form-control" name="link" id="link" placeholder="Slug" value="{{ old('link')}}">
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="menu_icon">Menu Icon </label>
-                                <input type="text" class="form-control" name="menu_icon" id="menu_icon" placeholder="Menu name">
+                                <input type="text" class="form-control" name="menu_icon" id="menu_icon" placeholder="Menu name" value="{{ old('menu_icon')}}">
                             </div>
                         </div>
                     </div>

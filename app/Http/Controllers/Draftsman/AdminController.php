@@ -55,7 +55,7 @@ class AdminController extends Controller
 
         $data['role'] = UserRole::where('id',$role_id)->first()->usr_role_name;
         $data['admin'] = Admin::where('id',$admin_id)->first();
-        $data['user'] = UserManagement::where('admin_id',$admin_id)->first();
+        $data['user_data'] = UserManagement::where('admin_id',$admin_id)->first();
 
         $data['institutions'] = Institution::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
 

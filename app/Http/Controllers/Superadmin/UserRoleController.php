@@ -180,35 +180,41 @@ class UserRoleController extends Controller
 
         public function roleDelete(Request $request)
         {
-        $input = $request->all();
+            $input = $request->all();
 
-        if($input['id']>0) {
-        $deleted =  UserRole::where('id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
-        DB::table('usr_role_action')->where('usr_role_id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
-        Admin::where('role_id',$input['id'])->update(array('is_active'=>0));
-        Session::flash('message', ['text'=>'Role deleted successfully.','type'=>'success']);
-        return true;
-        }else {
-        Session::flash('message', ['text'=>'Role failed to delete.','type'=>'danger']);
-        return false;
-        }
+            if($input['id']>0)
+            {
+                $deleted =  UserRole::where('id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
+                DB::table('usr_role_action')->where('usr_role_id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
+                Admin::where('role_id',$input['id'])->update(array('is_active'=>0));
+                Session::flash('message', ['text'=>'Role deleted successfully.','type'=>'success']);
+                return true;
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Role failed to delete.','type'=>'danger']);
+                return false;
+            }
 
         }
-           public function roleStatus(Request $request)
+        
+        public function roleStatus(Request $request)
         {
-        $input = $request->all();
+            $input = $request->all();
         
-        if($input['id']>0) {
-        $deleted =  UserRole::where('id',$input['id'])->update(array('is_active'=>$input['status']));
-        if($input['status'] ==0){
-             Admin::where('role_id',$input['id'])->update(array('is_active'=>0));
-        }
-        return '1';
-        }else {
-        
-        return '0';
-        }
-        
+            if($input['id']>0)
+            {
+                $deleted =  UserRole::where('id',$input['id'])->update(array('is_active'=>$input['status']));
+                if($input['status'] ==0)
+                {
+                    Admin::where('role_id',$input['id'])->update(array('is_active'=>0));
+                }
+                return '1';
+            }
+            else
+            {
+                return '0';
+            }
         }
     
 

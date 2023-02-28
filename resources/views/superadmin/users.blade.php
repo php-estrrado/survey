@@ -62,7 +62,7 @@
 									<td>
 										<div class="btn-list actn">
 											<a href="{{url('/superadmin/admins-list/edit/')}}/{{$user['admin_id']}}" class="btn btn-success">Edit</a>
-											<a href="#" class="btn btn-danger">Delete</a>
+											<button class="btn btn-danger" type="button" onclick="deleteuser({{$user['admin_id']}});">Delete</button>
 										</div>
 									</td>
 								</tr>
@@ -103,4 +103,20 @@
 
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('admin/assets/plugins/select2/select2.full.min.js')}}"></script>
+<script>
+    function deleteuser(id){
+        console.log(id);
+        $.ajax({
+            type: "POST",
+            url: '{{url("/superadmin/admins-list/delete")}}',
+            data: { "_token": "{{csrf_token()}}", id: id},
+            success: function (data) {
+                // alert(data);
+                if(data ==1){
+                    location.reload();
+                }
+            }
+        });
+    }
+</script>
 @endsection
