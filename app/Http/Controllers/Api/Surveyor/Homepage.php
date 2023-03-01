@@ -733,6 +733,7 @@ class Homepage extends Controller
                 $a_list['remark'] = $remarks;
                 $a_list['request_type'] = $req_type;
                 $a_list['form_id'] = $form_id;
+                $a_list['service_name'] = $av->Service_data->service_name;
                 $assignments_list[] = $a_list;
             }
         }
