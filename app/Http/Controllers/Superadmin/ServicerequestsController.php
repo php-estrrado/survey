@@ -255,11 +255,11 @@ class ServicerequestsController extends Controller
 
             if(isset($survey_request_log_id))
             {   
-                Session::flash('message', ['text'=>'Successfully Assigned Surveyor for Field Study !','type'=>'success']);  
+                Session::flash('message', ['text'=>'Successfully Assigned Marine Surveyor for Field Study !','type'=>'success']);  
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Surveyor for Field Study is Not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Marine Surveyor for Field Study is Not Successfull !','type'=>'danger']);
             }
 
             return redirect('/superadmin/new_service_requests');
@@ -447,6 +447,7 @@ class ServicerequestsController extends Controller
             $data['field_study_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
             $data['cities'] = City::where('is_deleted',0)->get();
             $data['survey_type'] = SurveyType::where('is_deleted',0)->get();
+            $data['eta_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',8)->orderBy('id','desc')->first()->remarks;
 
             return view('superadmin.requested_services.eta_received',$data);            
         }
@@ -714,11 +715,11 @@ class ServicerequestsController extends Controller
 
             if(isset($survey_request_log_id))
             {   
-                Session::flash('message', ['text'=>'Successfully Assigned Surveyor for Survey Study !','type'=>'success']);  
+                Session::flash('message', ['text'=>'Successfully Assigned Marine Surveyor for Survey Study !','type'=>'success']);  
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Surveyor for Survey Study is Not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Marine Surveyor for Survey Study is Not Successfull !','type'=>'danger']);
             }
 
             return redirect('/superadmin/requested_services');

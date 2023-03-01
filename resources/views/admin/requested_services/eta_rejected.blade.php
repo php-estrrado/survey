@@ -1,4 +1,4 @@
-@extends('layouts.admin.master')
+@extends('layouts.admin.master-admin')
 @section('css')
 <!-- Data table css -->
 <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -47,9 +47,8 @@
 		</div>
 		<div class="col-lg-6 col-md-auto">
 			<div class="text-lg-right btn-list mt-4 mt-lg-0">
-				<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Assign Survey Study</a>
-				<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Assign</a>
-				<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo3" data-toggle="modal" href="">Reject</a>
+				<a href="{{URL('/admin/editETA')}}/{{$survey_id}}" class="btn btn-primary">Edit ETA</a>
+				<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
 			</div>
 			<div class="mt-5">
 				<div class="main-profile-contact-list row">
@@ -82,7 +81,7 @@
 						<div class="media-body">
 							<small class="text-muted">Status</small>
 							<div class="font-weight-normal1">
-								Field study report received
+								{{$survey_status}}
 							</div>
 						</div>
 					</div>
@@ -111,12 +110,12 @@
 	<div class="col-xl-12 col-lg-12 col-md-12">
 		<div class="border-0">
 			<div class="tab-content">
-				<div class="tab-pane active" id="tab-7">
+			<div class="tab-pane active" id="tab-7">
 					<div class="card newser">
 						<div class="card-body">
 							<div class="card-title font-weight-bold">Basic info:</div>
 							<div class="row">
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-12 col-md-12">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -126,7 +125,7 @@
 										<label class="form-label">{{date('d/m/Y H:i:s',strtotime($field_study->datetime_inspection))}}</label>
 									</div>
 								</div>
-								<div class="col-sm-8 col-md-8">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -136,7 +135,7 @@
 										<label class="form-label">{{$field_study->survey_department_name}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -146,7 +145,7 @@
 										<label class="form-label">{{$field_study->from_hsw}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -156,7 +155,7 @@
 										<label class="form-label">{{$field_study->officer_participating_field_inspection}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -166,7 +165,7 @@
 										<label class="form-label">{{$field_study->location}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -176,7 +175,7 @@
 										<label class="form-label">{{$field_study->type_of_waterbody}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -188,106 +187,210 @@
 								</div>
 							</div>
 							<hr />
-							<div class="card-title font-weight-bold mt-5">ETA</div>
 							<div class="row">
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												General Area
+                                                Whether Topographic survey required
 											</div>
 										</div>
-										<label class="form-label">{{$field_study_eta->generalarea_name->city_name}}</label>
+										<label class="form-label">{{$field_study->whether_topographic_survey_required}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Location
+                                                Method to be adopted for Topographic survey
 											</div>
 										</div>
-										<label class="form-label">{{$field_study_eta->location}}</label>
+										<label class="form-label">{{$field_study->methods_to_be_adopted_for_topographic_survey}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												No. Of Days Required
+                                                Instruments to be used for Topographic survey
 											</div>
 										</div>
-										<label class="form-label">{{$field_study_eta->no_of_days_required}}</label>
+										<label class="form-label">{{$field_study->instruments_to_be_used_for_topographic_survey}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Scale Of Survey Recommended
+                                                Availability of previous shoreline data
 											</div>
 										</div>
-										<label class="form-label">{{$field_study_eta->scale_of_survey_recomended}}</label>
+										<label class="form-label">{{$field_study->availability_of_previous_shoreline_data}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Type Of Survey
+                                                Accessibility of shoreline
 											</div>
 										</div>
-										<label class="form-label">{{$field_study_eta->type_of_survey}}</label>
+										<label class="form-label">{{$field_study->availability_of_shoreline}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Charges
+                                                Nature of shore
 											</div>
 										</div>
-										<label class="form-label">{{$field_study_eta->charges}}</label>
+										<label class="form-label">{{$field_study->nature_of_shore}}</label>
+									</div>
+								</div>
+                                <div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Bathymetric Area
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->bathymetric_area}}</label>
+									</div>
+								</div>
+                                <div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Scale of Survey planned
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->scale_of_survey_planned}}</label>
+									</div>
+								</div>
+                                <div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Method adopted for bathymetric survey
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->method_adopted_for_bathymetric_survey}}</label>
+									</div>
+								</div>
+                                <div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Is manual Survey require
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->is_manual_survey_required}}</label>
 									</div>
 								</div>
 							</div>
 							<hr />
-							<div class="row">
-								<div class="col-sm-12 col-md-12">
+                            <div class="row">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Uploaded Images
+                                                Type of Survey vessel that can be used for bathymetric survey
 											</div>
 										</div>
-										<ul id="lightgallery" class="list-unstyled row">
-											@php
-												$uploaded_images = json_decode($field_study->upload_photos_of_study_area,true);
-											@endphp
-											@if($uploaded_images && count($uploaded_images) > 0)
-												@foreach($uploaded_images as $images)
-													<li class="col-xs-4 col-sm-3 col-md-3" data-responsive="{{$images}}" data-src="{{$images}}">
-														<a href="">
-															<img class="img-responsive" src="{{$images}}" alt="Thumb-1" width="100px">
-														</a>
-													</li>
-												@endforeach
-											@endif
-										</ul>
+										<label class="form-label">{{$field_study->type_of_survey_vessel_used_for_bathymetric_survey}}</label>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-sm-12 col-md-12">
-										<div class="form-group">
-											<div class="media-body">
-												<div class="font-weight-normal1">
-													Remarks
-												</div>
+								<div class="col-sm-4 col-md-4">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Estimated period of survey work in days
 											</div>
-											<label class="form-label">{{$eta_remarks}}</label>
 										</div>
+										<label class="form-label">{{$field_study->estimated_period_of_survey_days}}</label>
 									</div>
-								</div>								
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Instruments to be used for bathymetric survey
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->instruments_to_be_used_for_bathymetric_survey}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Availability of previous shoreline data
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->availability_of_previous_shoreline_data}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Accessibility of shoreline
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->availability_of_shoreline}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Nearest available Benchmark detai
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->nearest_available_benchmark_detail}}</label>
+									</div>
+								</div>
+                                <div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                is Local Benchmark needs to be established
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->is_local_benchmark_needs_to_be_established}}</label>
+									</div>
+								</div>
+                                <div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Detailed report of the officer
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->detailed_report_of_the_officer}}</label>
+									</div>
+								</div>
+                                <div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Remarks
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->remarks}}</label>
+									</div>
+								</div>
+                                <div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Presence and nature of obstructions in the survey area
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->presence_and_nature_of_obstructions_in_survey}}</label>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -304,6 +407,48 @@
 									</li>
 								@endforeach
 							@endif
+							<!-- <li>
+								<i class="fa fa-clock-o bg-primary"></i>
+								<div class="timelineleft-item">
+									<span class="time"><i class="fa fa-clock-o text-danger"></i> 12:05</span>
+									<h3 class="timelineleft-header"><a href="#">Support Team</a> <span>sent you an email</span></h3>
+								</div>
+							</li>
+							<li>
+								<i class="fa fa-clock-o bg-secondary"></i>
+								<div class="timelineleft-item">
+									<span class="time"><i class="fa fa-clock-o text-danger"></i> 5 mins ago</span>
+									<h3 class="timelineleft-header no-border"><a href="#">Sarah Young</a> accepted your friend request</h3>
+								</div>
+							</li>
+							<li>
+								<i class="fa fa-clock-o bg-warning"></i>
+								<div class="timelineleft-item">
+									<span class="time"><i class="fa fa-clock-o text-danger"></i> 27 mins ago</span>
+									<h3 class="timelineleft-header"><a href="#">Jay White</a> commented on your post</h3>
+								</div>
+							</li>
+							<li>
+								<i class="fa fa-clock-o bg-pink"></i>
+								<div class="timelineleft-item">
+									<span class="time"><i class="fa fa-clock-o text-danger"></i> 1 hour ago</span>
+									<h3 class="timelineleft-header"><a href="#">Mr. John</a> shared a video</h3>
+								</div>
+							</li>
+							<li>
+								<i class="fa fa-clock-o bg-orange"></i>
+								<div class="timelineleft-item">
+									<span class="time"><i class="fa fa-clock-o text-danger"></i> 2 days ago</span>
+									<h3 class="timelineleft-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
+								</div>
+							</li>
+							<li>
+								<i class="fa fa-clock-o bg-pink"></i>
+								<div class="timelineleft-item">
+									<span class="time"><i class="fa fa-clock-o text-danger"></i> 5 days ago</span>
+									<h3 class="timelineleft-header"><a href="#">Mr. Doe</a> shared a video</h3>
+								</div>
+							</li> -->
 						</ul>
 					</div>
 				</div>
@@ -802,56 +947,37 @@
 										</div>
 									</div>
 								@endif
-								@if($request_data->drawing_maps)
-									@php
-										$drawings = json_decode($request_data->drawing_maps,true);
-									@endphp
-									<div class="col-sm-12 col-md-12">
-										<div class="form-group">
-											<div class="media-body">
-												<div class="font-weight-normal1">
-													Existing Drawings / Maps Showing The Location
-												</div>
+								<!-- <div class="col-sm-12 col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Existing Drawings / Maps Showing The Location
 											</div>
-											<ul id="lightgallery" class="list-unstyled row">
-												@if($drawings && count($drawings) > 0)
-													@foreach($drawings as $image)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$image}}" data-src="{{$image}}" data-sub-html="">
-															<a href="{{$image}}" target="_blank">
-																<img class="img-responsive" src="{{$image}}" alt="Thumb-1" width="100%">
-															</a>
-														</li>
-													@endforeach
-												@endif
-											</ul>
 										</div>
+										<ul id="lightgallery" class="list-unstyled row">
+											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/1.jpg')}}" data-src="{{URL::asset('assets/images/photos/1.jpg')}}" data-sub-html="<h4>Gallery Image 1</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
+												<a href="">
+													<img class="img-responsive" src="{{URL::asset('assets/images/photos/1.jpg')}}" alt="Thumb-1">
+												</a>
+											</li>
+											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/2.jpg')}}" data-src="{{URL::asset('assets/images/photos/2.jpg')}}" data-sub-html="<h4>Gallery Image 2</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
+												<a href="">
+													<img class="img-responsive" src="{{URL::asset('assets/images/photos/2.jpg')}}" alt="Thumb-2">
+												</a>
+											</li>
+											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/3.jpg')}}" data-src="{{URL::asset('assets/images/photos/3.jpg')}}" data-sub-html="<h4>Gallery Image 3</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
+												<a href="">
+													<img class="img-responsive" src="{{URL::asset('assets/images/photos/3.jpg')}}" alt="Thumb-1">
+												</a>
+											</li>
+											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/4.jpg')}}" data-src="{{URL::asset('assets/images/photos/4.jpg')}}" data-sub-html=" <h4>Gallery Image 4</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
+												<a href="">
+													<img class="img-responsive" src="{{URL::asset('assets/images/photos/4.jpg')}}" alt="Thumb-2">
+												</a>
+											</li>
+										</ul>
 									</div>
-								@endif
-								@if($request_data->file_upload)
-									@php
-										$files = json_decode($request_data->file_upload,true);
-									@endphp
-									<div class="col-sm-12 col-md-12">
-										<div class="form-group">
-											<div class="media-body">
-												<div class="font-weight-normal1">
-													Existing Drawings / Maps Showing The Location
-												</div>
-											</div>
-											<ul id="lightgallery" class="list-unstyled row">
-												@if($files && count($files) > 0)
-													@foreach($files as $file)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$file}}" data-src="{{$file}}" data-sub-html="">
-															<a href="{{$file}}" target="_blank">
-																<img class="img-responsive" src="{{$file}}" alt="Thumb-1" width="100%">
-															</a>
-														</li>
-													@endforeach
-												@endif
-											</ul>
-										</div>
-									</div>
-								@endif
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -865,9 +991,8 @@
 <div class="row">
 	<div class="col-12">
 		<div class="btn-list d-flex justify-content-end">
-			<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo1" data-toggle="modal" href="">Assign Survey Study</a>
-			<a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Assign</a>
-			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo3" data-toggle="modal" href="">Reject</a>
+			<a href="{{URL('/admin/editETA')}}/{{$survey_id}}" class="btn btn-primary">Edit ETA</a>
+			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
 		</div>
 	</div>
 </div>
@@ -879,88 +1004,89 @@
 
 <div class="modal" id="modaldemo1">
 	<div class="modal-dialog" role="document">
-		<form action="{{url('/superadmin/assign_survey_study')}}" method="post">
-			@csrf
-			<input type="hidden" value="{{$field_study->survey_request_id}}" name="id" id="id">
-			<div class="modal-content modal-content-demo">
+		<div class="modal-content modal-content-demo">
+			<form action="{{URL('/admin/add_eta')}}" method="post">
+				@csrf
+				<input type="hidden" value="{{$survey_id}}" id="id" name="id">
 				<div class="modal-header">
-					<h6 class="modal-title">Assign</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+					<h6 class="modal-title">ETA</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label">Institution <span class="text-red">*</span></label>
-							<select class="form-control custom-select select2" name="assigned_survey_institution" id="assigned_survey_institution" onchange="getAdmins()">
-								<option value="0">--Select--</option>
-								@if($institutions && count($institutions)>0)
-									@foreach($institutions as $institution)
-										<option value="{{$institution->id}}">{{$institution->institution_name}}</option>
-									@endforeach
-								@endif
+							<label class="form-label">General Area <span class="text-red">*</span></label>
+							<select class="form-control custom-select select2" name="general_area" id="general_area">
+								<option value="">--Select--</option>
+								<option value="area1">Area 1</option>
+								<option value="area2">Area 2</option>
+								<option value="area3">Area 3</option>
+								<option value="area4">Area 4</option>
 							</select>
-						</div>
-						<div class="form-group">
-							<label class="form-label">User <span class="text-red">*</span></label>
-							<select class="form-control custom-select select2" name="assigned_survey_user" id="assigned_survey_user">
-								<option value="0">--Select--</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks</label>
-							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
 						</div>
 					</div>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-primary" type="submit">Assign</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-
-<div class="modal" id="modaldemo2">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content modal-content-demo">
-			<form action="{{url('/superadmin/assign_draftsman')}}" method="post">
-				@csrf
-				<input type="hidden" value="{{$field_study->survey_request_id}}" name="id" id="id">
-				<div class="modal-header">
-					<h6 class="modal-title">Assign</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
-				</div>
-				<div class="modal-body">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label">Location <span class="text-red">*</span></label>
+							<input type="text" class="form-control" placeholder="Location" name="location" id="location">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label">Scale of Survey Recommended <span class="text-red">*</span></label>
+							<input type="text" class="form-control" placeholder="Scale of Survey Recommended" name="scale_of_survey_recomended" id="scale_of_survey_recomended">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label">Type Of Survey <span class="text-red">*</span></label>
+							<select class="form-control custom-select select2" name="type_of_survey" id="type_of_survey">
+								<option value="">--Select--</option>
+								<option value="type1">Type 1</option>
+								<option value="type2">Type 2</option>
+								<option value="type3">Type 3</option>
+								<option value="type4">Type 4</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label">Number Of Days Required <span class="text-red">*</span></label>
+							<input type="text" class="form-control" placeholder="Number Of Days Required" name="no_of_days_required" id="no_of_days_required">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label class="form-label">Charges <span class="text-red">*</span></label>
+							<input type="text" class="form-control" placeholder="Charges" name="charges" id="charges">
+						</div>
+					</div>
+					<h6 class="modal-title mb-2">Send To</h6>
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label">Recipient <span class="text-red">*</span></label>
-							<select class="form-control custom-select select2" name="draftsman">
-								<option value="0">--Select--</option>
-								@if($draftmans && count($draftmans) > 0)
-									@foreach($draftmans as $draftman)
-										<option value="{{$draftman->id}}">{{$draftman->email}}</option>
-									@endforeach
-								@endif
+							<select class="form-control custom-select select2" name="recipient" id="recipient">
+								<option value="">--Select--</option>
+								@if($recipients && count($recipients)>0)
+                                    @foreach($recipients as $recipient)
+                                        <option value="{{$recipient['id']}}">{{$recipient['fname']}}</option>
+                                    @endforeach
+                                @endif
 							</select>
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks</label>
-							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="submit">Assign</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+					<button class="btn btn-primary" type="submit">Send</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
 
-<div class="modal" id="modaldemo3">
+<div class="modal" id="modaldemo2">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<form action="{{url('/superadmin/reject_fieldstudy')}}" method="post">
+			<form action="{{url('/admin/reject_fieldstudy')}}" method="post">
 				@csrf
 				<input type="hidden" value="{{$survey_id}}" name="id" id="id">
 				<div class="modal-header">
@@ -969,28 +1095,13 @@
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label">Select which are needs to be rejected <span class="text-red">*</span></label>
-							<div class="custom-controls-stacked">
-								<label class="custom-control custom-checkbox d-inline-block mr-3" for="report">
-									<input type="checkbox" class="custom-control-input" name="report" id="report" value="1">
-									<span class="custom-control-label">Report</span>
-								</label>
-								<label class="custom-control custom-checkbox d-inline-block" for="eta">
-									<input type="checkbox" class="custom-control-input" name="eta" id="eta" value="1">
-									<span class="custom-control-label">ETA</span>
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control" rows="3" placeholder="Type Here..." name="remarks" id="remarks"></textarea>
+							<label class="form-label" for="remarks">Remarks</label>
+							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="submit">Reject</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+					<button class="btn btn-primary" type="submit">Notify</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
 				</div>
 			</form>
 		</div>
@@ -1000,51 +1111,30 @@
 
 @endsection
 @section('js')
-	<!-- INTERNAL Data tables -->
-	<!-- <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
-	<script src="{{URL::asset('assets/js/datatables.js')}}"></script> -->
-	<!-- INTERNAL Gallery js -->
-	<script src="{{URL::asset('assets/plugins/gallery/picturefill.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/gallery/lightgallery.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/gallery/lg-pager.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/gallery/lg-autoplay.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/gallery/lg-fullscreen.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/gallery/lg-zoom.js')}}"></script>
-	<script src="{{URL::asset('assets/plugins/gallery/lg-hash.js')}}"></script>
-	<script src="{{URL::asset('assets/js/gallery.js')}}"></script>
+<!-- INTERNAL Data tables -->
+<!-- <script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/dataTables.responsive.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{URL::asset('assets/js/datatables.js')}}"></script> -->
+<!-- INTERNAL Gallery js -->
+<!-- <script src="{{URL::asset('assets/plugins/gallery/picturefill.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/gallery/lightgallery.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/gallery/lg-pager.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/gallery/lg-autoplay.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/gallery/lg-fullscreen.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/gallery/lg-zoom.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/gallery/lg-hash.js')}}"></script>
+<script src="{{URL::asset('assets/js/gallery.js')}}"></script> -->
 
-	<!-- INTERNAL Select2 js -->
-	<script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
-
-	<script>
-		function getAdmins()
-		{
-			var institution = $('#assigned_survey_institution').val();
-			// alert(institution);
-
-			$.ajax({
-			url: "{{url('/superadmin/getAdmin')}}",
-			type: "post",
-			data: {
-			"_token": "{{ csrf_token() }}",
-			"institution_id": institution,
-			},
-			success: function(result)
-			{
-			$("#assigned_survey_user").html(result);
-			}
-		});
-		}
-	</script>
+<!-- INTERNAL Select2 js -->
+<script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
 @endsection

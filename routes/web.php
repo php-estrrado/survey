@@ -280,6 +280,9 @@ Route::middleware('role:admin')->group(function () {
     Route::get('/admin/createETA/{id}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'createETA']);
     Route::post('/admin/add_eta', [App\Http\Controllers\Admin\ServicerequestsController::class, 'add_eta']);
 
+    Route::get('/admin/editETA/{id}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'editETA']);
+    Route::post('/admin/update_eta', [App\Http\Controllers\Admin\ServicerequestsController::class, 'update_eta']);
+
     Route::post('/admin/verify_performa_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_performa_invoice']);
     Route::post('/admin/reject_performa_invoice', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_performa_invoice']);
 

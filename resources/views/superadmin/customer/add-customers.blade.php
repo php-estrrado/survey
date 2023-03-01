@@ -96,7 +96,7 @@
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="mobile">Mobile Number <span class="text-red">*</span></label>
-								<input type="text" class="form-control" name="mobile" id="mobile" placeholder="Mobile Number" value="{{ old('mobile') }}">
+								<input type="number" class="form-control" name="mobile" id="mobile" placeholder="Mobile Number" value="{{ old('mobile') }}">
 								<div id="mobile_error"></div>
 								@error('mobile')
 									<p style="color: red">{{ $message }}</p>

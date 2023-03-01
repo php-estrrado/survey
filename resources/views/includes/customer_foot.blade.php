@@ -20,7 +20,7 @@
 <!-- slick js end -->
 
 <!-- Plugins JS start-->
-<!-- <script src="{{URL::asset('public/assets/js/sidebar-menu.js')}}"></script> -->
+<script src="{{URL::asset('public/assets/js/sidebar-menu.js')}}"></script>
 
 <script src="{{URL::asset('public/assets/js/index.js')}}"></script>
 <!-- Plugins JS Ends-->

@@ -44,7 +44,7 @@
 
 							if(auth()->user()->role_id == 1)
 							{
-								$notifications = AdminNotification::where('role_id',1)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+								$notifications = AdminNotification::where('role_id',1)->limit(5)->orderby('id','desc')->get();
 							}
 							elseif(auth()->user()->role_id == 2)
 							{

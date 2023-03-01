@@ -70,7 +70,7 @@
                 
                                 <div class="col-sm-6">
                                     <label class="form-label mt-3" for="mobile">Mobile Number <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="mobile" placeholder="Mobile Number" value="{{ $cust_mobile }}">
+                                    <input class="form-control" type="number" name="mobile" placeholder="Mobile Number" value="{{ $cust_mobile }}">
                                     <div id="mobile_error"></div>
                                     @error('mobile')
                                       <p style="color: red">{{ $message }}</p>

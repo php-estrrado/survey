@@ -48,7 +48,7 @@
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="phone">Phone Number <span class="text-red">*</span></label>
-								<input type="text" class="form-control" name="phone" id="phone" value="{{$users['phone']}}" placeholder="Phone Number">
+								<input type="number" class="form-control" name="phone" id="phone" value="{{$users['phone']}}" placeholder="Phone Number">
 							</div>
 						</div>
 						<div class="col-sm-6 col-md-6">

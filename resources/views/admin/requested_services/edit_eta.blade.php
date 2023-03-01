@@ -12,10 +12,10 @@
 <!--Page header-->
 <div class="page-header">
 	<div class="page-leftheader">
-		<h4 class="page-title mb-0">Create ETA</h4>
+		<h4 class="page-title mb-0">Edit ETA</h4>
 		<ol class="breadcrumb">
 			<li class="breadcrumb-item"><a href="#"><i class="fe fe-layout mr-2 fs-14"></i>Dashboard</a></li>
-			<li class="breadcrumb-item active" aria-current="page"><a href="{{url('/admin/customers/create')}}">Create ETA</a></li>
+			<li class="breadcrumb-item active" aria-current="page"><a href="#">Edit ETA</a></li>
 		</ol>
 	</div>
 </div>
@@ -25,9 +25,10 @@
 <!-- Row -->
 <div class="row">
 	<div class="col-12">
-        <form action="{{URL('/admin/add_eta')}}" method="post">
+        <form action="{{URL('/admin/update_eta')}}" method="post">
             @csrf
-            <input type="hidden" value="{{$id}}" id="id" name="id">
+            <input type="hidden" value="{{$survey_id}}" id="id" name="survey_id">
+            <input type="hidden" value="{{$fieldstudy_eta->id}}" id="id" name="eta_id">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -38,7 +39,7 @@
                                     <option value="">--Select--</option>
                                     @if($cities && count($cities)>0)
                                         @foreach($cities as $city)
-                                            <option name="general_area" id="general_area" value="{{$city->id}}" {{ old('general_area') == $city->id ? 'selected' : '' }}>{{$city->city_name}}</option>        
+                                            <option name="general_area" id="general_area" value="{{$city->id}}" {{ $fieldstudy_eta->general_area == $city->id ? 'selected' : '' }}>{{$city->city_name}}</option>        
                                         @endforeach 
                                     @endif
                                 </select>
@@ -51,7 +52,7 @@
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Location <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Location" name="location" id="location" value="{{ old('location') }}">
+                                <input type="text" class="form-control" placeholder="Location" name="location" id="location" value="{{ $fieldstudy_eta->location }}">
                                 <div id="location_error"></div>
 								@error('location')
 									<p style="color: red">{{ $message }}</p>
@@ -61,7 +62,7 @@
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Scale of Survey Recommended <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Scale of Survey Recommended" name="scale_of_survey_recomended" id="scale_of_survey_recomended" value="{{ old('scale_of_survey_recomended') }}">
+                                <input type="text" class="form-control" placeholder="Scale of Survey Recommended" name="scale_of_survey_recomended" id="scale_of_survey_recomended" value="{{ $fieldstudy_eta->scale_of_survey_recomended }}">
                                 <div id="scale_of_survey_recomended_error"></div>
 								@error('scale_of_survey_recomended')
 									<p style="color: red">{{ $message }}</p>
@@ -75,7 +76,7 @@
                                     <option value="">--Select--</option>
                                     @if($survey_type && count($survey_type)>0)
                                         @foreach($survey_type as $type)
-                                            <option name="type_of_survey" id="type_of_survey" value="{{$type->id}}" {{ old('type_of_survey') == $type->id ? 'selected' : '' }}>{{$type->type}}</option>        
+                                            <option name="type_of_survey" id="type_of_survey" value="{{$type->id}}" {{ $fieldstudy_eta->type_of_survey == $type->id ? 'selected' : '' }}>{{$type->type}}</option>        
                                         @endforeach 
                                     @endif
                                 </select>
@@ -88,7 +89,7 @@
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Number Of Days Required <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Number Of Days Required" name="no_of_days_required" id="no_of_days_required" value="{{ old('no_of_days_required') }}">
+                                <input type="text" class="form-control" placeholder="Number Of Days Required" name="no_of_days_required" id="no_of_days_required" value="{{ $fieldstudy_eta->no_of_days_required }}">
                                 <div id="no_of_days_required_error"></div>
 								@error('no_of_days_required')
 									<p style="color: red">{{ $message }}</p>
@@ -98,7 +99,7 @@
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Charges <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Charges" name="charges" id="charges" value="{{ old('charges') }}">
+                                <input type="text" class="form-control" placeholder="Charges" name="charges" id="charges" value="{{ $fieldstudy_eta->charges }}">
                                 <div id="charges_error"></div>
 								@error('charges')
 									<p style="color: red">{{ $message }}</p>
@@ -116,7 +117,7 @@
                                     <option value="">--Select--</option>
                                     @if($recipients && count($recipients)>0)
                                         @foreach($recipients as $recipient)
-                                            <option value="{{$recipient['id']}}" {{ old('recipient') == $recipient['id'] ? 'selected' : '' }}>{{$recipient['fname']}}</option>
+                                            <option value="{{$recipient['id']}}" {{ $fieldstudy_eta->recipient == $recipient['id'] ? 'selected' : '' }}>{{$recipient['fname']}}</option>
                                         @endforeach
                                     @endif
                                 </select>
@@ -139,7 +140,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" type="submit">Send</button>
-                <a href="{{url('/admin/requested_service_detail')}}/{{$id}}/7" class="btn btn-danger">Cancel</a>
+                <a href="{{url('/admin/requested_service_detail')}}/{{$survey_id}}/67" class="btn btn-danger">Cancel</a>
             </div>
         </form>
 	</div>

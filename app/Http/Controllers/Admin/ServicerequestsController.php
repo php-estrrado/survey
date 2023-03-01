@@ -408,11 +408,11 @@ class ServicerequestsController extends Controller
 
             if(isset($survey_request_log_id))
             {   
-                Session::flash('message', ['text'=>'Successfully Assigned Marine Surveyor !','type'=>'success']);  
+                Session::flash('message', ['text'=>'Successfully Assigned Surveyor !','type'=>'success']);  
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Marine Surveyor is not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Surveyor is not Successfull !','type'=>'danger']);
             }
 
             return redirect('/admin/requested_services');
@@ -992,6 +992,12 @@ class ServicerequestsController extends Controller
 
             return view('admin.requested_services.performa_invoice_submitted',$data);
         }
+        elseif($status == 67)
+        {
+            $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+
+            return view('admin.requested_services.eta_rejected',$data);
+        }
         elseif($status == 7)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
@@ -1106,6 +1112,113 @@ class ServicerequestsController extends Controller
                 $desc       = 'ETA Added. Request ID: HSW'.$input['id'];
                 $refId      = $input['id'];
                 $reflink    = '/superadmin/requested_service_detail/'.$input['id'].'/8/';
+                $notify     = 'superadmin';
+                $notify_from_role_id = 2;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Field Study ETA added Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Field Study ETA not added Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/admin/requested_services');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
+    public function editETA($id)
+    {
+        $data['title']      = 'Edit ETA';
+        $data['menu']       = 'edit-eta';
+
+        $data['survey_id']  = $id;
+        $data['recipients'] = Admin::where('role_id',1)->get();
+        $data['cities'] = City::where('is_deleted',0)->get();
+        $data['survey_type'] = SurveyType::where('is_deleted',0)->get();
+
+        $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
+        $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',67)->first()->remarks;
+        
+        // dd($data);
+
+        return view('admin.requested_services.edit_eta',$data);
+    }
+
+    public function update_eta(Request $request)
+    {
+        $input = $request->all();
+        
+        $validator = Validator::make($request->all(), [
+            'survey_id'=>['required'],
+            'eta_id'=>['required'],
+            'general_area'=>['required'],
+            'location'=>['required'],
+            'scale_of_survey_recomended'=>['required'],
+            'type_of_survey'=>['required'],
+            'no_of_days_required'=>['required'],
+            'charges'=>['required'],
+            'recipient'=>['required'],
+            'remarks'=>['nullable'],
+        ]);
+
+        if($validator->passes())
+        {
+            $cust_id = survey_requests::where('id',$input['survey_id'])->first()->cust_id;
+
+            $eta_arr['survey_request_id'] = $input['survey_id'];
+            $eta_arr['general_area'] = $input['general_area'];
+            $eta_arr['location'] = $input['location'];
+            $eta_arr['scale_of_survey_recomended'] = $input['scale_of_survey_recomended'];
+            $eta_arr['type_of_survey'] = $input['type_of_survey'];
+            $eta_arr['no_of_days_required'] = $input['no_of_days_required'];
+            $eta_arr['charges'] = $input['charges'];
+            $eta_arr['recipient'] = $input['recipient'];
+            $eta_arr['is_active'] = 1;
+            $eta_arr['is_deleted'] = 0;
+            $eta_arr['created_by'] = auth()->user()->id;
+            $eta_arr['updated_by'] = auth()->user()->id;
+            $eta_arr['created_at'] = date('Y-m-d H:i:s');
+            $eta_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Fieldstudy_eta::where('id',$input['eta_id'])->update($eta_arr);
+
+            $survey_req_arr['request_status'] = 8;
+            $survey_req_arr['updated_by'] = auth()->user()->id;
+            $survey_req_arr['updated_at'] = date('Y-m-d H:i:s');
+
+            Survey_requests::where('id',$input['survey_id'])->update($survey_req_arr);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $input['survey_id'];
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 8;
+            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+
+                $from       = auth()->user()->id; 
+                $utype      = 1;
+                $to         = 1; 
+                $ntype      = 'added_eta';
+                $title      = 'ETA Added';
+                $desc       = 'ETA Added. Request ID: HSW'.$input['survey_id'];
+                $refId      = $input['survey_id'];
+                $reflink    = '/superadmin/requested_service_detail/'.$input['survey_id'].'/8/';
                 $notify     = 'superadmin';
                 $notify_from_role_id = 2;
                 addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 

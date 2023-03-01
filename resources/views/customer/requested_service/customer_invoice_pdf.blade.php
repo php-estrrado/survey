@@ -1,347 +1,194 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Survey Invoice</title>
-        <!-- Bootstrap css-->
-        <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/bootstrap.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/bootstrap-datepicker.min.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/dropzone.css')}}">
-        
-        <!-- Icon css-->
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-    
-        <!-- App css-->
-        <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/style.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{URL::asset('public/assets/css/custom.css')}}">
-        <style>
-            @media print {
-                .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6,
-                .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
-                    float: left;               
-                }
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Untitled Document</title>
+	<style>
+		body{
+			font-size: 14px;
+		}
+		.table{
+			border-collapse: collapse;
+		}
+		.table thead, .table tbody, .table tfoot, .table tr, .table td, .table th {
+			padding: 0.25rem 0.25rem 0.25rem 0rem;
+		}
+		.table-bordered thead, .table-bordered tbody, .table-bordered tfoot, .table-bordered tr, .table-bordered td, .table-bordered th {
+			border-color: #f2f4ff;
+			border: 1px solid rgba(153, 153, 153, 0.3);
+			padding: 0.35rem;
+		}
+		.tearhere{
+			position: relative;
+			height: 50px;
+		}
+		.tear {
+			border:0;
+			border-top: 3px dashed #d9d9d9;
+			background-color: transparent;
+			opacity: 1;
+		}
+		.scis {
+			position: relative;
+			margin: 0 auto;
+			display: block;
+			z-index: 1;
+			width: 170px;
+			text-align: center;
+			top: 20px;
+			background: #fff;
+		}
+		.space{
+			height: 20px;
+			display: block;
+		}
+	</style>
+</head>
 
-                .col-sm-12 {
-                    width: 100%;
-                }
-
-                .col-sm-11 {
-                    width: 91.66666666666666%;
-                }
-
-                .col-sm-10 {
-                    width: 83.33333333333334%;
-                }
-
-                .col-sm-9 {
-                        width: 75%;
-                }
-
-                .col-sm-8 {
-                        width: 66.66666666666666%;
-                }
-
-                .col-sm-7 {
-                        width: 58.333333333333336%;
-                }
-
-                .col-sm-6 {
-                        width: 50%;
-                }
-
-                .col-sm-5 {
-                        width: 41.66666666666667%;
-                }
-
-                .col-sm-4 {
-                        width: 33.33333333333333%;
-                }
-
-                .col-sm-3 {
-                        width: 25%;
-                }
-
-                .col-sm-2 {
-                        width: 16.666666666666664%;
-                }
-
-                .col-sm-1 {
-                        width: 8.333333333333332%;
-                }  
-                
-                table{
-                    table-layout: auto;
-                    width: 100%;
-                }
-                
-                .table-responsive {
-                    overflow-x: inherit;
-                }
-                
-                td {
-                  white-space: nowrap;
-                  text-overflow: ellipsis;
-                }
-                
-                .mt-5 {
-                    margin-top: 0 !important;
-                }
-                
-                .card {;
-                    -webkit-box-shadow: none !important;
-                    box-shadow: none !important;
-                }
-                
-                .txtbrk{
-                    word-break: break-word;
-                    white-space: normal;
-                    width:100%;
-                }
-                
-                .table th, .table td {
-                    padding: 0.45rem;
-                }
-                
-                .lin{
-                    margin: .5rem 0;
-                    opacity: 1;
-                    border-top: 1px solid #d9d9d9;
-                }
-                
-                .table-bordered thead, .table-bordered tbody, .table-bordered tfoot, .table-bordered tr, .table-bordered td, .table-bordered th {
-                    border-color: #d9d9d9;
-                }
-                
-            }
-        </style>
-    </head>
-    <body>
-        <div class="card newser">
-            <div class="card-body">
-                <div id="invoice_div">
-                <div class="card-title font-weight-bold"><b>Basic info:</b></div>
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Bill / Invoice No.
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->bill_invoice_no}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Name Of Work
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->name_of_work}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Work Order No And Date
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->work_orderno_date}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Service code (SAC)
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->service_code}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8 col-md-8">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Description of Service:
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->service_description}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Name of organisation:
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->organization_name}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8 col-md-8">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Address
-                                    </div>
-                                </div>
-                                <label class="form-label">Chief Hydrographer,
-                                    Hydrographic Survey wing,
-                                    Thiruvananthapuram-695009</label>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="lin">
-                    <div class="card-title font-weight-bold mt-5"><b>Details Of Receiver (Billed To)</b></div>
-                    <div class="row">
-                        <div class="col-sm-4 col-md-4">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Name
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->receiver_name}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-8 col-md-8">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Address
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->receiver_address}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        State Code
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->state_code}}</label>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-md-4">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        GSTIN/ Unique ID
-                                    </div>
-                                </div>
-                                <label class="form-label">{{$survey_data->gstin_unique_id}}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <!--<hr class="lin">-->
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered card-table table-vcenter text-nowrap">
-                                    <tbody>
-                                        <tr>
-                                            <td rowspan="4" width="2%">a</td>
-                                            <td colspan="3" align="center"><b>Survey Charges</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" align="center">Amount</td>
-                                            <td width="50%" align="center">Head Of Account</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="11%">In Figures</td>
-                                            <td width="37%">{{$survey_data->survey_charges}}</td>
-                                            <td rowspan="2" align="center" class="txtbrk" width="50%">1051-80-800-96-03-mis-HSW
-                                                (through Treasury In words / e-treasury)</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="11%">In Words</td>
-                                            <td width="37%">{{$survey_data->survey_charges_words}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="position: relative;">
-                        <span class="scis"> <i class="fa fa-scissors"> </i> Please Tear Here <i class="fa fa-scissors"> </i> </span>
-                        <hr class="tear">
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered card-table table-vcenter text-nowrap">
-                                    <tbody>
-                                        <tr>
-                                            <td rowspan="7" width="2%">b</td>
-                                            <td colspan="4" align="center"><b>GST (GSTIN: 32AAAGH0628E1Z2)</b></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3" align="center">Amount</td>
-                                            <td width="40%" align="center">Bank Account Details</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="16%">CGST</td>
-                                            <td width="4%">{{$survey_data->cgst_percentage}}%</td>
-                                            <td width="38%">{{$survey_data->cgst_amount}}</td>
-                                            <td rowspan="5" align="center" class="txtbrk">A/c no: 00000037884341757,
-                                                SBI, Fort, Trivandrum.
-                                                IFSC: SBIN0060333</td>
-                                        </tr>
-                                        <tr>
-                                            <td>SGST</td>
-                                            <td>{{$survey_data->sgst_percentage}}%</td>
-                                            <td>{{$survey_data->sgst_amount}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>IGST</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Total(in figures)</td>
-                                            <td colspan="2">{{$survey_data->total_tax_amount}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Total(in words)</td>
-                                            <td colspan="2" class="txtbrk">{{$survey_data->total_tax_amount_words}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Grand Total (a+b) (in figures):
-                                    </div>
-                                </div>
-                                <label class="form-label"><b>Rs. {{$survey_data->total_invoice_amount}}.00</b></label>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <div class="media-body">
-                                    <div class="font-weight-normal1">
-                                        Grand Total (a+b) (in words):
-                                    </div>
-                                </div>
-                                <label class="form-label"><b>Rs. {{$survey_data->total_invoice_amount_words}}</b></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
+<body>
+	
+<table class="table" width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tbody>
+    <tr>
+		<td colspan="3"><b>Basic Info</b></td>
+    </tr>
+    <tr>
+      <td width="35%">Bill / Invoice No.</td>
+      <td width="35%">Name Of Work</td>
+      <td width="30%">Work Order No And Date</td>
+    </tr>
+    <tr>
+      <td>{{$survey_data->bill_invoice_no}}</td>
+      <td>{{$survey_data->name_of_work}}</td>
+      <td>{{$survey_data->work_orderno_date}}</td>
+    </tr>
+    <tr>
+      <td>Service code (SAC)</td>
+      <td colspan="2">Description of Service:</td>
+    </tr>
+    <tr>
+      <td>{{$survey_data->service_code}}</td>
+      <td colspan="2">{{$survey_data->service_description}}</td>
+    </tr> 
+    <tr>
+      <td>Name of organisation</td>
+      <td colspan="2">Address</td>
+    </tr>
+    <tr>
+      <td>{{$survey_data->organization_name}}</td>
+      <td colspan="2">Chief Hydrographer, Hydrographic Survey wing, Thiruvananthapuram-695009</td>
+    </tr>
+  </tbody>
+</table>
+	
+<div class="space">	</div>
+	
+<table class="table" width="100%" border="0" cellspacing="1" cellpadding="1">
+  <tbody>
+    <tr>
+      <td colspan="2"><b>Details Of Receiver (Billed To)</b></td>
+    </tr>
+    <tr>
+      <td width="35%">Name</td>
+      <td width="65%">Address</td>
+    </tr>
+    <tr>
+      <td>{{$survey_data->receiver_name}}</td>
+      <td>{{$survey_data->receiver_address}}</td>
+    </tr>
+    <tr>
+      <td>State Code</td>
+      <td>GSTIN/ Unique ID</td>
+    </tr>
+    <tr>
+      <td>{{$survey_data->state_code}}</td>
+      <td>{{$survey_data->gstin_unique_id}}</td>
+    </tr>
+  </tbody>
+</table>	
+	
+<div class="space">	</div>	
+	
+<table class="table-bordered" width="100%" border="0" cellspacing="0" cellpadding="0">
+  	<tbody>
+		<tr>
+			<td rowspan="4" width="2%">a</td>
+			<td colspan="3" align="center"><b>Survey Charges</b></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">Amount</td>
+			<td width="50%" align="center">Head Of Account</td>
+		</tr>
+		<tr>
+			<td width="11%">In Figures</td>
+			<td width="37%">{{$survey_data->survey_charges}}</td>
+			<td rowspan="2" align="center">1051-80-800-96-03-mis-HSW
+				(through Treasury In words / e-treasury)</td>
+		</tr>
+		<tr>
+			<td>In Words</td>
+			<td>{{$survey_data->survey_charges_words}}</td>
+		</tr>
+	</tbody>
+</table>
+	
+<div class="tearhere">
+	<span class="scis"> Please Tear Here </span>
+	<hr class="tear">
+</div>
+	
+<table class="table-bordered" width="100%" border="0" cellspacing="0" cellpadding="0">
+  	<tbody>
+		<tr>
+			<td rowspan="7" width="2%">b</td>
+			<td colspan="4" align="center"><b>GST (GSTIN: 32AAAGH0628E1Z2)</b></td>
+		</tr>
+		<tr>
+			<td colspan="3" align="center">Amount</td>
+			<td width="40%" align="center">Bank Account Details</td>
+		</tr>
+		<tr>
+			<td width="16%">CGST</td>
+			<td width="4%">{{$survey_data->cgst_percentage}}%</td>
+			<td width="38%">{{$survey_data->cgst_amount}}</td>
+			<td rowspan="5" align="center">A/c no: 00000037884341757,
+				SBI, Fort, Trivandrum.
+				IFSC: SBIN0060333</td>
+		</tr>
+		<tr>
+			<td>SGST</td>
+			<td>{{$survey_data->sgst_percentage}}%</td>
+			<td>{{$survey_data->sgst_amount}}</td>
+		</tr>
+		<tr>
+			<td>IGST</td>
+			<td>-</td>
+			<td>-</td>
+		</tr>
+		<tr>
+			<td>Total(in figures)</td>
+			<td colspan="2">{{$survey_data->total_tax_amount}}</td>
+		</tr>
+		<tr>
+			<td>Total(in words)</td>
+			<td colspan="2">{{$survey_data->total_tax_amount_words}}</td>
+		</tr>
+	</tbody>
+</table>	
+	
+<div class="space">	</div>	
+<table class="table" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td>Grand Total (a+b) (in figures):</td>
+      <td>Grand Total (a+b) (in words):</td>
+    </tr>
+    <tr>
+      <td><b>Rs. {{$survey_data->total_invoice_amount}}.00</b></td>
+		<td><b>Rs. {{$survey_data->total_invoice_amount_words}}</b></td>
+    </tr>
+  </tbody>
+</table>
+	
+</body>
 </html>
