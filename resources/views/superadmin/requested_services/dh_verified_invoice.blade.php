@@ -932,7 +932,7 @@
 						<div class="form-group">
 							<label class="form-label">Institution <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" name="assigned_survey_institution">
-								<option value="0">--Select--</option>
+								<option value="">--Select--</option>
 								@if($institutions && count($institutions)>0)
 									@foreach($institutions as $institution)
 										<option value="{{$institution->id}}">{{$institution->institution_name}}</option>
@@ -943,7 +943,7 @@
 						<div class="form-group">
 							<label class="form-label">User <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" name="assigned_survey_user">
-								<option value="0">--Select--</option>
+								<option value="">--Select--</option>
 								@if($admins && count($admins)>0)
 									@foreach($admins as $admin)
 										<option value="{{$admin->id}}">{{$admin->email}}</option>

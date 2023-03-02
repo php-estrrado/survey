@@ -26,6 +26,7 @@ use App\Models\AdminNotification;
 use App\Models\customer\CustomerMaster;
 use App\Models\SellerInfo;
 use App\Models\UserVisit;
+use App\Models\Survey_requests;
 use App\Rules\Name;
 use Validator;
 
@@ -44,8 +45,15 @@ class AdminController extends Controller
     { 
         $data['title']              =   'User';
         $data['menu']               =   'admin-list';
+
+        $data['ongoing_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status','!=',1)->Where('request_status','!=',3)->Where('request_status','!=',4);})->count();        
+        $data['pending_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
+        $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4);})->count();
+        $data['pending_signature'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',23)->count();
+
+        // dd($data);
         
-        return view('superadmin.index');
+        return view('superadmin.index',$data);
     }
     
     public function profile()

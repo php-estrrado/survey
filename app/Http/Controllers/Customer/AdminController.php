@@ -111,7 +111,7 @@ class AdminController extends Controller
             'firm'=>['required','max:255'],
             'firm_type'=>['required','numeric'],
             'email' => ['required','email','max:255',Rule::unique('cust_mst','username')->ignore($request->cust_id)],
-            'mobile'=>['required','max:255'],
+            'mobile'=>['required','numeric','digits:10'],
             'otp'=> ['nullable','max:255'],
             'valid_id'=>['required','max:255'],
             'id_file_front' => ['nullable','max:10000'],

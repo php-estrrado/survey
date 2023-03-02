@@ -30,7 +30,7 @@
                     <section class="single-section small-section bg-inner">
 
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <div class="description-section tab-section">
                                     <center>
                                         <div class="detail-img">
@@ -41,7 +41,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-md-6">
                                 <div class="description-section tab-section">
                                     <div class="description-details tab-content mt-4">
                                         <div class="menu-part about tab-pane fade show active"

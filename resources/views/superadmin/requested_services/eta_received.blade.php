@@ -891,7 +891,7 @@
 						<div class="form-group">
 							<label class="form-label">Institution <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" name="assigned_survey_institution" id="assigned_survey_institution" onchange="getAdmins()">
-								<option value="0">--Select--</option>
+								<option value="">--Select--</option>
 								@if($institutions && count($institutions)>0)
 									@foreach($institutions as $institution)
 										<option value="{{$institution->id}}">{{$institution->institution_name}}</option>
@@ -902,7 +902,7 @@
 						<div class="form-group">
 							<label class="form-label">User <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" name="assigned_survey_user" id="assigned_survey_user">
-								<option value="0">--Select--</option>
+								<option value="">--Select--</option>
 							</select>
 						</div>
 						<div class="form-group">
@@ -933,7 +933,7 @@
 						<div class="form-group">
 							<label class="form-label">Recipient <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" name="draftsman">
-								<option value="0">--Select--</option>
+								<option value="">--Select--</option>
 								@if($draftmans && count($draftmans) > 0)
 									@foreach($draftmans as $draftman)
 										<option value="{{$draftman->id}}">{{$draftman->email}}</option>

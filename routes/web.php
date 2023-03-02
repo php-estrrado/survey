@@ -40,7 +40,7 @@ Route::middleware('role:customer')->group(function () {
     Route::get('/customer/notifications', [App\Http\Controllers\Customer\AdminController::class, 'notifications']);
 
     // Route::view('/admin', 'admin.admin');
-    Route::get('/customer/profile', [App\Http\Controllers\Customer\AdminController::class, 'profile']);
+    Route::get('/customer/profile', [App\Http\Controllers\Customer\AdminController::class, 'profile'])->name('customer.profile');
     Route::post('/customer/edit_profile', [App\Http\Controllers\Customer\AdminController::class, 'edit_profile']);
     Route::post('customer/validate/profile', [App\Http\Controllers\Customer\AdminController::class, 'validateUser']);
 
@@ -158,7 +158,7 @@ Route::middleware('role:superadmin')->group(function () {
 
     Route::get('/superadmin/notifications', [App\Http\Controllers\Superadmin\AdminController::class, 'notifications']);
 
-    Route::get('/superadmin/profile', [App\Http\Controllers\Superadmin\AdminController::class, 'profile']);
+    Route::get('/superadmin/profile', [App\Http\Controllers\Superadmin\AdminController::class, 'profile'])->name('superadmin.profile');
     Route::post('/superadmin/edit_profile', [App\Http\Controllers\Superadmin\AdminController::class, 'edit_profile']);
 
     Route::get('/superadmin/user-roles', [App\Http\Controllers\Superadmin\UserRoleController::class, 'userRole'])->name('superadmin.user-roles');
@@ -250,7 +250,7 @@ Route::middleware('role:admin')->group(function () {
 
     Route::get('/admin/notifications', [App\Http\Controllers\Admin\AdminController::class, 'notifications']);
 
-    Route::get('/admin/profile', [App\Http\Controllers\Admin\AdminController::class, 'profile']);
+    Route::get('/admin/profile', [App\Http\Controllers\Admin\AdminController::class, 'profile'])->name('admin.profile');
     Route::post('/admin/edit_profile', [App\Http\Controllers\Admin\AdminController::class, 'edit_profile']);
 
     Route::get('/admin/logout', [App\Http\Controllers\Admin\AdminController::class, 'adminLogout']);
@@ -309,7 +309,7 @@ Route::middleware('role:draftsman')->group(function () {
 
     Route::get('/draftsman/notifications', [App\Http\Controllers\Draftsman\AdminController::class, 'notifications']);
 
-    Route::get('/draftsman/profile', [App\Http\Controllers\Draftsman\AdminController::class, 'profile']);
+    Route::get('/draftsman/profile', [App\Http\Controllers\Draftsman\AdminController::class, 'profile'])->name('draftsman.profile');
     Route::post('/draftsman/edit_profile', [App\Http\Controllers\Draftsman\AdminController::class, 'edit_profile']);
 
     Route::get('/draftsman/logout', [App\Http\Controllers\Draftsman\AdminController::class, 'adminLogout']);    
@@ -344,7 +344,7 @@ Route::middleware('role:accountant')->group(function () {
 
     Route::get('/accountant/notifications', [App\Http\Controllers\Accountant\AdminController::class, 'notifications']);
 
-    Route::get('/accountant/profile', [App\Http\Controllers\Accountant\AdminController::class, 'profile']);
+    Route::get('/accountant/profile', [App\Http\Controllers\Accountant\AdminController::class, 'profile'])->name('accountant.profile');
     Route::post('/accountant/edit_profile', [App\Http\Controllers\Accountant\AdminController::class, 'edit_profile']);
 
     Route::get('/accountant/logout', [App\Http\Controllers\Accountant\AdminController::class, 'adminLogout']);    
@@ -369,7 +369,7 @@ Route::middleware('role:surveyor')->group(function () {
 
     Route::get('/surveyor/notifications', [App\Http\Controllers\Surveyor\AdminController::class, 'notifications']);
 
-    Route::get('/surveyor/profile', [App\Http\Controllers\Surveyor\AdminController::class, 'profile']);
+    Route::get('/surveyor/profile', [App\Http\Controllers\Surveyor\AdminController::class, 'profile'])->name('surveyor.profile');
     Route::post('/surveyor/edit_profile', [App\Http\Controllers\Surveyor\AdminController::class, 'edit_profile']);
 
     Route::get('/surveyor/logout', [App\Http\Controllers\Surveyor\AdminController::class, 'adminLogout']);    
@@ -383,9 +383,9 @@ Route::middleware('role:surveyor')->group(function () {
 
 //Default Pages
 
-Route::get('/{page}', [App\Http\Controllers\AdminController::class, 'index']);
-Route::get('/superadmin/{page}', [App\Http\Controllers\AdminController::class, 'superadmin']);
-Route::get('/admin/{page}', [App\Http\Controllers\AdminController::class, 'admin']);
-Route::get('/surveyor/{page}', [App\Http\Controllers\AdminController::class, 'surveyor']);
-Route::get('/accountant/{page}', [App\Http\Controllers\AdminController::class, 'accountant']);
-Route::get('/draftsman/{page}', [App\Http\Controllers\AdminController::class, 'draftsman']);
+// Route::get('/{page}', [App\Http\Controllers\AdminController::class, 'index']);
+// Route::get('/superadmin/{page}', [App\Http\Controllers\AdminController::class, 'superadmin']);
+// Route::get('/admin/{page}', [App\Http\Controllers\AdminController::class, 'admin']);
+// Route::get('/surveyor/{page}', [App\Http\Controllers\AdminController::class, 'surveyor']);
+// Route::get('/accountant/{page}', [App\Http\Controllers\AdminController::class, 'accountant']);
+// Route::get('/draftsman/{page}', [App\Http\Controllers\AdminController::class, 'draftsman']);
