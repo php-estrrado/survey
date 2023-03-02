@@ -25,6 +25,7 @@ use App\Models\AdminNotification;
 use App\Models\customer\CustomerMaster;
 use App\Models\SellerInfo;
 use App\Models\UserVisit;
+use App\Models\Survey_requests;
 use App\Rules\Name;
 use Validator;
 
@@ -41,10 +42,12 @@ class AdminController extends Controller
     }
     public function index()
     { 
-        $data['title']              =   'User';
-        $data['menu']               =   'admin-list';
+        $data['title']              =   'Dashboard';
+        $data['menu']               =   'dashboard';
+
+        $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4);})->count();
         
-        return view('admin.index');
+        return view('admin.index',$data);
     }
 
         function sale_ord_cnt($date){
@@ -93,61 +96,77 @@ class AdminController extends Controller
     public function edit_profile(Request $request)
     {
         $input = $request->all();
+        $validator = Validator::make($request->all(), [
+            'name'         =>  ['required','max:255'],
+            'email'        =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
+            'phone'        =>  ['required','numeric','digits:10',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0)],
+            'designation'  =>  ['required','max:255'],
+            'pen'          =>  ['required','max:100'],
+            'avatar'       =>  ['nullable','max:10000'],
+            'institution'  =>  ['required'],
+        ]);
 
-        $admin_arr = [];
-        $admin_arr['fname'] = $input['name'];
-        $admin_arr['email'] = $input['email'];
-        $admin_arr['phone'] = $input['phone'];
-        $admin_arr['is_active'] = 1;
-        $admin_arr['is_deleted'] = 0;
-        $admin_arr['updated_by'] = auth()->user()->id;
-        $admin_arr['updated_at'] = date("Y-m-d H:s:i");
-
-        Admin::where('id',$input['admin_id'])->update($admin_arr);
-
-        $usr_arr = [];
-        $usr_arr['fullname'] = $input['name'];
-        $usr_arr['email'] = $input['email'];
-        $usr_arr['phone'] = $input['phone'];
-        $usr_arr['designation'] = $input['designation'];
-        $usr_arr['pen'] = $input['pen'];
-        $usr_arr['institution'] = $input['institution'];
-        $usr_arr['is_active'] = 1;
-        $usr_arr['is_deleted'] = 0;
-        $usr_arr['updated_by'] = auth()->user()->id;
-        $usr_arr['updated_at'] = date("Y-m-d H:s:i");
-
-        UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
-
-        if($request->hasfile('avatar'))
+        if($validator->passes())
         {
-            $file = $request->avatar;
-            $folder_name = "uploads/profile_images/";
+            $admin_arr = [];
+            $admin_arr['fname'] = $input['name'];
+            $admin_arr['email'] = $input['email'];
+            $admin_arr['phone'] = $input['phone'];
+            $admin_arr['is_active'] = 1;
+            $admin_arr['is_deleted'] = 0;
+            $admin_arr['updated_by'] = auth()->user()->id;
+            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $upload_path = base_path() . '/public/' . $folder_name;
+            Admin::where('id',$input['admin_id'])->update($admin_arr);
 
-            $extension = strtolower($file->getClientOriginalExtension());
+            $usr_arr = [];
+            $usr_arr['fullname'] = $input['name'];
+            $usr_arr['email'] = $input['email'];
+            $usr_arr['phone'] = $input['phone'];
+            $usr_arr['designation'] = $input['designation'];
+            $usr_arr['pen'] = $input['pen'];
+            $usr_arr['institution'] = $input['institution'];
+            $usr_arr['is_active'] = 1;
+            $usr_arr['is_deleted'] = 0;
+            $usr_arr['updated_by'] = auth()->user()->id;
+            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $filename = "profile" . '_' . time() . '.' . $extension;
+            UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
 
-            $file->move($upload_path, $filename);
+            if($request->hasfile('avatar'))
+            {
+                $file = $request->avatar;
+                $folder_name = "uploads/profile_images/";
 
-            $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $upload_path = base_path() . '/public/' . $folder_name;
 
-            Admin::where('id',$input['admin_id'])->update([
-                'avatar' => $file_path,
-                'updated_by'=>auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
-            
-            UserManagement::where('admin_id',$input['admin_id'])->update([
-                'avatar' => $file_path,
-                'updated_by'=>auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "profile" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                Admin::where('id',$input['admin_id'])->update([
+                    'avatar' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+                
+                UserManagement::where('admin_id',$input['admin_id'])->update([
+                    'avatar' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+
+            return redirect(route('admin.profile'));
         }
-
-        return redirect(route('admin.profile'));
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }        
     }
 
     function validateUser(Request $request){

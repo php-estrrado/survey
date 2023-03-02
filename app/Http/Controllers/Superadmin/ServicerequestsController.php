@@ -311,6 +311,11 @@ class ServicerequestsController extends Controller
         
         $data['survey_status'] = Survey_status::where('id',$datas->request_status)->first()->status_name;
 
+        if($datas->request_status != $status)
+        {
+            return redirect('superadmin/requested_services');
+        }
+        
         if($datas->service_id == 1)
         {
             $data['request_data'] = $datas->Hydrographic_survey->first();

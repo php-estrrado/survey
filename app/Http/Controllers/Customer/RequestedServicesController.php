@@ -294,10 +294,10 @@ class RequestedServicesController extends Controller
                                     ->orderBy('survey_requests.id','DESC')
                                     ->first();
 
-        // $pdf = PDF::loadView('customer.requested_service.customer_invoice_pdf',$data);
-        // return $pdf->download('invoice.pdf');
+        $pdf = PDF::loadView('customer.requested_service.customer_invoice_pdf',$data);
+        return $pdf->download('invoice.pdf');
 
-        return view('customer.requested_service.customer_invoice_pdf',$data);
+        // return view('customer.requested_service.customer_invoice_pdf',$data);
     }
 
     public function customer_receipt_upload(Request $request)

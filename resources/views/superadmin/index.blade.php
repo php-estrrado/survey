@@ -3,11 +3,11 @@
 						<!--Page header-->
 						<div class="page-header">
 							<div class="page-leftheader">
-								<h4 class="page-title mb-0">Hi! Welcome Back</h4>
-								<ol class="breadcrumb">
+								<h4 class="page-title mb-0">Dashboard</h4>
+								<!-- <ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="{{url('/' . $page='#')}}"><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
 									<li class="breadcrumb-item active" aria-current="page"><a href="{{url('\superadmin\dashboard')}}">Dashboard</a></li>
-								</ol>
+								</ol> -->
 							</div>
 						</div>
 						<!--End Page header-->
@@ -19,14 +19,14 @@
 							<div class="col-md-12 col-xl-3 col-lg-6">
 								<div class="card text-center">
 									<div class="card-body"> <span>Total Number Of Request To Be Approved</span>
-										<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
+										<h1 class=" mb-1 mt-1 font-weight-bold">{{$pending_surveys}}</h1>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-12 col-xl-3 col-lg-6">
 								<div class="card text-center">
 									<div class="card-body"> <span>No. Of Total Cancelled Service</span>
-										<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
+										<h1 class=" mb-1 mt-1 font-weight-bold">{{$rejected_surveys}}</h1>
 									</div>
 								</div>
 							</div>
@@ -40,7 +40,7 @@
 							<div class="col-md-12 col-xl-3 col-lg-6">
 								<div class="card text-center">
 									<div class="card-body"> <span>Pending e Signature</span>
-										<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
+										<h1 class=" mb-1 mt-1 font-weight-bold">{{$pending_signature}}</h1>
 									</div>
 								</div>
 							</div>

@@ -896,6 +896,11 @@ class ServicerequestsController extends Controller
         
         $data['status'] = $status;
 
+        if($datas->request_status != $status)
+        {
+            return redirect('admin/requested_services');
+        }
+
         if($datas->service_id == 1)
         {
             $data['request_data'] = $datas->Hydrographic_survey->first();

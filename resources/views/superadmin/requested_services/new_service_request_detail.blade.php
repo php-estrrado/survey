@@ -937,7 +937,7 @@
 						<div class="form-group">
 							<label class="form-label" for="assigned_institution">Assign Institution <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" id="assigned_institution" name="assigned_institution" onchange="getAdmins()">
-								<option value="0">--Select--</option>
+								<option value="">--Select--</option>
 								@if($institutions && count($institutions)>0)
 									@foreach($institutions as $institution)
 										<option value="{{$institution->id}}">{{$institution->institution_name}}</option>
@@ -951,7 +951,7 @@
 						<div class="form-group">
 							<label class="form-label" for="assigned_user">Assign User <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" id="assigned_user" name="assigned_user">
-								<option value="0">--Select--</option>								
+								<option value="">--Select--</option>								
 							</select>
 							@error('assigned_user')
 								<p style="color: red">{{ $message }}</p>

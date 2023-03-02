@@ -943,7 +943,7 @@
 						<div class="form-group">
 							<label class="form-label">Recipient <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" name="draftsman">
-								<option value="0">--Select--</option>
+								<option value="">--Select--</option>
 								@if($draftmans && count($draftmans) > 0)
 									@foreach($draftmans as $draftman)
 										<option value="{{$draftman->id}}">{{$draftman->email}}</option>

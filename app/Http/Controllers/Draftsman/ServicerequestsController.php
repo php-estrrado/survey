@@ -156,6 +156,11 @@ class ServicerequestsController extends Controller
         
         // dd($data);
 
+        if($datas->request_status != $status)
+        {
+            return redirect('/draftsman/service_requests');
+        }
+
         if($status == 23 || $status == 28 || $status == 38 || $status == 39)
         {
             return view('draftsman.requested_services.survey_report',$data);
