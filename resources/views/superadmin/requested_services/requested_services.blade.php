@@ -39,24 +39,35 @@
 					<div class="panel panel-default block">
 						<div class="panel-body p-0" style="float:right;">
 							<div class="btn-group mt-2 mb-2">
-								<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
+								<!-- <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
 									All Sub Offices <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu">
+								</button> -->
+							<!-- 	<ul class="dropdown-menu" role="menu">
 									<li><a href="#">Action</a></li>
 									<li><a href="#">Another action</a></li>
 									<li><a href="#">Something else here</a></li>
-								</ul>
+								</ul> -->
+								<select class="form-control" id="institution_filter">
+									<option value="">All</option>
+									<?php if($sub_offices){ 
+										foreach ($sub_offices as $sk => $sv) {
+										
+										?>
+										<option value="{{ $sv->id }}" <?php if($ins ==$sv->id ){ echo 'selected'; } ?>> {{ $sv->institution_name }} </option>
+									<?php } } ?>
+								</select>
 							</div>
 							<div class="btn-group mt-2 mb-2">
-								<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-									This Month <span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-								</ul>
+								<select class="form-control" id="date_filter">
+									<?php $year =date('Y'); $year_1 =date("Y",strtotime("-1 year")); $year_2 = date("Y",strtotime("-2 year"));   ?>
+									<option value="">All</option>
+									<option value="today" <?php if($date_val =="today" ){ echo 'selected'; } ?> >Today</option>
+									<option value="week" <?php if($date_val =="week" ){ echo 'selected'; } ?> >This Week</option>
+									<option value="month" <?php if($date_val =="month" ){ echo 'selected'; } ?> >This Month</option>
+									<option value="{{ date('Y') }}"  <?php if($date_val ==$year ){ echo 'selected'; } ?> >This Year</option>
+									<option value='{{ date("Y",strtotime("-1 year")); }}' <?php if($date_val ==$year_1 ){ echo 'selected'; } ?> >{{ date("Y",strtotime("-1 year")); }}</option>
+									<option value='{{ date("Y",strtotime("-2 year"));}}' <?php if($date_val ==$year_2 ){ echo 'selected'; } ?> >{{ date("Y",strtotime("-2 year"));}}</option>
+								</select>
 							</div>
 						</div>
 					</div>
@@ -198,6 +209,24 @@
 <script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{URL::asset('assets/js/datatables.js')}}"></script>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#institution_filter").change(function(){
+			var ins = $(this).val();
+			var date_val = $('#date_filter').val();
+				var ret_url = "{{ url('/superadmin/requested_services/') }}?ins="+ins+"&date_val="+date_val;
+				window.location.replace(ret_url);
+		});
+
+		$("#date_filter").change(function(){
+			var date_val = $(this).val();
+			var ins = $('#institution_filter').val();
+				var ret_url = "{{ url('/superadmin/requested_services/') }}?ins="+ins+"&date_val="+date_val;
+				window.location.replace(ret_url);
+		});
+
+	});
+</script>
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
 @endsection
