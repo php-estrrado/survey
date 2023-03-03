@@ -1,9 +1,9 @@
 $(function(e) {
 	//file export datatable
-	var table = $('#example').DataTable({
-		lengthChange: false,
+	var table = $('#superadmin_dashboard').DataTable({
+		lengthChange: true,
 		buttons: [ 'copy', 'excel', 'pdf', 'colvis' ],
-		responsive: true,
+		responsive: false,
 		language: {
 			searchPlaceholder: 'Search...',
 			sSearch: '',

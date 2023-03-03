@@ -14,6 +14,7 @@ use App\Models\MetalRates;
 use App\Models\Currency;
 use App\Models\Survey_requests;
 use App\Models\Survey_request_logs;
+use App\Models\Institution;
 
 use App\Models\AdminNotification;
 
@@ -493,8 +494,16 @@ if (!function_exists('twilio_send_otp')) {
         function request_progress($id){ 
             
             $progress = 0;
-            $logs = Survey_request_logs::where("survey_request_id",$id)->where('cust_id',auth()->user()->id)->distinct()
+            if(auth()->user()->role_id ==1 )
+            {
+                $logs = Survey_request_logs::where("survey_request_id",$id)->distinct()
             ->pluck('survey_status')->toArray();
+            }else{
+              $logs = Survey_request_logs::where("survey_request_id",$id)->where('cust_id',auth()->user()->id)->distinct()
+            ->pluck('survey_status')->toArray();  
+            }
+            
+
             if($logs)
             {   
                 $percentage = array(2=>5,41=>5,8=>5,40=>20,19=>20,25=>20,27=>25);
@@ -521,3 +530,33 @@ if (!function_exists('twilio_send_otp')) {
         return $progress; 
         } 
     }
+
+    if (!function_exists('findSubOffice')) {
+
+    function findSubOffice($id) {
+        $institution_name = "";
+         $survey_request = Survey_requests::where('id', $id)->first(); 
+         if($survey_request)
+         {
+            if($survey_request->assigned_institution)
+            {
+                $institution = Institution::where('id',$survey_request->assigned_institution)->first();
+                if($institution)
+                {
+                    $institution_name = $institution->institution_name;
+                }
+                    
+            }else{
+                $institution = Institution::where('id',$survey_request->assigned_survey_institution)->first();
+                if($institution)
+                {
+                    $institution_name = $institution->institution_name;
+                }
+            }
+         }else{
+            $institution_name = "";
+         }
+         return $institution_name;
+    }
+
+}

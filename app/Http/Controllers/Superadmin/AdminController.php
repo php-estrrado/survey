@@ -52,20 +52,22 @@ class AdminController extends Controller
         $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4);})->count();
         $data['pending_signature'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',23)->count();
 
+        /* graph data starts */
+
         $completed_surveys = [];
         $pending_surveys = [];
-        for ($i = 0; $i < 6; $i++) {
-  $mo =  date('m', strtotime("-$i month"));
-  $year =  date('Y', strtotime("-$i month"));
-  $day =  "01";
+            for ($i = 0; $i < 6; $i++) {
+            $mo =  date('m', strtotime("-$i month"));
+            $year =  date('Y', strtotime("-$i month"));
+            $day =  "01";
 
 
-  $js_date = date('Y/m/d', strtotime("$year/$mo/$day 00:00:00"));
-  $completed_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',29)->count());
-  $pending_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',1)->count());
+            $js_date = date('Y/m/d', strtotime("$year/$mo/$day 00:00:00"));
+            $completed_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',29)->count());
+            $pending_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',1)->count());
 
 
-}
+            }
 
         $data['completed_surveys_grp'] = $completed_surveys;
         $data['pending_surveys_grp'] = $pending_surveys;
@@ -88,8 +90,163 @@ class AdminController extends Controller
 
         $data['accepted_surveys_percentage'] = round((($accepted_surveys/$total_surveys)*100), 0);
 
+          /* graph data ends */
+
+
+        $data['total_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->count();  
+        $data['completed_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',29)->count(); 
+        $data['pending_services'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('request_status',[29])->count();  
+        $data['payment_pending'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('id',function($query) {
+   $query->select('survey_request_id')->from('survey_request_logs')->where('survey_status',58);})->count();  
+
+
+        //filter data
+
+        $data['filter_institutions'] = Institution::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
+
+        $data['filter_services'] =  Services::where('is_active',1)->where('is_deleted',0)->get();
+        $data['filter_ams'] =  Admin::where('role_id',3)->where('is_active',1)->where('is_deleted',0)->get();
+
+
+        $data['view_type']          =   'view';
+        $data['requested_services']  =  DB::table('survey_requests')
+                                        ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
+                                        ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
+                                        ->leftjoin('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
+                                        ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
+                                        ->where('survey_requests.is_active',1)->where('survey_requests.is_deleted',0)
+                                        ->where('services.is_active',1)->where('services.is_deleted',0)
+                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','services.*','cust_info.*','cust_mst.*','survey_status.status_name AS current_status')
+                                        ->orderBy('survey_requests.id','DESC')
+                                        ->get();
+
         // dd($data);
         return view('superadmin.index',$data);
+    }
+
+    public function search(Request $request)
+    {
+        $return_data = 0; $type = $id = 0;
+        $search = $request->search_val;
+        if (str_contains($search, 'hsw') || str_contains($search, 'HSW')) { 
+                        $search = strtolower($search);
+                        $search = explode("hsw", $search);
+                        $search = $search[1];
+                        $find = Survey_requests::where('id',$search)->first();
+                        if($find)
+                        {
+                            $current_status = $find->request_status;
+                            if($current_status ==1)
+                            {
+                                $type = "new";
+                                $id = $find->id; 
+                            }else{
+                                $type = $current_status;
+                                $id = $id = $find->id;
+                            }
+                        }
+                        }
+        return json_encode(array("type"=>$type,"id"=>$id));
+        
+    }
+
+    public function services(Request $request)
+    {
+        $data['title']              =   'Dashboard Services';
+        $data['menuGroup']          =   'dashboard';
+        $data['menu']               =   'dashboard'; 
+        $data['view_type']          =   'ajax';
+        
+
+        $dashboard_services = DB::table('survey_requests')
+                                        ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
+                                        ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
+                                        ->leftjoin('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
+                                        ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
+                                        ->where('survey_requests.is_active',1)->where('survey_requests.is_deleted',0)
+                                        ->where('services.is_active',1)->where('services.is_deleted',0)
+                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','services.*','cust_info.name','cust_mst.username','survey_status.status_name AS current_status');
+
+        if($request->filter_institutions)
+        {
+            $dashboard_services->where('survey_requests.assigned_institution', $request->filter_institutions);
+        }
+        if($request->filter_services)
+        {
+            $dashboard_services->where('survey_requests.service_id', $request->filter_services);
+        }
+        if($request->filter_ams)
+        {
+            $filter_ams = $request->filter_ams;
+            $dashboard_services->where(function ($query) use($filter_ams) { $query->where('survey_requests.assigned_surveyor', '=', $filter_ams)->orWhere('survey_requests.assigned_surveyor_survey', '=', $filter_ams);});
+
+          
+        }
+        if($request->from_date && $request->to_date)
+        {
+            $start = $request->from_date; $end = $request->to_date; 
+                $dashboard_services->whereBetween('survey_requests.created_at', [$start, $end]);
+        }
+
+
+
+
+
+
+         $post                       =   (object)$request->post();
+         $res = [];
+        if(isset($post->vType)       ==  'ajax'){ 
+           $search                  =   (isset($post->search['value']))? $post->search['value'] : ''; 
+           $start                   =   (isset($post->start))? $post->start : 0; 
+           $length                  =   (isset($post->length))? $post->length : 10; 
+           $draw                    =   (isset($post->draw))? $post->draw : ''; 
+            $totCount                =   $dashboard_services->count(); $filtCount  =  $dashboard_services->count();
+           if($search != ''){
+                $dashboard_services            =   $dashboard_services->where(function($qry) use ($search){
+
+                        if (str_contains($search, 'hsw') || str_contains($search, 'HSW')) { 
+                        $search = strtolower($search);
+                        $search = explode("hsw", $search);
+                        $search = $search[1];
+                        $qry->where('survey_requests.id', 'like', '%'.$search.'%');
+                        }else{
+                                             $qry->where('service_name', 'like', '%'.$search.'%');
+                                            $qry->orwhere('cust_info.name', 'like', '%'.$search.'%');
+                                            $qry->orwhere('username', 'like', '%'.$search.'%');                           
+                        }
+
+                                  
+                                        });
+                $filtCount          =   $dashboard_services->count();
+           }
+           if($length > 0){$dashboard_services =   $dashboard_services->offset($start)->limit($length); }
+           $activities              =   $dashboard_services->get(); $i=0;
+           if($activities){ foreach (   $activities as $row){ $i++;
+               if($row->is_active   ==  1){ $checked    = 'checked="checked"'; $act = 'Active'; }else{ $checked = '';  $act = 'Inactive'; }
+             
+               // $val['id']           =   $row->id;       
+               $val['i']      =   $i;       
+               $val['name']      =   $row->name; 
+               $val['file_no']      =   '<a href="'.URL('/customer/request_service_detail').'/'.$row->survey_id.'/'.$row->request_status.'">HSW'.$row->survey_id.'</a>'; 
+               $val['sub_office']      =   findSubOffice($row->id); 
+               $val['email']      =   $row->username; 
+               $val['requested_service']      =   $row->service_name; 
+               $val['status']      =   $row->current_status;
+                $val['progress']      =   ' <div class="progress-bar-cust position" data-percent='. request_progress($row->survey_id) .' data-color="#ccc,#4aa4d9" ></div>'; 
+
+               $action ='';
+               $val['action']       =   $action; $res[] = $val;  
+           } }
+           $returnData = array(
+            "draw"            => $draw,   
+            "recordsTotal"    => $totCount,  
+            "recordsFiltered" => $filtCount,
+            "data"            => $res   // total data array
+            );
+            return $returnData;
+        }
+
+        return view('superadmin.dashboard-service-list',$data);
     }
     
     public function profile()

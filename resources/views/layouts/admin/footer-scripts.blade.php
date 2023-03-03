@@ -53,5 +53,15 @@
 						toastr.error("{{session('message')['text']}}");
 					@endif
 				@endif
+
+				jQuery(".marknotifications a").click(function(e){
+				var self = jQuery(this);
+				var href = self.attr('href');
+				e.preventDefault();
+				// needed operations
+				// alert("clicked");
+				window.location = href;
+				});
+
 			});
 		</script>

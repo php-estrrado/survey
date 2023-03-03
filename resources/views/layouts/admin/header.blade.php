@@ -75,7 +75,7 @@
 						<div class="dropdown-header">
 							<h6 class="mb-0">Notifications</h6>
 						</div>
-						<div class="notify-menu">
+						<div class="notify-menu marknotifications">
 							@if($notifications && count($notifications)>0)
 								@foreach($notifications as $notify)
 									<a href="{{url($notify->ref_link)}}" class="dropdown-item border-bottom d-flex pl-4">

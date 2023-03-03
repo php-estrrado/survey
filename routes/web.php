@@ -156,6 +156,9 @@ Route::post('/superadmin/regVerifyotpemail', [App\Http\Controllers\Superadmin\Au
 Route::middleware('role:superadmin')->group(function () {
     Route::get('/superadmin/dashboard', [App\Http\Controllers\Superadmin\AdminController::class, 'index']);
 
+Route::post('/superadmin/dashboard/services', [App\Http\Controllers\Superadmin\AdminController::class, 'services'])->name('dashboard.services');
+Route::post('/superadmin/dashboard/search', [App\Http\Controllers\Superadmin\AdminController::class, 'search'])->name('dashboard.search');
+
     Route::get('/superadmin/notifications', [App\Http\Controllers\Superadmin\AdminController::class, 'notifications']);
 
     Route::get('/superadmin/profile', [App\Http\Controllers\Superadmin\AdminController::class, 'profile'])->name('superadmin.profile');
