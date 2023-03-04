@@ -231,11 +231,11 @@ class ServicerequestsController extends Controller
 
             if(isset($survey_request_log_id))
             {   
-                Session::flash('message', ['text'=>'Successfully Assigned Marine Surveyor !','type'=>'success']);  
+                Session::flash('message', ['text'=>'Successfully Assigned to Surveyor for Field Study !','type'=>'success']);  
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Marine Surveyor is not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Surveyor for Field Study is not Successfull !','type'=>'danger']);
             }
 
             return redirect('/admin/new_service_requests');
@@ -408,11 +408,11 @@ class ServicerequestsController extends Controller
 
             if(isset($survey_request_log_id))
             {   
-                Session::flash('message', ['text'=>'Successfully Assigned Surveyor !','type'=>'success']);  
+                Session::flash('message', ['text'=>'Successfully Assigned to Surveyor for Survey Study !','type'=>'success']);  
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Surveyor is not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Surveyor for Survey Study is not Successfull !','type'=>'danger']);
             }
 
             return redirect('/admin/requested_services');
@@ -637,7 +637,7 @@ class ServicerequestsController extends Controller
             }
             else
             {
-                Session::flash('message', ['text'=>'Survey   Study Reschedule Request Not Rejected Successfully !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Survey Study Reschedule Request Not Rejected Successfully !','type'=>'danger']);
             }
 
             return redirect('/admin/requested_services');
@@ -898,7 +898,7 @@ class ServicerequestsController extends Controller
 
         if($datas->request_status != $status)
         {
-            return redirect('admin/requested_services');
+            return redirect('admin/requested_service_detail/'.$id.'/'.$datas->request_status);
         }
 
         if($datas->service_id == 1)
@@ -1057,8 +1057,8 @@ class ServicerequestsController extends Controller
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'general_area'=>['required'],
-            'location'=>['required'],
-            'scale_of_survey_recomended'=>['required'],
+            'location'=>['required','alpha_num'],
+            'scale_of_survey_recomended'=>['required','alpha_num'],
             'type_of_survey'=>['required'],
             'no_of_days_required'=>['required'],
             'charges'=>['required'],
@@ -1164,8 +1164,8 @@ class ServicerequestsController extends Controller
             'survey_id'=>['required'],
             'eta_id'=>['required'],
             'general_area'=>['required'],
-            'location'=>['required'],
-            'scale_of_survey_recomended'=>['required'],
+            'location'=>['required','alpha_num'],
+            'scale_of_survey_recomended'=>['required','alpha_num'],
             'type_of_survey'=>['required'],
             'no_of_days_required'=>['required'],
             'charges'=>['required'],

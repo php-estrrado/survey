@@ -332,9 +332,9 @@
         $('#total_invoice_amount').val(total_invoice_amount);
         doConvertTax();
         doConvertTotalAmount();
-
+        doConvertCharges();
     }
-    function doConvertTax()
+    function doConvertCharges()
     {
         let numberInput = document.querySelector('#survey_charges').value ;
         let myDiv = document.querySelector('#survey_charges_words');

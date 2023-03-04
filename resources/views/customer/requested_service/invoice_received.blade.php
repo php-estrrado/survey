@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="card-header  card-header--2 package-card">
                     <div>
-                        <h5>File Number</h5>
+                        <h5>HSW{{$survey_data->survey_request_id}}</h5>
                     </div>
                     <a style="float:right ;" href="{{url('/customer/customer_invoice_download/')}}/{{$survey_data->survey_id}}"><button class="btn btn-primary">Download</button></a>
                 </div>

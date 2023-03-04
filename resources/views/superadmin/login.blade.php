@@ -24,6 +24,7 @@
 									<form method="POST" id="adminLogin" action="{{ url('/superadmin/regVerifyotpemail') }}" class="theme-form">
 										@csrf
 										<div class="input-group mb-4">
+											<label class="col-form-label form-label-title ">Email ID</label>
 											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" value="{{ old('email')}}">
 											<div id="email_error"></div>
 											@error('email')

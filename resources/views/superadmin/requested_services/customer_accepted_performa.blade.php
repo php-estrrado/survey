@@ -254,7 +254,7 @@
 												</tr>
 												<tr>
 													<td>In Words</td>
-													<td>{{$survey_performa_invoice->survey_charges}}</td>
+													<td>{{$survey_performa_invoice->survey_charges_words}}</td>
 												</tr>
 											</tbody>
 										</table>

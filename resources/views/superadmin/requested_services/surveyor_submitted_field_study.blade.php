@@ -81,7 +81,7 @@
 						<div class="media-body">
 							<small class="text-muted">Status</small>
 							<div class="font-weight-normal1">
-								Field study report and ETA received
+								Field study report received
 							</div>
 						</div>
 					</div>
