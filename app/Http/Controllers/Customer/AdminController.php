@@ -107,13 +107,13 @@ class AdminController extends Controller
     public function edit_profile(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'=>['required','max:255'],
-            'firm'=>['required','max:255'],
+            'name'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'firm'=>['required','regex:/^[a-zA-Z\s]*$/'],
             'firm_type'=>['required','numeric'],
             'email' => ['required','email','max:255',Rule::unique('cust_mst','username')->ignore($request->cust_id)],
             'mobile'=>['required','numeric','digits:10'],
             'otp'=> ['nullable','max:255'],
-            'valid_id'=>['required','max:255'],
+            'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'id_file_front' => ['nullable','max:10000'],
             'id_file_back' => ['nullable','max:10000'],
             'password' =>['nullable','confirmed','min:6'],

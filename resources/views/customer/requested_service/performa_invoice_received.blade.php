@@ -29,7 +29,7 @@
                         </div>
                         <div class="menu-top menu-up">
                             <ul class="nav nav-tabs" id="top-tab" role="tablist">
-                                <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#highlight">Timeline</a></li>
+                                <!-- <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#highlight">Timeline</a></li> -->
                                 <li class="nav-item"><a data-bs-toggle="tab" class="nav-link active" href="#itinerary">Invoice Details</a>
                                 </li>
                             </ul>

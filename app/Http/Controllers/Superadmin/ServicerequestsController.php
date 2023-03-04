@@ -342,7 +342,7 @@ class ServicerequestsController extends Controller
 
         if($datas->request_status != $status)
         {
-            return redirect('superadmin/requested_services');
+            return redirect('superadmin/requested_service_detail/'.$id.'/'.$datas->request_status);
         }
         
         if($datas->service_id == 1)
