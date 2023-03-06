@@ -9,6 +9,15 @@
     background-color: #000056 !important;
     border-color: #000056 !important;
 }
+
+.paginate_button {
+
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    background-color: #fff;
+    border: 1px solid #ebecf1;
+}
 		</style>
 						<!--Page header-->
 						<div class="page-header">
