@@ -502,7 +502,7 @@ var options1 = {
 	},
 	xaxis: {
 		type: 'datetime',
-		categories: [new Date("<?php// echo $completed_surveys_grp[0]['date']; ?>").toISOString(), new Date("<?php// echo $completed_surveys_grp[1]['date']; ?>").toISOString(), new Date("<?php// echo $completed_surveys_grp[2]['date']; ?>").toISOString(), new Date("<?php// echo $completed_surveys_grp[3]['date']; ?>").toISOString(), new Date("<?php //echo $completed_surveys_grp[4]['date']; ?>").toISOString(), new Date("<?php //echo $completed_surveys_grp[5]['date']; ?>").toISOString()]
+		categories: [new Date("//{{  $completed_surveys_grp[0]['date']; }}").toISOString(), new Date("// {{ $completed_surveys_grp[1]['date']; }}").toISOString(), new Date("{{  $completed_surveys_grp[2]['date']; }}").toISOString(), new Date("{{  $completed_surveys_grp[3]['date']; }}").toISOString(), new Date("{{   $completed_surveys_grp[4]['date']; }}").toISOString(), new Date("{{   $completed_surveys_grp[5]['date']; }}").toISOString()]
 	},
 	tooltip: {
 		x: {
@@ -519,14 +519,14 @@ chart1.render();
 // each category chart	
 var cat_data = [];
 var cat_list = [];
-<?php if($completed_surveys){
+@php if($completed_surveys){
 	foreach($completed_surveys as $ck=>$cv)
-	{ ?>
-cat_data.push( "<?php// echo $cv['count'] ?>" ); 
-cat_list.push( "<?php// echo $cv['name'] ?>" ); 
+	{ @endphp
+cat_data.push( "{{ $cv['count'] }}" ); 
+cat_list.push( "{{ $cv['name'] }}" ); 
 
-	<?php }
-} ?>
+	@php }
+} @endphp
 
 
 var options2 = {

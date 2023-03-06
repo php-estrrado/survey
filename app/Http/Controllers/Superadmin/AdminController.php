@@ -227,7 +227,7 @@ class AdminController extends Controller
                // $val['id']           =   $row->id;       
                $val['i']      =   $i;       
                $val['name']      =   $row->name; 
-               $val['file_no']      =   '<a href="'.URL('/customer/request_service_detail').'/'.$row->survey_id.'/'.$row->request_status.'">HSW'.$row->survey_id.'</a>'; 
+               $val['file_no']      =   '<a href="'.URL('/superadmin/requested_service_detail').'/'.$row->survey_id.'/'.$row->request_status.'">HSW'.$row->survey_id.'</a>'; 
                $val['sub_office']      =   findSubOffice($row->id); 
                $val['email']      =   $row->username; 
                $val['requested_service']      =   $row->service_name; 

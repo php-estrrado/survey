@@ -234,7 +234,7 @@ class SurveyReportController extends Controller
         $user = [];
         
         $validator=  Validator::make($request->all(),[
-            'file' => ['required','max:10000','mimes:doc,docx,jpg,jpeg,png,bmp,tiff,pdf'],
+            'file' => ['required','max:100000','mimes:doc,docx,jpg,jpeg,png,bmp,tiff,pdf'],
             'access_token' => ['required']
         ]);
         if ($validator->fails()) 

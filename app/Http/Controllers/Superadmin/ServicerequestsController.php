@@ -298,16 +298,18 @@ class ServicerequestsController extends Controller
 
             if($request->date_val == "today")
             {
-                $start = date('Y-m-d 00:00:00'); $end = date('Y-m-d',strtotime(now())); 
+                $start = date('Y-m-d 00:00:00'); $end = date('Y-m-d 00:00:00',strtotime(now())); 
                 $query->whereBetween('survey_requests.created_at', [$start, $end]);
             }else if($request->date_val == "week")
             {
-                $start = date('Y-m-d 00:00:00', strtotime('monday this week')); $end = date('Y-m-d',strtotime(now())); 
+                $start = date('Y-m-d 00:00:00', strtotime('monday this week')); $end = date('Y-m-d 00:00:00',strtotime(now())); 
+                
                 $query->whereBetween('survey_requests.created_at', [$start, $end]);
             }
             else if($request->date_val == "month")
             {
-                $start = date('Y-m-d 00:00:00'); $end = date('Y-m-d',strtotime(now())); 
+                $start = date('Y-m-1 00:00:00'); $end = date('Y-m-d 00:00:00',strtotime(now())); 
+                
                 $query->whereBetween('survey_requests.created_at', [$start, $end]);
             }else
             {
