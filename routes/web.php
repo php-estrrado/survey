@@ -278,6 +278,7 @@ Route::middleware('role:admin')->group(function () {
     Route::post('/admin/reject_fieldstudy', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_fieldstudy']);
 
     Route::get('/admin/requested_services', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_services'])->name('admin.requested_services');
+    Route::get('/admin/repository-management', [App\Http\Controllers\Admin\ServicerequestsController::class, 'services_repository'])->name('admin.services_repository');
     Route::get('/admin/requested_service_detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_service_detail'])->name('admin.requested_service_detail');
 
     Route::get('/admin/createETA/{id}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'createETA']);

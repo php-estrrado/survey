@@ -74,6 +74,32 @@ class ServicerequestsController extends Controller
         return view('admin.new_service_requests',$data);
     }
 
+
+     public function services_repository(Request $request)
+    { 
+        $data['title']              =   'Repository Management';
+        $data['menu']               =   'repository-management';
+        
+        $status_not                 =   array(1,2,3,4);
+        $data['survey_requests']    =   DB::table('survey_requests')
+                                        ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
+                                        ->leftjoin('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
+                                        ->leftjoin('cust_telecom', 'survey_requests.cust_id', '=', 'cust_telecom.cust_id')
+                                        ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
+                                        ->leftjoin('institution', 'survey_requests.assigned_institution', '=', 'institution.id')
+                                        ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
+                                        ->whereNotIn('survey_requests.request_status',$status_not)->where('survey_requests.request_status','!=',NULL)->Where('survey_requests.is_deleted',0)
+                                        ->where('cust_mst.is_deleted',0)
+                                        ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
+                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*','institution.*','survey_status.status_name AS current_status')
+                                        ->orderBy('survey_requests.id','DESC')
+                                        ->get();
+
+        // dd($data);
+
+        return view('admin.repository_management',$data);
+    }
+
     public function new_service_request_detail($id,$status)
     {
         $data['title']              =   'Requested Services';
