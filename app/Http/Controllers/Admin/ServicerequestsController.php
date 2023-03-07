@@ -90,14 +90,16 @@ class ServicerequestsController extends Controller
                                         ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
                                         ->whereNotIn('survey_requests.request_status',$status_not)->where('survey_requests.request_status','!=',NULL)->Where('survey_requests.is_deleted',0)
                                         ->where('cust_mst.is_deleted',0)
+                                        ->where('survey_requests.request_status',27)
                                         ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
                                         ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*','institution.*','survey_status.status_name AS current_status')
+
                                         ->orderBy('survey_requests.id','DESC')
                                         ->get();
 
-        // dd($data);
+        dd($data);
 
-        return view('admin.repository_management',$data);
+        return view('admin.repository',$data);
     }
 
     public function new_service_request_detail($id,$status)
