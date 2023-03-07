@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Superadmin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
@@ -19,7 +19,6 @@ use App\Models\Admin;
 use App\Models\Institution;
 use App\Models\UserManagement;
 use App\Models\UserRole;
-use App\Models\UserLogin;
 use App\Models\SalesOrder;
 use App\Models\Product;
 use App\Models\AdminNotification;
@@ -27,7 +26,6 @@ use App\Models\customer\CustomerMaster;
 use App\Models\SellerInfo;
 use App\Models\UserVisit;
 use App\Models\Survey_requests;
-use App\Models\Services;
 use App\Rules\Name;
 use Validator;
 
@@ -44,217 +42,45 @@ class AdminController extends Controller
     }
     public function index()
     { 
-        $data['title']              =   'User';
-        $data['menu']               =   'admin-list';
+        $data['title']              =   'Dashboard';
+        $data['menu']               =   'dashboard';
 
-        $data['ongoing_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status','!=',1)->Where('request_status','!=',3)->Where('request_status','!=',4);})->count();        
-        $data['pending_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
-        $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4)->orWhere('request_status',29);})->count();
-        $data['pending_signature'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',23)->count();
+        $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4);})->count();
+        
+        return view('admin.index',$data);
+    }
 
-        /* graph data starts */
-
-        $completed_surveys = [];
-        $pending_surveys = [];
-            for ($i = 0; $i < 6; $i++) {
-            $mo =  date('m', strtotime("-$i month"));
-            $year =  date('Y', strtotime("-$i month"));
-            $day =  "01";
-
-
-            $js_date = date('Y/m/d', strtotime("$year/$mo/$day 00:00:00"));
-            $completed_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',29)->count());
-            $pending_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',1)->count());
-
-
+        function sale_ord_cnt($date){
+            $cnt = 0;
+            $orders = SalesOrder::where('org_id',1)->where('order_status', '!=', "cancelled")->where('order_status', '!=', "initiated")->whereDate('created_at', '=', date('Y-m-d',strtotime($date)))->sum('g_total');
+            if($orders){
+                $cnt = $orders;
             }
-
-        $data['completed_surveys_grp'] = $completed_surveys;
-        $data['pending_surveys_grp'] = $pending_surveys;
-
-        $all_services = Services::where('is_active',1)->where('is_deleted',0)->get();
-        $category_requests = []; 
-        if($all_services)
-        {
-        foreach($all_services as $ak=>$av)
-        {
-        $cat_count = 0;
-        $cat_count = Survey_requests::where('service_id',$av->id)->where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
-        $category_requests[$av->id] = array('name'=>$av->service_name,'count'=>$cat_count);
+            return $cnt;
         }
-        }
-        $data['completed_surveys'] = $category_requests;
+    
+        function getDatesFromRange($sStartDate, $sEndDate, $format = 'Y-m-d') {
+     $sStartDate = gmdate("Y-m-d H:i:s", strtotime($sStartDate));  
+      $sEndDate = gmdate("Y-m-d H:i:s", strtotime($sEndDate));  
+ 
+     $aDays[] = $sStartDate;  
+ 
+     $sCurrentDate = $sStartDate;  
 
-        $total_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->count();
-        $accepted_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('request_status',[3])->count();
+     while($sCurrentDate < $sEndDate){  
+       $sCurrentDate = gmdate("Y-m-d H:i:s", strtotime("+1 hour", strtotime($sCurrentDate)));  
 
-        $data['accepted_surveys_percentage'] = round((($accepted_surveys/$total_surveys)*100), 0);
-
-          /* graph data ends */
-
-
-        $data['total_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->count();  
-        $data['completed_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',27)->count(); 
-        $data['pending_services'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('request_status',[27])->count();  
-        $data['payment_pending'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('id',function($query) {
-   $query->select('survey_request_id')->from('survey_request_logs')->where('survey_status',58);})->count();  
-
-
-        //filter data
-
-        $data['filter_institutions'] = Institution::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
-
-        $data['filter_services'] =  Services::where('is_active',1)->where('is_deleted',0)->get();
-        $data['filter_ams'] =  Admin::where('role_id',3)->where('is_active',1)->where('is_deleted',0)->get();
-
-
-        $data['view_type']          =   'view';
-        $data['requested_services']  =  DB::table('survey_requests')
-                                        ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
-                                        ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
-                                        ->leftjoin('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
-                                        ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
-                                        ->where('survey_requests.is_active',1)->where('survey_requests.is_deleted',0)
-                                        ->where('services.is_active',1)->where('services.is_deleted',0)
-                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','services.*','cust_info.*','cust_mst.*','survey_status.status_name AS current_status')
-                                        ->orderBy('survey_requests.created_at', 'desc')
-                                        ->get();
-
-        // dd($data);
-        return view('superadmin.index',$data);
-    }
-
-    public function search(Request $request)
-    {
-        $return_data = 0; $type = $id = 0;
-        $search = $request->search_val;
-        if (str_contains($search, 'hsw') || str_contains($search, 'HSW')) { 
-                        $search = strtolower($search);
-                        $search = explode("hsw", $search);
-                        $search = $search[1];
-                        $find = Survey_requests::where('id',$search)->first();
-                        if($find)
-                        {
-                            $current_status = $find->request_status;
-                            if($current_status ==1)
-                            {
-                                $type = "new";
-                                $id = $find->id; 
-                            }else{
-                                $type = $current_status;
-                                $id = $id = $find->id;
-                            }
-                        }
-                        }
-        return json_encode(array("type"=>$type,"id"=>$id));
-        
-    }
-
-    public function services(Request $request)
-    {
-        $data['title']              =   'Dashboard Services';
-        $data['menuGroup']          =   'dashboard';
-        $data['menu']               =   'dashboard'; 
-        $data['view_type']          =   'ajax';
-        
-
-        $dashboard_services = DB::table('survey_requests')
-                                        ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
-                                        ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
-                                        ->leftjoin('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
-                                        ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
-                                        ->where('survey_requests.is_active',1)->where('survey_requests.is_deleted',0)
-                                        ->where('services.is_active',1)->where('services.is_deleted',0)
-                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','services.*','cust_info.name','cust_mst.username','survey_status.status_name AS current_status')
-                                        ->orderBy('survey_requests.created_at', 'desc');
-
-        if($request->filter_institutions)
-        {
-            $dashboard_services->where('survey_requests.assigned_institution', $request->filter_institutions);
-        }
-        if($request->filter_services)
-        {
-            $dashboard_services->where('survey_requests.service_id', $request->filter_services);
-        }
-        if($request->filter_ams)
-        {
-            $filter_ams = $request->filter_ams;
-            $dashboard_services->where(function ($query) use($filter_ams) { $query->where('survey_requests.assigned_surveyor', '=', $filter_ams)->orWhere('survey_requests.assigned_surveyor_survey', '=', $filter_ams);});
-
-          
-        }
-        if($request->from_date && $request->to_date)
-        {
-            $start = $request->from_date; $end = $request->to_date; 
-                $dashboard_services->whereBetween('survey_requests.created_at', [$start, $end]);
-        }
-
-
-
-
-
-
-         $post                       =   (object)$request->post();
-         $res = [];
-        if(isset($post->vType)       ==  'ajax'){ 
-           $search                  =   (isset($post->search['value']))? $post->search['value'] : ''; 
-           $start                   =   (isset($post->start))? $post->start : 0; 
-           $length                  =   (isset($post->length))? $post->length : 10; 
-           $draw                    =   (isset($post->draw))? $post->draw : ''; 
-            $totCount                =   $dashboard_services->count(); $filtCount  =  $dashboard_services->count();
-           if($search != ''){
-                $dashboard_services            =   $dashboard_services->where(function($qry) use ($search){
-
-                        if (str_contains($search, 'hsw') || str_contains($search, 'HSW')) { 
-                        $search = strtolower($search);
-                        $search = explode("hsw", $search);
-                        $search = $search[1];
-                        $qry->where('survey_requests.id', 'like', '%'.$search.'%');
-                        }else{
-                                             $qry->where('service_name', 'like', '%'.$search.'%');
-                                            $qry->orwhere('cust_info.name', 'like', '%'.$search.'%');
-                                            $qry->orwhere('username', 'like', '%'.$search.'%');                           
-                        }
-
-                                  
-                                        });
-                $filtCount          =   $dashboard_services->count();
-           }
-           if($length > 0){$dashboard_services =   $dashboard_services->offset($start)->limit($length); }
-           $activities              =   $dashboard_services->get(); $i=0;
-           if($activities){ foreach (   $activities as $row){ $i++;
-               if($row->is_active   ==  1){ $checked    = 'checked="checked"'; $act = 'Active'; }else{ $checked = '';  $act = 'Inactive'; }
-             
-               // $val['id']           =   $row->id;       
-               $val['i']      =   $i;       
-               $val['name']      =   $row->name; 
-               $val['file_no']      =   '<a href="'.URL('/superadmin/requested_service_detail').'/'.$row->survey_id.'/'.$row->request_status.'">HSW'.$row->survey_id.'</a>'; 
-               $val['sub_office']      =   findSubOffice($row->id); 
-               $val['email']      =   $row->username; 
-               $val['requested_service']      =   $row->service_name; 
-               $val['status']      =   $row->current_status;
-                $val['progress']      =   ' <div class="progress-bar-cust position" data-percent='. request_progress($row->survey_id) .' data-color="#ccc,#4aa4d9" ></div>'; 
-
-               $action ='';
-               $val['action']       =   $action; $res[] = $val;  
-           } }
-           $returnData = array(
-            "draw"            => $draw,   
-            "recordsTotal"    => $totCount,  
-            "recordsFiltered" => $filtCount,
-            "data"            => $res   // total data array
-            );
-            return $returnData;
-        }
-
-        return view('superadmin.dashboard-service-list',$data);
+       $aDays[] = $sCurrentDate;  
+     }  
+     return $aDays; 
+   
     }
     
     public function profile()
     {
         $admin_id = auth()->user()->id;
         $email = auth()->user()->email;
-        $role_id = 1;
+        $role_id = auth()->user()->role_id;
 
         $data['role'] = UserRole::where('id',$role_id)->first()->usr_role_name;
         $data['admin'] = Admin::where('id',$admin_id)->first();
@@ -264,67 +90,83 @@ class AdminController extends Controller
 
         // dd($data);
         
-        return view('superadmin.profile',$data);
+        return view('admin.profile',$data);
     }
 
     public function edit_profile(Request $request)
     {
         $input = $request->all();
+        $validator = Validator::make($request->all(), [
+            'name'         =>  ['required','max:255'],
+            'email'        =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
+            'phone'        =>  ['required','numeric','digits:10',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0)],
+            'designation'  =>  ['required','max:255'],
+            'pen'          =>  ['required','max:100'],
+            'avatar'       =>  ['nullable','max:10000'],
+            'institution'  =>  ['required'],
+        ]);
 
-        $admin_arr = [];
-        $admin_arr['fname'] = $input['name'];
-        $admin_arr['email'] = $input['email'];
-        $admin_arr['phone'] = $input['phone'];
-        $admin_arr['is_active'] = 1;
-        $admin_arr['is_deleted'] = 0;
-        $admin_arr['updated_by'] = auth()->user()->id;
-        $admin_arr['updated_at'] = date("Y-m-d H:s:i");
-
-        Admin::where('id',$input['admin_id'])->update($admin_arr);
-
-        $usr_arr = [];
-        $usr_arr['fullname'] = $input['name'];
-        $usr_arr['email'] = $input['email'];
-        $usr_arr['phone'] = $input['phone'];
-        $usr_arr['designation'] = $input['designation'];
-        $usr_arr['pen'] = $input['pen'];
-        $usr_arr['institution'] = $input['institution'];
-        $usr_arr['is_active'] = 1;
-        $usr_arr['is_deleted'] = 0;
-        $usr_arr['updated_by'] = auth()->user()->id;
-        $usr_arr['updated_at'] = date("Y-m-d H:s:i");
-
-        UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
-
-        if($request->hasfile('avatar'))
+        if($validator->passes())
         {
-            $file = $request->avatar;
-            $folder_name = "uploads/profile_images/";
+            $admin_arr = [];
+            $admin_arr['fname'] = $input['name'];
+            $admin_arr['email'] = $input['email'];
+            $admin_arr['phone'] = $input['phone'];
+            $admin_arr['is_active'] = 1;
+            $admin_arr['is_deleted'] = 0;
+            $admin_arr['updated_by'] = auth()->user()->id;
+            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $upload_path = base_path() . '/public/' . $folder_name;
+            Admin::where('id',$input['admin_id'])->update($admin_arr);
 
-            $extension = strtolower($file->getClientOriginalExtension());
+            $usr_arr = [];
+            $usr_arr['fullname'] = $input['name'];
+            $usr_arr['email'] = $input['email'];
+            $usr_arr['phone'] = $input['phone'];
+            $usr_arr['designation'] = $input['designation'];
+            $usr_arr['pen'] = $input['pen'];
+            $usr_arr['institution'] = $input['institution'];
+            $usr_arr['is_active'] = 1;
+            $usr_arr['is_deleted'] = 0;
+            $usr_arr['updated_by'] = auth()->user()->id;
+            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $filename = "profile" . '_' . time() . '.' . $extension;
+            UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
 
-            $file->move($upload_path, $filename);
+            if($request->hasfile('avatar'))
+            {
+                $file = $request->avatar;
+                $folder_name = "uploads/profile_images/";
 
-            $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $upload_path = base_path() . '/public/' . $folder_name;
 
-            Admin::where('id',$input['admin_id'])->update([
-                'avatar' => $file_path,
-                'updated_by'=>auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
-            
-            UserManagement::where('admin_id',$input['admin_id'])->update([
-                'avatar' => $file_path,
-                'updated_by'=>auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "profile" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                Admin::where('id',$input['admin_id'])->update([
+                    'avatar' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+                
+                UserManagement::where('admin_id',$input['admin_id'])->update([
+                    'avatar' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+
+            return redirect(route('admin.profile'));
         }
-
-        return redirect(route('superadmin.profile'));
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }        
     }
 
     function validateUser(Request $request){
@@ -384,7 +226,7 @@ class AdminController extends Controller
     }
     
     function adminLogout(){ 
-        Auth::logout(); return redirect('superadmin/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
+        Auth::logout(); return redirect('admin/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
     }
     
     
@@ -420,12 +262,12 @@ class AdminController extends Controller
         return view('superadmin.add-users',$data);
     }
 
-    public function editAdmin($admin_id)
+    public function editAdmin($role_id)
     { 
         $data['title']    =   'Edit User';
         $data['menu']     =   'edit-admin';
-        $data['admin']    =   Admin::where('id',$admin_id)->first();
-        $data['users']    =   UserManagement::where('admin_id',$admin_id)->first();
+        $data['admin']    =   Admin::where('id',$role_id)->first();
+        $data['users']    =   UserManagement::where('admin_id',$role_id)->first();
         $data['roles']    =   UserRole::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
         $data['institutions'] = Institution::where('is_active',1)->where(function ($query) { $query->where('is_deleted', '=', NULL)->orWhere('is_deleted', '=', 0);})->get();
         // $data['c_code']              =   getDropdownData(Country::where('is_deleted',0)->get(),'id','phonecode');
@@ -454,7 +296,6 @@ class AdminController extends Controller
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['id'])->where('is_deleted',0)],
                 'designation'    =>  ['required','max:100'],
                 'role_id'        =>  ['required'],
-                'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
             ],
             [],
@@ -464,7 +305,6 @@ class AdminController extends Controller
                 'phone' => 'User Phone',
                 'designation' => 'User Designation',
                 'role_id' => 'User Role',
-                'pen' => 'PEN Number',
                 'institution' => 'User Institution',
             ]);
             // if ($validator->fails()) 
@@ -478,88 +318,37 @@ class AdminController extends Controller
             //     return back()->withErrors($validator)->withInput($request->all());
             // }
 
-            if($input['role_id'] == 3)
-            {
-                $token1   =   $input['id'].substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,12);
-                $token2   =   $input['id'].substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,12);
+            $admin_arr = [];
+            $admin_arr['fname'] = $input['name'];
+            $admin_arr['email'] = $input['email'];
+            $admin_arr['phone'] = $input['phone'];
+            $admin_arr['password'] = Hash::make('123456');
+            $admin_arr['role_id'] = $input['role_id'];
+            $admin_arr['is_active'] = 1;
+            $admin_arr['is_deleted'] = 0;
+            $admin_arr['created_by'] = 1;
+            $admin_arr['updated_by'] = 1;
+            $admin_arr['created_at'] = date("Y-m-d H:s:i");
+            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-                $admin_arr = [];
-                $admin_arr['fname'] = $input['name'];
-                $admin_arr['email'] = $input['email'];
-                $admin_arr['phone'] = $input['phone'];
-                $admin_arr['password'] = Hash::make('123456');
-                $admin_arr['role_id'] = $input['role_id'];
-                $admin_arr['is_active'] = 1;
-                $admin_arr['is_deleted'] = 0;
-                $admin_arr['created_by'] = 1;
-                $admin_arr['updated_by'] = 1;
-                $admin_arr['created_at'] = date("Y-m-d H:s:i");
-                $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+            Admin::where('id',$input['id'])->update($admin_arr);
 
-                Admin::where('id',$input['id'])->update($admin_arr);
+            $usr_arr = [];
+            $usr_arr['fullname'] = $input['name'];
+            $usr_arr['email'] = $input['email'];
+            $usr_arr['phone'] = $input['phone'];
+            $usr_arr['designation'] = $input['designation'];
+            $usr_arr['role'] = $input['role_id'];
+            $usr_arr['institution'] = $input['institution'];
+            $usr_arr['userparent'] = $input['parent_id'];
+            $usr_arr['is_active'] = 1;
+            $usr_arr['is_deleted'] = 0;
+            $usr_arr['created_by'] = 1;
+            $usr_arr['updated_by'] = 1;
+            $usr_arr['created_at'] = date("Y-m-d H:s:i");
+            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-                $usr_arr = [];
-                $usr_arr['fullname'] = $input['name'];
-                $usr_arr['email'] = $input['email'];
-                $usr_arr['phone'] = $input['phone'];
-                $usr_arr['designation'] = $input['designation'];
-                $usr_arr['role'] = $input['role_id'];
-                $usr_arr['pen'] = $input['pen'];
-                $usr_arr['institution'] = $input['institution'];
-                $usr_arr['userparent'] = $input['parent_id'];
-                $usr_arr['is_active'] = 1;
-                $usr_arr['is_deleted'] = 0;
-                $usr_arr['created_by'] = 1;
-                $usr_arr['updated_by'] = 1;
-                $usr_arr['created_at'] = date("Y-m-d H:s:i");
-                $usr_arr['updated_at'] = date("Y-m-d H:s:i");
-
-                UserManagement::where('admin_id',$input['id'])->update($usr_arr);
-
-                $usr_log_arr = [];
-
-                $usr_log_arr['device_id'] = 1234;
-                $usr_log_arr['access_token'] = $token1;
-                $usr_log_arr['device_token'] = $token2;
-                $usr_log_arr['updated_at'] = date("Y-m-d H:s:i");
-
-                UserLogin::where('user_id',$input['id'])->update($usr_log_arr);
-            }
-            else
-            {
-                $admin_arr = [];
-                $admin_arr['fname'] = $input['name'];
-                $admin_arr['email'] = $input['email'];
-                $admin_arr['phone'] = $input['phone'];
-                $admin_arr['password'] = Hash::make('123456');
-                $admin_arr['role_id'] = $input['role_id'];
-                $admin_arr['is_active'] = 1;
-                $admin_arr['is_deleted'] = 0;
-                $admin_arr['created_by'] = 1;
-                $admin_arr['updated_by'] = 1;
-                $admin_arr['created_at'] = date("Y-m-d H:s:i");
-                $admin_arr['updated_at'] = date("Y-m-d H:s:i");
-
-                Admin::where('id',$input['id'])->update($admin_arr);
-
-                $usr_arr = [];
-                $usr_arr['fullname'] = $input['name'];
-                $usr_arr['email'] = $input['email'];
-                $usr_arr['phone'] = $input['phone'];
-                $usr_arr['designation'] = $input['designation'];
-                $usr_arr['role'] = $input['role_id'];
-                $usr_arr['pen'] = $input['pen'];
-                $usr_arr['institution'] = $input['institution'];
-                $usr_arr['userparent'] = $input['parent_id'];
-                $usr_arr['is_active'] = 1;
-                $usr_arr['is_deleted'] = 0;
-                $usr_arr['created_by'] = 1;
-                $usr_arr['updated_by'] = 1;
-                $usr_arr['created_at'] = date("Y-m-d H:s:i");
-                $usr_arr['updated_at'] = date("Y-m-d H:s:i");
-
-                UserManagement::where('admin_id',$input['id'])->update($usr_arr);
-            }
+            UserManagement::where('admin_id',$input['id'])->update($usr_arr);
             
             $msg    =   'Admin details added successfully!';
 
@@ -574,7 +363,6 @@ class AdminController extends Controller
                 'phone'          =>  ['required','numeric','unique:admins'],
                 'designation'    =>  ['required','max:100'],
                 'role_id'        =>  ['required'],
-                'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
             ],
             [],
@@ -584,7 +372,6 @@ class AdminController extends Controller
                 'phone' => 'User Phone',
                 'designation' => 'User Designation',
                 'role_id' => 'User Role',
-                'pen' => 'PEN Number',
                 'institution' => 'User Institution',
             ]);
             // if ($validator->fails()) 
@@ -600,93 +387,41 @@ class AdminController extends Controller
 
             // echo 'Validator passed';
             // exit;
-            if($input['role_id'] == 3)
-            {
-                $token1   =   $input['id'].substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,12);
-                $token2   =   $input['id'].substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,12);
 
-                $admin_arr = [];
-                $admin_arr['fname'] = $input['name'];
-                $admin_arr['email'] = $input['email'];
-                $admin_arr['phone'] = $input['phone'];
-                $admin_arr['password'] = Hash::make('123456');
-                $admin_arr['role_id'] = $input['role_id'];
-                $admin_arr['is_active'] = 1;
-                $admin_arr['is_deleted'] = 0;
-                $admin_arr['created_by'] = auth()->user()->id;
-                $admin_arr['updated_by'] = auth()->user()->id;
-                $admin_arr['created_at'] = date("Y-m-d H:s:i");
-                $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+            $admin_arr = [];
+            $admin_arr['fname'] = $input['name'];
+            $admin_arr['email'] = $input['email'];
+            $admin_arr['phone'] = $input['phone'];
+            $admin_arr['password'] = Hash::make('123456');
+            $admin_arr['role_id'] = $input['role_id'];
+            $admin_arr['is_active'] = 1;
+            $admin_arr['is_deleted'] = 0;
+            $admin_arr['created_by'] = 1;
+            $admin_arr['updated_by'] = 1;
+            $admin_arr['created_at'] = date("Y-m-d H:s:i");
+            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-                $admin_id = Admin::create($admin_arr)->id;
+            $admin_id = Admin::create($admin_arr)->id;
 
-                $usr_arr = [];
-                $usr_arr['fullname'] = $input['name'];
-                $usr_arr['admin_id'] = $admin_id;
-                $usr_arr['email'] = $input['email'];
-                $usr_arr['phone'] = $input['phone'];
-                $usr_arr['designation'] = $input['designation'];
-                $usr_arr['role'] = $input['role_id'];
-                $usr_arr['pen'] = $input['pen'];
-                $usr_arr['institution'] = $input['institution'];
-                $usr_arr['userparent'] = $input['parent_id'];
-                $usr_arr['is_active'] = 1;
-                $usr_arr['is_deleted'] = 0;
-                $usr_arr['created_by'] = auth()->user()->id;
-                $usr_arr['updated_by'] = auth()->user()->id;
-                $usr_arr['created_at'] = date("Y-m-d H:s:i");
-                $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+            $usr_arr = [];
+            $usr_arr['fullname'] = $input['name'];
+            $usr_arr['admin_id'] = $admin_id;
+            $usr_arr['email'] = $input['email'];
+            $usr_arr['phone'] = $input['phone'];
+            $usr_arr['designation'] = $input['designation'];
+            $usr_arr['role'] = $input['role_id'];
+            $usr_arr['institution'] = $input['institution'];
+            $usr_arr['userparent'] = $input['parent_id'];
+            $usr_arr['is_active'] = 1;
+            $usr_arr['is_deleted'] = 0;
+            $usr_arr['created_by'] = 1;
+            $usr_arr['updated_by'] = 1;
+            $usr_arr['created_at'] = date("Y-m-d H:s:i");
+            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-                $user_id = UserManagement::create($usr_arr)->id;
-
-                $usr_log_arr = [];
-                $usr_log_arr['user_id'] = $admin_id;
-                $usr_log_arr['device_id'] = 1234;
-                $usr_log_arr['access_token'] = $token1;
-                $usr_log_arr['device_token'] = $token2;
-                $usr_log_arr['created_at'] = date("Y-m-d H:s:i");
-                $usr_log_arr['updated_at'] = date("Y-m-d H:s:i");
-
-                UserLogin::create($usr_log_arr);
-            }
-            else
-            {
-                $admin_arr = [];
-                $admin_arr['fname'] = $input['name'];
-                $admin_arr['email'] = $input['email'];
-                $admin_arr['phone'] = $input['phone'];
-                $admin_arr['password'] = Hash::make('123456');
-                $admin_arr['role_id'] = $input['role_id'];
-                $admin_arr['is_active'] = 1;
-                $admin_arr['is_deleted'] = 0;
-                $admin_arr['created_by'] = auth()->user()->id;
-                $admin_arr['updated_by'] = auth()->user()->id;
-                $admin_arr['created_at'] = date("Y-m-d H:s:i");
-                $admin_arr['updated_at'] = date("Y-m-d H:s:i");
-
-                $admin_id = Admin::create($admin_arr)->id;
-
-                $usr_arr = [];
-                $usr_arr['fullname'] = $input['name'];
-                $usr_arr['admin_id'] = $admin_id;
-                $usr_arr['email'] = $input['email'];
-                $usr_arr['phone'] = $input['phone'];
-                $usr_arr['designation'] = $input['designation'];
-                $usr_arr['role'] = $input['role_id'];
-                $usr_arr['pen'] = $input['pen'];
-                $usr_arr['institution'] = $input['institution'];
-                $usr_arr['userparent'] = $input['parent_id'];
-                $usr_arr['is_active'] = 1;
-                $usr_arr['is_deleted'] = 0;
-                $usr_arr['created_by'] = auth()->user()->id;
-                $usr_arr['updated_by'] = auth()->user()->id;
-                $usr_arr['created_at'] = date("Y-m-d H:s:i");
-                $usr_arr['updated_at'] = date("Y-m-d H:s:i");
-
-                $user_id = UserManagement::create($usr_arr)->id;
-            }
-
-            $msg    =   'User details added successfully!';
+            $user_id = UserManagement::create($usr_arr)->id;
+            
+            $msg    =   'Admin details added successfully!';
         }
         if($admin_id)
         {
@@ -705,7 +440,7 @@ class AdminController extends Controller
                 $image->move($destinationPath, $input['imagename']);
                 // $imgUpload          =   uploadFile($path,$input['imagename']);
                 Admin::where('id',$admin_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
-                UserManagement::where('admin_id',$admin_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
+                UserManagement::where('id',$user_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
             }
             $data['title']              =   'User';
             $data['menu']               =   'admin-list';
@@ -739,23 +474,19 @@ class AdminController extends Controller
         
         }
         
-        public function adminDelete(Request $request)
+          public function adminDelete(Request $request)
         {
-            $input = $request->all();
+        $input = $request->all();
 
-            if($input['id']>0) {
-                $admin_delete =  Admin::where('id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
-                $user_delete  =  UserManagement::where('admin_id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
+        if($input['id']>0) {
+        $deleted =  Admin::where('id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
+        Session::flash('message', ['text'=>'Admin deleted successfully.','type'=>'success']);
+        return true;
+        }else {
+        Session::flash('message', ['text'=>'Admin failed to delete.','type'=>'danger']);
+        return false;
+        }
 
-                Session::flash('message', ['text'=>'User deleted successfully.','type'=>'success']);
-
-                return true;
-            }
-            else
-            {
-                Session::flash('message', ['text'=>'User failed to delete.','type'=>'danger']);
-                return false;
-            }
         }
         
         public function visitlog(Request $request)
@@ -818,11 +549,11 @@ class AdminController extends Controller
         {
             $data['title']           =   'Notifications';
             $data['menu']            =   'notifications';
-            $data['notifications']   =   AdminNotification::where('role_id',1)->orderby('id','DESC')->get();
+            $data['notifications']   =   AdminNotification::where('role_id',2)->orderby('id','DESC')->get();
 
-            return view('superadmin.notification',$data);
+            return view('admin.notification',$data);
         }
-        
+		
         
         public function sendmail(){
         $data = array("content"=>"Test");

@@ -49,7 +49,7 @@ class AdminController extends Controller
 
         $data['ongoing_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status','!=',1)->Where('request_status','!=',3)->Where('request_status','!=',4);})->count();        
         $data['pending_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
-        $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4);})->count();
+        $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4)->orWhere('request_status',29);})->count();
         $data['pending_signature'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',23)->count();
 
         /* graph data starts */
@@ -94,8 +94,8 @@ class AdminController extends Controller
 
 
         $data['total_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->count();  
-        $data['completed_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',29)->count(); 
-        $data['pending_services'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('request_status',[29])->count();  
+        $data['completed_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',27)->count(); 
+        $data['pending_services'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('request_status',[27])->count();  
         $data['payment_pending'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('id',function($query) {
    $query->select('survey_request_id')->from('survey_request_logs')->where('survey_status',58);})->count();  
 
@@ -117,7 +117,7 @@ class AdminController extends Controller
                                         ->where('survey_requests.is_active',1)->where('survey_requests.is_deleted',0)
                                         ->where('services.is_active',1)->where('services.is_deleted',0)
                                         ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','services.*','cust_info.*','cust_mst.*','survey_status.status_name AS current_status')
-                                        ->orderBy('survey_requests.id','DESC')
+                                        ->orderBy('survey_requests.created_at', 'desc')
                                         ->get();
 
         // dd($data);
@@ -165,7 +165,8 @@ class AdminController extends Controller
                                         ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
                                         ->where('survey_requests.is_active',1)->where('survey_requests.is_deleted',0)
                                         ->where('services.is_active',1)->where('services.is_deleted',0)
-                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','services.*','cust_info.name','cust_mst.username','survey_status.status_name AS current_status');
+                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','services.*','cust_info.name','cust_mst.username','survey_status.status_name AS current_status')
+                                        ->orderBy('survey_requests.created_at', 'desc');
 
         if($request->filter_institutions)
         {
@@ -821,7 +822,7 @@ class AdminController extends Controller
 
             return view('superadmin.notification',$data);
         }
-		
+        
         
         public function sendmail(){
         $data = array("content"=>"Test");
