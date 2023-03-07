@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.admin.master-admin')
 @section('css')
 <!-- Data table css -->
 <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
