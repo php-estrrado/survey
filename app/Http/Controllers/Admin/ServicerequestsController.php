@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Session;
 use DB;
+use Response;
 use App\Models\Modules;
 // use App\Models\UserRoles;
 use App\Models\Admin;
@@ -88,16 +89,16 @@ class ServicerequestsController extends Controller
                                         ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
                                         ->leftjoin('institution', 'survey_requests.assigned_institution', '=', 'institution.id')
                                         ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
-                                        ->whereNotIn('survey_requests.request_status',$status_not)->where('survey_requests.request_status','!=',NULL)->Where('survey_requests.is_deleted',0)
+                                        ->whereIn('survey_requests.request_status',[27])->where('survey_requests.request_status','!=',NULL)->Where('survey_requests.is_deleted',0)
                                         ->where('cust_mst.is_deleted',0)
-                                        ->where('survey_requests.request_status',27)
+                                        
                                         ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
                                         ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*','institution.*','survey_status.status_name AS current_status')
 
                                         ->orderBy('survey_requests.id','DESC')
                                         ->get();
 
-        dd($data);
+        // dd($data);
 
         return view('admin.repository',$data);
     }
@@ -1062,6 +1063,163 @@ class ServicerequestsController extends Controller
             return view('admin.requested_services_details',$data);
         }
     }
+
+function get_remote_file_info($url) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_HEADER, TRUE);
+    curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+    $data = curl_exec($ch);
+    $fileSize = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+    $httpResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return [
+        'fileExists' => (int) $httpResponseCode == 200,
+        'fileSize' => (int) $fileSize
+    ];
+}
+
+ public function services_repository_detail($id,$status)
+    {
+        $data['title']              =   'Requested Services';
+        $data['menu']               =   'requested-services';
+
+        $datas = Survey_requests::where('id',$id)->first();
+        
+        $data['file_name'] =  ""; $data['file_size'] = 0; $data['final_report'] =  "";
+        if(isset($datas->final_report))
+        {
+            $data['final_report'] =  $datas->final_report;
+            $data['file_id'] =  $id;
+            $data['file_name'] = basename($datas->final_report);
+            $filesize = $this->get_remote_file_info($datas->final_report);
+            if(isset($filesize))
+            {
+              $data['file_size'] = round($filesize['fileSize'] / 1024, 2);  
+            }
+                       
+        }
+
+        
+
+        $cust_id = $datas->cust_id;
+        $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
+        $data['cust_phone'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first()->cust_telecom_value;
+        $data['cust_email'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first()->cust_telecom_value;
+
+        $data['service'] = Services::where('id',$datas->service_id)->first()->service_name;
+        $data['survey_id'] = $id;
+        $data['institutions'] = Institution::where('is_deleted',0)->where('is_active',1) ->get();
+        $data['admins'] = Admin::where('role_id',2)->get();
+
+        $data['survey_status'] = Survey_status::where('id',$datas->request_status)->first()->status_name;
+
+        // $data['survey_datas'] = DB::table('survey_request_logs')
+        //                         ->leftjoin('survey_status', 'survey_request_logs.survey_status', '=', 'survey_status.id')
+        //                         ->where('survey_request_logs.cust_id',$cust_id)->where('survey_request_logs.survey_request_id',$id)->where('survey_request_logs.is_active',1)->where('survey_request_logs.is_deleted',0)
+        //                         ->select('survey_request_logs.created_at AS log_date','survey_request_logs.*','survey_status.*')
+        //                         ->orderBy('survey_request_logs.id','DESC')
+        //                         ->get();
+                                
+        $data['recipients'] = Admin::where('role_id',1)->where('id','!=',1)->get();
+        $data['surveyors'] = Admin::where('role_id',3)->get();
+        
+        $data['status'] = $status;
+
+        if($datas->request_status != $status)
+        {
+            return redirect('admin/requested_services');
+        }
+
+        if($datas->service_id == 1)
+        {
+            $data['request_data'] = $datas->Hydrographic_survey->first();
+        }
+        elseif($datas->service_id == 2)
+        {
+            $data['request_data'] = $datas->Tidal_observation->first();
+        }
+        elseif($datas->service_id == 3)
+        {
+            $data['request_data'] = $datas->Bottom_sample_collection->first();
+        }
+        elseif($datas->service_id == 4)
+        {
+            $data['request_data'] = $datas->Dredging_survey->first();
+        }
+        elseif($datas->service_id == 5)
+        {
+            $data['request_data'] = $datas->Hydrographic_chart->first();
+        }
+        elseif($datas->service_id == 6)
+        {
+            $data['request_data'] = $datas->Underwater_videography->first();
+        }
+        elseif($datas->service_id == 7)
+        {
+            $data['request_data'] = $datas->Currentmeter_observation->first();
+        }
+        elseif($datas->service_id == 8)
+        {
+            $data['request_data'] = $datas->Sidescansonar->first();
+        }
+        elseif($datas->service_id == 9)
+        {
+            $data['request_data'] = $datas->Topographic_survey->first();
+        }
+        elseif($datas->service_id == 10)
+        {
+            $data['request_data'] = $datas->Subbottom_profilling->first();
+        }
+        elseif($datas->service_id == 11)
+        {
+            $data['request_data'] = $datas->Bathymetry_survey->first();
+        }
+
+        $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
+        $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
+
+        $data['survey_datas'] = DB::table('survey_request_logs')
+                                ->leftjoin('survey_status', 'survey_request_logs.survey_status', '=', 'survey_status.id')
+                                ->leftjoin('survey_requests', 'survey_request_logs.survey_request_id', '=', 'survey_requests.id')
+                                ->where('survey_request_logs.cust_id',$cust_id)->where('survey_request_logs.survey_request_id',$id)->where('survey_request_logs.is_active',1)->where('survey_request_logs.is_deleted',0)
+                                ->select('survey_request_logs.created_at AS log_date','survey_request_logs.*','survey_status.*','survey_requests.*')
+                                ->orderBy('survey_request_logs.id','DESC')
+                                ->get();
+
+
+
+            // dd($data);
+            return view('admin.repository-detail',$data);
+     
+    }
+
+    public function repository_file_download($id){
+       $datas = Survey_requests::where('id',$id)->first(); 
+        if(isset($datas->final_report))
+        {
+            $exp = explode("public", $datas->final_report);
+
+            $file_path = public_path() .$exp[1];
+            // dd($file_path);
+            $file_name = basename($datas->final_report);
+            if (file_exists($file_path))
+            {
+            // Send Download
+            return Response::download($file_path, $file_name, [
+            'Content-Length: '. filesize($file_path)
+            ]);
+            }
+            else
+            {
+            // Error
+            exit('Requested file does not exist on our server!');
+            }     
+        }
+
+      
+    }
+
 
     public function createETA($id)
     {

@@ -78,10 +78,10 @@
 						<div class="notify-menu marknotifications">
 							@if($notifications && count($notifications)>0)
 								@foreach($notifications as $notify)
-									<a href="{{url($notify->ref_link)}}" class="dropdown-item border-bottom d-flex pl-4">
+									<a href="{{url($notify->ref_link)}}" class="dropdown-item border-bottom d-flex pl-4" data-id="{{ $notify->id }}">
 										<div class="notifyimg bg-info-transparent text-info"> <i class="ti-comment-alt"></i> </div>
 										<div>
-											<div class="font-weight-normal1">{{$notify->title}}.</div>
+											<div class="<?php if($notify->viewed == 1){ echo 'font-weight-normal'; }else{ echo 'font-weight-normal1'; } ?>">{{$notify->title}}.</div>
 											<div class="small text-muted">{{date('d/m/Y',strtotime($notify->created_at))}}</div>
 										</div>
 									</a>
