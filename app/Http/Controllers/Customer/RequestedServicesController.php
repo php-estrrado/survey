@@ -102,6 +102,13 @@ class RequestedServicesController extends Controller
 
         $data['service_id'] = $service_id;
         $data['service_request_id'] = $service_request_id;
+
+        $request_status = Survey_requests::where('id',$id)->first()->request_status;
+
+        if($request_status != $status)
+        {
+            return redirect('customer/requested_services');
+        }
         
         if($status == 3)
         {

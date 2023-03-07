@@ -112,7 +112,7 @@ class LoginController extends Controller
         }
         else
         {
-            return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'These credentials do not match our records.']);
+            return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Please Enter All Fields.']);
         }
         
     }

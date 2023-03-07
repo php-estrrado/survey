@@ -922,7 +922,7 @@ class ServicerequestsController extends Controller
         $usr_noti['notify_type'] = 0;
         $usr_noti['title'] = 'Payment Rejected';
         $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '#';
+        $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/17';
         $usr_noti['viewed'] = 0;
         $usr_noti['created_at'] = date('Y-m-d H:i:s');
         $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1054,7 +1054,7 @@ class ServicerequestsController extends Controller
         $usr_noti['notify_type'] = 0;
         $usr_noti['title'] = 'Final Report Received';
         $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '#';
+        $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/27';
         $usr_noti['viewed'] = 0;
         $usr_noti['created_at'] = date('Y-m-d H:i:s');
         $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1113,7 +1113,7 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Request Rejected';
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '#';
+            $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/3';
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1173,7 +1173,7 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Request Reject Open';
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '#';
+            $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/4';
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');

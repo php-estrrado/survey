@@ -118,24 +118,6 @@ class AdminController extends Controller
             'id_file_back' => ['nullable','max:10000'],
             'password' =>['nullable','confirmed','min:6'],
             'password_confirmation' =>['nullable','min:6'],
-            'g-recaptcha-response' => function ($attribute, $value, $fail) {
-                $data = array('secret' => config('services.recaptcha.secret'),'response' => $value,'remoteip' => $_SERVER['REMOTE_ADDR']);
-  
-                $verify = curl_init();
-                curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-                curl_setopt($verify, CURLOPT_POST, true);
-                curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-                curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-                $response = curl_exec($verify);
-                $response = json_decode($response);
-                
-                if(!$response->success)
-                {
-                    Session::flash('message', ['text'=>'Please check reCAptcha !','type'=>'danger']);
-                    $fail($attribute.'google reCaptcha failed');
-                }
-            },
         ]);
         $input = $request->all();
 
@@ -154,6 +136,8 @@ class AdminController extends Controller
 
             $info_id = CustomerInfo::where('cust_id',$input['cust_id'])->update([
                 'name' => $request->name,
+                'firm' => $request->firm,
+                'firm_type' => $request->firm_type,
                 'valid_id' => $request->valid_id,
                 'is_active'=>1,
                 'is_deleted'=>0,

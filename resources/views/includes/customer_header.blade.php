@@ -13,7 +13,10 @@
         </div>
         <div class="nav-right col-4 pull-right right-header p-0">
             <ul class="nav-menus">    
-                <li> <span class="header-search"><i data-feather="search"></i></span></li>
+                <!-- <li> <span class="header-search"><i data-feather="search"></i></span></li> -->
+                <li class="maximize">
+                    <a class="text-dark" href="{{url('/customer/help')}}"><i data-feather="help-circle"></i></a>
+                </li>
                 <li class="onhover-dropdown">
                     <div class="notification-box"><i class="fa fa-bell-o"> </i><span class="badge rounded-pill badge-theme"> </span></div>
                     <ul class="notification-dropdown onhover-show-div">

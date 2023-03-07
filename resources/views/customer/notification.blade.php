@@ -36,7 +36,7 @@
                                         @foreach($notifications as $notify)
                                             <tr>
                                                 <td>{{ $i; }}</td>
-                                                <td>{{ $notify->title }}</td>
+                                                <td><a href="{{ url($notify->ref_link) }}" style="color:#2b8fca; font-weight:bold;">{{ $notify->title }}</a></td>
                                                 <td>{{ $notify->description }}</td>
                                                 <td>{{  date('d/m/Y', strtotime($notify->created_at)); }}</td>
                                             </tr>
