@@ -823,6 +823,17 @@ class AdminController extends Controller
             return view('superadmin.notification',$data);
         }
         
+         public function marknotifications(Request $request)
+        {
+            $notify = AdminNotification::where('role_id',1)->where('id',$request->not_id)->first();
+            if($notify)
+            {
+                $notify->update(['viewed'=>1]);
+            }else{
+                return false;
+            }
+            return true;
+        }
         
         public function sendmail(){
         $data = array("content"=>"Test");

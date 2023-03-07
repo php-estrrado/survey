@@ -60,6 +60,20 @@
 				e.preventDefault();
 				// needed operations
 				// alert("clicked");
+				var not_id = jQuery(this).data("id");
+				
+					$.ajax({
+					type: "POST",
+					url: '{{ url("superadmin/mark-notifications") }}',
+					data: {not_id:not_id,'_token': '{{ csrf_token()}}'},
+					success: function (data) {
+					window.location = href;
+
+					console.log(data);
+					// $("#data_content").html('').html(data); 
+					}
+					});
+
 				window.location = href;
 				});
 

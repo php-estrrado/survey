@@ -161,6 +161,8 @@ Route::post('/superadmin/dashboard/search', [App\Http\Controllers\Superadmin\Adm
 
     Route::get('/superadmin/notifications', [App\Http\Controllers\Superadmin\AdminController::class, 'notifications']);
 
+    Route::post('/superadmin/mark-notifications', [App\Http\Controllers\Superadmin\AdminController::class, 'marknotifications']);
+
     Route::get('/superadmin/profile', [App\Http\Controllers\Superadmin\AdminController::class, 'profile'])->name('superadmin.profile');
     Route::post('/superadmin/edit_profile', [App\Http\Controllers\Superadmin\AdminController::class, 'edit_profile']);
 
@@ -279,6 +281,13 @@ Route::middleware('role:admin')->group(function () {
 
     Route::get('/admin/requested_services', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_services'])->name('admin.requested_services');
     Route::get('/admin/repository-management', [App\Http\Controllers\Admin\ServicerequestsController::class, 'services_repository'])->name('admin.services_repository');
+
+    Route::get('/admin/repository-management-detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'services_repository_detail'])->name('admin.services_repository_detail');
+
+    Route::get('/admin/repository-management-download/{file}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'repository_file_download'])->name('admin.repository_file_download');
+
+
+
     Route::get('/admin/requested_service_detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_service_detail'])->name('admin.requested_service_detail');
 
     Route::get('/admin/createETA/{id}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'createETA']);
