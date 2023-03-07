@@ -66,7 +66,7 @@ class LoginController extends Controller
         }
         else
         {
-            $regexist = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',2)->first();
+            $regexist = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->first();
 
             if($regexist)
             {
@@ -107,10 +107,10 @@ class LoginController extends Controller
             }
         else
             {
-                $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',2)->first();
+                $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->first();
                 if($exisit)
                 {
-                    $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',2)->first();
+                    $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->first();
                     if($exist)
                     {
                     if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => '123456']))

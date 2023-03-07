@@ -57,7 +57,7 @@
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group">
 									<label class="form-label" for="phone">Phone Number <span class="text-red">*</span></label>
-									<input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number" value="{{ $admin->phone }}">
+									<input type="number" minlength="10" maxlength="10" class="form-control" name="phone" id="phone" placeholder="Phone Number" value="{{ $admin->phone }}">
 									<div id="phone_error"></div>
 									@error('phone')
 										<p style="color: red">{{ $message }}</p>

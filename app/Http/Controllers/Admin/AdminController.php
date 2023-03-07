@@ -724,20 +724,21 @@ class AdminController extends Controller
     }
     
          
-        public function adminStatus(Request $request)
-        {
+    public function adminStatus(Request $request)
+    {
         $input = $request->all();
-        
-        if($input['id']>0) {
-        $deleted =  Admin::where('id',$input['id'])->update(array('is_active'=>$input['status']));
-        
-        return '1';
-        }else {
-        
-        return '0';
+    
+        if($input['id']>0)
+        {
+            $deleted =  Admin::where('id',$input['id'])->update(array('is_active'=>$input['status']));
+    
+            return '1';
         }
-        
+        else
+        {
+            return '0';
         }
+    }
         
         public function adminDelete(Request $request)
         {

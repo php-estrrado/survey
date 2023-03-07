@@ -49,7 +49,7 @@
 
                                     <?php if($cust_info->name){ $cname =$cust_info->name;  }else{ $cname = ""; } ?>
                                     <label class="form-label-title mt-3" for="fname">Name</label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="<?php if($cname){ echo $cname; }else{ echo old('fname'); } ?>">
+                                    <input class="form-control bg-white" type="text" name="fname" id="fname" placeholder="Name" value="<?php if($cname){ echo $cname; }else{ echo old('fname'); } ?>" readonly>
                                     <div id="fname_error"></div>
                                     @error('fname')
                                       <p style="color: red">{{ $message }}</p>
@@ -117,7 +117,7 @@
                                   </div>
                                    <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)

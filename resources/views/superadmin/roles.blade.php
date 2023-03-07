@@ -124,5 +124,45 @@
             }
         });
     }
+
+	$(".ser_status").on("click", function(e){
+        
+        var selid = jQuery(this).data("selid");
+        
+        var sestatus='0';
+        if($(this).prop('checked') == true)
+        {
+        	sestatus='1';
+        }
+        
+        $.ajax({
+        	type: "POST",
+        	url: '{{url("/superadmin/admins-list/status")}}',
+        	data: { "_token": "{{csrf_token()}}", id: selid,status:sestatus},
+        	success: function (data)
+			{
+        		// alert(data);
+        		if(data ==1)
+				{
+            		if(sestatus ==1)
+					{
+            			jQuery('#status-'+selid).closest("td").attr("data-search","Active");
+              			toastr.success("User activated successfully.");   
+            		}
+					else
+					{
+            			jQuery('#status-'+selid).closest("td").attr("data-search","Inactive");
+               			toastr.success("User deactivated successfully.");  
+            		}
+					var table = $.fn.dataTable.tables( { api: true } );
+					table.rows().invalidate().draw();        
+        		}
+				else
+				{
+        			toastr.error("Failed to update status."); 	
+        		}
+        	}
+        });
+    });
 </script>
 @endsection

@@ -49,7 +49,7 @@
                                 <div class="row">
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="fname">Name <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ $survey_data->fname }}">
+                                    <input class="form-control bg-white" type="text" name="fname" id="fname" placeholder="Name" value="{{ $survey_data->fname }}" readonly>
                                     <div id="fname_error"></div>
                                     @error('fname')
                                       <p style="color: red">{{ $message }}</p>

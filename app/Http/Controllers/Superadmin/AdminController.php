@@ -268,62 +268,80 @@ class AdminController extends Controller
 
     public function edit_profile(Request $request)
     {
-        $input = $request->all();
 
-        $admin_arr = [];
-        $admin_arr['fname'] = $input['name'];
-        $admin_arr['email'] = $input['email'];
-        $admin_arr['phone'] = $input['phone'];
-        $admin_arr['is_active'] = 1;
-        $admin_arr['is_deleted'] = 0;
-        $admin_arr['updated_by'] = auth()->user()->id;
-        $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+        $validator = Validator::make($request->all(), [
+            'name'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'phone'=>['required','numeric','digits:10'],
+            'email' => ['required','email','max:255',Rule::unique('usr_management','email')->ignore($request->admin_id)],
+            'designation'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'pen'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+            'avatar' => ['nullable','max:10000'],
+            'institution' =>['nullable','confirmed','min:6']
+        ]);
 
-        Admin::where('id',$input['admin_id'])->update($admin_arr);
-
-        $usr_arr = [];
-        $usr_arr['fullname'] = $input['name'];
-        $usr_arr['email'] = $input['email'];
-        $usr_arr['phone'] = $input['phone'];
-        $usr_arr['designation'] = $input['designation'];
-        $usr_arr['pen'] = $input['pen'];
-        $usr_arr['institution'] = $input['institution'];
-        $usr_arr['is_active'] = 1;
-        $usr_arr['is_deleted'] = 0;
-        $usr_arr['updated_by'] = auth()->user()->id;
-        $usr_arr['updated_at'] = date("Y-m-d H:s:i");
-
-        UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
-
-        if($request->hasfile('avatar'))
+        if($validator->passes())
         {
-            $file = $request->avatar;
-            $folder_name = "uploads/profile_images/";
+            $input = $request->all();
 
-            $upload_path = base_path() . '/public/' . $folder_name;
+            $admin_arr = [];
+            $admin_arr['fname'] = $input['name'];
+            $admin_arr['email'] = $input['email'];
+            $admin_arr['phone'] = $input['phone'];
+            $admin_arr['is_active'] = 1;
+            $admin_arr['is_deleted'] = 0;
+            $admin_arr['updated_by'] = auth()->user()->id;
+            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $extension = strtolower($file->getClientOriginalExtension());
+            Admin::where('id',$input['admin_id'])->update($admin_arr);
 
-            $filename = "profile" . '_' . time() . '.' . $extension;
+            $usr_arr = [];
+            $usr_arr['fullname'] = $input['name'];
+            $usr_arr['email'] = $input['email'];
+            $usr_arr['phone'] = $input['phone'];
+            $usr_arr['designation'] = $input['designation'];
+            $usr_arr['pen'] = $input['pen'];
+            $usr_arr['institution'] = $input['institution'];
+            $usr_arr['is_active'] = 1;
+            $usr_arr['is_deleted'] = 0;
+            $usr_arr['updated_by'] = auth()->user()->id;
+            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $file->move($upload_path, $filename);
+            UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
 
-            $file_path = config('app.url') . "/public/$folder_name/$filename";
+            if($request->hasfile('avatar'))
+            {
+                $file = $request->avatar;
+                $folder_name = "uploads/profile_images/";
 
-            Admin::where('id',$input['admin_id'])->update([
-                'avatar' => $file_path,
-                'updated_by'=>auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
-            
-            UserManagement::where('admin_id',$input['admin_id'])->update([
-                'avatar' => $file_path,
-                'updated_by'=>auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "profile" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                Admin::where('id',$input['admin_id'])->update([
+                    'avatar' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+                
+                UserManagement::where('admin_id',$input['admin_id'])->update([
+                    'avatar' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+
+            return redirect(route('superadmin.profile'));
         }
-
-        return redirect(route('superadmin.profile'));
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
     }
 
     function validateUser(Request $request){

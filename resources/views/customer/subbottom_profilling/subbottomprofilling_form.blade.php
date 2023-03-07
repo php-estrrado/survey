@@ -49,7 +49,7 @@
 
                                     <?php if($cust_info->name){ $cname =$cust_info->name;  }else{ $cname = ""; } ?>
                                     <label class="form-label-title mt-3" for="fname">Name</label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="<?php if($cname){ echo $cname; }else{ echo old('fname'); } ?>">
+                                    <input class="form-control bg-white" type="text" name="fname" id="fname" placeholder="Name" value="<?php if($cname){ echo $cname; }else{ echo old('fname'); } ?>" readonly>
 
                                     <div id="fname_error"></div>
                                     @error('fname')

@@ -21,7 +21,7 @@ class Role
     {
       return $next($request);
     }
-    elseif(Auth::user() &&  Auth::user()->role_id == 2 && $type == 'admin')
+    elseif(Auth::user() &&  (Auth::user()->role_id == 2 || Auth::user()->role_id == 7) && $type == 'admin')
     {
       return $next($request);
     }
