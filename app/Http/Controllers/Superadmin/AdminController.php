@@ -88,7 +88,11 @@ class AdminController extends Controller
         $total_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->count();
         $accepted_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('request_status',[3])->count();
 
-        $data['accepted_surveys_percentage'] = round((($accepted_surveys/$total_surveys)*100), 0);
+        if($accepted_surveys && $total_surveys) {
+             $data['accepted_surveys_percentage'] = round((($accepted_surveys/$total_surveys)*100), 0);
+        }else{
+             $data['accepted_surveys_percentage'] = 0;
+        }
 
           /* graph data ends */
 
@@ -165,6 +169,7 @@ class AdminController extends Controller
                                         ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
                                         ->where('survey_requests.is_active',1)->where('survey_requests.is_deleted',0)
                                         ->where('services.is_active',1)->where('services.is_deleted',0)
+                                        ->where('cust_mst.is_deleted',0)
                                         ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','services.*','cust_info.name','cust_mst.username','survey_status.status_name AS current_status')
                                         ->orderBy('survey_requests.created_at', 'desc');
 
