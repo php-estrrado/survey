@@ -90,31 +90,3 @@ hr {
     text-align: center;
     float: right;
 }
-
-.header-notify.show .dropdown-menu {
-    left: -295px !important;
-}
-
-.notify-menu .font-weight-normal1{
-    word-break: break-all;
-    white-space: normal;
-}
-
-.wrapper{
-    display:block;
-    width:100%;
-}
-
-.header-brand-img {
-  height: auto;
-  width: 170px;
-  display: block;
-}
-
-.app-sidebar__logo {
-  padding: 2px 15px;
-}
-
-.side-menu__label {
-  font-size: 13px;
-}
