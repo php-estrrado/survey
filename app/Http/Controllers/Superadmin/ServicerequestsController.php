@@ -332,20 +332,8 @@ class ServicerequestsController extends Controller
         
         $cust_id = $datas->cust_id;
         $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
-            $cust_phone = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first();
-        if($cust_phone)
-        {
-          $data['cust_phone'] = $cust_phone->cust_telecom_value;  
-        }else{
-          $data['cust_phone'] = "";    
-        }
-        $cust_email = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first();
-        if($cust_email)
-        {
-          $data['cust_email'] = $cust_email->cust_telecom_value;  
-        }else{
-          $data['cust_email'] = "";    
-        }
+        $data['cust_phone'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first()->cust_telecom_value;
+        $data['cust_email'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first()->cust_telecom_value;
 
         $data['service'] = Services::where('id',$datas->service_id)->first()->service_name;
         $data['survey_id'] = $id;
@@ -356,7 +344,7 @@ class ServicerequestsController extends Controller
 
         if($datas->request_status != $status)
         {
-            return redirect('superadmin/requested_service_detail/'.$id.'/'.$datas->request_status);
+            return redirect('superadmin/requested_services');
         }
         
         if($datas->service_id == 1)
@@ -451,7 +439,6 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
             $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
-            $data['survey_request_data'] = Survey_requests::where('id',$id)->where('is_deleted',0)->where('is_active',1)->first();
             $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',17)->first()->remarks;
 
             // dd($data);
@@ -463,7 +450,6 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
             $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
-            $data['survey_request_data'] = Survey_requests::where('id',$id)->where('is_deleted',0)->where('is_active',1)->first();
 
             return view('superadmin.requested_services.customer_payment_verified',$data);
         }
@@ -938,7 +924,7 @@ class ServicerequestsController extends Controller
         $usr_noti['notify_type'] = 0;
         $usr_noti['title'] = 'Payment Rejected';
         $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/17';
+        $usr_noti['ref_link'] = '#';
         $usr_noti['viewed'] = 0;
         $usr_noti['created_at'] = date('Y-m-d H:i:s');
         $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1070,7 +1056,7 @@ class ServicerequestsController extends Controller
         $usr_noti['notify_type'] = 0;
         $usr_noti['title'] = 'Final Report Received';
         $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/27';
+        $usr_noti['ref_link'] = '#';
         $usr_noti['viewed'] = 0;
         $usr_noti['created_at'] = date('Y-m-d H:i:s');
         $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1129,7 +1115,7 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Request Rejected';
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/3';
+            $usr_noti['ref_link'] = '#';
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1189,7 +1175,7 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Request Reject Open';
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/4';
+            $usr_noti['ref_link'] = '#';
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
