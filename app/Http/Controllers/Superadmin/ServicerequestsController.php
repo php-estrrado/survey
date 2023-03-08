@@ -439,6 +439,7 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
             $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
+            $data['survey_request_data'] = Survey_requests::where('id',$id)->where('is_deleted',0)->where('is_active',1)->first();
             $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',17)->first()->remarks;
 
             // dd($data);
@@ -450,6 +451,7 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
             $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
+            $data['survey_request_data'] = Survey_requests::where('id',$id)->where('is_deleted',0)->where('is_active',1)->first();
 
             return view('superadmin.requested_services.customer_payment_verified',$data);
         }

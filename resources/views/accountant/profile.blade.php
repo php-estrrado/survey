@@ -132,7 +132,7 @@
 			</div>
 			<div class="btn-list d-flex justify-content-end">
 				<button class="btn btn-info" type="submit">Save</button>
-				<a href="#" class="btn btn-danger">Cancel</a>
+				<a class="btn btn-danger" onclick="history.back()">Cancel</a>
 			</div>
 		</form>
 	</div>
