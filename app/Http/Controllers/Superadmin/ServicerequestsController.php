@@ -332,8 +332,20 @@ class ServicerequestsController extends Controller
         
         $cust_id = $datas->cust_id;
         $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
-        $data['cust_phone'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first()->cust_telecom_value;
-        $data['cust_email'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first()->cust_telecom_value;
+            $cust_phone = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first();
+        if($cust_phone)
+        {
+          $data['cust_phone'] = $cust_phone->cust_telecom_value;  
+        }else{
+          $data['cust_phone'] = "";    
+        }
+        $cust_email = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first();
+        if($cust_email)
+        {
+          $data['cust_email'] = $cust_email->cust_telecom_value;  
+        }else{
+          $data['cust_email'] = "";    
+        }
 
         $data['service'] = Services::where('id',$datas->service_id)->first()->service_name;
         $data['survey_id'] = $id;
