@@ -204,7 +204,7 @@ class UserRoleController extends Controller
         
             if($input['id']>0)
             {
-                $deleted =  UserRole::where('admin_id',$input['id'])->update(array('is_active'=>$input['status']));
+                $deleted =  UserRole::where('id',$input['id'])->update(array('is_active'=>$input['status']));
                 if($input['status'] ==0)
                 {
                     Admin::where('role_id',$input['id'])->update(array('is_active'=>0));
