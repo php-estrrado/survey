@@ -25,7 +25,7 @@
 <!-- Row -->
 <div class="row">
 	<div class="col-12">
-		<form method="POST" id="customerLogin" action="{{ url('/admin/customers/customerSave') }}" class="theme-form" enctype="multipart/form-data">
+		<form method="POST" id="customerLogin" action="{{ url('/admin/customers/customerSave') }}" class="theme-form" enctype="multipart/form-data" autocomplete="off">
 			@csrf
 			<input type="hidden" name="id" id="id" value="0">
 			<!--div-->

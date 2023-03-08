@@ -2,6 +2,7 @@
 @section('css')
 @endsection
 @section('content')
+<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />
 <div class="page">
 	<div class="page-single">
 		<div class="container">
@@ -64,12 +65,34 @@
 				},
 				success: function(result)
 				{
-					console.log(result);
+					var result = JSON.parse(result);
+					
+					if(result.status ==1)
+					{
+						toastr.success(result.message);
+					}
+					else
+					{
+						toastr.error(result.message);
+					}	
 				}
 			});
 		}
 	</script>
 @endsection
 @section('js')
-	
+	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+    <script type="text/javascript">
+		@if(Session::has('message'))
+			@if(session('message')['type'] =="success")
+				toastr.success("{{session('message')['text']}}"); 
+			@else
+				toastr.error("{{session('message')['text']}}"); 
+			@endif
+		@endif
+		
+		@if ($errors->any())          
+			toastr.error("{{$errors->all()[0]}}"); 
+		@endif
+    </script>
 @endsection

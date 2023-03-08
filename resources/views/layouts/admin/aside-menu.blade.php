@@ -28,7 +28,7 @@
 				<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="user-img" class="avatar-xl rounded-circle mb-1">
 			</div>
 			<div class="user-info">
-				<h5 class=" mb-1">{{auth()->user()->fname.' '.auth()->user()->lname}}<i class="ion-checkmark-circled  text-success fs-12"></i></h5>
+				<h5 class=" mb-1">{{auth()->user()->fname.' '.auth()->user()->lname}}</h5>
 				@if(auth()->user()->role_id == 1)
 					<span class="text-muted app-sidebar__user-name text-sm">Super Admin</span>
 				@elseif(auth()->user()->role_id == 2 || auth()->user()->role_id == 7)

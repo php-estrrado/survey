@@ -256,30 +256,22 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Upload Images
+												Uploaded Images
 											</div>
 										</div>
 										<ul id="lightgallery" class="list-unstyled row">
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/1.jpg')}}" data-src="{{URL::asset('assets/images/photos/1.jpg')}}" data-sub-html="<h4>Gallery Image 1</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/1.jpg')}}" alt="Thumb-1">
-												</a>
-											</li>
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/2.jpg')}}" data-src="{{URL::asset('assets/images/photos/2.jpg')}}" data-sub-html="<h4>Gallery Image 2</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/2.jpg')}}" alt="Thumb-2">
-												</a>
-											</li>
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/3.jpg')}}" data-src="{{URL::asset('assets/images/photos/3.jpg')}}" data-sub-html="<h4>Gallery Image 3</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/3.jpg')}}" alt="Thumb-1">
-												</a>
-											</li>
-											<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL::asset('assets/images/photos/4.jpg')}}" data-src="{{URL::asset('assets/images/photos/4.jpg')}}" data-sub-html=" <h4>Gallery Image 4</h4><p> Many desktop publishing packages and web page editors now use Lorem Ipsum</p>">
-												<a href="">
-													<img class="img-responsive" src="{{URL::asset('assets/images/photos/4.jpg')}}" alt="Thumb-2">
-												</a>
-											</li>
+											@php
+												$uploaded_images = json_decode($field_study->upload_photos_of_study_area,true);
+											@endphp
+											@if($uploaded_images && count($uploaded_images) > 0)
+												@foreach($uploaded_images as $images)
+													<li class="col-xs-4 col-sm-3 col-md-3" data-responsive="{{$images}}" data-src="{{$images}}">
+														<a href="">
+															<img class="img-responsive" src="{{$images}}" alt="Thumb-1" width="100px">
+														</a>
+													</li>
+												@endforeach
+											@endif
 										</ul>
 									</div>
 								</div>

@@ -64,7 +64,7 @@ class LoginController extends Controller
         if ($validator->fails()) 
         {
             foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-            return back()->withInput($request->only('email', 'remember'))->withErrors('error',' Enter Valid E-mail ID. ');
+            return back()->withInput($request->only('email', 'remember'))->withErrors('error',' Enter Valid E-mail ID !.');
         }
         else
         {
@@ -105,10 +105,10 @@ class LoginController extends Controller
         $rules['otp']             = 'required|numeric';
         $validator  =   Validator::make($request->all(), $rules);
         if ($validator->fails()) 
-            {
-                foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-                return back()->withInput($request->only('email', 'remember'))->withErrors('error',' This account is inactive.');
-            }
+        {
+            foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
+            return back()->withInput($request->only('email', 'remember'))->with('error',' Enter all fields.');
+        }
         else
             { 
                 $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',1)->first();
