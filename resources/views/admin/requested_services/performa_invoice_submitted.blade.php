@@ -155,7 +155,7 @@
 										<label class="form-label">{{$survey_invoice->service_code}}</label>
 									</div>
 								</div>
-								<div class="col-sm-8 col-md-8">
+								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -163,6 +163,16 @@
 											</div>
 										</div>
 										<label class="form-label">{{$survey_invoice->service_description}}</label>
+									</div>
+								</div>
+								<div class="col-sm-4 col-md-4">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Mode of Payment:
+											</div>
+										</div>
+										<label class="form-label">{{$survey_invoice->payment_mode}}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">

@@ -1,5 +1,6 @@
 @extends('layouts.admin.master4')
 @section('css')
+<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />
 @endsection
 @section('content')
 <div class="page">
@@ -71,5 +72,18 @@
 	</script>
 @endsection
 @section('js')
-	
+	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+    <script type="text/javascript">
+		@if(Session::has('message'))
+			@if(session('message') =="success")
+				toastr.success("{{session('message')}}"); 
+			@else
+				toastr.error("{{session('message')}}"); 
+			@endif
+		@endif
+		
+		@if ($errors->any())          
+			toastr.error("{{$errors->all()[0]}}"); 
+		@endif
+    </script>
 @endsection

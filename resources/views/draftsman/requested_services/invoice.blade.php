@@ -24,7 +24,9 @@
 <!--End Page header-->
 @endsection
 @section('content')
-
+<?php
+$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+?>
 <!--/app header-->
 <div class="main-proifle">
 	<div class="row">
@@ -35,8 +37,8 @@
 						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
-							<li><span class="h6 mt-3">Name of the firm: {{$request_data->firm}}</span></li>
-							<li><span class="h6 mt-3">Type of firm: {{$request_data->sector}}</span></li>
+							<li><span class="h6 mt-3">Name of the firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
+							<li><span class="h6 mt-3">Type of firm: {{ getOrgType($request_data->firm) }}</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
 							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
@@ -48,7 +50,7 @@
 		<div class="col-lg-6 col-md-auto">
 			<div class="text-lg-right btn-list mt-4 mt-lg-0">
 				<!--<a href="{{URL('/draftsman/create_performa_invoice')}}/{{$survey_id}}" class="btn btn-primary">Create Performa Invoice</a>-->
-				<a href="#" class="btn btn-primary">Create Performa Invoice</a>
+				<a href="{{URL('/draftsman/create_performa_invoice')}}/{{$survey_id}}" class="btn btn-primary">Create Performa Invoice</a>
 				<!-- <a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a> -->
 			</div>
 			<div class="mt-5">
@@ -348,7 +350,7 @@
 												Name Of Firm
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->firm}}</label>
+										<label class="form-label">@if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -358,7 +360,7 @@
 												Type Of Organization
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->sector}}</label>
+										<label class="form-label">{{ getOrgType($request_data->firm) }}</label>
 									</div>
 								</div>
 								<div class="col-md-12">

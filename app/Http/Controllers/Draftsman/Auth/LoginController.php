@@ -103,11 +103,12 @@ class LoginController extends Controller
         if ($validator->fails()) 
             {
                 foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-                return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                return back()->withInput($request->only('email', 'remember'))->with('message','Please fill mandatory fields.');
             }
         else
             {
                 $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',4)->first();
+
                 if($exisit)
                 {
                     $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',4)->first();
@@ -133,6 +134,7 @@ class LoginController extends Controller
                 }
                 else
                 {
+
                     return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid Email.');
                 }
               

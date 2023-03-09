@@ -132,7 +132,9 @@
 			</div>
 			<div class="btn-list d-flex justify-content-end">
 				<button class="btn btn-info" type="submit">Save</button>
-				<a class="btn btn-danger" onclick="history.back()">Cancel</a>
+
+				<a href="{{ url('/') }}/admin/dashboard" class="btn btn-danger">Cancel</a>
+
 			</div>
 		</form>
 	</div>

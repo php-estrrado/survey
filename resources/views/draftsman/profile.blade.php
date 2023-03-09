@@ -22,12 +22,20 @@
 <!--End Page header-->
 @endsection
 @section('content')
+@php
 
+$profile_img = "";
+if($admin->avatar)
+{
+	$profile_img = url($admin->avatar);
+}
+
+ @endphp
 <!-- Row -->
 <div class="row">
 	<div class="col-xl-3 col-lg-3 col-md-12">
 		<div class="card box-widget widget-user">
-			<div class="widget-user-image mx-auto mt-5"><img alt="User Avatar" class="rounded-circle" src="{{url($admin->avatar)}}"></div>
+			<div class="widget-user-image mx-auto mt-5"><img alt="User Avatar" class="rounded-circle" src="{{$profile_img}}"></div>
 			<div class="card-body text-center">
 				<div class="pro-user">
 					<h4 class="pro-user-username text-dark mb-1 font-weight-bold">{{ $admin->fname }}</h4>
@@ -35,7 +43,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> 
 	<div class="col-xl-9 col-lg-9 col-md-12">
 		<form action="{{url('/draftsman/edit_profile')}}" method="post" enctype="multipart/form-data">
 			@csrf
@@ -77,7 +85,7 @@
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group">
 									<label class="form-label" for="designation">Designation <span class="text-red">*</span></label>
-									<input type="text" class="form-control" name="designation" id="designation" placeholder="Designation" value="{{ $user_data->designation }}">
+									<input type="text" class="form-control" name="designation" id="designation" placeholder="Designation" value="{{ @$user_data->designation }}">
 									<div id="designation_error"></div>
 									@error('designation')
 										<p style="color: red">{{ $message }}</p>
@@ -87,7 +95,7 @@
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group">
 									<label class="form-label" for="pen">PEN Number <span class="text-red">*</span></label>
-									<input type="text" class="form-control" name="pen" id="pen" placeholder="PEN Number" value="{{ $user_data->pen }}">
+									<input type="text" class="form-control" name="pen" id="pen" placeholder="PEN Number" value="{{ @$user_data->pen }}">
 									<div id="pen_error"></div>
 									@error('pen')
 										<p style="color: red">{{ $message }}</p>
@@ -116,7 +124,7 @@
 									<select class="form-control select2" name="institution" id="institution"> 
 										@if($institutions && count($institutions) > 0)
 											@foreach($institutions as $institution)
-												<option value="{{$institution['id']}}" {{ $user_data->institution == $institution['id'] ? 'selected' : '' }}>{{$institution['institution_name']}}</option>
+												<option value="{{$institution['id']}}" {{ @$user_data->institution == $institution['id'] ? 'selected' : '' }}>{{$institution['institution_name']}}</option>
 											@endforeach
 										@endif
 									</select>
