@@ -297,6 +297,18 @@ class ServicerequestsController extends Controller
             'updated_at'=>date("Y-m-d H:i:s")
         ]);
 
+                $from       = auth()->user()->id; 
+                $utype      = 1;
+                $to         = 1; 
+                $ntype      = 'rejected_customer_receipt';
+                $title      = 'Customer Receipt Rejected By AO.';
+                $desc       = 'Customer Receipt Rejected By AO. Request ID: HSW'.$id;
+                $refId      = $id;
+                $reflink    = '/superadmin/requested_service_detail/'.$id.'/17/';
+                $notify     = 'superadmin';
+                $notify_from_role_id = 5;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
         $survey_request_logs = [];
 
         $survey_request_logs['survey_request_id'] = $id;

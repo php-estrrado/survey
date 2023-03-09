@@ -1023,7 +1023,7 @@ class ServicerequestsController extends Controller
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
-
+            
             return view('admin.requested_services.performa_invoice_submitted',$data);
         }
         elseif($status == 67)

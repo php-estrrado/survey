@@ -176,7 +176,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="survey_charges">Taxable Bill value</label>
-                            <input class="form-control" type="text" name="survey_charges" id="survey_charges" placeholder="Taxable Bill value" oninput="calculateTaxAmount()">
+                            <input class="form-control" type="number" name="survey_charges" id="survey_charges" placeholder="Taxable Bill value" oninput="calculateTaxAmount()">
                             <div id="survey_charges_error"></div>
                             @error('survey_charges')
                                 <p style="color: red">{{ $message }}</p>

@@ -87,7 +87,7 @@
 												Limit Of Survey Area
 											</div>
 										</div>
-										<label class="form-label">{{$survey_study->limit_of_survey_area}}</label>
+										<label class="form-label">Lat: {{$survey_study->lattitude}} Long: {{$survey_study->longitude}} </label>
 									</div>
 								</div>
 							</div>

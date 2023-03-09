@@ -293,7 +293,7 @@ class Homepage extends Controller
                 $a_list['data_collection_equipments'] ="";
                 }
 
-                $remarks_log = Survey_request_logs::where('survey_request_id',$av->id)->where('survey_status',$av->request_status)->first();
+                $remarks_log = Survey_request_logs::where('survey_request_id',$av->id)->where('survey_status',$av->request_status)->latest()->first();
 
                 if($remarks_log)
                 {
@@ -392,7 +392,7 @@ class Homepage extends Controller
                 $a_list['data_collection_equipments'] ="";
                 }
 
-                $remarks_log = Survey_request_logs::where('survey_request_id',$av->id)->where('survey_status',$av->request_status)->first();
+                $remarks_log = Survey_request_logs::where('survey_request_id',$av->id)->where('survey_status',$av->request_status)->latest()->first();
 
                 if($remarks_log)
                 {

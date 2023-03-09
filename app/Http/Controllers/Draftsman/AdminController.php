@@ -79,6 +79,8 @@ class AdminController extends Controller
 
         Admin::where('id',$input['admin_id'])->update($admin_arr);
 
+        $usrdata = UserManagement::where('admin_id',$input['admin_id'])->first();
+
         $usr_arr = [];
         $usr_arr['fullname'] = $input['name'];
         $usr_arr['email'] = $input['email'];
@@ -91,7 +93,15 @@ class AdminController extends Controller
         $usr_arr['updated_by'] = auth()->user()->id;
         $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-        UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
+        if($usrdata)
+        {
+            UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
+        }else
+        {
+            $usr_arr['admin_id'] = $input['admin_id'];
+            UserManagement::create($usr_arr);
+        }
+        
 
         if($request->hasfile('avatar'))
         {
@@ -171,7 +181,7 @@ class AdminController extends Controller
     {
         $data['title']           =   'Notifications';
         $data['menu']            =   'notifications';
-        $data['notifications']   =   AdminNotification::where('role_id',2)->orderby('id','DESC')->get();
+        $data['notifications']   =   AdminNotification::where('role_id',4)->where('notify_to',auth()->user()->id)->orderby('id','DESC')->get();
 
         return view('admin.notification',$data);
     }

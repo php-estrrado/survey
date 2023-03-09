@@ -121,7 +121,7 @@ class SurveyReportController extends Controller
         $title      = 'Survey Study Report Submitted';
         $desc       = 'Survey Study Report Submitted. Request ID: HSW'.$request->survey_request_id;
         $refId      = $request->survey_request_id;
-        $reflink    = 'admin';
+        $reflink    = '/admin/requested_service_detail/'.$request->survey_request_id.'/19/';
         $notify     = 'admin';
         $notify_from_role_id = 3;
         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
@@ -219,7 +219,7 @@ class SurveyReportController extends Controller
         $title      = 'Field Study Report Submitted';
         $desc       = 'Field Study Report Submitted. Request ID: HSW'.$request->survey_request_id;
         $refId      = $request->survey_request_id;
-        $reflink    = 'admin';
+        $reflink    = '/admin/requested_service_detail/'.$request->survey_request_id.'/7/';
         $notify     = 'admin';
         $notify_from_role_id = 3;
         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 

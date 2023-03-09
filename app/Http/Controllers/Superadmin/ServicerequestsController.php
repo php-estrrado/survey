@@ -992,6 +992,18 @@ class ServicerequestsController extends Controller
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
+            $from       = auth()->user()->id; 
+            $utype      = 4;
+            $to         = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
+            $ntype      = 'assigned_for_final_report';
+            $title      = 'Assigned for Final Report by CH';
+            $desc       = 'Assigned for Final Report by CH. Request ID:HSW'.$input['id'];
+            $refId      =$input['id'];
+            $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/23/';
+            $notify     = 'draftsman';
+            $notify_from_role_id = 1;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
             if(isset($survey_request_log_id))
             {   
                 Session::flash('message', ['text'=>'Successfully Assigned Draftsman for Final Report Preparation !','type'=>'success']);  
