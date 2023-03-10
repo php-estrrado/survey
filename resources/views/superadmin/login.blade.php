@@ -92,6 +92,7 @@
 @section('js')
 	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
     <script type="text/javascript">
+		
 		@if(count($errors) > 0)
 			@foreach($errors->all() as $error)
 				toastr.error("{{ $error }}");

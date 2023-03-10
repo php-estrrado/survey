@@ -61,35 +61,45 @@ class LoginController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email'   => ['required','string','email'],
-            'password' => ['required','string','min:6'],
-            'g-recaptcha-response' => function ($attribute, $value, $fail) {
-                $data = array('secret' => config('services.recaptcha.secret'),'response' => $value,'remoteip' => $_SERVER['REMOTE_ADDR']);
-  
-                $verify = curl_init();
-                curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-                curl_setopt($verify, CURLOPT_POST, true);
-                curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-                curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-                $response = curl_exec($verify);
-                $response = json_decode($response);
-                
-                if(!$response->success)
-                {
-                    Session::flash('message', ['text'=>'Please check reCAptcha !','type'=>'danger']);
-                    $fail($attribute.'google reCaptcha failed');
-                }
-            },
+            'password' => ['required','string','min:6']
         ]);
         if($validator->passes())
         {
-            if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) 
-            {
-                if(Admin::where('id', Auth::guard('admin')->user()->id)->where('role_id',6)->first())
-                {
-                    if(Admin::where('id', Auth::guard('admin')->user()->id)->where('role_id',6)->first()->is_active == 1)
+            $validator1 = Validator::make($request->all(), [
+                'g-recaptcha-response' => function ($attribute, $value, $fail) {
+                    $data = array('secret' => config('services.recaptcha.secret'),'response' => $value,'remoteip' => $_SERVER['REMOTE_ADDR']);
+      
+                    $verify = curl_init();
+                    curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+                    curl_setopt($verify, CURLOPT_POST, true);
+                    curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+                    curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+                    curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+                    $response = curl_exec($verify);
+                    $response = json_decode($response);
+                    
+                    if(!$response->success)
                     {
-                        return redirect()->intended('/customer/dashboard');
+                        $fail($attribute.'google reCaptcha failed');
+                    }
+                },
+            ]);
+            if($validator1->passes())
+            {
+                if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) 
+                {
+                    if(Admin::where('id', Auth::guard('admin')->user()->id)->where('role_id',6)->first())
+                    {
+                        if(Admin::where('id', Auth::guard('admin')->user()->id)->where('role_id',6)->first()->is_active == 1)
+                        {
+                            return redirect()->intended('/customer/dashboard');
+                        }
+                        else
+                        {
+                            Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
+                            
+                            return back()->withInput($request->only('email', 'remember'))->withErrors('error',' This account is inactive.');
+                        }
                     }
                     else
                     {
@@ -100,15 +110,13 @@ class LoginController extends Controller
                 }
                 else
                 {
-                    Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
-                    
-                    return back()->withInput($request->only('email', 'remember'))->withErrors('error',' This account is inactive.');
+                    return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'These credentials do not match our records.']);
                 }
             }
             else
             {
-                return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'These credentials do not match our records.']);
-            }
+                return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Please check reCaptcha.']);
+            }            
         }
         else
         {

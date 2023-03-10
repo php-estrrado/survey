@@ -105,7 +105,7 @@ class LoginController extends Controller
         if ($validator->fails()) 
             {
                 foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-                return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                return back()->withInput($request->only('email', 'remember'))->withErrors('Enter all fields.');
             }
         else
             {
@@ -124,18 +124,18 @@ class LoginController extends Controller
                         else{
                             Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
                             //return redirect('/login')->withInput($request->only('email', 'remember'))->with('message',' The seller is not approved yet. ');
-                            return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                            return back()->withInput($request->only('email', 'remember'))->withErrors('This account is inactive.');
                         }
                     }
                     }
                     else
                     {
-                        return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid OTP.');
+                        return back()->withInput($request->only('email', 'remember'))->withErrors('Invalid OTP.');
                     }
                 }
                 else
                 {
-                    return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid Email.');
+                    return back()->withInput($request->only('email', 'remember'))->withErrors('Invalid Email.');
                 }
               
             }

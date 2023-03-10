@@ -132,7 +132,7 @@ class HydrographicsurveyController extends Controller
                 $hydrographic_survey['created_at'] = date('Y-m-d H:i:s');
                 $hydrographic_survey['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $hydrographic_survey['additional_services'] = implode(",", $input['additional_services']); 
@@ -140,7 +140,7 @@ class HydrographicsurveyController extends Controller
                     $hydrographic_survey['additional_services'] = "";
                 }
     
-                 if($input['data_collection_equipments'])
+                 if(isset($input['data_collection_equipments']))
                 {
                     
                    $hydrographic_survey['data_collection_equipments'] = implode(",", $input['data_collection_equipments']); 
@@ -285,7 +285,7 @@ class HydrographicsurveyController extends Controller
                 $hydrographic_survey['created_at'] = date('Y-m-d H:i:s');
                 $hydrographic_survey['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $hydrographic_survey['additional_services'] = implode(",", $input['additional_services']); 
@@ -293,7 +293,7 @@ class HydrographicsurveyController extends Controller
                     $hydrographic_survey['additional_services'] = "";
                 }
     
-                 if($input['data_collection_equipments'])
+                 if(isset($input['data_collection_equipments']))
                 {
                     
                    $hydrographic_survey['data_collection_equipments'] = implode(",", $input['data_collection_equipments']); 

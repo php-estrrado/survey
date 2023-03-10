@@ -817,6 +817,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+            $assigned_draftsman_final = survey_requests::where('id',$input['id'])->first()->assigned_draftsman_final;
 
             $assign_arr['request_status'] = 28;
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -841,7 +842,7 @@ class ServicerequestsController extends Controller
 
                 $from       = auth()->user()->id;
                 $utype      = 4;
-                $to         = $assignment_requests->assigned_draftsman_final; 
+                $to         = $assigned_draftsman_final; 
                 $ntype      = 'final_report_rejected';
                 $title      = 'Final Report Rejected by Admin';
                 $desc       = 'Final Report Rejected by Admin. Request ID: HSW'.$input['id'];

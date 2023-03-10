@@ -715,20 +715,21 @@ class AdminController extends Controller
         {
             if($request->file('avatar') && $request->file('avatar') != '')
             {
-                $image = $request->file('avatar');
-                $input['imagename'] = rand(100,999).'avatar.'.$image->extension();
-                $path               =   '/app/public/user/'.$admin_id;
-                $destinationPath = storage_path($path.'/thumbnail');
-                $img = Image::make($image->path());
-                if (!file_exists($destinationPath)) { mkdir($destinationPath, 755, true);}
-                $img->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($destinationPath.'/'.$input['imagename']);
-                $destinationPath = storage_path($path);
-                $image->move($destinationPath, $input['imagename']);
-                // $imgUpload          =   uploadFile($path,$input['imagename']);
-                Admin::where('id',$admin_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
-                UserManagement::where('admin_id',$admin_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
+                $file = $request->file('avatar');
+                $folder_name = "uploads/profile_images/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "user_profile" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                Admin::where('id',$admin_id)->update(['avatar'=>$file_path]);
+                UserManagement::where('admin_id',$admin_id)->update(['avatar'=>$file_path]);
             }
             $data['title']              =   'User';
             $data['menu']               =   'admin-list';

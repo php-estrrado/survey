@@ -132,7 +132,7 @@ class BathymetrySurveyController extends Controller
                 $bathymetry_survey['created_at'] = date('Y-m-d H:i:s');
                 $bathymetry_survey['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $bathymetry_survey['additional_services'] = implode(",", $input['additional_services']); 
@@ -140,7 +140,7 @@ class BathymetrySurveyController extends Controller
                     $bathymetry_survey['additional_services'] = "";
                 }
     
-                if($input['data_required'])
+                if(isset($input['data_required']))
                 {
                     
                    $bathymetry_survey['data_required'] = implode(",", $input['data_required']); 
@@ -148,7 +148,7 @@ class BathymetrySurveyController extends Controller
                     $bathymetry_survey['data_required'] = "";
                 }
     
-                if($input['data_collection_equipments'])
+                if(isset($input['data_collection_equipments']))
                 {
                     
                    $bathymetry_survey['data_collection_equipments'] = implode(",", $input['data_collection_equipments']); 
@@ -290,7 +290,7 @@ class BathymetrySurveyController extends Controller
                 $bathymetry_survey['created_at'] = date('Y-m-d H:i:s');
                 $bathymetry_survey['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $bathymetry_survey['additional_services'] = implode(",", $input['additional_services']); 
@@ -298,7 +298,7 @@ class BathymetrySurveyController extends Controller
                     $bathymetry_survey['additional_services'] = "";
                 }
     
-                if($input['data_required'])
+                if(isset($input['data_required']))
                 {
                     
                    $bathymetry_survey['data_required'] = implode(",", $input['data_required']); 
@@ -306,7 +306,7 @@ class BathymetrySurveyController extends Controller
                     $bathymetry_survey['data_required'] = "";
                 }
     
-                if($input['data_collection_equipments'])
+                if(isset($input['data_collection_equipments']))
                 {
                     
                    $bathymetry_survey['data_collection_equipments'] = implode(",", $input['data_collection_equipments']); 

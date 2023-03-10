@@ -394,6 +394,31 @@
 									</div>
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-sm-12 col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Uploaded Images
+											</div>
+										</div>
+										<ul id="lightgallery" class="list-unstyled row">
+											@php
+												$uploaded_images = json_decode($field_study->upload_photos_of_study_area,true);
+											@endphp
+											@if($uploaded_images && count($uploaded_images) > 0)
+												@foreach($uploaded_images as $images)
+													<li class="col-xs-4 col-sm-3 col-md-3" data-responsive="{{$images}}" data-src="{{$images}}">
+														<a href="">
+															<img class="img-responsive" src="{{$images}}" alt="Thumb-1" width="100px">
+														</a>
+													</li>
+												@endforeach
+											@endif
+										</ul>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
