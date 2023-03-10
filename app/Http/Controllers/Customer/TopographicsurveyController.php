@@ -121,7 +121,7 @@ class TopographicsurveyController extends Controller
                 $topographic_survey['created_at'] = date('Y-m-d H:i:s');
                 $topographic_survey['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $topographic_survey['additional_services'] = implode(",", $input['additional_services']); 
@@ -229,7 +229,7 @@ class TopographicsurveyController extends Controller
                 $topographic_survey['created_at'] = date('Y-m-d H:i:s');
                 $topographic_survey['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $topographic_survey['additional_services'] = implode(",", $input['additional_services']); 

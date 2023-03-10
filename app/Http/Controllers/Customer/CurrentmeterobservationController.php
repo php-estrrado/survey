@@ -124,7 +124,7 @@ class CurrentmeterobservationController extends Controller
                 $currentmeter_observation['created_at'] = date('Y-m-d H:i:s');
                 $currentmeter_observation['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $currentmeter_observation['additional_services'] = implode(",", $input['additional_services']); 
@@ -233,7 +233,7 @@ class CurrentmeterobservationController extends Controller
                 $currentmeter_observation['created_at'] = date('Y-m-d H:i:s');
                 $currentmeter_observation['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $currentmeter_observation['additional_services'] = implode(",", $input['additional_services']); 

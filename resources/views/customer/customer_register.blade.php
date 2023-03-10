@@ -88,7 +88,7 @@
                                 </div> -->
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="valid_id">Valid ID Proof Number (Aadhaar, Voter ID, License) <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="valid_id">Valid ID Proof Number(Aadhaar, Voter ID, License) <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="valid_id" placeholder="Valid Proof" value="{{ old('valid_id') }}">
                                     <div id="valid_id_error"></div>
                                     @error('valid_id')

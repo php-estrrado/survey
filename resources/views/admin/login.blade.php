@@ -83,16 +83,10 @@
 @section('js')
 	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
     <script type="text/javascript">
-		@if(Session::has('message'))
-			@if(session('message')['type'] =="success")
-				toastr.success("{{session('message')['text']}}"); 
-			@else
-				toastr.error("{{session('message')['text']}}"); 
-			@endif
-		@endif
-		
-		@if ($errors->any())          
-			toastr.error("{{$errors->all()[0]}}"); 
+		@if(count($errors) > 0)
+			@foreach($errors->all() as $error)
+				toastr.error("{{ $error }}");
+			@endforeach
 		@endif
     </script>
 @endsection

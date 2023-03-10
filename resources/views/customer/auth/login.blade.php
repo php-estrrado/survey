@@ -23,12 +23,12 @@
                             <p>Enter your email & password to login</p>
                             <div class="form-group">
                                 <label class="col-form-label form-label-title ">Email ID</label>
-                                <input class="form-control" type="email" name="email" required="" placeholder="Email ID" value="{{ old('email')}}">
+                                <input class="form-control" type="email" name="email" placeholder="Email ID" value="{{ old('email')}}">
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label form-label-title ">Password</label>
                                 <div class="form-input position-relative">
-                                    <input class="form-control" type="password" name="password" id="password" required=""
+                                    <input class="form-control" type="password" name="password" id="password" 
                                         placeholder="*********">
                                     <div class="show-hide"><span class="show" id="showPass" onclick="showPass()"> </span></div>
                                 </div>

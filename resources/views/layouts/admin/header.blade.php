@@ -39,6 +39,7 @@
 						</svg>
 						@php 
 							use App\Models\AdminNotification;
+							use App\Models\Admin;
 
 							$newnotification = 0;
 

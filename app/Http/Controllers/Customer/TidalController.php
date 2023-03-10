@@ -129,7 +129,7 @@ class TidalController extends Controller
                 $tidal_observation['created_at'] = date('Y-m-d H:i:s');
                 $tidal_observation['updated_at'] = date('Y-m-d H:i:s');
                 // dd($input);
-                 if($input['additional_services'])
+                 if(isset($input['additional_services']))
                 {
                     
                    $tidal_observation['additional_services'] = implode(",", $input['additional_services']); 
@@ -270,7 +270,7 @@ class TidalController extends Controller
                 $tidal_observation['created_at'] = date('Y-m-d H:i:s');
                 $tidal_observation['updated_at'] = date('Y-m-d H:i:s');
                 // dd($input);
-                 if($input['additional_services'])
+                 if(isset($input['additional_services']))
                 {
                     
                    $tidal_observation['additional_services'] = implode(",", $input['additional_services']); 

@@ -119,7 +119,7 @@ class UnderwatervideographyController extends Controller
                 $underwater_videography['created_at'] = date('Y-m-d H:i:s');
                 $underwater_videography['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $underwater_videography['additional_services'] = implode(",", $input['additional_services']); 
@@ -224,7 +224,7 @@ class UnderwatervideographyController extends Controller
                 $underwater_videography['created_at'] = date('Y-m-d H:i:s');
                 $underwater_videography['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $underwater_videography['additional_services'] = implode(",", $input['additional_services']); 
