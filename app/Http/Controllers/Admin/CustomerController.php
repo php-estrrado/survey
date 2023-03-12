@@ -256,6 +256,6 @@ class CustomerController extends Controller
         
         // dd($data);
 
-        return view('superadmin.customer.customer_detail', $data);
+        return view('admin.customer.customer_details', $data);
     }
 }

@@ -1,4 +1,4 @@
-@extends('layouts.admin.master-admin')
+@extends('layouts.admin.master')
 @section('css')
 <!-- Data table css -->
 <link href="{{URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
@@ -37,25 +37,34 @@
 								<td class="py-2 px-0">
 									<span class="font-weight-semibold w-50">Name </span>
 								</td>
-								<td class="py-2 px-0">{{$cust_info->name}}</td>
+								<td class="py-2 px-0">{{$info->name}}</td>
 							</tr>
 							<tr>
 								<td class="py-2 px-0">
 									<span class="font-weight-semibold w-50">Name Of The Firm </span>
 								</td>
-								<td class="py-2 px-0">{{$cust_info->firm}}</td>
+								<td class="py-2 px-0">{{$info->firm}}</td>
+							</tr>
+							<tr>
+								<td class="py-2 px-0">
+									<span class="font-weight-semibold w-50">Type Of Firm </span>
+								</td>
+								<?php
+									$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+								?>	
+								<td class="py-2 px-0">@if(isset($sector_name[$info->firm_type])) {{ $sector_name[$info->firm_type]}} @else {{ $info->firm_type }} @endif</td>
 							</tr>
 							<tr>
 								<td class="py-2 px-0">
 									<span class="font-weight-semibold w-50">Email </span>
 								</td>
-								<td class="py-2 px-0">{{$cust_email}}</td>
+								<td class="py-2 px-0">{{$customer_mst->username}}</td>
 							</tr>
 							<tr>
 								<td class="py-2 px-0">
 									<span class="font-weight-semibold w-50">Phone </span>
 								</td>
-								<td class="py-2 px-0">{{$cust_phone}}</td>
+								<td class="py-2 px-0">{{$telecom->cust_telecom_value}}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -79,16 +88,15 @@
 								</tr>
 							</thead>
 							<tbody>
-								@if($requested_services && count($requested_services) > 0)
+								@if($requested_services && count($requested_services)>0)
 									@php $i=1; @endphp
-									@foreach($requested_services as $service)
+									@foreach($requested_services as $requested_service)
 										<tr>
 											<td>{{$i}}</td>
-											<td>{{date('d/m/Y',strtotime($service->survey_date))}}</td>
-											<td>HSW{{$service->survey_id}}</td>
-											<td>{{$service->service_name}}</td>
-											<td>{{$service->current_status}}</td>
-											</td>
+											<td>{{date('d/m/Y', strtotime($requested_service->survey_date))}}</td>
+											<td>HSW{{$requested_service->survey_id}}</td>
+											<td>{{$requested_service->service_name}}</td>
+											<td>{{$requested_service->current_status}}</td>
 										</tr>
 										@php $i++; @endphp
 									@endforeach

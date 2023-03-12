@@ -26,7 +26,11 @@ $(function(e) {
 			searchPlaceholder: 'Search...',
 			sSearch: '',
 			lengthMenu: '_MENU_',
-		}
+		},
+		aLengthMenu: [
+			[6, 10, 25, 50, 100, 200, -1],
+			[6, 10, 25, 50, 100, 200, "All"]
+		]
 	});
 	var table = $('#example-delete').DataTable({
 		responsive: true,

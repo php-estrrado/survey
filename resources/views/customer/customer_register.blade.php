@@ -141,7 +141,7 @@
                                 </div>
                             <div class="text-end mt-3">
                                 
-                                <button class="btn btn-primary btn-block w-100" type="submit">Create Account</button>
+                                <button class="btn btn-primary btn-block w-100" type="submit">Submit</button>
                             </div>
                             <p class="mt-4 mb-0 text-center">Already have an account?<a class="ms-2"
                                     href="{{ URL('/customer/login')}}">Sign in</a>

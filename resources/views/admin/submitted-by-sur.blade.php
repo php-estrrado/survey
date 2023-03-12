@@ -32,11 +32,14 @@
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">HSW{{$survey_id}}</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
-							<li><span class="h6 mt-3">Name of the firm: {{$request_data->firm}}</span></li>
-							<li><span class="h6 mt-3">Type of firm: {{$request_data->sector}}</span></li>
+							<?php
+								$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+							?>							
+							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
+							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
 							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
@@ -46,12 +49,6 @@
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-auto">
-			<div class="text-lg-right btn-list mt-4 mt-lg-0">
-				@if(isset($status) && $status == 7)
-					<a href="{{URL('/admin/createETA')}}/{{$survey_id}}" class="btn btn-primary">Add ETA</a>
-        			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
-        		@endif
-			</div>
 			<div class="mt-5">
 				<div class="main-profile-contact-list row">
 					<div class="media col-sm-3">
@@ -377,16 +374,6 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-                                                Remarks
-											</div>
-										</div>
-										<label class="form-label">{{$field_study->remarks}}</label>
-									</div>
-								</div>
-                                <div class="col-sm-6 col-md-6">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
                                                 Presence and nature of obstructions in the survey area
 											</div>
 										</div>
@@ -395,6 +382,16 @@
 								</div>
 							</div>
 							<div class="row">
+								<div class="col-sm-12 col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Remarks
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->remarks}}</label>
+									</div>
+								</div>
 								<div class="col-sm-12 col-md-12">
 									<div class="form-group">
 										<div class="media-body">

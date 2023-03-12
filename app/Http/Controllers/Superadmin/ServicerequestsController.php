@@ -257,11 +257,11 @@ class ServicerequestsController extends Controller
 
             $data['id'] = $input['id'];
             
-            $var = Mail::send('emails.accept_survey', $data, function($message) use($data,$cust_email) {
-                $message->from(getadmin_mail(),'HSW');    
-                $message->to($cust_email);
-                $message->subject('Survey Request Accepted by CH');
-            });
+            // $var = Mail::send('emails.accept_survey', $data, function($message) use($data,$cust_email) {
+            //     $message->from(getadmin_mail(),'HSW');    
+            //     $message->to($cust_email);
+            //     $message->subject('Survey Request Accepted by CH');
+            // });
 
             if(isset($survey_request_log_id))
             {   
@@ -352,10 +352,10 @@ class ServicerequestsController extends Controller
         
         $data['survey_status'] = Survey_status::where('id',$datas->request_status)->first()->status_name;
 
-        if($datas->request_status != $status)
-        {
-            return redirect('superadmin/requested_services');
-        }
+        // if($datas->request_status != $status)
+        // {
+        //     return redirect('superadmin/requested_services');
+        // }
         
         if($datas->service_id == 1)
         {
@@ -439,6 +439,7 @@ class ServicerequestsController extends Controller
         {
             $data['draftmans'] = Admin::where('role_id',4)->get();
             $data['survey_study'] = Survey_study_report::where('survey_request_id',$id)->first();
+            $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',21)->orderBy('id','desc')->first()->remarks;
 
             // dd($data);
 
@@ -508,6 +509,7 @@ class ServicerequestsController extends Controller
         }
         else
         {
+            // dd($data);
             return view('superadmin.requested_services.requested_services_details',$data);
         }
     }
@@ -783,6 +785,7 @@ class ServicerequestsController extends Controller
         $id = $request->id;
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+        $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
         Survey_requests::where('id',$id)->update(['request_status'=>15]);
 
@@ -828,6 +831,14 @@ class ServicerequestsController extends Controller
         $notify_from_role_id = 1;
         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
+        $data['id'] = $id;
+
+        // $var = Mail::send('emails.performa_invoice_received', $data, function($message) use($data,$cust_email) {
+        //     $message->from(getadmin_mail(),'HSW');    
+        //     $message->to($cust_email);
+        //     $message->subject('Performa Invoice Generated');
+        // });
+
 
         if(isset($survey_request_log_id))
         {   
@@ -846,6 +857,7 @@ class ServicerequestsController extends Controller
         $id = $request->id;
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+        $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
         Survey_requests::where('id',$id)->update(['request_status'=>51]);
 
@@ -889,6 +901,14 @@ class ServicerequestsController extends Controller
         $notify     = 'customer';
         $notify_from_role_id = 1;
         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+        $data['id'] = $id;
+
+        // $var = Mail::send('emails.invoice_received', $data, function($message) use($data,$cust_email) {
+        //     $message->from(getadmin_mail(),'HSW');    
+        //     $message->to($cust_email);
+        //     $message->subject('Invoice Generated');
+        // });
 
         if(isset($survey_request_log_id))
         {   
@@ -1151,11 +1171,11 @@ class ServicerequestsController extends Controller
             $data['id'] = $id;
             $data['remarks'] = $request->remarks;
             
-            $var = Mail::send('emails.reject_closed', $data, function($message) use($data,$cust_email) {
-                $message->from(getadmin_mail(),'HSW');    
-                $message->to($cust_email);
-                $message->subject('Request Reject Closed');
-            });
+            // $var = Mail::send('emails.reject_closed', $data, function($message) use($data,$cust_email) {
+            //     $message->from(getadmin_mail(),'HSW');    
+            //     $message->to($cust_email);
+            //     $message->subject('Request Reject Closed');
+            // });
 
             if(isset($survey_request_log_id))
             {   
@@ -1222,11 +1242,11 @@ class ServicerequestsController extends Controller
             $data['remarks'] = $request->remarks;
             $data['link'] = url('/customer/requested_services');
             
-            $var = Mail::send('emails.reject_open', $data, function($message) use($data,$cust_email) {
-                $message->from(getadmin_mail(),'HSW');    
-                $message->to($cust_email);
-                $message->subject('Request Reject Open');
-            });
+            // $var = Mail::send('emails.reject_open', $data, function($message) use($data,$cust_email) {
+            //     $message->from(getadmin_mail(),'HSW');    
+            //     $message->to($cust_email);
+            //     $message->subject('Request Reject Open');
+            // });
 
             if(isset($survey_request_log_id))
             {   

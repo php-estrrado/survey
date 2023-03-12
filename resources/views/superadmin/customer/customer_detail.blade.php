@@ -49,7 +49,10 @@
 								<td class="py-2 px-0">
 									<span class="font-weight-semibold w-50">Type Of Firm </span>
 								</td>
-								<td class="py-2 px-0">{{$info->firm_type}}</td>
+								<?php
+									$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+								?>	
+								<td class="py-2 px-0">@if(isset($sector_name[$info->firm_type])) {{ $sector_name[$info->firm_type]}} @else {{ $info->firm_type }} @endif</td>
 							</tr>
 							<tr>
 								<td class="py-2 px-0">

@@ -32,11 +32,14 @@
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">HSW{{$survey_id}}</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
-							<li><span class="h6 mt-3">Name of the firm: {{$request_data->firm}}</span></li>
-							<li><span class="h6 mt-3">Type of firm: {{$request_data->sector}}</span></li>
+							<?php
+								$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+							?>							
+							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
+							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
 							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
@@ -371,7 +374,7 @@
 										<label class="form-label">{{$survey_study->detailed_report_of_the_officer}}</label>
 									</div>
 								</div>
-                                <div class="col-sm-6 col-md-6">
+                                <!-- <div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -380,7 +383,7 @@
 										</div>
 										<label class="form-label">{{$survey_study->remarks}}</label>
 									</div>
-								</div>
+								</div> -->
                                 <div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
@@ -389,6 +392,18 @@
 											</div>
 										</div>
 										<label class="form-label">{{$survey_study->presence_and_nature_of_obstructions_in_survey}}</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12 col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Remarks
+											</div>
+										</div>
+										<label class="form-label">{{$remarks}}</label>
 									</div>
 								</div>
 							</div>

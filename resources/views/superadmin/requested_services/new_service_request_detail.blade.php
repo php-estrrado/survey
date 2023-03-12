@@ -87,7 +87,7 @@
 							<label class="form-label">{{ getOrgType($request_data->firm) }}</label>
 						</div>
 					</div>
-					<div class="col-md-12">
+					<div class="col-sm-4 col-md-4">
 						<div class="form-group">
 							<div class="media-body">
 								<div class="font-weight-normal1">
@@ -188,7 +188,7 @@
 								@endif
 								@if(isset($data_collection))
 
-								<div class="col-md-12">
+								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">

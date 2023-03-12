@@ -926,10 +926,10 @@ class ServicerequestsController extends Controller
         
         $data['status'] = $status;
 
-        if($datas->request_status != $status)
-        {
-            return redirect('admin/requested_service_detail/'.$id.'/'.$datas->request_status);
-        }
+        // if($datas->request_status != $status)
+        // {
+        //     return redirect('admin/requested_service_detail/'.$id.'/'.$datas->request_status);
+        // }
 
         if($datas->service_id == 1)
         {
