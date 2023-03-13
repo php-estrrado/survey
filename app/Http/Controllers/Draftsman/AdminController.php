@@ -48,12 +48,27 @@ class AdminController extends Controller
         $status_in                  =   array(10,12,34,35,46,48,52,53,23,28,38,39);
         $data['active_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('survey_requests.assigned_draftsman',auth()->user()->id)->orWhere('survey_requests.assigned_draftsman_final',auth()->user()->id);})->whereIn('request_status',$status_in)->count();
         $status_in                  =   array(11,24,47,68,69);
-        $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('survey_requests.assigned_draftsman',auth()->user()->id)->orWhere('survey_requests.assigned_draftsman_final',auth()->user()->id);})->whereIn('request_status',$status_in)->count();
+        // $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('survey_requests.assigned_draftsman',auth()->user()->id)->orWhere('survey_requests.assigned_draftsman_final',auth()->user()->id);})->whereIn('request_status',$status_in)->count();
+
+         $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('survey_requests.assigned_draftsman',auth()->user()->id)->orWhere('survey_requests.assigned_draftsman_final',auth()->user()->id);})->whereIn('id',function($query) use($status_in) {
+      $query->select('survey_request_id')->from('survey_request_logs')->whereIn('survey_status',$status_in)->groupBy('survey_request_id');})->count();
 
 
         return view('draftsman.index',$data);
     }
     
+    public function marknotifications(Request $request)
+        {
+            $notify = AdminNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
+            if($notify)
+            {
+                $notify->update(['viewed'=>1]);
+            }else{
+                return false;
+            }
+            return true;
+        }
+        
     public function profile()
     {
         $admin_id = auth()->user()->id;

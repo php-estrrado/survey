@@ -48,13 +48,26 @@ class AdminController extends Controller
         
         $status_in                  =   array(41,42,62,60,30,32,33,43,40,65,59,20,36,37);
 
-        $data['active_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('survey_requests.assigned_surveyor',auth()->user()->id)->orWhere('survey_requests.assigned_surveyor_survey',auth()->user()->id);})->whereIn('request_status',$status_in)->count();
+        $data['active_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('assigned_surveyor',auth()->user()->id)->orWhere('assigned_surveyor_survey',auth()->user()->id);})->whereIn('request_status',$status_in)->count();
         $status_in                  =   array(6,7,19,44,45);
-        $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('survey_requests.assigned_surveyor',auth()->user()->id)->orWhere('survey_requests.assigned_surveyor_survey',auth()->user()->id);})->whereIn('request_status',$status_in)->count();
+        // $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('survey_requests.assigned_surveyor',auth()->user()->id)->orWhere('survey_requests.assigned_surveyor_survey',auth()->user()->id);})->whereIn('request_status',$status_in)->count();
+
+          $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('assigned_surveyor',auth()->user()->id)->orWhere('assigned_surveyor_survey',auth()->user()->id);})->whereIn('id',function($query) use($status_in) {
+      $query->select('survey_request_id')->from('survey_request_logs')->whereIn('survey_status',$status_in)->groupBy('survey_request_id');})->count();
 
         return view('surveyor.index',$data);
     }
-    
+    public function marknotifications(Request $request)
+        {
+            $notify = AdminNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
+            if($notify)
+            {
+                $notify->update(['viewed'=>1]);
+            }else{
+                return false;
+            }
+            return true;
+        }
     public function profile()
     {
         $admin_id = auth()->user()->id;

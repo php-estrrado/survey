@@ -29,6 +29,7 @@ use App\Rules\Name;
 use Validator;
 
 use App\Models\Survey_requests;
+use App\Models\Survey_request_logs;
 
 class AdminController extends Controller
 {
@@ -48,11 +49,22 @@ class AdminController extends Controller
 
         $data['active_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',58)->count();
 
-        $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',16)->orWhere('request_status',17);})->count();
+             $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereIn('id',function($query) {
+   $query->select('survey_request_id')->from('survey_request_logs')->where(function ($query) { $query->where('survey_status',16)->orWhere('survey_status',17);})->groupBy('survey_request_id');})->count();
         
         return view('accountant.index',$data);
     }
-    
+    public function marknotifications(Request $request)
+        {
+            $notify = AdminNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
+            if($notify)
+            {
+                $notify->update(['viewed'=>1]);
+            }else{
+                return false;
+            }
+            return true;
+        }
     public function profile()
     {
         $admin_id = auth()->user()->id;

@@ -44,14 +44,57 @@
                 <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
                 <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
 
+			@php 
+
+			$mark_url = "";
+			if(auth()->user()->role_id == 1)
+			{
+				$mark_url = url("superadmin/mark-notifications");
+			}
+			elseif(auth()->user()->role_id == 2)
+			{
+				$mark_url = url("admin/mark-notifications");
+			}
+			elseif(auth()->user()->role_id == 3)
+			{
+				$mark_url = url("surveyor/mark-notifications");
+			}
+			elseif(auth()->user()->role_id == 4)
+			{
+				$mark_url = url("draftsman/mark-notifications");
+			}
+			elseif(auth()->user()->role_id == 5)
+			{
+ 				$mark_url = url("accountant/mark-notifications");
+			}elseif(auth()->user()->role_id == 6)
+			{
+ 				$mark_url = url("customer/mark-notifications");
+			}
+
+
+			@endphp
+
 		<script type="text/javascript">
 			$(document).ready(function(){
+
+				toastr.options.timeOut = 500;
+
 				@if(Session::has('message'))
-					@if(session('message')['type'] =="success")
-						toastr.success("{{session('message')['text']}}");
-					@else
-						toastr.error("{{session('message')['text']}}");
-					@endif
+				var disp_msg = '{{session("message")["text"]}}';
+				var disp_type = '{{session("message")["type"]}}';
+					if(disp_type=="success"){
+						toastr.success(disp_msg, { timeOut: 500 });
+					
+					}else{
+
+						toastr.error(disp_msg, { timeOut: 500 });
+					}
+				
+
+					@php
+					Session::forget('message');
+					@endphp
+
 				@endif
 
 				jQuery(".marknotifications a").click(function(e){
@@ -64,11 +107,11 @@
 				
 					$.ajax({
 					type: "POST",
-					url: '{{ url("superadmin/mark-notifications") }}',
+					url: '{{ $mark_url }}',
 					data: {not_id:not_id,'_token': '{{ csrf_token()}}'},
 					success: function (data) {
 					window.location = href;
-
+						// alert(data);
 					console.log(data);
 					// $("#data_content").html('').html(data); 
 					}

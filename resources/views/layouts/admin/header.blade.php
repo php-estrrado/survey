@@ -1,3 +1,18 @@
+<style type="text/css">
+	.n_count{
+		    display: block;
+    position: absolute;
+    top: -5px;
+    right: 0px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FED204;
+    cursor: pointer;
+    color: #000;
+    font-size: 12px;
+	}
+</style>
 <!--app header-->
 <div class="app-header header">
 	<div class="container-fluid">
@@ -46,30 +61,37 @@
 							if(auth()->user()->role_id == 1)
 							{
 								$notifications = AdminNotification::where('role_id',1)->limit(5)->orderby('id','desc')->get();
+								$n_count = AdminNotification::where('role_id',1)->where('viewed',0)->orderby('id','desc')->count(); 
 							}
 							elseif(auth()->user()->role_id == 2 || auth()->user()->role_id == 7)
 							{
-								$notifications = AdminNotification::where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+
+								$notifications = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+								$n_count = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
+
 							}
 							elseif(auth()->user()->role_id == 3)
 							{
 								$notifications = AdminNotification::where('role_id',3)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+								$n_count = AdminNotification::where('role_id',3)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
 							}
 							elseif(auth()->user()->role_id == 4)
 							{
 								$notifications = AdminNotification::where('role_id',4)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+								$n_count = AdminNotification::where('role_id',4)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
 							}
 							elseif(auth()->user()->role_id == 5)
 							{
 								$notifications = AdminNotification::where('role_id',5)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+								$n_count = AdminNotification::where('role_id',5)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
 							}
+
+
 						@endphp
 						@if($notifications)
-							@foreach($notifications as $notify)
-								@if($notify->viewed == 0)
-									<span class="pulse "></span>		
-								@endif
-							@endforeach
+							
+									<span class="n_count">{{ $n_count }}</span>		
+								
 						@endif
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow  animated">

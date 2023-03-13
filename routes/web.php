@@ -38,7 +38,7 @@ Route::middleware('role:customer')->group(function () {
     Route::get('/customer/logout', [App\Http\Controllers\Customer\AdminController::class, 'adminLogout']);
 
     Route::get('/customer/notifications', [App\Http\Controllers\Customer\AdminController::class, 'notifications']);
-
+    Route::post('/customer/mark-notifications', [App\Http\Controllers\Customer\AdminController::class, 'marknotifications']);
     // Route::view('/admin', 'admin.admin');
     Route::get('/customer/profile', [App\Http\Controllers\Customer\AdminController::class, 'profile'])->name('customer.profile');
     Route::post('/customer/edit_profile', [App\Http\Controllers\Customer\AdminController::class, 'edit_profile']);
@@ -153,6 +153,8 @@ Route::get('/superadmin/login', [App\Http\Controllers\Superadmin\Auth\LoginContr
 Route::post('/superadmin/sendotpemail', [App\Http\Controllers\Superadmin\Auth\LoginController::class, 'loginSendotpemail']);
 Route::post('/superadmin/regVerifyotpemail', [App\Http\Controllers\Superadmin\Auth\LoginController::class, 'regVerifyotpemail']);
 
+Route::get('/all/mark-notifications', [App\Http\Controllers\AdminController::class, 'marknotifications']);
+
 Route::middleware('role:superadmin')->group(function () {
     Route::get('/superadmin/dashboard', [App\Http\Controllers\Superadmin\AdminController::class, 'index']);
 
@@ -254,7 +256,7 @@ Route::middleware('role:admin')->group(function () {
     Route::get('/admin/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index']);
 
     Route::get('/admin/notifications', [App\Http\Controllers\Admin\AdminController::class, 'notifications']);
-
+    Route::post('/admin/mark-notifications', [App\Http\Controllers\Admin\AdminController::class, 'marknotifications']);
     Route::get('/admin/profile', [App\Http\Controllers\Admin\AdminController::class, 'profile'])->name('admin.profile');
     Route::post('/admin/edit_profile', [App\Http\Controllers\Admin\AdminController::class, 'edit_profile']);
 
@@ -321,7 +323,7 @@ Route::middleware('role:draftsman')->group(function () {
     Route::get('/draftsman/dashboard', [App\Http\Controllers\Draftsman\AdminController::class, 'index']);
 
     Route::get('/draftsman/notifications', [App\Http\Controllers\Draftsman\AdminController::class, 'notifications']);
-
+    Route::post('/draftsman/mark-notifications', [App\Http\Controllers\Draftsman\AdminController::class, 'marknotifications']);
     Route::get('/draftsman/profile', [App\Http\Controllers\Draftsman\AdminController::class, 'profile'])->name('draftsman.profile');
     Route::post('/draftsman/edit_profile', [App\Http\Controllers\Draftsman\AdminController::class, 'edit_profile']);
 
@@ -356,7 +358,7 @@ Route::middleware('role:accountant')->group(function () {
     Route::get('/accountant/dashboard', [App\Http\Controllers\Accountant\AdminController::class, 'index']);
 
     Route::get('/accountant/notifications', [App\Http\Controllers\Accountant\AdminController::class, 'notifications']);
-
+    Route::post('/accountant/mark-notifications', [App\Http\Controllers\Accountant\AdminController::class, 'marknotifications']);
     Route::get('/accountant/profile', [App\Http\Controllers\Accountant\AdminController::class, 'profile'])->name('accountant.profile');
     Route::post('/accountant/edit_profile', [App\Http\Controllers\Accountant\AdminController::class, 'edit_profile']);
 
@@ -379,9 +381,9 @@ Route::post('/surveyor/regVerifyotpemail', [App\Http\Controllers\Surveyor\Auth\L
 
 Route::middleware('role:surveyor')->group(function () {
     Route::get('/surveyor/dashboard', [App\Http\Controllers\Surveyor\AdminController::class, 'index']);
-
+    
     Route::get('/surveyor/notifications', [App\Http\Controllers\Surveyor\AdminController::class, 'notifications']);
-
+    Route::post('/surveyor/mark-notifications', [App\Http\Controllers\Surveyor\AdminController::class, 'marknotifications']);
     Route::get('/surveyor/profile', [App\Http\Controllers\Surveyor\AdminController::class, 'profile'])->name('surveyor.profile');
     Route::post('/surveyor/edit_profile', [App\Http\Controllers\Surveyor\AdminController::class, 'edit_profile']);
 
