@@ -28,6 +28,8 @@ use App\Models\UserVisit;
 use App\Rules\Name;
 use Validator;
 
+use App\Models\Survey_requests;
+
 class AdminController extends Controller
 {
     /**
@@ -43,8 +45,12 @@ class AdminController extends Controller
     { 
         $data['title']              =   'User';
         $data['menu']               =   'admin-list';
+
+        $data['active_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where('request_status',58)->count();
+
+        $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',16)->orWhere('request_status',17);})->count();
         
-        return view('accountant.index');
+        return view('accountant.index',$data);
     }
     
     public function profile()

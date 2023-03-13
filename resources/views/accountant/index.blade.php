@@ -18,37 +18,37 @@
 
 		<div class="col-md-12 col-xl-3 col-lg-6">
 			<div class="card text-center">
-				<div class="card-body"> <span>Total Number Of Request To Be Approved</span>
-					<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
+				<div class="card-body"> <span>Number of Active Request</span>
+					<h1 class=" mb-1 mt-1 font-weight-bold">{{ $active_requests }}</h1>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-12 col-xl-3 col-lg-6">
 			<div class="card text-center">
-				<div class="card-body"> <span>No. Of Total Cancelled Service</span>
-					<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
+				<div class="card-body"> <span>Number of Completed Request</span>
+					<h1 class=" mb-1 mt-1 font-weight-bold">{{ $completed_requests }}</h1>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-12 col-xl-3 col-lg-6">
-			<div class="card text-center">
+			<!-- <div class="card text-center">
 				<div class="card-body"> <span>No. Of Active Queries</span>
 					<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-md-12 col-xl-3 col-lg-6">
-			<div class="card text-center">
+			<!-- <div class="card text-center">
 				<div class="card-body"> <span>Pending e Signature</span>
 					<h1 class=" mb-1 mt-1 font-weight-bold">0</h1>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<!-- End Row-1 -->
 
 	<!-- Row-2 -->
-	<div class="row">
+	<!-- <div class="row">
 		<div class="col-xl-6 col-lg-6 col-md-12">
 			<div class="card">
 				<div class="card-header">
@@ -71,11 +71,11 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- End Row-2 -->
 
 	<!-- Row-3 -->
-	<div class="row">
+<!-- 	<div class="row">
 		<div class="col-xl-6 col-md-12">
 			<div class="card">
 				<div class="card-header">
@@ -88,7 +88,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- End Row-3 -->
 
 </div>

@@ -82,7 +82,13 @@
 									<a href="{{url($notify->ref_link)}}" class="dropdown-item border-bottom d-flex pl-4" data-id="{{ $notify->id }}">
 										<div class="notifyimg bg-info-transparent text-info"> <i class="ti-comment-alt"></i> </div>
 										<div>
-											<div class="<?php if($notify->viewed == 1){ echo 'font-weight-normal'; }else{ echo 'font-weight-normal1'; } ?>">{{$notify->title}}.</div>
+											<?php $exp_desc = explode("HSW", $notify->description);
+											$file_no = "";
+											if(isset($exp_desc)){
+												$exp_desc_file = $exp_desc[1];
+												$file_no = "#HSW".$exp_desc_file;
+											} ?>
+											<div class="<?php if($notify->viewed == 1){ echo 'font-weight-normal'; }else{ echo 'font-weight-normal1'; } ?>">{{ $file_no }} {{$notify->title}}.</div>
 											<div class="small text-muted">{{date('d/m/Y',strtotime($notify->created_at))}}</div>
 										</div>
 									</a>
