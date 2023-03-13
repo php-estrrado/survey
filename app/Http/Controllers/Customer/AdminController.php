@@ -53,6 +53,7 @@ class AdminController extends Controller
         $data['ongoing_surveys'] = Survey_requests::where('cust_id',$cust_id)->where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status','!=',1)->Where('request_status','!=',3)->Where('request_status','!=',4);})->count();        
         $data['pending_surveys'] = Survey_requests::where('cust_id',$cust_id)->where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
         $data['rejected_surveys'] = Survey_requests::where('cust_id',$cust_id)->where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4);})->count();
+        $data['invoice_recieved'] = Survey_requests::where('cust_id',$cust_id)->where('is_deleted',0)->where('is_active',1)->where('request_status',51)->count();
         
         // dd($data);
         // dd(auth()->user()->id);

@@ -28,6 +28,8 @@ use App\Models\UserVisit;
 use App\Rules\Name;
 use Validator;
 
+use App\Models\Survey_requests;
+
 class AdminController extends Controller
 {
     /**
@@ -44,7 +46,13 @@ class AdminController extends Controller
         $data['title']              =   'User';
         $data['menu']               =   'admin-list';
         
-        return view('surveyor.index');
+        $status_in                  =   array(41,42,62,60,30,32,33,43,40,65,59,20,36,37);
+
+        $data['active_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('survey_requests.assigned_surveyor',auth()->user()->id)->orWhere('survey_requests.assigned_surveyor_survey',auth()->user()->id);})->whereIn('request_status',$status_in)->count();
+        $status_in                  =   array(6,7,19,44,45);
+        $data['completed_requests'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('survey_requests.assigned_surveyor',auth()->user()->id)->orWhere('survey_requests.assigned_surveyor_survey',auth()->user()->id);})->whereIn('request_status',$status_in)->count();
+
+        return view('surveyor.index',$data);
     }
     
     public function profile()

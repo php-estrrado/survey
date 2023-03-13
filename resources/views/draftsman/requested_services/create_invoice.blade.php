@@ -236,10 +236,7 @@
                         </div>
                         <div class="col-sm-4">
                             <input class="form-control bg-white" type="text" name="total_tax_amount_words" id="total_tax_amount_words" readonly>
-                            <div id="survey_charges_error"></div>
-                            @error('survey_charges')
-                                <p style="color: red">{{ $message }}</p>
-                            @enderror
+                            
                         </div>
                     </div>
                     <div class="row mt-2">
@@ -256,10 +253,7 @@
                         </div>
                         <div class="col-sm-4">
                             <input class="form-control bg-white" type="text" name="total_invoice_amount_words" id="total_invoice_amount_words" readonly>
-                            <div id="survey_charges_error"></div>
-                            @error('survey_charges')
-                                <p style="color: red">{{ $message }}</p>
-                            @enderror
+                            
                         </div>
                     </div>
                     <div class="row mb-2">

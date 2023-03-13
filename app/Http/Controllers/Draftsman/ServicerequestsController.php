@@ -173,7 +173,7 @@ class ServicerequestsController extends Controller
         }
         elseif($status == 12 || $status == 34 || $status == 35)
         {
-            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->latest()->first()->remarks;
 
             return view('draftsman.requested_services.performa_invoice_rejected',$data);
         }
@@ -544,9 +544,9 @@ class ServicerequestsController extends Controller
                 'payment_mode' =>['required'],
                 'receiver_name' =>['required'],
                 'receiver_address' =>['required'],
-                'state_code' =>['required'],
+                'state_code' =>['required','numeric'],
                 'gstin_unique_id' =>['required'],
-                'survey_charges' =>['required'],
+                'survey_charges' =>['required','numeric','digits_between:1,6'],
                 'cgst_percentage' =>['required'],
                 'sgst_percentage' =>['required'],
                 'cgst_amount' =>['required'],
@@ -645,14 +645,14 @@ class ServicerequestsController extends Controller
                 'payment_mode' =>['required'],
                 'receiver_name' =>['required'],
                 'receiver_address' =>['required'],
-                'state_code' =>['required'],
+                'state_code' =>['required','numeric'],
                 'gstin_unique_id' =>['required'],
-                'survey_charges' =>['required'],
+                'survey_charges' =>['required','numeric','digits_between:1,6'],
                 'cgst_percentage' =>['required'],
                 'sgst_percentage' =>['required'],
                 'cgst_amount' =>['required'],
                 'sgst_amount' =>['required'],
-                'total_tax_amount' =>['required'],
+                 'total_tax_amount' =>['required'],
                 'total_tax_amount_words' =>['required'],
                 'total_invoice_amount' =>['required'],
                 'total_invoice_amount_words' => ['required'],
