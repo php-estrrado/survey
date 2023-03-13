@@ -61,7 +61,7 @@ class LoginController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email'   => ['required','string','email'],
-            'password' => ['required','string','min:6']
+            'password' => ['required','string']
         ]);
         if($validator->passes())
         {
@@ -163,16 +163,13 @@ class LoginController extends Controller
                 // });
 
                 Admin::where('email',$request->email)->update(['otp'=>$otp,'otp_sent_at'=>date('Y-m-d H:i:s')]);
-
-                Session::flash('message', ['text'=>'OTP Sent to E-mail !','type'=>'success']);  
-
-                return back()->withInput($request->only('email', 'remember'))->with('message',' OTP Sent to mail.');
+                $arr = array('status'=>1,'message'=>" OTP Sent to mail.");
+                return json_encode($arr);
             }
             else
             {
-                Session::flash('message', ['text'=>'E-mail does not exist !','type'=>'danger']);
-
-                return back()->withInput($request->only('email', 'remember'))->with('message',' Email does not exist!.');
+                $arr = array('status'=>0,'message'=>"Email doesnot Exists!");
+                return json_encode($arr);
             }
             
         }
@@ -198,12 +195,13 @@ class LoginController extends Controller
                 $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',6)->first();
                 if($exist)
                 {
-                    return back()->withInput($request->all())->with('message',['text'=>'OTP Verified Successfully !','type'=>'success']);
+                    $arr = array('status'=>1,'message'=>"OTP Verified Successfully.");
+                    return json_encode($arr);
                 }
                 else
                 {
-                    Session::flash('message', ['text'=>'Invalid OTP !','type'=>'danger']);
-                    return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid OTP.');
+                    $arr = array('status'=>0,'message'=>"Invalid OTP.");
+                    return json_encode($arr);
                 }
             }
             else

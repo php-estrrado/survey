@@ -29,13 +29,13 @@
 										</div>
 									</div>
 								</div>
-								<div class="row">
+								<div class="row" style="margin-top: 15px;">
 									<div class="col-xl-12 col-lg-12">
 										<div class="card border p-0 shadow-none">
 											<div class="row">
 												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 25px;">
 													<div class="wrapper ml-3">
-														<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request_detail->id}}<span style="float: right;">11/12/2022</span></h6>
+														<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request_detail->id}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request_detail->created_at))}}</span></h6>
 														<small class="text-muted">
 															{{$help_request_detail->description}}
 														</small>
@@ -81,15 +81,6 @@
 			</div>
 		</div>
 	</div>	
-	<div class="container-fluid">
-    	<!-- footer start-->
-    	<footer class="footer">
-			<div class="row">
-				<div class="col-md-12 footer-copyright text-center">
-					<p class="mb-0">Copyright 2022 © HSW </p>
-				</div>
-			</div>
-    	</footer>
-	</div>
+	@include('includes.customer_footer')
 </div>
 @endsection

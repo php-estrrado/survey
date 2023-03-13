@@ -42,22 +42,22 @@
                                 <label class="col-form-label form-label-title" for="password">New Password</label>
                                 <div class="form-input position-relative">
                                     <input class="form-control" type="password" name="password" id="password" placeholder="*********">
+                                    <div class="show-hide"><span class="show" id="showPass" onclick="showPass()"> </span></div>
                                     <div id="password_error"></div>
                                     @error('password')
                                         <p style="color: red">{{ $message }}</p>
                                     @enderror
-                                    <div class="show-hide"><span class="show"> </span></div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label form-label-title" for="password_confirmation">Confirm Password</label>
                                 <div class="form-input position-relative">
                                     <input class="form-control" type="password" name="password_confirmation" id="password_confirmation" placeholder="*********">
+                                    <div class="show-hide"><span class="show" id="showPass1" onclick="showPass1()"> </span></div>
                                     <div id="password_confirmation_error"></div>
                                     @error('password_confirmation')
                                         <p style="color: red">{{ $message }}</p>
                                     @enderror
-                                    <div class="show-hide"><span class="show"> </span></div>
                                 </div>
                             </div>
                             <div class="text-end mt-3">
@@ -72,7 +72,6 @@
 </div>
 @endsection
 @section('js')
- <script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script> 
     <script type="text/javascript">
         $(document).ready(function(){
             @if(Session::has('message'))
@@ -98,6 +97,16 @@
 				},
 				success: function(result)
 				{
+                    var result = JSON.parse(result );
+					
+					if(result.status ==1)
+					{
+						toastr.success(result.message);
+					}
+					else
+					{
+						toastr.error(result.message);
+					}
 				}
 			});
 		}
@@ -117,23 +126,50 @@
 				},
 				success: function(result)
 				{
+                    var result = JSON.parse(result );
+					
+					if(result.status ==1)
+					{
+						toastr.success(result.message);
+					}
+					else
+					{
+						toastr.error(result.message);
+					}
 				}
 			});
 		}
+
+        function showPass()
+        {
+            var password=$("#password");
+
+            if(password.attr('type')==='password')
+            {
+                password.attr('type','text');
+                $('#showPass').addClass('hide').removeClass('show');
+            }
+            else
+            {
+                password.attr('type','password');
+                $('#showPass').addClass('show').removeClass('hide');
+            }
+        }
+
+        function showPass1()
+        {
+            var password=$("#password_confirmation");
+
+            if(password.attr('type')==='password')
+            {
+                password.attr('type','text');
+                $('#showPass1').addClass('hide').removeClass('show');
+            }
+            else
+            {
+                password.attr('type','password');
+                $('#showPass1').addClass('show').removeClass('hide');
+            }
+        }
 	</script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            @if(Session::has('message'))
-                @if(session('message')['type'] =="success")
-                    toastr.success("{{session('message')['text']}}"); 
-                @else
-                    toastr.error("{{session('message')['text']}}"); 
-                @endif
-            @endif
-            
-            @if ($errors->any())          
-                toastr.error("{{$errors->all()[0]}}"); 
-            @endif
-        });
-    </script>
 @endsection

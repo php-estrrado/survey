@@ -22,9 +22,13 @@
                     <ul class="notification-dropdown onhover-show-div">
                         @php 
 							use App\Models\UsrNotification;
+                            use App\Models\Admin;
+                            use App\Models\customer\CustomerMaster;
 
 							$newnotification = 0;
-							$notifications = UsrNotification::where('role_id',6)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();							
+                            $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
+                            $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
+							$notifications = UsrNotification::where('role_id',6)->where('notify_to',$cust_id)->limit(5)->orderby('id','desc')->get();							
 					    @endphp
                         <li><i data-feather="bell"></i>
                             <h6 class="f-18 mb-0">Notitications</h6>

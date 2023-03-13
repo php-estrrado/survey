@@ -264,7 +264,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label-title mt-3" for="observation_start_date">Period of observation Start Date <span class="text-red">*</span></label>
-                                        <input class="form-control" type="text" placeholder="Period of observation Start Date" name="observation_start_date" id="observation_start_date" value="{{ date('d-m-Y',strtotime($survey_data->observation_start_date)) }}">
+                                        <input class="form-control bg-white" type="text" placeholder="Period of observation Start Date" name="observation_start_date" id="observation_start_date" value="{{ date('d-m-Y',strtotime($survey_data->observation_start_date)) }}" readonly>
                                     </div>
                                     <div id="observation_start_date_error"></div>
                                     @error('observation_start_date')
@@ -274,7 +274,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label-title mt-3" for="observation_start_date">Period of observation End Date <span class="text-red">*</span></label>
-                                        <input class="form-control" type="text" placeholder="Period of observation End Date" name="observation_end_date" id="observation_end_date" value="{{ date('d-m-Y',strtotime($survey_data->observation_end_date)) }}">
+                                        <input class="form-control bg-white" type="text" placeholder="Period of observation End Date" name="observation_end_date" id="observation_end_date" value="{{ date('d-m-Y',strtotime($survey_data->observation_end_date)) }}" readonly>
                                     </div>
                                     <div id="observation_end_date_error"></div>
                                     @error('observation_end_date')
@@ -315,16 +315,7 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid">
-      <!-- footer start-->
-      <footer class="footer">
-        <div class="row">
-          <div class="col-md-12 footer-copyright text-center">
-            <p class="mb-0">Copyright 2022 © HSW </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+    @include('includes.customer_footer')
 </div>
 @endsection
 @section('js')
@@ -389,6 +380,11 @@
         todayHighlight: true,
         startDate: '0',
         autoclose: true
+      });
+
+      $("#observation_start_date").datepicker().on('changeDate', function(selected){
+        startDate = new Date(selected.date.valueOf());
+        $('#observation_end_date').datepicker('setStartDate', startDate);
       });
 
       $('#observation_end_date').datepicker({

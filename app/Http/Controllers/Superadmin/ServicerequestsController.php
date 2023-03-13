@@ -352,10 +352,10 @@ class ServicerequestsController extends Controller
         
         $data['survey_status'] = Survey_status::where('id',$datas->request_status)->first()->status_name;
 
-        // if($datas->request_status != $status)
-        // {
-        //     return redirect('superadmin/requested_services');
-        // }
+        if($datas->request_status != $status)
+        {
+            return redirect('superadmin/requested_services');
+        }
         
         if($datas->service_id == 1)
         {
@@ -955,8 +955,9 @@ class ServicerequestsController extends Controller
         $usr_noti['notify_from_role_id'] = 1;
         $usr_noti['notify_type'] = 0;
         $usr_noti['title'] = 'Payment Rejected';
+        $usr_noti['description'] = 'Payment Rejected by Accounts Officer for Request ID HSW'.$id;
         $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '#';
+        $usr_noti['ref_link'] = '/customer/requested_services/'.$id;
         $usr_noti['viewed'] = 0;
         $usr_noti['created_at'] = date('Y-m-d H:i:s');
         $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1099,8 +1100,9 @@ class ServicerequestsController extends Controller
         $usr_noti['notify_from_role_id'] = 1;
         $usr_noti['notify_type'] = 0;
         $usr_noti['title'] = 'Final Report Received';
+        $usr_noti['description'] = 'Final Report Received for Request ID HSW'.$id;
         $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '#';
+        $usr_noti['ref_link'] = '/customer/survey_report/'.$id.'/27';
         $usr_noti['viewed'] = 0;
         $usr_noti['created_at'] = date('Y-m-d H:i:s');
         $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1159,6 +1161,7 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_from_role_id'] = 1;
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Request Rejected';
+            $usr_noti['description'] = 'Survey Request Rejected for Request ID HSW'.$id;
             $usr_noti['ref_id'] = auth()->user()->id;
             $usr_noti['ref_link'] = '/customer/requested_services/'.$id;
             $usr_noti['viewed'] = 0;
@@ -1229,6 +1232,7 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_from_role_id'] = 1;
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Request Reject Open';
+            $usr_noti['description'] = 'Survey Request Reject Open for Request ID HSW'.$id;
             $usr_noti['ref_id'] = auth()->user()->id;
             $usr_noti['ref_link'] = '/customer/requested_services/'.$id;
             $usr_noti['viewed'] = 0;
