@@ -45,11 +45,24 @@ class AdminController extends Controller
         $data['title']              =   'Dashboard';
         $data['menu']               =   'dashboard';
 
-        $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4);})->count();
+                $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('assigned_user',auth()->user()->id)->orWhere('assigned_survey_user',auth()->user()->id);})->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4)->orWhere('request_status',29);})->count();
+
         
         return view('admin.index',$data);
     }
 
+public function marknotifications(Request $request)
+        {
+            $notify = AdminNotification::where('role_id',1)->where('id',$request->not_id)->first();
+            if($notify)
+            {
+                $notify->update(['viewed'=>1]);
+            }else{
+                return false;
+            }
+            return true;
+        }
+        
         function sale_ord_cnt($date){
             $cnt = 0;
             $orders = SalesOrder::where('org_id',1)->where('order_status', '!=', "cancelled")->where('order_status', '!=', "initiated")->whereDate('created_at', '=', date('Y-m-d',strtotime($date)))->sum('g_total');

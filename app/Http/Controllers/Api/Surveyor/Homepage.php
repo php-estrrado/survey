@@ -515,6 +515,8 @@ class Homepage extends Controller
         
             }else if($req_type =="reassignment")
             {
+                 $remarks = $request->remarks;
+
                 if(in_array($assignment_requests->request_status,[30,32,33]))
                 {
                     $request_status = 60;
@@ -574,9 +576,16 @@ class Homepage extends Controller
                     $notify_from_role_id = 3;
                     addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);  
 
+                    if(isset($assignment_requests->assigned_survey_user))
+                    {
+                        $n_admin = $assignment_requests->assigned_survey_user;
+                    }else{
+                        $n_admin = $assignment_requests->assigned_user;
+                    }
                     $from       = $user_id; 
                     $utype      = 2;
-                    $to         = $assignment_requests->assigned_survey_user; 
+                    
+                    $to         = $n_admin; 
                     $ntype      = 'survey_study_accepted';
                     $title      = 'Survey Study Accepted';
                     $desc       = 'Survey Study Request Accepted. Request ID: HSW'.$request_id;

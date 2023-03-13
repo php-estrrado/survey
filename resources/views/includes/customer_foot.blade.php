@@ -42,13 +42,25 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        @if(Session::has('message'))
-            @if(session('message')['type'] =="success")
-                toastr.success("{{session('message')['text']}}"); 
-            @else
-                toastr.error("{{session('message')['text']}}"); 
-            @endif
-        @endif
+                toastr.options.timeOut = 500;
+
+                @if(Session::has('message'))
+                var disp_msg = '{{session("message")["text"]}}';
+                var disp_type = '{{session("message")["type"]}}';
+                    if(disp_type=="success"){
+                        toastr.success(disp_msg, { timeOut: 500 });
+                    
+                    }else{
+
+                        toastr.error(disp_msg, { timeOut: 500 });
+                    }
+                
+
+                    @php
+                    Session::forget('message');
+                    @endphp
+
+                @endif
     });
 </script>
 <script>

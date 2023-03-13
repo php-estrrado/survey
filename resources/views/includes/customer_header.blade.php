@@ -16,7 +16,7 @@
                 <li> <span class="header-search"><i data-feather="search"></i></span></li>
                 <li class="onhover-dropdown">
                     <div class="notification-box"><i class="fa fa-bell-o"> </i><span class="badge rounded-pill badge-theme"> </span></div>
-                    <ul class="notification-dropdown onhover-show-div">
+                    <ul class="notification-dropdown onhover-show-div marknotifications">
                         @php 
 							use App\Models\UsrNotification;
 
@@ -29,7 +29,7 @@
                         @if($notifications && count($notifications)>0)
                             @foreach($notifications as $notify)
                                 <li>
-                                    <a href="{{url($notify->ref_link)}}">
+                                    <a href="{{url($notify->ref_link)}}" data-id="{{ $notify->id }}">
                                         <p>{{$notify->title}} <span class="pull-right">{{date('d/m/Y',strtotime($notify->created_at))}}.</span></p>
                                     </a>
                                 </li>
