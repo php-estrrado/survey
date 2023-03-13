@@ -70,6 +70,19 @@ class ServicerequestsController extends Controller
                                         ->orderBy('survey_requests.id','DESC')
                                         ->get();
 
+        $survey_status_in  = array(18);
+        $data['survey_study_requests']    =   DB::table('survey_requests')
+                                        ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
+                                        ->leftjoin('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
+                                        ->leftjoin('cust_telecom', 'survey_requests.cust_id', '=', 'cust_telecom.cust_id')
+                                        ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
+                                        ->whereIn('survey_requests.request_status',$survey_status_in)->where('assigned_survey_user',auth()->user()->id)->Where('survey_requests.is_deleted',0)
+                                        ->where('cust_mst.is_deleted',0)
+                                        ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
+                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*')
+                                        ->orderBy('survey_requests.id','DESC')
+                                        ->get();
+
         // dd($data);
 
         return view('admin.new_service_requests',$data);
@@ -353,8 +366,9 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_from_role_id'] = 2;
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Field Study Rescheduled';
+            $usr_noti['description'] = 'Field Study Rescheduled By Surveyor. Request ID:HSW'.$input['id'];
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '#';
+            $usr_noti['ref_link'] = '/customer/requested_services/'.$input['id'];
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -533,8 +547,9 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_from_role_id'] = 2;
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Survey Study Rescheduled';
+            $usr_noti['description'] = 'Survey Study Rescheduled By Surveyor. Request ID:HSW'.$input['id'];
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '#';
+            $usr_noti['ref_link'] = '/customer/requested_services/'.$input['id'];
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -940,10 +955,10 @@ class ServicerequestsController extends Controller
         
         $data['status'] = $status;
 
-        // if($datas->request_status != $status)
-        // {
-        //     return redirect('admin/requested_service_detail/'.$id.'/'.$datas->request_status);
-        // }
+        if($datas->request_status != $status)
+        {
+            return redirect('admin/requested_service_detail/'.$id.'/'.$datas->request_status);
+        }
 
         if($datas->service_id == 1)
         {

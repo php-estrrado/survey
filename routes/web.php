@@ -115,8 +115,8 @@ Route::middleware('role:customer','revalidate')->group(function () {
     Route::get('/customer/requested_services', [App\Http\Controllers\Customer\RequestedServicesController::class, 'index'])->name('customer.requested_services');
     Route::get('/customer/request_service_detail/{id}/{status}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'request_service_detail']);
     
-    Route::get('/customer/request_service_performa_invoice/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'request_service_performa_invoice']);
-    Route::get('/customer/request_service_invoice/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'request_service_invoice']);
+    Route::get('/customer/request_service_performa_invoice/{id}/{status}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'request_service_performa_invoice']);
+    Route::get('/customer/request_service_invoice/{id}/{status}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'request_service_invoice']);
 
     Route::get('/customer/customer_invoice_download/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'customer_invoice_download']);
 
@@ -128,11 +128,11 @@ Route::middleware('role:customer','revalidate')->group(function () {
     Route::post('/customer/performa_invoice_remarks', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_remarks']);
     Route::post('/customer/performa_invoice_reject', [App\Http\Controllers\Customer\RequestedServicesController::class, 'performa_invoice_reject']);
 
-    Route::get('/customer/receipt_rejected/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'receipt_rejected']);
+    Route::get('/customer/receipt_rejected/{id}/{status}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'receipt_rejected']);
 
     Route::get('/customer/edit_survey_request/{survey_id}/{service_id}/{service_request_id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'edit_survey_request']);
 
-    Route::get('/customer/survey_report/{survey_id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'survey_report']);
+    Route::get('/customer/survey_report/{survey_id}/{status}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'survey_report']);
 
     Route::get('/customer/help', [App\Http\Controllers\Customer\HelpController::class, 'help']);
     Route::get('/customer/help_detail/{id}', [App\Http\Controllers\Customer\HelpController::class, 'help_detail']);
