@@ -49,7 +49,15 @@
 			</div>
 		</div>
 		<div class="col-lg-6 col-md-auto">
-			<div class="mt-5">
+
+			<!-- <div class="text-lg-right btn-list mt-4 mt-lg-0">
+				@if(isset($status) && $status == 7)
+					<a href="{{URL('/admin/createETA')}}/{{$survey_id}}" class="btn btn-primary">Add ETA</a>
+        			<a href="#" class="modal-effect btn btn-danger" data-effect="effect-scale" data-target="#modaldemo2" data-toggle="modal" href="">Reject</a>
+        		@endif
+			</div> -->
+			<div class="mt-6">
+
 				<div class="main-profile-contact-list row">
 					<div class="media col-sm-3">
 						<div class="media-icon bg-primary text-white mr-3 mt-1">

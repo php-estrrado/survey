@@ -17,6 +17,7 @@ use App\Models\Modules;
 use App\Models\Country;
 use App\Models\Admin;
 use App\Models\AdminNotification;
+use App\Models\UsrNotification;
 use App\Models\Institution;
 use App\Models\UserManagement;
 use App\Models\UserRole;
@@ -59,7 +60,7 @@ class AdminController extends Controller
     }
     public function marknotifications(Request $request)
         {
-            $notify = AdminNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
+            $notify = UsrNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
             if($notify)
             {
                 $notify->update(['viewed'=>1]);

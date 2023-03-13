@@ -54,7 +54,11 @@
 						</svg>
 						@php 
 							use App\Models\AdminNotification;
+
 							use App\Models\Admin;
+
+							use App\Models\UsrNotification;
+
 
 							$newnotification = 0;
 
@@ -72,8 +76,8 @@
 							}
 							elseif(auth()->user()->role_id == 3)
 							{
-								$notifications = AdminNotification::where('role_id',3)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
-								$n_count = AdminNotification::where('role_id',3)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
+								$notifications = UsrNotification::where('role_id',3)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+								$n_count = UsrNotification::where('role_id',3)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
 							}
 							elseif(auth()->user()->role_id == 4)
 							{
@@ -101,7 +105,9 @@
 						<div class="notify-menu marknotifications">
 							@if($notifications && count($notifications)>0)
 								@foreach($notifications as $notify)
-									<a href="{{url($notify->ref_link)}}" class="dropdown-item border-bottom d-flex pl-4" data-id="{{ $notify->id }}">
+
+								<?php if(auth()->user()->role_id == 3 && $notify->web_ref_link !="" ){ $url_ref = url($notify->web_ref_link);  }else{  $url_ref = url($notify->ref_link); }   ?>
+									<a href="{{ $url_ref }}" class="dropdown-item border-bottom d-flex pl-4" data-id="{{ $notify->id }}">
 										<div class="notifyimg bg-info-transparent text-info"> <i class="ti-comment-alt"></i> </div>
 										<div>
 											<?php $exp_desc = explode("HSW", $notify->description);
