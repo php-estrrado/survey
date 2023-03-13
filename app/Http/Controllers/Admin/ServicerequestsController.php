@@ -183,6 +183,8 @@ class ServicerequestsController extends Controller
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
 
+        $data['superadmin_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',2)->latest()->first()->remarks;
+
         // dd($status);
 
         if($status == 6)
@@ -230,9 +232,10 @@ class ServicerequestsController extends Controller
             $desc       = 'New Field Study Request. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'field_study_request';
+            $webreflink = '/surveyor/requested_service_detail/'.$input['id'].'/41/';
             $notify     = 'surveyor';
             $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id,$webreflink);
 
             // notify customer
             $from       = auth()->user()->id; 
@@ -324,9 +327,10 @@ class ServicerequestsController extends Controller
             $desc       = 'Field Study Rescheduled. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'field_study_rescheduled';
+            $webreflink = '/surveyor/requested_service_detail/'.$input['id'].'/62/';
             $notify     = 'surveyor';
             $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id,$webreflink);
 
             // // notify customer
             // $from       = auth()->user()->id; 
@@ -406,9 +410,10 @@ class ServicerequestsController extends Controller
             $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'survey_study_request';
+            $webreflink = '/surveyor/requested_service_detail/'.$input['id'].'/43/';
             $notify     = 'surveyor';
             $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id,$webreflink);
 
             // notify customer
             $from       = auth()->user()->id; 
@@ -501,9 +506,10 @@ class ServicerequestsController extends Controller
             $desc       = 'Survey Study Rescheduled. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'survey_study_rescheduled';
+            $webreflink = '/surveyor/requested_service_detail/'.$input['id'].'/65/';
             $notify     = 'surveyor';
             $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id,$webreflink);
 
             // // notify customer
             // $from       = auth()->user()->id; 
@@ -596,9 +602,10 @@ class ServicerequestsController extends Controller
             $desc       = 'Field Study Reschedule Rejected. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'field_study_reschedule_rejected';
+            $webreflink = '/surveyor/requested_service_detail/'.$input['id'].'/63/';
             $notify     = 'surveyor';
             $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id,$webreflink);
 
             if(isset($survey_request_log_id))
             {   
@@ -660,9 +667,10 @@ class ServicerequestsController extends Controller
             $desc       = 'Survey Study Reschedule Rejected. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'survey_study_reschedule_rejected';
+            $webreflink = '/surveyor/requested_service_detail/'.$input['id'].'/66/';
             $notify     = 'surveyor';
             $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);            
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id,$webreflink);            
 
             if(isset($survey_request_log_id))
             {   
@@ -724,9 +732,10 @@ class ServicerequestsController extends Controller
             $desc       = 'Field Study Report Rejected. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'field_study_rejected';
+            $webreflink = '/surveyor/requested_service_detail/'.$input['id'].'/30/';
             $notify     = 'surveyor';
             $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id,$webreflink);
 
             if(isset($survey_request_log_id))
             {   
@@ -788,9 +797,10 @@ class ServicerequestsController extends Controller
             $desc       = 'Survey Study Report Rejected. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'survey_study_rejected';
+            $webreflink = '/surveyor/requested_service_detail/'.$input['id'].'/20/';
             $notify     = 'surveyor';
             $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id,$webreflink);
 
             if(isset($survey_request_log_id))
             {   
@@ -1247,11 +1257,11 @@ function get_remote_file_info($url) {
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'general_area'=>['required'],
-            'location'=>['required'],
+            'location'=>['required','alpha'],
             'scale_of_survey_recomended'=>['required'],
             'type_of_survey'=>['required'],
-            'no_of_days_required'=>['required'],
-            'charges'=>['required'],
+            'no_of_days_required'=>['required','numeric'],
+            'charges'=>['required','numeric'],
             'recipient'=>['required'],
             'remarks'=>['nullable'],
         ]);
@@ -1354,11 +1364,11 @@ function get_remote_file_info($url) {
             'survey_id'=>['required'],
             'eta_id'=>['required'],
             'general_area'=>['required'],
-            'location'=>['required'],
+            'location'=>['required','alpha'],
             'scale_of_survey_recomended'=>['required'],
             'type_of_survey'=>['required'],
-            'no_of_days_required'=>['required'],
-            'charges'=>['required'],
+            'no_of_days_required'=>['required','numeric'],
+            'charges'=>['required','numeric'],
             'recipient'=>['required'],
             'remarks'=>['nullable'],
         ]);

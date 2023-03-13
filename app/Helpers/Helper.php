@@ -84,7 +84,7 @@ if (!function_exists('geSiteName')) {
 }if (!function_exists('notifyCount')){
     function notifyCount($id){ return DB::table('users')->where('id',$id)->first()->notify; }
 }if (!function_exists('addNotification')){
-     function addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id){
+     function addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id,$webreflink=''){
       
 
        if($notify                ==  'admin'){
@@ -141,7 +141,7 @@ if (!function_exists('geSiteName')) {
             sendPush($deviceTokens,$pushData);
              
             
-             DB::table('usr_notifications')->insert(['notify_from'=>$from,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id]);
+             DB::table('usr_notifications')->insert(['notify_from'=>$from,'notify_to'=>$to,'notify_type'=>$ntype,'title'=>$title,'description'=>$desc,'ref_id'=>$refId,'ref_link'=>$reflink,'created_at'=>date('Y-m-d H:i:s'),'role_id'=>$utype,'notify_from_role_id'=>$notify_from_role_id,'web_ref_link'=>$webreflink]);
         }
     }
 }
