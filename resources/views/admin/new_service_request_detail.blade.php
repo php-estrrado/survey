@@ -134,6 +134,9 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 													@endforeach
 												@endif
 											</select>
+											@error('assign_surveyor')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
 										</div>
 									</div>
 									<div class="col-sm-6 col-md-6">
@@ -141,12 +144,16 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 											<label class="form-label" for="field_study">Date for field study <span class="text-red">*</span></label>
 											<input type="text" class="form-control" name="field_study" id="field_study" placeholder="dd-mm-yyyy">
 										</div>
+										@error('field_study')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
 									</div>
 									<div class="col-sm-12 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="remarks">Remarks</label>
 											<textarea class="form-control" name="remarks" id="remarks"  rows="3" placeholder="Type Here..."></textarea>
 										</div>
+										
 									</div>
 								</div>
 								<hr />
