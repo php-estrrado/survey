@@ -1003,7 +1003,9 @@ class ServicerequestsController extends Controller
         }
         elseif($status == 44)
         {
-            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',44)->first()->remarks;
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',44)->orderby('id','DESC')->get();
+
+            // dd($data);
             return view('admin.requested_services.surveryor_rejected_surveystudy',$data);
         }
         elseif($status == 18)
@@ -1048,7 +1050,9 @@ class ServicerequestsController extends Controller
         }
         elseif($status == 45)
         {
-            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',45)->first()->remarks;
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',45)->orderby('id','desc')->get();
+
+            // dd($data);
 
             return view('admin.requested_services.surveryor_rejected_fieldstudy',$data);
         }
