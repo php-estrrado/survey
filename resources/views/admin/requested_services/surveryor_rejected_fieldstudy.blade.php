@@ -32,11 +32,14 @@
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">HSW{{$survey_id}}</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
-							<li><span class="h6 mt-3">Name of the firm: {{$request_data->firm}}</span></li>
-							<li><span class="h6 mt-3">Type of firm: {{$request_data->sector}}</span></li>
+							<?php
+								$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+							?>							
+							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
+							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
 							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
@@ -111,11 +114,17 @@
 		<div class="border-0">
 			<div class="tab-content">
 				<div class="tab-pane active" id="tab-7">
-                <div class="card newser">
+                	<div class="card newser">
 						<div class="card-body">
                             <div class="card-title font-weight-bold">Remarks:</div>
                             <div class="row">
-                                <div class="col-sm-12 col-md-12">{{$surveyor_remarks}}</div>
+                                <div class="col-sm-12 col-md-12">
+									@if($surveyor_remarks)
+										@foreach($surveyor_remarks as $survey_remarks)
+											<li>{{$survey_remarks->remarks}}</li>
+										@endforeach
+									@endif
+								</div>
                             </div>
 						</div>
 					</div>
