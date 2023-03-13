@@ -53,7 +53,7 @@ class AdminController extends Controller
 
 public function marknotifications(Request $request)
         {
-            $notify = AdminNotification::where('role_id',1)->where('id',$request->not_id)->first();
+            $notify = AdminNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
             if($notify)
             {
                 $notify->update(['viewed'=>1]);

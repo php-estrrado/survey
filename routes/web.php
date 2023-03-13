@@ -33,7 +33,7 @@ Route::post('/customer/verify_otp', [App\Http\Controllers\Customer\Auth\LoginCon
 
 Route::post('/customer/update_password', [App\Http\Controllers\Customer\Auth\LoginController::class, 'update_password']);
 
-Route::middleware('role:customer')->group(function () {
+Route::middleware('role:customer','revalidate')->group(function () {
 
     Route::get('/customer/logout', [App\Http\Controllers\Customer\AdminController::class, 'adminLogout']);
 
@@ -155,7 +155,7 @@ Route::post('/superadmin/regVerifyotpemail', [App\Http\Controllers\Superadmin\Au
 
 Route::get('/all/mark-notifications', [App\Http\Controllers\AdminController::class, 'marknotifications']);
 
-Route::middleware('role:superadmin')->group(function () {
+Route::middleware('role:superadmin','revalidate')->group(function () {
     Route::get('/superadmin/dashboard', [App\Http\Controllers\Superadmin\AdminController::class, 'index']);
 
 Route::post('/superadmin/dashboard/services', [App\Http\Controllers\Superadmin\AdminController::class, 'services'])->name('dashboard.services');
@@ -252,7 +252,7 @@ Route::get('/admin/login', [App\Http\Controllers\Admin\Auth\LoginController::cla
 Route::post('/admin/sendotpemail', [App\Http\Controllers\Admin\Auth\LoginController::class, 'loginSendotpemail']);
 Route::post('/admin/regVerifyotpemail', [App\Http\Controllers\Admin\Auth\LoginController::class, 'regVerifyotpemail']);
 
-Route::middleware('role:admin')->group(function () {
+Route::middleware('role:admin','revalidate')->group(function () {
     Route::get('/admin/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index']);
 
     Route::get('/admin/notifications', [App\Http\Controllers\Admin\AdminController::class, 'notifications']);
@@ -319,7 +319,7 @@ Route::get('/draftsman/login', [App\Http\Controllers\Draftsman\Auth\LoginControl
 Route::post('/draftsman/sendotpemail', [App\Http\Controllers\Draftsman\Auth\LoginController::class, 'loginSendotpemail']);
 Route::post('/draftsman/regVerifyotpemail', [App\Http\Controllers\Draftsman\Auth\LoginController::class, 'regVerifyotpemail']);
 
-Route::middleware('role:draftsman')->group(function () {
+Route::middleware('role:draftsman','revalidate')->group(function () {
     Route::get('/draftsman/dashboard', [App\Http\Controllers\Draftsman\AdminController::class, 'index']);
 
     Route::get('/draftsman/notifications', [App\Http\Controllers\Draftsman\AdminController::class, 'notifications']);
@@ -354,7 +354,7 @@ Route::get('/accountant/login', [App\Http\Controllers\Accountant\Auth\LoginContr
 Route::post('/accountant/sendotpemail', [App\Http\Controllers\Accountant\Auth\LoginController::class, 'loginSendotpemail']);
 Route::post('/accountant/regVerifyotpemail', [App\Http\Controllers\Accountant\Auth\LoginController::class, 'regVerifyotpemail']);
 
-Route::middleware('role:accountant')->group(function () {
+Route::middleware('role:accountant','revalidate')->group(function () {
     Route::get('/accountant/dashboard', [App\Http\Controllers\Accountant\AdminController::class, 'index']);
 
     Route::get('/accountant/notifications', [App\Http\Controllers\Accountant\AdminController::class, 'notifications']);
@@ -379,7 +379,7 @@ Route::get('/surveyor/login', [App\Http\Controllers\Surveyor\Auth\LoginControlle
 Route::post('/surveyor/sendotpemail', [App\Http\Controllers\Surveyor\Auth\LoginController::class, 'loginSendotpemail']);
 Route::post('/surveyor/regVerifyotpemail', [App\Http\Controllers\Surveyor\Auth\LoginController::class, 'regVerifyotpemail']);
 
-Route::middleware('role:surveyor')->group(function () {
+Route::middleware('role:surveyor','revalidate')->group(function () {
     Route::get('/surveyor/dashboard', [App\Http\Controllers\Surveyor\AdminController::class, 'index']);
     
     Route::get('/surveyor/notifications', [App\Http\Controllers\Surveyor\AdminController::class, 'notifications']);

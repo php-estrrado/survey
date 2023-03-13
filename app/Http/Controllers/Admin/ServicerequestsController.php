@@ -204,7 +204,11 @@ class ServicerequestsController extends Controller
             'assign_surveyor'=>['required'],
             'field_study'=>['required'],
             'remarks'=>['nullable'],
-        ]);
+        ],
+    [
+        'assign_surveyor.required' => 'Assign Surveyor is required.',
+        'field_study.required' => 'Date for field study is required.'
+    ]);
 
         if($validator->passes())
         {
