@@ -107,7 +107,7 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="avatar">Profile Pic</label>
+								<label class="form-label" for="avatar">Profile Pic <span class="text-red">*</span></label>
 								<div class="custom-file">
 									<input type="file" class="custom-file-input" name="avatar" id="avatar" >
 									<label class="custom-file-label"></label>

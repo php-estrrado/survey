@@ -1007,7 +1007,7 @@ class ServicerequestsController extends Controller
 
         $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
         $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
-
+        
         if($status == 24)
         {
             $data['final_report'] = Survey_requests::where('id',$id)->first()->final_report;

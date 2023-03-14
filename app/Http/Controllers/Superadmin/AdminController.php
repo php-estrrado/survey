@@ -275,44 +275,45 @@ class AdminController extends Controller
     public function edit_profile(Request $request)
     {
 
-        $validator = Validator::make($request->all(), [
-            'name'=>['required','regex:/^[a-zA-Z\s]*$/'],
-            'phone'=>['required','numeric','digits:10'],
-            'email' => ['required','email','max:255',Rule::unique('usr_management','email')->ignore($request->admin_id)],
-            'designation'=>['required','regex:/^[a-zA-Z\s]*$/'],
-            'pen'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
-            'avatar' => ['nullable','max:10000'],
-            'institution' =>['nullable','confirmed','min:6']
-        ]);
 
-        if($validator->passes())
+            $validator = Validator::make($request->all(),[
+                'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
+                'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
+                'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
+                'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
+                'pen'            =>  ['required'],
+                'institution'    =>  ['required']
+            ]);
+
+if($validator->passes())
         {
-            $input = $request->all();
+       
+        $admin_arr = [];
+        $admin_arr['fname'] = $input['name'];
+        $admin_arr['email'] = $input['email'];
+        $admin_arr['phone'] = $input['phone'];
+        $admin_arr['is_active'] = 1;
+        $admin_arr['is_deleted'] = 0;
+        $admin_arr['updated_by'] = auth()->user()->id;
+        $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $admin_arr = [];
-            $admin_arr['fname'] = $input['name'];
-            $admin_arr['email'] = $input['email'];
-            $admin_arr['phone'] = $input['phone'];
-            $admin_arr['is_active'] = 1;
-            $admin_arr['is_deleted'] = 0;
-            $admin_arr['updated_by'] = auth()->user()->id;
-            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+        Admin::where('id',$input['admin_id'])->update($admin_arr);
 
-            Admin::where('id',$input['admin_id'])->update($admin_arr);
+        $usr_arr = [];
+        $usr_arr['fullname'] = $input['name'];
+        $usr_arr['email'] = $input['email'];
+        $usr_arr['phone'] = $input['phone'];
+        $usr_arr['designation'] = $input['designation'];
+        $usr_arr['pen'] = $input['pen'];
+        $usr_arr['institution'] = $input['institution'];
+        $usr_arr['is_active'] = 1;
+        $usr_arr['is_deleted'] = 0;
+        $usr_arr['updated_by'] = auth()->user()->id;
+        $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-            $usr_arr = [];
-            $usr_arr['fullname'] = $input['name'];
-            $usr_arr['email'] = $input['email'];
-            $usr_arr['phone'] = $input['phone'];
-            $usr_arr['designation'] = $input['designation'];
-            $usr_arr['pen'] = $input['pen'];
-            $usr_arr['institution'] = $input['institution'];
-            $usr_arr['is_active'] = 1;
-            $usr_arr['is_deleted'] = 0;
-            $usr_arr['updated_by'] = auth()->user()->id;
-            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+        UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
 
-            UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
+       
 
             if($request->hasfile('avatar'))
             {
@@ -328,6 +329,7 @@ class AdminController extends Controller
                 $file->move($upload_path, $filename);
 
                 $file_path = config('app.url') . "/public/$folder_name/$filename";
+
 
                 Admin::where('id',$input['admin_id'])->update([
                     'avatar' => $file_path,
@@ -348,6 +350,8 @@ class AdminController extends Controller
         {
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
+
+
     }
 
     function validateUser(Request $request){
@@ -479,6 +483,7 @@ class AdminController extends Controller
                 'role_id'        =>  ['required'],
                 'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
+                'avatar'=>['required','image','mimes:jpeg,png,jpg']
             ],
             [],
             [
@@ -489,6 +494,7 @@ class AdminController extends Controller
                 'role_id' => 'User Role',
                 'pen' => 'PEN Number',
                 'institution' => 'User Institution',
+                'avatar' => 'Profile Pic',
             ]);
             // if ($validator->fails()) 
             // {
@@ -593,12 +599,13 @@ class AdminController extends Controller
         {
             $validator = $request->validate([
                 'name'           =>  ['required','max:100'],
-                'email'          =>  ['required','unique:admins,email','email','max:100'],
-                'phone'          =>  ['required','numeric','unique:admins'],
+                'email'          =>  ['required',Rule::unique('admins')->where('is_deleted',0),'email','max:100'],
+                'phone'          =>  ['required','numeric',Rule::unique('admins')->where('is_deleted',0)],
                 'designation'    =>  ['required','max:100'],
                 'role_id'        =>  ['required'],
                 'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
+                'avatar'=>['required','image','mimes:jpeg,png,jpg']
             ],
             [],
             [
@@ -609,6 +616,7 @@ class AdminController extends Controller
                 'role_id' => 'User Role',
                 'pen' => 'PEN Number',
                 'institution' => 'User Institution',
+                'avatar' => 'Profile Pic',
             ]);
             // if ($validator->fails()) 
             // {

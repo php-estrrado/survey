@@ -55,11 +55,14 @@ class ServicerequestsController extends Controller
     
     // user roles and modules
     
-    public function new_service_requests()
+    public function new_service_requests(Request $request)
     { 
         $data['title']              =   'New Service Request';
         $data['menu']               =   'new-service-request';
-        $data['survey_requests']    =   DB::table('survey_requests')
+        $data['ins']               =  $request->ins; 
+        $data['date_val']               =  $request->date_val; 
+        $data['sub_offices']               =   Institution::where('is_active',1)->where('is_deleted',0)->get();
+        $query =   DB::table('survey_requests')
                                         ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
                                         ->leftjoin('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
                                         ->leftjoin('cust_telecom', 'survey_requests.cust_id', '=', 'cust_telecom.cust_id')
@@ -68,8 +71,37 @@ class ServicerequestsController extends Controller
                                         ->where('cust_mst.is_deleted',0)
                                         ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
                                         ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*')
-                                        ->orderBy('survey_requests.id','DESC')
-                                        ->get();
+                                        ->orderBy('survey_requests.id','DESC');
+
+            if($request->ins >0){
+            $query->where('survey_requests.assigned_institution', $request->ins);
+            } 
+
+            if($request->date_val !=""){
+
+            if($request->date_val == "today")
+            {
+            $start = date('Y-m-d 00:00:00'); $end = date('Y-m-d H:i:s',strtotime(now())); 
+            $query->whereBetween('survey_requests.created_at', [$start, $end]);
+            }else if($request->date_val == "week")
+            {
+            $start = date('Y-m-d 00:00:00', strtotime('monday this week')); $end = date('Y-m-d H:i:s',strtotime(now())); 
+
+            $query->whereBetween('survey_requests.created_at', [$start, $end]);
+            }
+            else if($request->date_val == "month")
+            {
+            $start = date('Y-m-01 00:00:00'); $end = date('Y-m-d H:i:s',strtotime(now())); 
+
+            $query->whereBetween('survey_requests.created_at', [$start, $end]);
+            }else
+            {
+            $query->whereYear('survey_requests.created_at', $request->date_val);
+            }
+
+            } 
+
+          $data['survey_requests']    =     $query->get();  
 
         return view('superadmin.requested_services.new_service_requests',$data);
     }
@@ -308,17 +340,17 @@ class ServicerequestsController extends Controller
 
             if($request->date_val == "today")
             {
-                $start = date('Y-m-d 00:00:00'); $end = date('Y-m-d 00:00:00',strtotime(now())); 
+                $start = date('Y-m-d 00:00:00'); $end = date('Y-m-d H:i:s',strtotime(now())); 
                 $query->whereBetween('survey_requests.created_at', [$start, $end]);
             }else if($request->date_val == "week")
             {
-                $start = date('Y-m-d 00:00:00', strtotime('monday this week')); $end = date('Y-m-d 00:00:00',strtotime(now())); 
+                $start = date('Y-m-d 00:00:00', strtotime('monday this week')); $end = date('Y-m-d H:i:s',strtotime(now())); 
                 
                 $query->whereBetween('survey_requests.created_at', [$start, $end]);
             }
             else if($request->date_val == "month")
             {
-                $start = date('Y-m-1 00:00:00'); $end = date('Y-m-d 00:00:00',strtotime(now())); 
+                $start = date('Y-m-1 00:00:00'); $end = date('Y-m-d H:i:s',strtotime(now())); 
                 
                 $query->whereBetween('survey_requests.created_at', [$start, $end]);
             }else

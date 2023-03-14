@@ -193,7 +193,7 @@ class DredgingsurveyController extends Controller
                 $admin_noti['role_id'] = 1;
                 $admin_noti['notify_from_role_id'] = 6;
                 $admin_noti['notify_type'] = 'survey_resubmit';
-                $admin_noti['title'] = 'Survey Request Re-Submitted - HSW'.$input['survey_request_id'];
+                $admin_noti['title'] = 'Survey Request Re-Submitted';
                 $admin_noti['description'] = 'Survey Request Re-Submitted - HSW'.$input['survey_request_id'];
                 $admin_noti['ref_id'] = $cust_id;
                 $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;
@@ -253,7 +253,7 @@ class DredgingsurveyController extends Controller
             if($validator->passes())
             {
                 $dredging = [];
-    
+                
                 $dredging['cust_id'] = $cust_id;
                 $dredging['fname'] = $input['fname'];
                 $dredging['designation'] = $input['designation'];
@@ -308,8 +308,11 @@ class DredgingsurveyController extends Controller
                 }else{
                     $dredging['dredging_survey_method'] = "";
                 }
-                
+                    
+                    // dd($dredging);
+
                 $dredging_id = Dredging_survey::create($dredging)->id;
+                Dredging_survey::where("id",$dredging_id)->update(['detailed_description_area'=>$input['detailed_description_area']]);
     
                 $survey_request = [];
     
@@ -347,7 +350,7 @@ class DredgingsurveyController extends Controller
                 $admin_noti['role_id'] = 1;
                 $admin_noti['notify_from_role_id'] = 6;
                 $admin_noti['notify_type'] = 'survey_request';
-                $admin_noti['title'] = 'Survey Request Submitted - HSW'.$survey_request_id;
+                $admin_noti['title'] = 'Survey Request Submitted';
                 $admin_noti['description'] = 'Survey Request Submitted - HSW'.$survey_request_id;
                 $admin_noti['ref_id'] = $cust_id;
                 $admin_noti['ref_link'] = '/superadmin/new_service_request_detail/'.$survey_request_id;

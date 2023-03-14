@@ -240,7 +240,7 @@
 												Type Of Survey
 											</div>
 										</div>
-										<label class="form-label">{{$field_study_eta->type_of_survey}}</label>
+										<label class="form-label">{{ getSurveyType($field_study_eta->type_of_survey) }}</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">

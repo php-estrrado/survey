@@ -12,6 +12,12 @@
     color: #000;
     font-size: 12px;
 	}
+	.side-menu__label {
+		margin-right: 5px;
+	}
+	.header-brand-img {
+		height: 60px ;
+	}
 </style>
 <!--app header-->
 <div class="app-header header">
