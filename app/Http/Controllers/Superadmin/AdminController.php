@@ -275,7 +275,7 @@ class AdminController extends Controller
     public function edit_profile(Request $request)
     {
 
-
+ $input = $request->all();
             $validator = Validator::make($request->all(),[
                 'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
                 'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
