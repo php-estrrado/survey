@@ -87,6 +87,18 @@
 							<label class="form-label">{{ getOrgType($request_data->firm) }}</label>
 						</div>
 					</div>
+					@if($request_data->others)
+						<div class="col-sm-4 col-md-4">
+							<div class="form-group">
+								<div class="media-body">
+									<div class="font-weight-normal1">
+										Others
+									</div>
+								</div>
+								<label class="form-label">{{$request_data->others}}</label>
+							</div>
+						</div>
+					@endif
 					<div class="col-md-12">
 						<div class="form-group">
 							<div class="media-body">
@@ -145,7 +157,7 @@
 						<div class="form-group">
 							<div class="media-body">
 								<div class="font-weight-normal1">
-									Name of waterbody
+									Name of Place
 								</div>
 							</div>
 							<label class="form-label">{{$request_data->place}}</label>
@@ -635,6 +647,18 @@
 									</div>
 								</div>
 								<label class="form-label">{{$request_data->detailed_description_area}}</label>
+							</div>
+						</div>
+					@endif
+					@if($request_data->no_of_surveys)
+						<div class="col-sm-4 col-md-4">
+							<div class="form-group">
+								<div class="media-body">
+									<div class="font-weight-normal1">
+										Number of Surveys needed
+									</div>
+								</div>
+								<label class="form-label">{{$request_data->no_of_surveys}}</label>
 							</div>
 						</div>
 					@endif

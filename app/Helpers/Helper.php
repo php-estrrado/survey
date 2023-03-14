@@ -21,7 +21,7 @@ use App\Models\AdminNotification;
 use App\Models\Product;
 use App\Models\OrganisationType;
 use Twilio\Rest\Client;
-
+use App\Models\SurveyType;
 
 
 if (!function_exists('geSiteName')) {
@@ -417,6 +417,21 @@ if (!function_exists('getOrgType')) {
             $org_types = "";
          }
          return $org_types;
+    }
+
+}
+
+if (!function_exists('getSurveyType')) {
+
+    function getSurveyType($id) {
+         $survey_type = SurveyType::where('id', $id)->first(); 
+         if($survey_type)
+         {
+            $survey_types = $survey_type->type;
+         }else{
+            $survey_types = "";
+         }
+         return $survey_types;
     }
 
 }
