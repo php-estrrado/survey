@@ -86,7 +86,7 @@ class RequestedServicesController extends Controller
         $data['survey_datas'] = DB::table('survey_request_logs')
                                 ->leftjoin('survey_status', 'survey_request_logs.survey_status', '=', 'survey_status.id')
                                 ->leftjoin('survey_requests', 'survey_request_logs.survey_request_id', '=', 'survey_requests.id')
-                                ->where('survey_request_logs.cust_id',$cust_id)->where('survey_request_logs.survey_request_id',$id)->where('survey_request_logs.is_active',1)->where('survey_request_logs.is_deleted',0)
+                                ->where('survey_request_logs.cust_id',$cust_id)->where('survey_request_logs.survey_request_id',$id)->where('survey_request_logs.is_active',1)->where('survey_request_logs.is_deleted',0)->where('survey_request_logs.survey_status','!=',17)
                                 ->select('survey_request_logs.created_at AS log_date','survey_request_logs.*','survey_status.*','survey_requests.*')
                                 ->orderBy('survey_request_logs.id','DESC')
                                 ->get();
@@ -398,7 +398,8 @@ class RequestedServicesController extends Controller
         $data['id'] = $survey_id;
         $data['service_name'] = Services::where('id',$datas->service_id)->first()->service_name;
         $data['status_name'] = Survey_status::where('id',$datas->request_status)->first()->status_name;
-        $data['remarks'] = Survey_request_logs::where('survey_request_id',$survey_id)->where('survey_status',$datas->request_status)->first()->remarks;
+        $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$survey_id)->where('survey_status',17)->first()->remarks;
+        $data['ch_remarks'] = Survey_request_logs::where('survey_request_id',$survey_id)->where('survey_status',70)->first()->remarks;
 
         // dd($data);
         if($datas->request_status != $status)

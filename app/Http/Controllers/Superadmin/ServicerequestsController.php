@@ -930,22 +930,22 @@ class ServicerequestsController extends Controller
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
-        // Survey_requests::where('id',$id)->update(['request_status'=>51]);
+        Survey_requests::where('id',$id)->update(['request_status'=>70]);
 
-        // $survey_request_logs = [];
+        $survey_request_logs = [];
 
-        // $survey_request_logs['survey_request_id'] = $id;
-        // $survey_request_logs['cust_id'] = $cust_id;
-        // $survey_request_logs['survey_status'] = 51;
-        // $survey_request_logs['remarks'] = $request->remarks;
-        // $survey_request_logs['is_active'] = 1;
-        // $survey_request_logs['is_deleted'] = 0;
-        // $survey_request_logs['created_by'] = auth()->user()->id;
-        // $survey_request_logs['updated_by'] = auth()->user()->id;
-        // $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        // $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['survey_request_id'] = $id;
+        $survey_request_logs['cust_id'] = $cust_id;
+        $survey_request_logs['survey_status'] = 70;
+        $survey_request_logs['remarks'] = $request->remarks;
+        $survey_request_logs['is_active'] = 1;
+        $survey_request_logs['is_deleted'] = 0;
+        $survey_request_logs['created_by'] = auth()->user()->id;
+        $survey_request_logs['updated_by'] = auth()->user()->id;
+        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-        // $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
         $usr_noti = [];
 
@@ -957,7 +957,7 @@ class ServicerequestsController extends Controller
         $usr_noti['title'] = 'Payment Rejected';
         $usr_noti['description'] = 'Payment Rejected by Accounts Officer for Request ID HSW'.$id;
         $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '/customer/requested_services/'.$id;
+        $usr_noti['ref_link'] = '/customer/receipt_rejected/'.$id.'/70';
         $usr_noti['viewed'] = 0;
         $usr_noti['created_at'] = date('Y-m-d H:i:s');
         $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1163,7 +1163,7 @@ class ServicerequestsController extends Controller
             $usr_noti['title'] = 'Request Rejected';
             $usr_noti['description'] = 'Survey Request Rejected for Request ID HSW'.$id;
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '/customer/requested_services/'.$id;
+            $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/3';
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1234,7 +1234,7 @@ class ServicerequestsController extends Controller
             $usr_noti['title'] = 'Request Reject Open';
             $usr_noti['description'] = 'Survey Request Reject Open for Request ID HSW'.$id;
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '/customer/requested_services/'.$id;
+            $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/4';
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');

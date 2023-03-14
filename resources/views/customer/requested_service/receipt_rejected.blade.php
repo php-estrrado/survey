@@ -41,7 +41,10 @@
                                 <div class="col-md-12">
                                     <div class="about-sec">
                                         <h4>Remarks</h4>
-                                        <div>{{$remarks}}</div>                                        
+                                        <div>
+                                            <p>{{$ao_remarks}}</p><br />
+                                            <p>{{$ch_remarks}}</p>
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
