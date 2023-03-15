@@ -117,6 +117,7 @@ public function marknotifications(Request $request)
             'pen'          =>  ['required','max:100'],
             'avatar'       =>  ['nullable','max:10000'],
             'institution'  =>  ['required'],
+            'avatar'       =>  ['nullable','mimes:jpeg,png,jpg']
         ]);
 
         if($validator->passes())

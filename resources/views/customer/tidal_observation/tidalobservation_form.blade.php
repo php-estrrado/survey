@@ -122,7 +122,7 @@
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
-                                          <option value="{{$service['id']}}" {{ old('service') == $service['id'] ? 'selected' : '' }}>{{$service['service_name']}}</option>
+                                          <option value="{{$service['id']}}" {{ (collect(old('additional_services'))->contains($service['id'])) ? 'selected':'' }}>{{$service['service_name']}}</option>
                                         @endforeach
                                       @endif
                                     </select>
@@ -345,7 +345,7 @@
                                   <div class="col-md-6 description_of_benchmark_class">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="description_of_benchmark">Description of Benchmark</label>
-                                      <textarea class="form-control" type="text" placeholder="Description of Benchmark" name="description_of_benchmark" id="description_of_benchmark" value="{{ old('description_of_benchmark') }}"></textarea>
+                                      <textarea class="form-control" type="text" placeholder="Description of Benchmark" name="description_of_benchmark" id="description_of_benchmark">{{ old('description_of_benchmark') }}</textarea>
                                     </div>
                                     <div id="description_of_benchmark_error"></div>
                                     @error('description_of_benchmark')
@@ -356,8 +356,8 @@
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="method_of_observation">Method of observation</label>
                                     <select class="js-example-basic-single col-sm-12" name="method_of_observation" id="method_of_observation">
-                                      <option value="manual">Manual</option>
-                                      <option value="automatic">Automatic</option>
+                                      <option value="manual" {{ old('method_of_observation') == 'manual' ? 'selected' : '' }}>Manual</option>
+                                      <option value="automatic" {{ old('method_of_observation') == 'automatic' ? 'selected' : '' }}>Automatic</option>
                                     </select>
                                     <div id="method_of_observation_error"></div>
                                     @error('method_of_observation')

@@ -122,7 +122,7 @@
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
-                                          <option value="{{$service['id']}}" {{ old('service') == $service['id'] ? 'selected' : '' }}>{{$service['service_name']}}</option>
+                                          <option value="{{$service['id']}}" {{ (collect(old('additional_services'))->contains($service['id'])) ? 'selected':'' }}>{{$service['service_name']}}</option>
                                         @endforeach
                                       @endif
                                     </select>
@@ -202,7 +202,7 @@
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="data_collection_equipments[]" id="data_collection_equipments" multiple="multiple" >
                                       @if($data_collection && count($data_collection)>0)
                                         @foreach($data_collection as $data_collections)
-                                          <option value="{{$data_collections->id}}" {{ old('data_collection_equipments') == $data_collections->id ? 'selected' : '' }}>{{$data_collections->title}}</option>
+                                          <option value="{{$data_collections->id}}" {{ (collect(old('data_collection_equipments'))->contains($data_collections->id)) ? 'selected':'' }}>{{$data_collections->title}}</option>
                                         @endforeach
                                       @endif
                                     </select>
@@ -277,8 +277,8 @@
                                       <option value="lake" {{ old('type_of_waterbody') == 'lake' ? 'selected' : '' }}>Lake</option>
                                       <option value="pond" {{ old('type_of_waterbody') == 'pond' ? 'selected' : '' }}>Pond</option>
                                       <option value="canal" {{ old('type_of_waterbody') == 'canal' ? 'selected' : '' }}>Canal</option>
-                                            <option value="reservoir" {{ old('type_of_waterbody') == 'reservoir' ? 'selected' : '' }}>Reservoir</option>
-                                            <option value="backwater" {{ old('type_of_waterbody') == 'backwater' ? 'selected' : '' }}>Backwater</option>
+                                      <option value="reservoir" {{ old('type_of_waterbody') == 'reservoir' ? 'selected' : '' }}>Reservoir</option>
+                                      <option value="backwater" {{ old('type_of_waterbody') == 'backwater' ? 'selected' : '' }}>Backwater</option>
                                     </select>
                                     <div id="type_of_waterbody_error"></div>
                                     @error('type_of_waterbody')

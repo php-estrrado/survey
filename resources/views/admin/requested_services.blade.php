@@ -34,7 +34,7 @@
 		<!--div-->
 		<div class="card">
 			<div class="card-header">
-				<div class="card-title fifty">Requested Service List</div>
+				<div class="card-title fifty">Requested Service Table</div>
 				<div class="card-title fifty">
 					<!-- <div class="panel panel-default block">
 						<div class="panel-body p-0" style="float:right;">

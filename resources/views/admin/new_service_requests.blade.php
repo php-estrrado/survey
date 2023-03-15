@@ -49,7 +49,7 @@
 			<div class="tab-pane active" id="tab-7">
 				<div class="card">
 					<div class="card-header">
-						<div class="card-title fifty">New Service Requests List</div>
+						<div class="card-title fifty">New Service Requests Table</div>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
@@ -91,7 +91,7 @@
 			<div class="tab-pane" id="tab-8">
 				<div class="card">
 					<div class="card-header">
-						<div class="card-title fifty">New Service Requests List</div>
+						<div class="card-title fifty">New Service Requests Table</div>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">

@@ -120,7 +120,7 @@
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
-                                          <option value="{{$service['id']}}" {{ old('service') == $service['id'] ? 'selected' : '' }}>{{$service['service_name']}}</option>
+                                          <option value="{{$service['id']}}" {{ (collect(old('additional_services'))->contains($service['id'])) ? 'selected':'' }}>{{$service['service_name']}}</option>
                                         @endforeach
                                       @endif
                                     </select>
@@ -286,11 +286,11 @@
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="quantity_bottom_sample">Quantity (kg)</label>
                                       <select class="js-example-basic-single col-sm-12" name="quantity_bottom_sample" id="quantity_bottom_sample">
-                                      <option value="0.4">0.4</option>
-                                      <option value="0.5">0.5</option>
-                                      <option value="1">1</option>
-                                      <option value="2">2</option>
-                                      <option value="5">5</option>
+                                      <option value="0.4" {{ old('quantity_bottom_sample') == '0.4' ? 'selected' : '' }}>0.4</option>
+                                      <option value="0.5" {{ old('quantity_bottom_sample') == '0.5' ? 'selected' : '' }}>0.5</option>
+                                      <option value="1" {{ old('quantity_bottom_sample') == '1' ? 'selected' : '' }}>1</option>
+                                      <option value="2" {{ old('quantity_bottom_sample') == '2' ? 'selected' : '' }}>2</option>
+                                      <option value="5" {{ old('quantity_bottom_sample') == '5' ? 'selected' : '' }}>5</option>
                                     </select>
 
                                     </div>
@@ -304,8 +304,8 @@
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="method_of_sampling">Method of sampling</label>
                                       <select class="js-example-basic-single col-sm-12" name="method_of_sampling" id="method_of_sampling">
-                                      <option value="bucket">Bucket</option>
-                                      <option value="boring">Boring</option>
+                                      <option value="bucket" {{ old('method_of_sampling') == 'bucket' ? 'selected' : '' }}>Bucket</option>
+                                      <option value="boring" {{ old('method_of_sampling') == 'boring' ? 'selected' : '' }}>Boring</option>
                                       
                                     </select>
 
@@ -319,7 +319,7 @@
                                   <div class="col-md-6 ">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="description_of_requirement">Description of Requirement</label>
-                                      <textarea class="form-control" type="text" placeholder="Description of Requirement" name="description_of_requirement" id="description_of_requirement" value="{{ old('description_of_requirement') }}"></textarea>
+                                      <textarea class="form-control" type="text" placeholder="Description of Requirement" name="description_of_requirement" id="description_of_requirement">{{ old('description_of_requirement') }}</textarea>
                                     </div>
                                     <div id="description_of_requirement_error"></div>
                                     @error('description_of_requirement')

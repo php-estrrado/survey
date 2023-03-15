@@ -14,8 +14,8 @@
 	<div class="page-leftheader">
 		<h4 class="page-title mb-0">Customers</h4>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="#"><i class="fe fe-layout mr-2 fs-14"></i>Customers</a></li>
-			<li class="breadcrumb-item active" aria-current="page"><a href="#">Customer Detail</a></li>
+			<li class="breadcrumb-item"><a href="{{url('admin/customers')}}"><i class="fe fe-layout mr-2 fs-14"></i>Customers</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Customer Detail</li>
 		</ol>
 	</div>
 </div>

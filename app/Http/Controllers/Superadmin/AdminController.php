@@ -282,7 +282,8 @@ class AdminController extends Controller
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
                 'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
                 'pen'            =>  ['required'],
-                'institution'    =>  ['required']
+                'institution'    =>  ['required'],
+                'avatar'         =>  ['nullable','mimes:jpeg,png,jpg']
             ]);
 
 if($validator->passes())
