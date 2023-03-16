@@ -344,7 +344,7 @@ class Homepage extends Controller
             $assignment_requests = Survey_requests::where('assigned_surveyor_survey',$user_id)->where('request_status',43)->get();
         }else if($req_type =="reassignment")
         {
-            $assignment_requests = Survey_requests::where('assigned_surveyor_survey',$user_id)->orWhere('assigned_surveyor',$user_id)->whereIn('request_status',[20,30,32,33,36,37])->get();
+            $assignment_requests = Survey_requests::whereIn('request_status',[20,30,32,33,36,37])->where(function ($query) use($user_id) { $query->where('assigned_surveyor_survey',$user_id)->orWhere('assigned_surveyor',$user_id);})->get();
         }else{
             $assignment_requests = Survey_requests::where('assigned_surveyor',$user_id)->where('request_status',41)->get();  
         }
@@ -447,7 +447,7 @@ class Homepage extends Controller
             $assignment_requests = Survey_requests::where('assigned_surveyor_survey',$user_id)->where("id",$request_id)->where('request_status',43)->first();
         }else if($req_type =="reassignment")
         {
-            $assignment_requests = Survey_requests::where('assigned_surveyor_survey',$user_id)->orWhere('assigned_surveyor',$user_id)->whereIn('request_status',[20,30,32,33,36,37])->where("id",$request_id)->first();
+            $assignment_requests = Survey_requests::whereIn('request_status',[20,30,32,33,36,37])->where(function ($query) use($user_id) { $query->where('assigned_surveyor_survey',$user_id)->orWhere('assigned_surveyor',$user_id);})->where("id",$request_id)->first();
         }else{
             $assignment_requests = Survey_requests::where('assigned_surveyor',$user_id)->where("id",$request_id)->where('request_status',41)->first();  
         }

@@ -356,7 +356,7 @@ Route::post('/accountant/regVerifyotpemail', [App\Http\Controllers\Accountant\Au
 
 Route::middleware('role:accountant','revalidate')->group(function () {
     Route::get('/accountant/dashboard', [App\Http\Controllers\Accountant\AdminController::class, 'index']);
-
+    Route::post('/accountant/remove-avatar', [App\Http\Controllers\Accountant\AdminController::class, 'removeAvatar']);
     Route::get('/accountant/notifications', [App\Http\Controllers\Accountant\AdminController::class, 'notifications']);
     Route::post('/accountant/mark-notifications', [App\Http\Controllers\Accountant\AdminController::class, 'marknotifications']);
     Route::get('/accountant/profile', [App\Http\Controllers\Accountant\AdminController::class, 'profile'])->name('accountant.profile');

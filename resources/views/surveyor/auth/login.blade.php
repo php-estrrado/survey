@@ -2,6 +2,7 @@
 @section('css')
 @endsection
 @section('content')
+<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />
 <div class="page">
 	<div class="page-single">
 		<div class="container">
@@ -71,5 +72,13 @@
 	</script>
 @endsection
 @section('js')
-	
+	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+    <script type="text/javascript">
+
+		@if(Session::has('msg'))
+		
+				toastr.error("{{ Session::get("msg") }}");
+		
+		@endif
+    </script>
 @endsection

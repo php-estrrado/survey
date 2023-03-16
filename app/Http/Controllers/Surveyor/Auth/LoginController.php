@@ -95,18 +95,23 @@ class LoginController extends Controller
 
     public function regVerifyotpemail(Request $request)
     {
-        $formData   =   $request->all(); 
+        $formData   =   $request->all();  
         $rules      =   array();
         $rules['email']           = 'required|email';
         $rules['otp']             = 'required|numeric';
-        $validator  =   Validator::make($request->all(), $rules);
+
+       $messages =['email.required' => 'Email field is required.', 'otp.required' => 'OTP field is required.', 'otp.numeric' => 'OTP field must be a number.', 'email.email' => 'Invalid Email.'];
+
+        $validator  =   Validator::make($request->all(), $rules,$messages);
         if ($validator->fails()) 
             {
-                foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-                return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; session()->flash('msg', $row[0]); }  
+                
+                return back()->withInput($request->only('email', 'remember'))->withErrors('message','Invalid Email.');
             }
         else
             {
+                
                 $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',3)->first();
                 if($exisit)
                 {
@@ -122,18 +127,21 @@ class LoginController extends Controller
                         else{
                             Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
                             //return redirect('/login')->withInput($request->only('email', 'remember'))->with('message',' The seller is not approved yet. ');
-                            return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                            session()->flash('msg', 'This account is inactive.');
+                            return back()->withInput($request->only('email', 'remember'))->withErrors('message',' This account is inactive.');
                         }
                     }
                     }
                     else
                     {
-                        return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid OTP.');
+                        session()->flash('msg', 'Invalid OTP.');
+                        return back()->withInput($request->only('email', 'remember'))->withErrors('message',' Invalid OTP.');
                     }
                 }
                 else
-                {
-                    return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid Email.');
+                {   
+                    session()->flash('msg', 'Invalid Email.');
+                    return back()->withInput($request->only('email', 'remember'))->withErrors('message',' Invalid Email.');
                 }
               
             }

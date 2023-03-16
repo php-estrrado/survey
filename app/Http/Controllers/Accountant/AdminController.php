@@ -65,6 +65,20 @@ class AdminController extends Controller
             }
             return true;
         }
+
+
+    function removeAvatar(Request $request)
+    {
+          $admin_id = auth()->user()->id;
+        $role_id = auth()->user()->role_id;
+
+     Admin::where('id',$admin_id)->where('role_id',$role_id)->update([
+                'avatar' => "",
+                'updated_by'=>auth()->user()->id,
+                'updated_at'=>date("Y-m-d H:i:s")
+            ]);
+     return true;
+    }
     public function profile()
     {
         $admin_id = auth()->user()->id;
@@ -85,7 +99,17 @@ class AdminController extends Controller
     public function edit_profile(Request $request)
     {
         $input = $request->all();
+   $validator = Validator::make($request->all(),[
+                'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
+                'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
+                'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
+                'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
+                'pen'            =>  ['required'],
+                'institution'    =>  ['required']
+            ]);
 
+if($validator->passes())
+        {
         $admin_arr = [];
         $admin_arr['fname'] = $input['name'];
         $admin_arr['email'] = $input['email'];
@@ -140,6 +164,10 @@ class AdminController extends Controller
         }
 
         return redirect(route('accountant.profile'));
+
+          }else{
+        return redirect()->back()->withErrors($validator)->withInput($request->all());
+    }
     }
     
     function saveProfile(Request $request)
@@ -189,9 +217,9 @@ class AdminController extends Controller
     {
         $data['title']           =   'Notifications';
         $data['menu']            =   'notifications';
-        $data['notifications']   =   AdminNotification::where('role_id',2)->orderby('id','DESC')->get();
+        $data['notifications']   =   AdminNotification::where('role_id',5)->orderby('id','DESC')->get();
 
-        return view('admin.notification',$data);
+        return view('accountant.notification',$data);
     }
 		
     public function sendmail()

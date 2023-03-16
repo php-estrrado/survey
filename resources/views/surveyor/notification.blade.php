@@ -46,9 +46,11 @@
                             @if($notifications && count($notifications) > 0)
                                 @php $i=1; @endphp
                     		    @foreach($notifications as $notify)
+
+                    		    <?php if($notify->web_ref_link){ $notif_link = $notify->web_ref_link; }else{ $notif_link = $notify->ref_link; } ?>
                                     <tr>
                                         <td>{{ $i; }}</td>
-                                        <td><a href="{{ url($notify->ref_link) }}" style="color:#2b8fca; font-weight:bold;">{{ $notify->title }}</a></td>
+                                        <td><a href="{{ url($notif_link) }}" style="color:#2b8fca; font-weight:bold;">{{ $notify->title }}</a></td>
                                         <td>{{ $notify->description }}</td>
                                         <td>{{  date('d/m/Y', strtotime($notify->created_at)); }}</td>
                                     </tr>

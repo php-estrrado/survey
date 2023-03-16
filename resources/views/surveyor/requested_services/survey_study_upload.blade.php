@@ -121,7 +121,7 @@
 									<div class="col-md-12">
                                     	<div class="form-group">
                                       		<label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
-                                      		<input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple/>
+                                      		<input type="file" class="dropify" data-height="180" data-max-file-size="20M" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple/>
                                     	</div>
                                   	</div>
 									<div class="col-sm-12 col-md-12">
@@ -134,7 +134,7 @@
 								<hr />
 								<div class="btn-list d-flex justify-content-end">
 									<button class="btn btn-info" type="submit" value="submit">Save</button>
-									<a href="{{url('admin/new_service_requests')}}" class="btn btn-danger">Cancel</a>
+									<a href="{{url('surveyor/service_requests')}}" class="btn btn-danger">Cancel</a>
 								</div>
 							</form>
 						</div>
