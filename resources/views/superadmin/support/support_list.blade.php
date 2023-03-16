@@ -29,7 +29,7 @@
 			<div class="col-12 mb-3">
 				<div class="e-panel card">
 					<div class="card-body pb-2">
-						<div class="row">
+						<!-- <div class="row">
 							<div class="col-6 col-auto">
 								<div class="form-group">
 									<div class="input-icon">
@@ -40,7 +40,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="row">
 							<div class="col-xl-12 col-lg-12">
 								@if($help_requests && count($help_requests))

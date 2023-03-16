@@ -270,7 +270,7 @@
 											@if($uploaded_images && count($uploaded_images) > 0)
 												@foreach($uploaded_images as $images)
 													<li class="col-xs-4 col-sm-3 col-md-3" data-responsive="{{$images}}" data-src="{{$images}}">
-														<a href="">
+														<a href="{{$images}}" target="_blank">
 															<img class="img-responsive" src="{{$images}}" alt="Thumb-1" width="100px">
 														</a>
 													</li>

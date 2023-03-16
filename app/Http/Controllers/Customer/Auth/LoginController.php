@@ -217,8 +217,8 @@ class LoginController extends Controller
         $rules      =   array();
         $rules['email']           = 'required|email';
         $rules['otp']             = 'required|numeric';
-        $rules['password'] = 'required|confirmed|min:6';
-        $rules['password_confirmation'] = 'required|min:6';
+        $rules['password'] = 'required|confirmed|min:6|max:20';
+        $rules['password_confirmation'] = 'required|min:6|max:20';
 
         $validator  =   Validator::make($request->all(), $rules);
         if ($validator->fails()) 
