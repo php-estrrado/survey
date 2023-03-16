@@ -324,7 +324,7 @@
 										<label class="form-label">{{$survey_study->instruments_to_be_used_for_bathymetric_survey}}</label>
 									</div>
 								</div>
-								<div class="col-sm-6 col-md-6">
+								<!-- <div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -343,7 +343,7 @@
 										</div>
 										<label class="form-label">{{$survey_study->availability_of_shoreline}}</label>
 									</div>
-								</div>
+								</div> -->
 								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
@@ -410,7 +410,7 @@
 											@if($uploaded_images && count($uploaded_images) > 0)
 												@foreach($uploaded_images as $images)
 													<li class="col-xs-4 col-sm-3 col-md-3" data-responsive="{{$images}}" data-src="{{$images}}">
-														<a href="">
+														<a href="{{$images}}" target="_blank">
 															<img class="img-responsive" src="{{$images}}" alt="Thumb-1" width="100px">
 														</a>
 													</li>

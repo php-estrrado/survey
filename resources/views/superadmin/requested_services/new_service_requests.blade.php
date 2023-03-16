@@ -38,15 +38,7 @@
 				<div class="card-title fifty">
 					<div class="panel panel-default block">
 						<div class="panel-body p-0" style="float:right;">
-							<div class="btn-group mt-2 mb-2">
-								<!-- <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown">
-									All Sub Offices <span class="caret"></span>
-								</button> -->
-							<!-- 	<ul class="dropdown-menu" role="menu">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-								</ul> -->
+							<!-- <div class="btn-group mt-2 mb-2">
 								<select class="form-control" id="institution_filter">
 									<option value="">All</option>
 									<?php if($sub_offices){ 
@@ -56,7 +48,7 @@
 										<option value="{{ $sv->id }}" <?php if($ins ==$sv->id ){ echo 'selected'; } ?>> {{ $sv->institution_name }} </option>
 									<?php } } ?>
 								</select>
-							</div>
+							</div> -->
 							<div class="btn-group mt-2 mb-2">
 								<select class="form-control" id="date_filter">
 									<?php $year =date('Y'); $year_1 =date("Y",strtotime("-1 year")); $year_2 = date("Y",strtotime("-2 year"));   ?>

@@ -133,6 +133,13 @@ class ServicerequestsController extends Controller
         $data['institutions'] = Institution::where('is_deleted',0)->where('is_active',1) ->get();
         $data['surveyors'] = Admin::where('role_id',3)->get();
 
+        $status_in  = array(2,6,16);
+
+        if(!in_array($datas->request_status,$status_in))
+        {
+            return redirect('admin/new_service_requests');
+        }
+
         if($datas->service_id == 1)
         {
             $data['request_data'] = $datas->Hydrographic_survey->first();
@@ -1278,7 +1285,7 @@ function get_remote_file_info($url) {
             'id'=>['required'],
             'general_area'=>['required'],
 
-            'location'=>['required','alpha_num'],
+            'location'=>['required','regex:/^[a-zA-Z\s]*$/'],
             'scale_of_survey_recomended'=>['required','alpha_num'],
             'type_of_survey'=>['required'],
             'no_of_days_required'=>['required','numeric'],
@@ -1386,7 +1393,7 @@ function get_remote_file_info($url) {
             'eta_id'=>['required'],
             'general_area'=>['required'],
 
-            'location'=>['required','alpha_num'],
+            'location'=>['required','regex:/^[a-zA-Z\s]*$/'],
             'scale_of_survey_recomended'=>['required','alpha_num'],
 
             'type_of_survey'=>['required'],

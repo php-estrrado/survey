@@ -131,6 +131,11 @@ class ServicerequestsController extends Controller
 
         // $data['admins'] = Admin::where('role_id',2)->get();
 
+        if($datas->request_status != 1)
+        {
+            return redirect('superadmin/new_service_requests');
+        }
+
         if($datas->service_id == 1)
         {
             $data['request_data'] = $datas->Hydrographic_survey->first();
@@ -1752,7 +1757,7 @@ class ServicerequestsController extends Controller
     {
         $input = $request->all();
 
-        $data['admins'] = UserManagement::where('institution',$input['institution_id'])->where('role',2)->where('is_deleted',0)->get();
+        $data['admins'] = UserManagement::where('institution',$input['institution_id'])->where('role',2)->where('is_deleted',0)->where('is_active',1)->get();
 
         // dd($data);
         return view('superadmin.admins',$data);
