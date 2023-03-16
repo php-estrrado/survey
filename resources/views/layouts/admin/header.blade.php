@@ -86,8 +86,8 @@
 							}
 							elseif(auth()->user()->role_id == 5)
 							{
-								$notifications = AdminNotification::where('role_id',5)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
-								$n_count = AdminNotification::where('role_id',5)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
+								$notifications = AdminNotification::where('role_id',5)->where('notify_to',5)->limit(5)->orderby('id','desc')->get();
+								$n_count = AdminNotification::where('role_id',5)->where('notify_to',5)->where('viewed',0)->count(); 
 							}
 
 

@@ -16,7 +16,7 @@ use App\Models\Modules;
 // use App\Models\UserRoles;
 use App\Models\Country;
 use App\Models\Admin;
-use App\Models\AdminNotification;
+use App\Models\UserNotification;
 use App\Models\UsrNotification;
 use App\Models\Institution;
 use App\Models\UserManagement;
@@ -193,8 +193,8 @@ class AdminController extends Controller
     {
         $data['title']           =   'Notifications';
         $data['menu']            =   'notifications';
-        $data['notifications']   =   AdminNotification::where('role_id',3)->where('notify_to',auth()->user()->id)->orderby('id','DESC')->get();
-
+        $data['notifications']   =   UserNotification::where('role_id',3)->where('notify_to',auth()->user()->id)->orderby('id','DESC')->get();
+        // dd($data);
         return view('surveyor.notification',$data);
     }
 		

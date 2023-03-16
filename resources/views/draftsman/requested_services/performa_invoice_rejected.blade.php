@@ -34,7 +34,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">@if(isset($survey_id)){{ "HSW".$survey_id }}@endif</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
 							<li><span class="h6 mt-3">Name of the firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>

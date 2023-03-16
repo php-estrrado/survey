@@ -27,7 +27,15 @@
 <div class="row">
 	<div class="col-xl-3 col-lg-3 col-md-12">
 		<div class="card box-widget widget-user">
-			<div class="widget-user-image mx-auto mt-5"><img alt="User Avatar" class="rounded-circle" src="{{url($admin->avatar)}}"></div>
+			<div class="widget-user-image mx-auto mt-5">
+
+				
+				@if($admin->avatar)
+				<img alt="User Avatar" class="rounded-circle" src="{{url($admin->avatar)}}">
+				@else
+				<img alt="User Avatar" class="rounded-circle" src="{{url('public/admin/assets/images/image2.png')}}">
+				@endif
+			</div>
 			<div class="card-body text-center">
 				<div class="pro-user">
 					<h4 class="pro-user-username text-dark mb-1 font-weight-bold">{{ $admin->fname }}</h4>
@@ -96,7 +104,7 @@
 							</div>
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group">
-									<label class="form-label" for="avatar">Profile Pic</label>
+									<label class="form-label" for="avatar">Profile Pic </label>
 									<div class="custom-file">
 										<input type="file" class="custom-file-input" name="avatar" id="avatar" >
 										<label class="custom-file-label"></label>
@@ -107,8 +115,11 @@
 									@enderror
 								</div>
 								<div class="col-md-6 mb-3">
+
 									<img id="avatar_img" src="{{url('public/admin/assets/images/image2.png')}}" alt="avatar" style="height: 120px;" />
 								</div>
+								@if($admin->avatar)
+								<a class="" style="cursor: pointer;" id="removeAvatar"><i class="fa fa-trash" aria-hidden="true"></i> Remove Photo</a> @endif
 							</div>
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group">
@@ -159,6 +170,32 @@
 <script src="{{URL::asset('assets/plugins/datatable/responsive.bootstrap4.min.js')}}"></script>
 <script src="{{URL::asset('assets/js/datatables.js')}}"></script>
 
+<script type="text/javascript">
+	
+	    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+}); 
+
+	$(document).ready(function(){
+
+		$('body').on('click','#removeAvatar',function(){
+
+
+		$.ajax({
+		type: "POST",
+		url: '{{ url("accountant/remove-avatar") }}',
+		data: {'_token': '{{ csrf_token()}}'},
+		success: function (data) {
+			 window.location.href=window.location.href;
+		}
+		});
+		});
+
+	});
+
+</script>
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
 @endsection

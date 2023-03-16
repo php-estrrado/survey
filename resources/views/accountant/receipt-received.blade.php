@@ -32,7 +32,7 @@
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">@if(isset($survey_id)){{ "HSW".$survey_id }}@endif</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$cust_info->name}}</span></li>
 							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
@@ -83,7 +83,7 @@
 						<div class="media-body">
 							<small class="text-muted">Status</small>
 							<div class="font-weight-normal1">
-								AO (name) Customer payment verified 
+								@if(isset($survey_request_data->RequestStatus))	{{ $survey_request_data->RequestStatus->status_name }} @endif
 							</div>
 						</div>
 					</div>
@@ -146,7 +146,7 @@
 <div class="modal" id="modaldemo1">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<form action="{{url('/accountant/verify_customer_receipt')}}" method="post">
+			<form action="{{url('/accountant/verify_customer_receipt')}}" method="post" id="verifyform">
 				@csrf
 				<input type="hidden" value="{{$survey_id}}" name="id" id="id">
 				<div class="modal-header">
@@ -156,12 +156,13 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label" for="remarks">Remarks</label>
-							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+							<textarea class="form-control verifyremarks" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+							<p style="color: red; display: none;" id="remarksverify"></p>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="submit">Submit</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+					<button class="btn btn-primary"  type="button" id="verifybutton">Submit</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
 				</div>
 			</form>
 		</div>
@@ -171,7 +172,7 @@
 <div class="modal" id="modaldemo2">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content modal-content-demo">
-			<form action="{{url('/accountant/reject_customer_receipt')}}" method="post">
+			<form action="{{url('/accountant/reject_customer_receipt')}}" method="post" id="rejectform">
 				@csrf
 				<input type="hidden" value="{{$survey_id}}" name="id" id="id">
 				<div class="modal-header">
@@ -181,12 +182,13 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control" rows="3" placeholder="Type Here..." name="remarks" id="remarks"></textarea>
+							<textarea class="form-control rejectremark" rows="3" placeholder="Type Here..." name="remarks" id="remarks"></textarea>
+							<p style="color: red; display: none;" id="remarksreject"></p>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="submit">Reject</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+					<button class="btn btn-primary" id="rejectbutton" type="button">Reject</button> <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
 				</div>
 			</form>
 		</div>
@@ -220,6 +222,37 @@
 <script src="{{URL::asset('assets/plugins/gallery/lg-hash.js')}}"></script>
 <script src="{{URL::asset('assets/js/gallery.js')}}"></script>
 
+<script type="text/javascript">
+	$(document).ready(function(){
+
+$("#rejectbutton").click(function(){
+	
+$("#remarksreject").hide();
+if($.trim($('.rejectremark').val()) == '') {
+   $("#remarksreject").text("Please type remarks.");
+   $("#remarksreject").show();
+}else{
+	$("#rejectform").submit();
+}
+
+});
+
+
+
+$("#verifybutton").click(function(){
+	
+$("#remarksverify").hide();
+if($.trim($('.verifyremarks').val()) == '') {
+   $("#remarksverify").text("Please type remarks.");
+   $("#remarksverify").show();
+}else{
+	$("#verifyform").submit();
+}
+
+});
+
+	});
+</script>
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
 @endsection
