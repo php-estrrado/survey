@@ -3,19 +3,6 @@
   margin-right: calc(10px + (30 - 10) * ((100vw - 320px) / (1920 - 320)));
   width: calc(200px + (120 - 94) * ((100vw - 320px) / (1920 - 320)))
 }
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
--webkit-appearance: none;
-margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
--moz-appearance: textfield;
-}
-
 /* -----------------form---------------------- */
 
 /*----------step-wizard------------*/
@@ -278,7 +265,7 @@ fieldset[disabled] .form-control {
   float: right;
 }
 .wizard .form-label-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
 }
 .card-blog {
@@ -757,4 +744,25 @@ and (max-width: 1920px)
   margin-left: 14px !important;
   margin-right: 8px;
   border-radius: 15px;
+}
+.theme-form select {
+  height: 46px;
+}
+.theme-form input[type="text"]{
+  height: 46px;
+}
+.theme-form select.form-control:not([size]):not([multiple]) {
+  border-color: #ced4da;
+}
+.SumoSelect>.CaptionCont {
+  padding: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))) 10px !important;
+  font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)))!important;
+  border: 1px solid #ced4da !important;
+  height: 46px !important;
+  line-height: 20px !important;
+  background-color: #fffcf3 !important;
+}
+.SumoSelect>.CaptionCont>span.placeholder {
+  color: #898989 !important;
+  font-style: normal !important;
 }
