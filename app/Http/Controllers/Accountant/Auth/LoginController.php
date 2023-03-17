@@ -99,11 +99,13 @@ class LoginController extends Controller
         $rules      =   array();
         $rules['email']           = 'required|email';
         $rules['otp']             = 'required|numeric';
-        $validator  =   Validator::make($request->all(), $rules);
+         $messages =['email.required' => 'Email field is required.', 'otp.required' => 'OTP field is required.', 'otp.numeric' => 'OTP field must be a number.', 'email.email' => 'Invalid Email.'];
+
+        $validator  =   Validator::make($request->all(), $rules,$messages);
         if ($validator->fails()) 
             {
-                foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-                return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; session()->flash('msg', $row[0]); }  
+                return back()->withInput($request->only('email', 'remember'))->with('message','Invalid Email.');
             }
         else
             {
@@ -122,17 +124,20 @@ class LoginController extends Controller
                         else{
                             Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
                             //return redirect('/login')->withInput($request->only('email', 'remember'))->with('message',' The seller is not approved yet. ');
+                            session()->flash('msg', 'This account is inactive.');
                             return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
                         }
                     }
                     }
                     else
                     {
+                        session()->flash('msg', ' Invalid OTP.');
                         return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid OTP.');
                     }
                 }
                 else
                 {
+                     session()->flash('msg', ' Invalid Email.');
                     return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid Email.');
                 }
               

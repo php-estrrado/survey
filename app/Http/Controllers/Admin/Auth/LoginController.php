@@ -62,11 +62,11 @@ class LoginController extends Controller
         if ($validator->fails()) 
         {
             foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-            return back()->withInput($request->only('email', 'remember'))->with('message',' These credentials do not match our records. ');
+            return back()->withInput($request->only('email', 'remember'))->withErrors('error',' Enter Valid E-mail ID !.');
         }
         else
         {
-            $regexist = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',2)->first();
+            $regexist = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->first();
 
             if($regexist)
             {
@@ -83,11 +83,13 @@ class LoginController extends Controller
                 // });
 
                 Admin::where('email',$request->email)->update(['otp'=>$otp,'otp_sent_at'=>date('Y-m-d H:i:s')]);
-                return back()->withInput($request->only('email', 'remember'))->with('message',' OTP Sent to mail.');
+                $arr = array('status'=>1,'message'=>" OTP Sent to mail.");
+                return json_encode($arr);
             }
             else
             {
-                return back()->withInput($request->only('email', 'remember'))->with('message',' Email does not exist!.');
+                $arr = array('status'=>0,'message'=>"Email doesnot Exists!");
+                return json_encode($arr);
             }
             
         }
@@ -103,18 +105,20 @@ class LoginController extends Controller
         if ($validator->fails()) 
             {
                 foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-                return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                return back()->withInput($request->only('email', 'remember'))->withErrors('Enter all fields.');
             }
         else
             {
-                $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',2)->first();
+                $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->first();
+
                 if($exisit)
                 {
-                    $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',2)->first();
+                    $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->first();
+
                     if($exist)
                     {
                     if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => '123456']))
-                    {
+                    { 
                         if(Admin::where('id', Auth::guard('admin')->user()->id)->first()->is_active == 1)
                         {
                             return redirect()->intended('/admin/dashboard');
@@ -122,18 +126,18 @@ class LoginController extends Controller
                         else{
                             Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
                             //return redirect('/login')->withInput($request->only('email', 'remember'))->with('message',' The seller is not approved yet. ');
-                            return back()->withInput($request->only('email', 'remember'))->with('message',' This account is inactive.');
+                            return back()->withInput($request->only('email', 'remember'))->withErrors('This account is inactive.');
                         }
                     }
                     }
                     else
                     {
-                        return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid OTP.');
+                        return back()->withInput($request->only('email', 'remember'))->withErrors('Invalid OTP.');
                     }
                 }
                 else
                 {
-                    return back()->withInput($request->only('email', 'remember'))->with('message',' Invalid Email.');
+                    return back()->withInput($request->only('email', 'remember'))->withErrors('Invalid Email.');
                 }
               
             }

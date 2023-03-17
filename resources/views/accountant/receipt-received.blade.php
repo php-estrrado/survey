@@ -40,8 +40,8 @@
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
 							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
-							<li><span class="h6 mt-3">Amount to be paid: {{$survey_invoice->total_invoice_amount}}</span></li>
-							<li><span class="h6 mt-3">Amount paid: {{$survey_invoice->total_invoice_amount}}</span></li>
+							<li><span class="h6 mt-3">Amount to be paid: Rs {{$survey_invoice->total_invoice_amount}}</span></li>
+							<li><span class="h6 mt-3">Amount paid: Rs {{$survey_invoice->total_invoice_amount}}</span></li>
 						</ul>
 					</div>
 				</div>

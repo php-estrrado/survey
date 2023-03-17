@@ -26,8 +26,8 @@
 			<a class="header-brand" href="{{url('/' . $page='index')}}">
 				<img src="{{URL::asset('assets/images/brand/logo2.png')}}" class="header-brand-img desktop-lgo" alt="Admintro logo">
 				<img src="{{URL::asset('assets/images/brand/logo2.png')}}" class="header-brand-img dark-logo" alt="Admintro logo">
-				<img src="{{URL::asset('assets/images/brand/favicon.png')}}" class="header-brand-img mobile-logo" alt="Admintro logo">
-				<img src="{{URL::asset('assets/images/brand/favicon1.png')}}" class="header-brand-img darkmobile-logo" alt="Admintro logo">
+				<img src="{{URL::asset('assets/images/brand/logo2.png')}}" class="header-brand-img mobile-logo" alt="Admintro logo">
+				<img src="{{URL::asset('assets/images/brand/logo2.png')}}" class="header-brand-img darkmobile-logo" alt="Admintro logo">
 			</a>
 			<div class="app-sidebar__toggle" data-toggle="sidebar">
 				<a class="open-toggle" href="{{url('/' . $page='#')}}">
@@ -89,7 +89,11 @@
 								$notifications = AdminNotification::where('role_id',5)->where('notify_to',5)->limit(5)->orderby('id','desc')->get();
 								$n_count = AdminNotification::where('role_id',5)->where('notify_to',5)->where('viewed',0)->count(); 
 							}
-
+							elseif(auth()->user()->role_id == 7)
+							{
+								$notifications = AdminNotification::where('role_id',7)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+								$n_count = AdminNotification::where('role_id',7)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
+							}
 
 						@endphp
 						@if($notifications)

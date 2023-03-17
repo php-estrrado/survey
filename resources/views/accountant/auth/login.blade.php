@@ -2,6 +2,7 @@
 @section('css')
 @endsection
 @section('content')
+<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />
 <div class="page">
 	<div class="page-single">
 		<div class="container">
@@ -22,7 +23,8 @@
 									</div>
 									<form method="POST" id="adminLogin" action="{{ url('/accountant/regVerifyotpemail') }}" class="theme-form">
 										@csrf
-										<div class="input-group mb-4">
+										<div class="form-group mb-4">
+											<label class="form-label" for="email">Email</label>
 											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID">
 										</div>
 										<div class="row justify-content-end mb-4">
@@ -30,7 +32,8 @@
 											<button type="button" class="btn  btn-primary btn-block px-4" id="send_otp" onclick="sendOtp()">Send OTP</button>
 											</div>
 										</div>
-										<div class="input-group mb-4">
+										<div class="form-group mb-4">
+											<label class="form-label" for="otp">OTP</label>
 											<input type="password" class="form-control" name="otp" id="otp" placeholder="OTP">
 										</div>
 										<div class="row justify-content-end">
@@ -69,5 +72,13 @@
 	</script>
 @endsection
 @section('js')
-	
+	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+    <script type="text/javascript">
+
+		@if(Session::has('msg'))
+		
+				toastr.error("{{ Session::get("msg") }}");
+		
+		@endif
+    </script>
 @endsection

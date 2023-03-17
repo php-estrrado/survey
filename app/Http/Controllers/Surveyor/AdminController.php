@@ -90,6 +90,17 @@ class AdminController extends Controller
     {
         $input = $request->all();
 
+            $validator = Validator::make($request->all(),[
+                'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
+                'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
+                'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
+                'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
+                'pen'            =>  ['required'],
+                'institution'    =>  ['required']
+            ]);
+
+if($validator->passes())
+        {
         $admin_arr = [];
         $admin_arr['fname'] = $input['name'];
         $admin_arr['email'] = $input['email'];
@@ -144,6 +155,10 @@ class AdminController extends Controller
         }
 
         return redirect(route('surveyor.profile'));
+
+            }else{
+        return redirect()->back()->withErrors($validator)->withInput($request->all());
+    }
     }
     
     function saveProfile(Request $request)
