@@ -193,6 +193,15 @@ class ServicerequestsController extends Controller
     {
         $input = $request->all();
 
+            $validator = Validator::make($request->all(),[
+                'filenames'           =>  ['required'],
+                'filenames.*'          =>  ['required','max:20480']
+                
+            ],['filenames.required' => 'File is required.']);
+
+if($validator->passes())
+        {
+
         $files = [];
 
         $drawings = Field_study_report::where('survey_request_id',$input['id'])->first()->upload_photos_of_study_area;
@@ -224,6 +233,9 @@ class ServicerequestsController extends Controller
         Session::flash('message', ['text'=>'Field Study Files Uploaded Successfully !','type'=>'success']);
 
         return redirect('surveyor/service_requests');
+        }else{
+        return redirect()->back()->withErrors($validator)->withInput($request->all());
+         }
     }
 
     public function upload_surveystudy(Request $request)

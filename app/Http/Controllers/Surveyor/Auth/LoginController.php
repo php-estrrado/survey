@@ -73,14 +73,14 @@ class LoginController extends Controller
                 $otp = rand(1000, 9999); 
                 $otp = 1234;
 
-                // $req_email = $request->email;
-                // $data['otp'] = $otp;
+                $req_email = $request->email;
+                $data['otp'] = $otp;
                 
-                // $var = Mail::send('emails.otp', $data, function($message) use($data,$req_email) {
-                //     $message->from(getadmin_mail(),'HSW');    
-                //     $message->to($req_email);
-                //     $message->subject('OTP Verification');
-                // });
+                $var = Mail::send('emails.otp', $data, function($message) use($data,$req_email) {
+                    $message->from(getadmin_mail(),'HSW');    
+                    $message->to($req_email);
+                    $message->subject('OTP Verification');
+                });
 
                 Admin::where('email',$request->email)->update(['otp'=>$otp,'otp_sent_at'=>date('Y-m-d H:i:s')]);
                 return back()->withInput($request->only('email', 'remember'))->with('message',' OTP Sent to mail.');

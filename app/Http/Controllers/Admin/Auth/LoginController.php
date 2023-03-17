@@ -110,13 +110,16 @@ class LoginController extends Controller
         else
             {
                 $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->first();
+
+
                 if($exisit)
                 {
                     $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->first();
+
                     if($exist)
                     {
                     if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => '123456']))
-                    {
+                    { 
                         if(Admin::where('id', Auth::guard('admin')->user()->id)->first()->is_active == 1)
                         {
                             return redirect()->intended('/admin/dashboard');

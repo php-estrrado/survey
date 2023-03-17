@@ -564,7 +564,7 @@ public function marknotifications(Request $request)
         {
             $data['title']           =   'Notifications';
             $data['menu']            =   'notifications';
-            $data['notifications']   =   AdminNotification::where('role_id',2)->orderby('id','DESC')->get();
+            $data['notifications']   =   AdminNotification::where('role_id',auth()->user()->role_id)->orderby('id','DESC')->get();
 
             return view('admin.notification',$data);
         }
