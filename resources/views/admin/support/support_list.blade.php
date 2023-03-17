@@ -43,50 +43,20 @@
 						</div> -->
 						<div class="row">
 							<div class="col-xl-12 col-lg-12">
-								<div class="card border p-0 shadow-none">
-									<div class="row">
-										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 25px;">
-											<div class="wrapper ml-3">
-												<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request_detail->id}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request_detail->created_at))}}</span></h6>
-												<small class="text-muted">
-													{{$help_request_detail->description}}
-												</small>
-												<hr>
-												@if(isset($help_request_logs) && count($help_request_logs) > 0)
-													@foreach($help_request_logs as $help_request)
-														<div>
-															<p class="mb-0 mt-1 text-dark font-weight-semibold">{{$help_request->comment}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request->created_at))}}</span></p>
-														</div>
-													@endforeach
-												@endif
+								@if($help_requests && count($help_requests))
+									@foreach($help_requests as $help_request)
+										<div class="card border p-0 shadow-none">
+											<div class="d-flex align-items-center p-4">
+												<div class="wrapper ml-3">
+													<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request->id}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request->created_at))}}</span></h6>
+													<small class="text-muted">{{$help_request->description}}
+													</small>
+													<p><a href="{{ url('/admin/help_detail/')}}/{{$help_request->id}}" style="float: right;">Reply</a></p>
+												</div>
 											</div>
 										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<form action="{{url('/superadmin/sendReply')}}" method="post">
-									@csrf
-									<input type="hidden" name="support_id" id="support_id" value="{{$help_request_detail->id}}">
-									<input type="hidden" name="to_user_id" id="to_user_id" value="{{$help_request_detail->from_id}}">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1 mb-2">
-												Remarks
-											</div>
-										</div>
-										<textarea class="form-control mb-4" placeholder="Type Here..." rows="3" name="remarks"></textarea>
-									</div>
-									<div class="row">
-										<div class="col-12">
-											<div class="btn-list d-flex justify-content-end">
-												<button class="btn btn-primary">Send</button>
-											</div>
-										</div>
-									</div>
-								</form>
+									@endforeach
+								@endif
 							</div>
 						</div>
 					</div>

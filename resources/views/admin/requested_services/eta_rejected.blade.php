@@ -32,11 +32,14 @@
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">HSW{{$survey_id}}</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
-							<li><span class="h6 mt-3">Name of the firm: {{$request_data->firm}}</span></li>
-							<li><span class="h6 mt-3">Type of firm: {{$request_data->sector}}</span></li>
+							<?php
+								$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+							?>							
+							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
+							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
 							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
@@ -175,14 +178,56 @@
 										<label class="form-label">{{$field_study->type_of_waterbody}}</label>
 									</div>
 								</div>
+							</div>
+							<hr />
+							<div class="row">
+								<div class="col-sm-12 col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												<h6>Limit of Survey</h6>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Limit Of Survey Area
+												Latitude
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->limit_of_survey_area}}</label>
+										<label class="form-label">{{$field_study->lattitude}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Longitude
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->longitude}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												X Coordinates
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->x_coordinates}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Y Coordinates
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->y_coordinates}}</label>
 									</div>
 								</div>
 							</div>
@@ -295,13 +340,23 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
+                                                Line interval planned for survey
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->line_interval_planned_for_survey}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
                                                 Type of Survey vessel that can be used for bathymetric survey
 											</div>
 										</div>
 										<label class="form-label">{{$field_study->type_of_survey_vessel_used_for_bathymetric_survey}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -321,7 +376,7 @@
 										<label class="form-label">{{$field_study->instruments_to_be_used_for_bathymetric_survey}}</label>
 									</div>
 								</div>
-								<div class="col-sm-6 col-md-6">
+								<!-- <div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -340,7 +395,7 @@
 										</div>
 										<label class="form-label">{{$field_study->availability_of_shoreline}}</label>
 									</div>
-								</div>
+								</div> -->
 								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
@@ -389,6 +444,49 @@
 											</div>
 										</div>
 										<label class="form-label">{{$field_study->presence_and_nature_of_obstructions_in_survey}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Details of location for setting tide pole
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->details_location_for_setting_tide_pole}}</label>
+									</div>
+								</div>
+								<div class="col-sm-12 col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Uploaded Images
+											</div>
+										</div>
+										<ul id="lightgallery" class="list-unstyled row">
+											@php
+												$uploaded_images = json_decode($field_study->upload_photos_of_study_area,true);
+											@endphp
+											@if($uploaded_images && count($uploaded_images) > 0)
+												@foreach($uploaded_images as $images)
+													<li class="col-xs-4 col-sm-3 col-md-3" data-responsive="{{$images}}" data-src="{{$images}}">
+														<a href="{{$images}}" target="_blank">
+															<img class="img-responsive" src="{{$images}}" alt="Thumb-1" width="100px">
+														</a>
+													</li>
+												@endforeach
+											@endif
+										</ul>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Remarks from CH
+											</div>
+										</div>
+										<label class="form-label">{{$ch_remarks}}</label>
 									</div>
 								</div>
 							</div>

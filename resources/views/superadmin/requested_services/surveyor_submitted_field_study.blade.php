@@ -178,14 +178,56 @@
 										<label class="form-label">{{$field_study->type_of_waterbody}}</label>
 									</div>
 								</div>
+							</div>
+							<hr />
+							<div class="row">
+								<div class="col-sm-12 col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												<h6>Limit of Survey</h6>
+											</div>
+										</div>
+									</div>
+								</div>
 								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Limit Of Survey Area
+												Latitude
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->limit_of_survey_area}}</label>
+										<label class="form-label">{{$field_study->lattitude}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Longitude
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->longitude}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												X Coordinates
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->x_coordinates}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Y Coordinates
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->y_coordinates}}</label>
 									</div>
 								</div>
 							</div>
@@ -298,13 +340,23 @@
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
+                                                Line interval planned for survey
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->line_interval_planned_for_survey}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
                                                 Type of Survey vessel that can be used for bathymetric survey
 											</div>
 										</div>
 										<label class="form-label">{{$field_study->type_of_survey_vessel_used_for_bathymetric_survey}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+								<div class="col-sm-6 col-md-6">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -392,6 +444,16 @@
 											</div>
 										</div>
 										<label class="form-label">{{$field_study->presence_and_nature_of_obstructions_in_survey}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+                                                Details of location for setting tide pole
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->details_location_for_setting_tide_pole}}</label>
 									</div>
 								</div>
 							</div>

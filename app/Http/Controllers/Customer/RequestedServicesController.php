@@ -105,6 +105,8 @@ class RequestedServicesController extends Controller
 
         $request_status = Survey_requests::where('id',$id)->first()->request_status;
 
+        $data['request_status'] = $request_status;
+
         if($request_status != $status)
         {
             return redirect('customer/requested_services');

@@ -59,7 +59,7 @@ class Role
       {
         return redirect('draftsman/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
       }
-      elseif(Auth::user() &&  Auth::user()->role_id != 5 && $type == 'accounts')
+      elseif(Auth::user() &&  Auth::user()->role_id != 5 && $type == 'accountant')
       {
         return redirect('accountant/login')->header('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0');
       }

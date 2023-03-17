@@ -67,7 +67,7 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<form action="{{url('/superadmin/sendReply')}}" method="post">
+								<form action="{{url('/admin/sendReply')}}" method="post">
 									@csrf
 									<input type="hidden" name="support_id" id="support_id" value="{{$help_request_detail->id}}">
 									<input type="hidden" name="to_user_id" id="to_user_id" value="{{$help_request_detail->from_id}}">

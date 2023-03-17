@@ -44,24 +44,40 @@
 								<label class="form-label" for="name">Full Name <span class="text-red">*</span></label>
 								<input type="text" class="form-control" name="name" id="name" value="{{$users['fullname']}}" placeholder="Full Name">
 							</div>
+							<div id="name_error"></div>
+							@error('name')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="phone">Phone Number <span class="text-red">*</span></label>
 								<input type="number" class="form-control" name="phone" id="phone" value="{{$users['phone']}}" placeholder="Phone Number">
 							</div>
+							<div id="phone_error"></div>
+							@error('phone')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="email">Email ID <span class="text-red">*</span></label>
 								<input type="text" class="form-control" name="email" id="email" value="{{$users['email']}}" placeholder="Email ID">
 							</div>
+							<div id="email_error"></div>
+							@error('email')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="designation">Designation <span class="text-red">*</span></label>
 								<input type="text" class="form-control" name="designation" id="designation" value="{{$users['designation']}}" placeholder="Designation">
 							</div>
+							<div id="designation_error"></div>
+							@error('designation')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
@@ -69,21 +85,25 @@
 								<select class="form-control select2" name="role_id" id="role_id"> 
 									@if($roles && count($roles) > 0)
 										@foreach($roles as $role)
-											<option value="{{$role['id']}}" @if($role['id'] == $users['role']){{"selected"}} @endif>{{$role['usr_role_name']}}</option>
+											<option value="{{$role['id']}}" {{ $users['role'] == $role['id'] ? 'selected' : '' }}>{{$role['usr_role_name']}}</option>
 										@endforeach
 									@endif
 								</select>
 							</div>
+							<div id="role_id_error"></div>
+							@error('role_id')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="pen">PEN Number <span class="text-red">*</span></label>
 								<input type="text" class="form-control" name="pen" id="pen" placeholder="PEN Number" value="{{$users['pen']}}"">
-								<div id="pen_error"></div>
-								@error('pen')
-									<p style="color: red">{{ $message }}</p>
-								@enderror
 							</div>
+							<div id="pen_error"></div>
+							@error('pen')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
@@ -93,6 +113,10 @@
 									<label class="custom-file-label"></label>
 								</div>
 							</div>
+							<div id="avatar_error"></div>
+							@error('avatar')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 							<div class="col-md-6 mb-3">
                                 @if($admin->avatar !="" ) 
                 	                <img id="avatar_img" src="{{ $users['avatar'] }}" alt="avatar" style="height: 120px;" />
@@ -112,6 +136,10 @@
 									@endif
 								</select>
 							</div>
+							<div id="institution_error"></div>
+							@error('institution')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
@@ -123,6 +151,10 @@
 									<option value="3" @if($users['userparent'] == 3){{"selected"}} @endif>Parent 3</option>
 								</select>
 							</div>
+							<div id="parent_id_error"></div>
+							@error('parent_id')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
