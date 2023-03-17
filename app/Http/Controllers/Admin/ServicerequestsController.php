@@ -1068,6 +1068,7 @@ class ServicerequestsController extends Controller
         elseif($status == 67)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['ch_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',67)->first()->remarks;
 
             return view('admin.requested_services.eta_rejected',$data);
         }

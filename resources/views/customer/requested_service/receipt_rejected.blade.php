@@ -42,7 +42,7 @@
                                     <div class="about-sec">
                                         <h4>Remarks</h4>
                                         <div>
-                                            <p>{{$ao_remarks}}</p><br />
+                                            <p>{{$ao_remarks}}</p>
                                             <p>{{$ch_remarks}}</p>
                                         </div>                                        
                                     </div>

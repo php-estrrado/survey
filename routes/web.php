@@ -288,8 +288,6 @@ Route::middleware('role:admin','revalidate')->group(function () {
 
     Route::get('/admin/repository-management-download/{file}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'repository_file_download'])->name('admin.repository_file_download');
 
-
-
     Route::get('/admin/requested_service_detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_service_detail'])->name('admin.requested_service_detail');
 
     Route::get('/admin/createETA/{id}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'createETA']);
@@ -309,6 +307,9 @@ Route::middleware('role:admin','revalidate')->group(function () {
 
     Route::post('/admin/verify_final_report', [App\Http\Controllers\Admin\ServicerequestsController::class, 'verify_final_report']);
     Route::post('/admin/reject_final_report', [App\Http\Controllers\Admin\ServicerequestsController::class, 'reject_final_report']);
+
+    Route::get('/admin/help', [App\Http\Controllers\Admin\HelpController::class, 'help']);
+    Route::get('/admin/help_detail/{id}', [App\Http\Controllers\Admin\HelpController::class, 'help_detail']);
     
 });
 

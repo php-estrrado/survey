@@ -34,13 +34,30 @@
                                                     <li> <i class="fa fa-clock-o bg-pink"></i>
                                                         <div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y',strtotime($survey_data->log_date))}}</span>
                                                             @if($survey_data->survey_status == 27)
-                                                                <h3 class="timelineleft-header"><a href="{{url('/customer/survey_report')}}/{{$survey_data->survey_request_id}}/{{$survey_data->survey_status}}" target="_blank">{{$survey_data->status_name}}</a></h3>
+                                                                @if($request_status == 27)
+                                                                    <h3 class="timelineleft-header"><a href="{{url('/customer/survey_report')}}/{{$survey_data->survey_request_id}}/{{$survey_data->survey_status}}" target="_blank">{{$survey_data->status_name}}</a></h3>
+                                                                @else
+                                                                    <h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>
+                                                                @endif
                                                             @elseif($survey_data->survey_status == 70)
-                                                                <h3 class="timelineleft-header"><a href="{{url('/customer/receipt_rejected')}}/{{$survey_data->survey_request_id}}/{{$survey_data->survey_status}}">{{$survey_data->status_name}}</a></h3>
-                                                            @elseif($survey_data->survey_status == 15)
-                                                                <h3 class="timelineleft-header"><a href="{{url('/customer/request_service_performa_invoice')}}/{{$survey_data->survey_request_id}}/{{$survey_data->survey_status}}">{{$survey_data->status_name}}</a></h3>
+                                                                @if($request_status == 70)
+                                                                    <h3 class="timelineleft-header"><a href="{{url('/customer/receipt_rejected')}}/{{$survey_data->survey_request_id}}/{{$survey_data->survey_status}}">{{$survey_data->status_name}}</a></h3>
+                                                                @else
+                                                                    <h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>
+                                                                @endif 
                                                             @elseif($survey_data->survey_status == 51)
-                                                                <h3 class="timelineleft-header"><a href="{{url('/customer/request_service_invoice')}}/{{$survey_data->survey_request_id}}/{{$survey_data->survey_status}}">{{$survey_data->status_name}}</a></h3>
+                                                                @if($request_status == 51)
+                                                                    <h3 class="timelineleft-header"><a href="{{url('/customer/request_service_invoice')}}/{{$survey_data->survey_request_id}}/{{$survey_data->survey_status}}">{{$survey_data->status_name}}</a></h3>
+                                                                @else
+                                                                    <h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>
+                                                                @endif 
+                                                               
+                                                            @elseif($survey_data->survey_status == 15)
+                                                                @if($request_status == 15)
+                                                                    <h3 class="timelineleft-header"><a href="{{url('/customer/request_service_performa_invoice')}}/{{$survey_data->survey_request_id}}/{{$survey_data->survey_status}}">{{$survey_data->status_name}}</a></h3>
+                                                                @else
+                                                                    <h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>
+                                                                @endif                                                                
                                                             @else
                                                                 <h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>
                                                             @endif

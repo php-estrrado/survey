@@ -495,18 +495,18 @@ if($validator->passes())
                 'role_id' => 'User Role',
                 'pen' => 'PEN Number',
                 'institution' => 'User Institution',
-                'avatar' => 'Profile Pic',
+                'avatar' => 'Profile Picture',
             ]);
-            // if ($validator->fails()) 
-            // {
-            //     foreach($validator->messages()->getMessages() as $k=>$row)
-            //     {
-            //         $error[$k] = $row[0];
-            //         Session::flash('message', ['text'=>$row[0],'type'=>'danger']);
-            //     }
+            if ($validator->fails()) 
+            {
+                foreach($validator->messages()->getMessages() as $k=>$row)
+                {
+                    $error[$k] = $row[0];
+                    Session::flash('message', ['text'=>$row[0],'type'=>'danger']);
+                }
     
-            //     return back()->withErrors($validator)->withInput($request->all());
-            // }
+                return back()->withErrors($validator)->withInput($request->all());
+            }
 
             if($input['role_id'] == 3)
             {
@@ -617,18 +617,18 @@ if($validator->passes())
                 'role_id' => 'User Role',
                 'pen' => 'PEN Number',
                 'institution' => 'User Institution',
-                'avatar' => 'Profile Pic',
+                'avatar' => 'Profile Picture',
             ]);
-            // if ($validator->fails()) 
-            // {
-            //     foreach($validator->messages()->getMessages() as $k=>$row)
-            //     {
-            //         $error[$k] = $row[0];
-            //         Session::flash('message', ['text'=>$row[0],'type'=>'danger']);
-            //     }
+            if ($validator->fails()) 
+            {
+                foreach($validator->messages()->getMessages() as $k=>$row)
+                {
+                    $error[$k] = $row[0];
+                    Session::flash('message', ['text'=>$row[0],'type'=>'danger']);
+                }
     
-            //     return back()->withErrors($validator)->withInput($request->all());
-            // }
+                return back()->withErrors($validator)->withInput($request->all());
+            }
 
             // echo 'Validator passed';
             // exit;

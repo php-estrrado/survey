@@ -43,7 +43,7 @@
 														@if(isset($help_request_logs) && count($help_request_logs) > 0)
 															@foreach($help_request_logs as $help_request)
 																<div>
-																<p class="mb-0 mt-1 text-dark font-weight-semibold">{{$help_request->comment}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request->created_at))}}</span></p>
+																	<p class="mb-0 mt-1 text-dark font-weight-semibold">{{$help_request->comment}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request->created_at))}}</span></p>
 																</div>
 															@endforeach
 														@endif

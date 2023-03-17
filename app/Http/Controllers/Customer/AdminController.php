@@ -131,8 +131,8 @@ class AdminController extends Controller
             'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'id_file_front' => ['nullable','max:10000'],
             'id_file_back' => ['nullable','max:10000'],
-            'password' =>['nullable','confirmed','min:6'],
-            'password_confirmation' =>['nullable','min:6'],
+            'password' =>['nullable','confirmed','min:6','max:20'],
+            'password_confirmation' =>['nullable','min:6','max:20'],
         ]);
         $input = $request->all();
 

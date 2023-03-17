@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Customer;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
@@ -43,71 +43,27 @@ class HelpController extends Controller
 
     public function help()
     {
-        $data['title']        =  'Hydrofraphic Survey';
-        $data['menu']         =  'Hydrofraphic Survey';
+        $data['title']        =  'Support Management';
+        $data['menu']         =  'Support Management';
 
-        $data['help_requests'] = SupportRequests::where('from_id',auth()->user()->id)->get();
+        $data['help_requests'] = SupportRequests::where('is_active',1)->where('is_deleted',0)->get();
 
         // dd($data);
 
-        return view('customer.support.support_list',$data);
+        return view('admin.support.support_list',$data);
     }
 
     public function help_detail($id)
     {
-        $data['title']        =  'Hydrofraphic Survey';
-        $data['menu']         =  'Hydrofraphic Survey';
+        $data['title']        =  'Support Management';
+        $data['menu']         =  'Support Management';
 
-        $data['help_request_detail'] = SupportRequests::where('id',$id)->where('from_id',auth()->user()->id)->first();
-        $data['help_request_logs'] = SupportRequestLogs::where('support_id',$id)->orderby('id','ASC')->get();
+        $data['help_request_detail'] = SupportRequests::where('id',$id)->first();
+        $data['help_request_logs'] = SupportRequestLogs::where('support_id',$id)->get();
 
-        return view('customer.support.support_detail',$data);
-    }
+        // dd($data);
 
-    public function saveHelp(Request $request)
-    {
-        $input = $request->all();
-
-        $validator = Validator::make($request->all(), [
-            'title'=>['required','max:255'],
-            'description'=>['required']
-        ]);
-
-        if($validator->passes())
-        {
-            $support_arr['from_id'] = auth()->user()->id;
-            $support_arr['title'] = $input['title'];
-            $support_arr['description'] = $input['description'];
-            $support_arr['is_active'] = 1;
-            $support_arr['is_deleted'] = 0;
-            $support_arr['created_by'] = auth()->user()->id;
-            $support_arr['updated_by'] = auth()->user()->id;
-            $support_arr['created_at'] = date('Y-m-d H:i:s');
-            $support_arr['updated_at'] = date('Y-m-d H:i:s');
-
-            $support_id = SupportRequests::create($support_arr)->id;
-
-            if(isset($support_id))
-            {   
-                Session::flash('message', ['text'=>'Help Requested Submitted Successfully !','type'=>'success']);  
-            }
-            else
-            {
-                Session::flash('message', ['text'=>'Help Requested Not Submitted !','type'=>'danger']);
-            }
-
-            return redirect('customer/help');
-        }
-        else
-        {
-            foreach($validator->messages()->getMessages() as $k=>$row)
-            {
-                $error[$k] = $row[0];
-                Session::flash('message', ['text'=>$row[0],'type'=>'danger']);
-            }
-                
-            return back()->withErrors($validator)->withInput($request->all());
-        }
+        return view('admin.support.support_detail',$data);
     }
 
     public function sendReply(Request $request)
@@ -122,9 +78,10 @@ class HelpController extends Controller
         if($validator->passes())
         {
             $support_log_arr['support_id'] = $input['support_id'];
-            $support_log_arr['from_role_id'] = 6;
-            $support_log_arr['to_role_id'] = 1;
+            $support_log_arr['from_role_id'] = 2;
+            $support_log_arr['to_role_id'] = 6;
             $support_log_arr['user_id'] = auth()->user()->id;
+            $support_log_arr['to_user_id'] = $input['to_user_id'];
             $support_log_arr['comment'] = $input['remarks'];
             $support_log_arr['is_active'] = 1;
             $support_log_arr['is_deleted'] = 0;
@@ -144,7 +101,7 @@ class HelpController extends Controller
                 Session::flash('message', ['text'=>'Support Reply Not Submitted !','type'=>'danger']);
             }
 
-            return redirect('customer/help');
+            return redirect('admin/help');
         }
         else
         {

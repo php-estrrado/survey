@@ -91,8 +91,8 @@ class CustomerController extends Controller
             'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'id_file_front' => ['required','max:10000'],
             'id_file_back' => ['required','max:10000'],
-            'password' =>['required','confirmed','min:6'],
-            'password_confirmation' =>['required','min:6']
+            'password' =>['required','confirmed','min:6','max:20'],
+            'password_confirmation' =>['required','min:6','max:20']
         ]);
 
         if($validator->passes())
