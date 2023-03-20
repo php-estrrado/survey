@@ -261,17 +261,17 @@
 									</div>
 								</div>
 								@endif
-									@if(isset($data_collection))
-								<div class="col-sm-4 col-md-4">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Method/Equipment for Data Collection
+								@if(isset($data_collection) && !empty($data_collection))
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method/Equipment for Data Collection
+												</div>
 											</div>
+											<label class="form-label">{{$data_collection}}</label>
 										</div>
-										<label class="form-label">{{$data_collection}}</label>
 									</div>
-								</div>
 								@endif
 								@if($request_data->tidal_area_location)
 									<div class="col-sm-4 col-md-4">
@@ -586,21 +586,7 @@
 										</div>
 									</div>
 								@endif
-								@if($request_data->file_upload)
-									<div class="col-sm-4 col-md-4">
-										<div class="form-group">
-											<div class="media-body">
-												<div class="font-weight-normal1">
-													Bottom Sample File upload
-												</div>
-											</div>
-											<label class="form-label">
-												<a href="{{ url('/').'/storage/'.$request_data->file_upload}}" target="_blank">View</a>
-												</label>
-										</div>
-									</div>
-								@endif
-								@if($request_data->interval_bottom_sample)
+								<!-- @if($request_data->interval_bottom_sample)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">
 											<div class="media-body">
@@ -611,7 +597,7 @@
 											<label class="form-label">{{$request_data->interval_bottom_sample}}</label>
 										</div>
 									</div>
-								@endif
+								@endif -->
 								@if($request_data->quantity_of_samples)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">

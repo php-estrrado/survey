@@ -51,7 +51,7 @@
 													<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request->id}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request->created_at))}}</span></h6>
 													<small class="text-muted">{{$help_request->description}}
 													</small>
-													<p><a href="{{ url('/admin/help_detail/')}}/{{$help_request->id}}" style="float: right;">Reply</a></p>
+													<p><a href="{{ url('/admin/help_detail/')}}/{{$help_request->id}}" style="float: right;">view</a></p>
 												</div>
 											</div>
 										</div>
