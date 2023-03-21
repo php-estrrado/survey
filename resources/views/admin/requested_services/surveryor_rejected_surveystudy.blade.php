@@ -212,7 +212,7 @@
 												Name Of Firm
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->firm}}</label>
+										<label class="form-label">@if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</label>
 									</div>
 								</div>
 								<div class="col-sm-4 col-md-4">
@@ -222,17 +222,17 @@
 												Type Of Organization
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->sector}}</label>
+										<label class="form-label">{{ getOrgType($request_data->firm) }}</label>
 									</div>
 								</div>
-								<div class="col-md-12">
+								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
 												Purpose
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->purpose}}. </label>
+										<label class="form-label">{{$request_data->purpose}} </label>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -242,7 +242,7 @@
 												Brief Description Of Type Of Work
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->description}}. </label>
+										<label class="form-label">{{$request_data->description}} </label>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -338,6 +338,106 @@
 									</div>
 								@endif
 							</div>
+							<div class="card-title font-weight-bold mt-5">Location Coordinates</div>
+							<div class="row">
+								@if($request_data->lattitude)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Lattitude
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->lattitude}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->longitude)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Longitude
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->longitude}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->x_coordinates)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													X Coordinates
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->x_coordinates}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->y_coordinates)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Y Coordinates
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->y_coordinates}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->lattitude2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Lattitude 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->lattitude2}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->longitude2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Longitude 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->longitude2}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->x_coordinates2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													X Coordinates 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->x_coordinates2}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->y_coordinates2)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Y Coordinates 2
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->y_coordinates2}}</label>
+										</div>
+									</div>
+								@endif
+							</div>
 							<hr />
 							<div class="card-title font-weight-bold mt-5">Details</div>
 							<div class="row">
@@ -365,6 +465,94 @@
 										</div>
 									</div>
 								@endif
+								@if($request_data->start_date)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Period of observation Start Date
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->start_date}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->end_date)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Period of observation End Date
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->end_date}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->duration)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration (Years)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->duration_weeks)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration (Weeks)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration_weeks}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->duration_days)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration ( Days)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration_days}}</label>
+										</div>
+									</div>
+								@endif
+
+								@if($request_data->duration_hours)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Duration ( Hours)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->duration_hours}}</label>
+										</div>
+									</div>
+								@endif
+								
+								@if($request_data->method_of_observation)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method of observation
+												</div>
+											</div>
+											<label class="form-label">{{ ucfirst($request_data->method_of_observation) }}</label>
+										</div>
+									</div>
+								@endif
 								@if($request_data->number_of_locations)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">
@@ -374,6 +562,66 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->number_of_locations}}</label>
+										</div>
+									</div>
+								@endif
+								<!-- @if($request_data->quantity_of_samples)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Interval (in kms)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->quantity_of_samples}}</label>
+										</div>
+									</div>
+								@endif -->
+								@if($request_data->interval_bottom_sample)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Interval (in kms)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->interval_bottom_sample}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->quantity_bottom_sample)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Quantity (kg)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->quantity_bottom_sample}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->method_of_sampling)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method of sampling
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->method_of_sampling}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->description_of_requirement)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Description of Requirement
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->description_of_requirement}}</label>
 										</div>
 									</div>
 								@endif
@@ -446,6 +694,18 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->benchmark_chart_datum}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->description_of_benchmark)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Description of Benchmark
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->description_of_benchmark}}</label>
 										</div>
 									</div>
 								@endif
@@ -542,6 +802,18 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->depth}}</label>
+										</div>
+									</div>
+								@endif
+								@if($request_data->level_upto)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Level upto which dredged (in meter)
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->level_upto}}</label>
 										</div>
 									</div>
 								@endif
@@ -718,7 +990,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>				
 			</div>
 		</div>
 	</div>

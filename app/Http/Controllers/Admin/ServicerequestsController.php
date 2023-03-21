@@ -1018,6 +1018,7 @@ class ServicerequestsController extends Controller
         if($status == 24)
         {
             $data['final_report'] = Survey_requests::where('id',$id)->first()->final_report;
+            $data['draftsman_remarks'] = Survey_request_logs::where('id',$id)->where('survey_status',24)->first()->remarks;
 
             // dd($data);
 
@@ -1055,7 +1056,14 @@ class ServicerequestsController extends Controller
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
-
+            if($status == 47)
+            {
+                $data['draftsman_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',47)->first()->remarks;
+            }
+            else
+            {
+                $data['draftsman_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',69)->first()->remarks;
+            }
             return view('admin.requested_services.invoice_submitted',$data);
         }
         elseif($status == 11 || $status == 68)
@@ -1063,6 +1071,15 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
             
+            if($status == 11)
+            {
+                $data['draftsman_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',11)->first()->remarks;
+            }
+            else
+            {
+                $data['draftsman_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',68)->first()->remarks;
+            }
+
             return view('admin.requested_services.performa_invoice_submitted',$data);
         }
         elseif($status == 67)

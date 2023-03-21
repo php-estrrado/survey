@@ -25,7 +25,7 @@
 
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body bodhgt">
                         <div>
                             <div class=" table-responsive table-desi">
                                 <table class="all-cars-table table table-striped">

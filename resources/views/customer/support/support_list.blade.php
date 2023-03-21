@@ -87,6 +87,7 @@
 		@csrf
 		<div class="modal-body">
 			<div class="col-md-12">
+				<h6>Token - {{$token_no}}</h6>
 				<div class="form-group">
 					<label class="form-label" for="title">File No <span class="text-red">*</span></label>
 					<input class="form-control" type="text" name="title" id="title">

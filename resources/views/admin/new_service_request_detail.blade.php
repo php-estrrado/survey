@@ -32,7 +32,7 @@
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">HSW{{$survey_id}}</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
 							<?php
@@ -295,7 +295,6 @@
 										</div>
 									</div>
 								@endif
-
 								@if($request_data->data_required)
 								<div class="col-md-12">
 									<div class="form-group">
@@ -320,18 +319,17 @@
 								</div>
 								@endif
 								@if(isset($data_collection) && !empty($data_collection))
-								<div class="col-md-12">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Method/Equipment for Data Collection
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method/Equipment for Data Collection
+												</div>
 											</div>
+											<label class="form-label">{{$data_collection}}</label>
 										</div>
-										<label class="form-label">{{$data_collection}}</label>
 									</div>
-								</div>
 								@endif
-
 								@if($request_data->tidal_area_location)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">
@@ -368,10 +366,8 @@
 										</div>
 									</div>
 								@endif
-								
-								
-								
 							</div>
+							
 							<div class="card-title font-weight-bold mt-5">Location Coordinates</div>
 							<div class="row">
 								@if($request_data->lattitude)
@@ -379,7 +375,7 @@
 										<div class="form-group">
 											<div class="media-body">
 												<div class="font-weight-normal1">
-													Lattitude 1
+													Lattitude
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->lattitude}}</label>
@@ -391,7 +387,7 @@
 										<div class="form-group">
 											<div class="media-body">
 												<div class="font-weight-normal1">
-													Longitude 1
+													Longitude
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->longitude}}</label>
@@ -403,7 +399,7 @@
 										<div class="form-group">
 											<div class="media-body">
 												<div class="font-weight-normal1">
-													X Coordinates 1
+													X Coordinates
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->x_coordinates}}</label>
@@ -415,14 +411,13 @@
 										<div class="form-group">
 											<div class="media-body">
 												<div class="font-weight-normal1">
-													Y Coordinates 1
+													Y Coordinates
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->y_coordinates}}</label>
 										</div>
 									</div>
 								@endif
-
 
 								@if($request_data->lattitude2)
 									<div class="col-sm-4 col-md-4">
@@ -472,8 +467,7 @@
 										</div>
 									</div>
 								@endif
-
-								</div>
+							</div>
 							<hr />
 							<div class="card-title font-weight-bold mt-5">Details</div>
 							<div class="row">
@@ -649,7 +643,7 @@
 										</div>
 									</div>
 								@endif
-								@if($request_data->interval_bottom_sample)
+								<!-- @if($request_data->interval_bottom_sample)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">
 											<div class="media-body">
@@ -658,6 +652,18 @@
 												</div>
 											</div>
 											<label class="form-label">{{$request_data->interval_bottom_sample}}</label>
+										</div>
+									</div>
+								@endif -->
+								@if($request_data->quantity_of_samples)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Quantity of sample to be collected in each location
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->quantity_of_samples}}</label>
 										</div>
 									</div>
 								@endif
@@ -1014,7 +1020,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div>				
 			</div>
 		</div>
 	</div>

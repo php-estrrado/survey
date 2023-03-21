@@ -312,7 +312,7 @@
 							</div>
 							
 							<div class="card-title font-weight-bold mt-5">Location Coordinates</div>
-				<div class="row">
+							<div class="row">
 								@if($request_data->lattitude)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">
@@ -410,7 +410,7 @@
 										</div>
 									</div>
 								@endif
-								</div>
+							</div>
 							<hr />
 							<div class="card-title font-weight-bold mt-5">Details</div>
 							<div class="row">

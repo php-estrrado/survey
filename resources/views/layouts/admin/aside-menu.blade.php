@@ -18,8 +18,8 @@
 		@endif
 			<img src="{{URL('admin/assets/images/logo.png')}}" class="header-brand-img desktop-lgo" alt="Jalanetra logo">
 			<img src="{{URL('admin/assets/images/logo.png')}}" class="header-brand-img dark-logo" alt="Jalanetra logo">
-			<img src="{{URL('admin/assets/images/logo.png')}}" class="header-brand-img mobile-logo" alt="Jalanetra logo">
-			<img src="{{URL('admin/assets/images/logo.png')}}" class="header-brand-img darkmobile-logo" alt="Jalanetra logo">
+			<img src="{{URL::asset('assets/images/brand/favicon.png')}}" class="header-brand-img mobile-logo" alt="Jalanetra logo">
+			<img src="{{URL::asset('assets/images/brand/favicon1.png')}}" class="header-brand-img darkmobile-logo" alt="Jalanetra logo">
 		</a>
 	</div>
 	<div class="app-sidebar__user">

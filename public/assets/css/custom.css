@@ -766,3 +766,30 @@ and (max-width: 1920px)
   color: #898989 !important;
   font-style: normal !important;
 }
+.bodhgt{
+  min-height:60vh;
+}
+.table th {
+  font-weight: 500;
+}
+.table th, .table td {
+  padding: 0.45rem;
+}
+.all-cars-table thead tr th:nth-child(2) {
+  min-width: 110px !important;
+}
+.all-cars-table tbody tr td:nth-child(2) {
+  min-width: 110px;
+}
+.all-cars-table thead tr th:nth-child(3) {
+  min-width: 140px !important;
+}
+.all-cars-table tbody tr td:nth-child(3) {
+  min-width: 140px !important;
+}
+.all-cars-table thead tr th, .all-cars-table tbody tr th {
+  font-size: calc(14px + (18 - 15) * ((100vw - 320px) / (1920 - 320))) !important;
+}
+.position {
+  margin: 2px 20px 16px 20px !important;
+}

@@ -17,7 +17,7 @@ use App\Models\Survey_request_logs;
 use App\Models\Institution;
 
 use App\Models\AdminNotification;
-
+use App\Models\customer\CustomerMaster;
 use App\Models\Product;
 use App\Models\OrganisationType;
 use Twilio\Rest\Client;
@@ -513,9 +513,11 @@ if (!function_exists('twilio_send_otp')) {
             {
                 $logs = Survey_request_logs::where("survey_request_id",$id)->distinct()
             ->pluck('survey_status')->toArray();
-            }else{
-              $logs = Survey_request_logs::where("survey_request_id",$id)->where('cust_id',auth()->user()->id)->distinct()
-            ->pluck('survey_status')->toArray();  
+            }else
+            {
+                $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
+                $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
+                $logs = Survey_request_logs::where("survey_request_id",$id)->where('cust_id',$cust_id)->distinct()->pluck('survey_status')->toArray();  
             }
             
 
