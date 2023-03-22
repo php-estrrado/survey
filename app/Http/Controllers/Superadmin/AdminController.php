@@ -274,47 +274,44 @@ class AdminController extends Controller
 
     public function edit_profile(Request $request)
     {
+        $input = $request->all();
+        $validator = Validator::make($request->all(),[
+            'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
+            'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where(function ($query) { $query->where('is_deleted',0)->where('role_id','!=',6);}),'email','max:100'],
+            'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
+            'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
+            'pen'            =>  ['required'],
+            'institution'    =>  ['required'],
+            'avatar'         =>  ['nullable','mimes:jpeg,png,jpg']
+        ]);
 
- $input = $request->all();
-            $validator = Validator::make($request->all(),[
-                'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
-                'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
-                'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
-                'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
-                'pen'            =>  ['required'],
-                'institution'    =>  ['required'],
-                'avatar'         =>  ['nullable','mimes:jpeg,png,jpg']
-            ]);
-
-if($validator->passes())
+        if($validator->passes())
         {
        
-        $admin_arr = [];
-        $admin_arr['fname'] = $input['name'];
-        $admin_arr['email'] = $input['email'];
-        $admin_arr['phone'] = $input['phone'];
-        $admin_arr['is_active'] = 1;
-        $admin_arr['is_deleted'] = 0;
-        $admin_arr['updated_by'] = auth()->user()->id;
-        $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+            $admin_arr = [];
+            $admin_arr['fname'] = $input['name'];
+            $admin_arr['email'] = $input['email'];
+            $admin_arr['phone'] = $input['phone'];
+            $admin_arr['is_active'] = 1;
+            $admin_arr['is_deleted'] = 0;
+            $admin_arr['updated_by'] = auth()->user()->id;
+            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-        Admin::where('id',$input['admin_id'])->update($admin_arr);
+            Admin::where('id',$input['admin_id'])->update($admin_arr);
 
-        $usr_arr = [];
-        $usr_arr['fullname'] = $input['name'];
-        $usr_arr['email'] = $input['email'];
-        $usr_arr['phone'] = $input['phone'];
-        $usr_arr['designation'] = $input['designation'];
-        $usr_arr['pen'] = $input['pen'];
-        $usr_arr['institution'] = $input['institution'];
-        $usr_arr['is_active'] = 1;
-        $usr_arr['is_deleted'] = 0;
-        $usr_arr['updated_by'] = auth()->user()->id;
-        $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+            $usr_arr = [];
+            $usr_arr['fullname'] = $input['name'];
+            $usr_arr['email'] = $input['email'];
+            $usr_arr['phone'] = $input['phone'];
+            $usr_arr['designation'] = $input['designation'];
+            $usr_arr['pen'] = $input['pen'];
+            $usr_arr['institution'] = $input['institution'];
+            $usr_arr['is_active'] = 1;
+            $usr_arr['is_deleted'] = 0;
+            $usr_arr['updated_by'] = auth()->user()->id;
+            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-        UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
-
-       
+            UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
 
             if($request->hasfile('avatar'))
             {
@@ -344,15 +341,14 @@ if($validator->passes())
                     'updated_at'=>date("Y-m-d H:i:s")
                 ]);
             }
-
+            Session::flash('message', ['text'=>'Profile Updated Successfully !','type'=>'success']);
             return redirect(route('superadmin.profile'));
         }
         else
         {
+            Session::flash('message', ['text'=>'Profile Not Updated Successfully !','type'=>'danger']);
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-
     }
 
     function validateUser(Request $request){
@@ -476,7 +472,7 @@ if($validator->passes())
 
         if($input['id'] > 0)
         {
-            $validator = $request->validate([
+            $validator = Validator::make($request->all(),[
                 'name'           =>  ['required','max:100'],
                 'email'          =>  ['required',Rule::unique('admins')->ignore($input['id'])->where('is_deleted',0),'email','max:100'],
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['id'])->where('is_deleted',0)],
@@ -598,7 +594,7 @@ if($validator->passes())
         }
         else
         {
-            $validator = $request->validate([
+            $validator = Validator::make($request->all(),[
                 'name'           =>  ['required','max:100'],
                 'email'          =>  ['required',Rule::unique('admins')->where('is_deleted',0),'email','max:100'],
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->where('is_deleted',0)],

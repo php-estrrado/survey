@@ -40,27 +40,52 @@
   <script src="{{URL::asset('public/assets/plugins/sumoselect/jquery.sumoselect.js')}}"></script>
 <script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
 
+@php
+    $mark_url = "";
+    if(auth()->user()->role_id == 6)
+    {
+        $mark_url = url("customer/mark-notifications");
+    }
+@endphp
+
 <script type="text/javascript">
     $(document).ready(function(){
-                toastr.options.timeOut = 500;
+        toastr.options.timeOut = 500;
 
-                @if(Session::has('message'))
-                var disp_msg = '{{session("message")["text"]}}';
-                var disp_type = '{{session("message")["type"]}}';
-                    if(disp_type=="success"){
-                        toastr.success(disp_msg, { timeOut: 500 });
-                    
-                    }else{
-
-                        toastr.error(disp_msg, { timeOut: 500 });
-                    }
-                
-
-                    @php
-                    Session::forget('message');
-                    @endphp
-
-                @endif
+        @if(Session::has('message'))
+            var disp_msg = '{{session("message")["text"]}}';
+            var disp_type = '{{session("message")["type"]}}';
+            if(disp_type=="success"){
+                toastr.success(disp_msg, { timeOut: 500 });
+            }else
+            {
+                toastr.error(disp_msg, { timeOut: 500 });
+            }
+            @php
+                Session::forget('message');
+            @endphp
+        @endif
+        jQuery(".marknotifications a").click(function(e){
+            var self = jQuery(this);
+            var href = self.attr('href');
+            e.preventDefault();
+            // needed operations
+            // alert("clicked");
+            var not_id = jQuery(this).data("id");
+            
+            $.ajax({
+                type: "POST",
+                url: '{{ $mark_url }}',
+                data: {not_id:not_id,'_token': '{{ csrf_token()}}'},
+                success: function (data) {
+                    window.location = href;
+                    // alert(data);
+                    console.log(data);
+                    // $("#data_content").html('').html(data); 
+                }
+            });
+            window.location = href;
+		});
     });
 </script>
 <script>

@@ -60,11 +60,8 @@
 						</svg>
 						@php 
 							use App\Models\AdminNotification;
-
 							use App\Models\Admin;
-
 							use App\Models\UsrNotification;
-
 
 							$newnotification = 0;
 
@@ -104,7 +101,7 @@
 						@endphp
 						@if($notifications)
 							
-									<span class="n_count">{{ $n_count }}</span>		
+							<span class="n_count">{{ $n_count }}</span>
 								
 						@endif
 					</a>
@@ -179,7 +176,15 @@
 				<div class="dropdown profile-dropdown">
 					<a href="{{url('/' . $page='#')}}" class="nav-link pr-0 leading-none" data-toggle="dropdown">
 						<span>
-							<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="img" class="avatar avatar-md brround">
+							@php
+								$avatar = Admin::where('id',auth()->user()->id)->first()->avatar;
+							@endphp
+	
+							@if(isset($avatar) && !empty($avatar))
+								<img src="{{$avatar}}" alt="img" class="avatar avatar-md brround">
+							@else
+								<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="img" class="avatar avatar-md brround">
+							@endif
 						</span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">

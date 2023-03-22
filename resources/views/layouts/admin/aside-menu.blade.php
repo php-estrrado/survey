@@ -25,7 +25,16 @@
 	<div class="app-sidebar__user">
 		<div class="dropdown user-pro-body text-center">
 			<div class="user-pic">
-				<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="user-img" class="avatar-xl rounded-circle mb-1">
+				@php
+					use App\Models\Admin;
+					$avatar = Admin::where('id',auth()->user()->id)->first()->avatar;
+				@endphp
+				@if(isset($avatar) && !empty($avatar))
+					<img src="{{$avatar}}" alt="user-img" class="avatar-xl rounded-circle mb-1">
+				@else
+					<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="user-img" class="avatar-xl rounded-circle mb-1">
+				@endif
+				
 			</div>
 			<div class="user-info">
 				<h5 class=" mb-1">{{auth()->user()->fname.' '.auth()->user()->lname}}</h5>

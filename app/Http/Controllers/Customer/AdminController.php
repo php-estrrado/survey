@@ -261,12 +261,13 @@ class AdminController extends Controller
                 ]);
             }
 
-            Session::flash('message', ['text'=>'Customer Profile Updated Successfully !','type'=>'success']);  
+            Session::flash('message', ['text'=>'Profile Updated Successfully !','type'=>'success']);  
 
             return redirect('customer/profile');
         }
         else
         {
+            Session::flash('message', ['text'=>'Profile Not Updated Successfully !','type'=>'danger']);
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
     }

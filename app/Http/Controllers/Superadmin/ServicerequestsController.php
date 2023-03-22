@@ -467,7 +467,7 @@ class ServicerequestsController extends Controller
         if($status == 25 || $status == 26)
         {
             $data['final_report'] = Survey_requests::where('id',$id)->first()->final_report;
-            $data['ms_remarks'] = Survey_request_logs::where('id',$id)->where('survey_status',25)->first()->remarks;
+            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',25)->first()->remarks;
 
             // dd($data);
 

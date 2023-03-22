@@ -111,7 +111,7 @@ public function marknotifications(Request $request)
         $input = $request->all();
         $validator = Validator::make($request->all(), [
             'name'         =>  ['required','max:255'],
-            'email'        =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
+            'email'        =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where(function ($query) { $query->where('is_deleted',0)->where('role_id','!=',6);}),'email','max:100'],
             'phone'        =>  ['required','numeric','digits:10',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0)],
             'designation'  =>  ['required','max:255'],
             'pen'          =>  ['required','max:100'],
@@ -175,10 +175,12 @@ public function marknotifications(Request $request)
                 ]);
             }
 
+            Session::flash('message', ['text'=>'Profile Updated Successfully !','type'=>'success']);
             return redirect(route('admin.profile'));
         }
         else
         {
+            Session::flash('message', ['text'=>'Profile Not Updated Successfully !','type'=>'danger']);
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }        
     }

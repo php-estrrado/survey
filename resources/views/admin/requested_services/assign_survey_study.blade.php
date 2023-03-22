@@ -43,6 +43,7 @@
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
 							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
+							<li><span class="h6 mt-3">Remarks: {{ $ch_remarks }}</span></li>
 						</ul>
 					</div>
 				</div>
