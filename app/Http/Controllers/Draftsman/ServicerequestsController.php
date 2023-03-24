@@ -163,6 +163,8 @@ class ServicerequestsController extends Controller
 
         if($status == 23 || $status == 28 || $status == 38 || $status == 39)
         {
+            $data['ch_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+
             return view('draftsman.requested_services.survey_report',$data);
         }
         elseif($status == 48 || $status == 52 || $status == 53)
@@ -754,10 +756,10 @@ class ServicerequestsController extends Controller
     {
         $data['survey_study'] = Survey_study_report::where('survey_request_id',$id)->first();
 
-        return view('draftsman.requested_services.download_report',$data);
+        // return view('draftsman.requested_services.download_report',$data);
 
-        // $pdf = PDF::loadView('draftsman.requested_services.download_report',$data);
-        // return $pdf->download('survey_report.pdf');
+        $pdf = PDF::loadView('draftsman.requested_services.download_report',$data);
+        return $pdf->download('survey_report.pdf');
     }
 
     public function upload_final_report(Request $request)

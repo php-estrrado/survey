@@ -109,7 +109,7 @@ class RequestedServicesController extends Controller
 
         if($request_status != $status)
         {
-            return redirect('customer/requested_services');
+            return redirect('customer/request_service_detail/'.$id.'/'.$request_status);
         }
         
         if($status == 3)

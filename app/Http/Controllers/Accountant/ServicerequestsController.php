@@ -138,6 +138,11 @@ class ServicerequestsController extends Controller
             $data['request_data'] = $datas->Bathymetry_survey->first();
         }
 
+        if($datas->request_status != 58)
+        {
+            return redirect('/accountant/service_requests');
+        }
+
         return view('accountant.receipt-received',$data);
     }
 

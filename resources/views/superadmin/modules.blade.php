@@ -38,7 +38,7 @@
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-bordered text-nowrap" id="example2">
+					<table class="table table-bordered text-nowrap modulestable" id="modulestable">
 						<thead>
 							<tr>
 								<th class="wd-15p border-bottom-0">SL. NO</th>
@@ -74,7 +74,7 @@
                                         <td>
                                             <div class="btn-list actn">                                                
                                                 <a href="{{url('/superadmin/modules/edit')}}/{{ $pt['id'] }}"><button class="btn btn-success" type="button">Edit</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <a href=""><button class="btn btn-danger" type="button" onclick="deletemodule({{$pt['id']}});">Delete</button></a>
+                                                <a href=""><button class="btn btn-danger" type="button" onclick="return confirm('Are you sure you want to delete this role?')?deletemodule({{$pt['id']}}):'';">Delete</button></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -107,7 +107,7 @@
                                                 <td class="align-middle">
                                                     <div class="btn-list actn">
                                                         <a href="{{url('/superadmin/modules/edit')}}/{{ $ch['id'] }}"><button class="btn btn-success" type="button">Edit</button></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <a href=""><button class="btn btn-danger" type="button" onclick="deletemodule({{$ch['id']}});">Delete</button></a>
+                                                        <a href=""><button class="btn btn-danger" type="button" onclick="return confirm('Are you sure you want to delete this role?')?deletemodule({{$ch['id']}}):'';">Delete</button></a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -161,9 +161,9 @@
             data: { "_token": "{{csrf_token()}}", id: id},
             success: function (data) {
                 // alert(data);
-                // if(data ==1){
-                //     location.reload();
-                // }
+                if(data ==1){
+                    location.reload();
+                }
             }
         });
     }

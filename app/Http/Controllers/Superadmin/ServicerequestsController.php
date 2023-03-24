@@ -510,7 +510,7 @@ class ServicerequestsController extends Controller
             $data['draftmans'] = Admin::where('role_id',4)->get();
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_performa_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
-            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',54)->first();
+            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',54)->first()->remarks;
 
             return view('superadmin.requested_services.customer_accepted_performa',$data);
         }
@@ -518,7 +518,7 @@ class ServicerequestsController extends Controller
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
-            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',49)->first();
+            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',49)->first()->remarks;
 
             return view('superadmin.requested_services.dh_verified_invoice',$data);
         }
@@ -526,7 +526,7 @@ class ServicerequestsController extends Controller
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
-            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',13)->first();
+            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',13)->first()->remarks;
 
             return view('superadmin.requested_services.dh_verified_performa_invoice',$data);
         }

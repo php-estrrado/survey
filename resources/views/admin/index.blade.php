@@ -26,7 +26,7 @@
 	<!-- End Row-1 -->
 
 	<!-- Row-2 -->
-	<!-- <div class="row">
+	<div class="row">
 		<div class="col-xl-6 col-lg-6 col-md-12">
 			<div class="card">
 				<div class="card-header">
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 	<!-- End Row-2 -->
 
 </div>
@@ -93,5 +93,121 @@
 
 <!--INTERNAL Index js-->
 <script src="{{URL::asset('assets/js/index1.js')}}"></script>
+
+
+<!-- <script type="text/javascript">
+
+
+
+// completed vs pending
+
+
+var options1 = {
+	series: [{
+		name: 'Completed',
+		data: [{{ $completed_surveys_grp[0]['count'] }}, {{ $completed_surveys_grp[1]['count'] }}, {{ $completed_surveys_grp[2]['count'] }}, {{ $completed_surveys_grp[3]['count'] }}, {{ $completed_surveys_grp[4]['count'] }}, {{ $completed_surveys_grp[5]['count'] }}]
+	}, {
+		name: 'Pending',
+		data: [{{ $pending_surveys_grp[0]['count'] }}, {{ $pending_surveys_grp[1]['count'] }}, {{ $pending_surveys_grp[2]['count'] }}, {{ $pending_surveys_grp[3]['count'] }}, {{ $pending_surveys_grp[4]['count'] }}, {{ $pending_surveys_grp[5]['count'] }}]
+	}],
+	colors: ['#705ec8','#fa057a'],
+	chart: {
+		height: 300,
+		type: 'area'
+	},
+	dataLabels: {
+		enabled: false
+	},
+	stroke: {
+		curve: 'smooth'
+	},
+	xaxis: {
+		type: 'datetime',
+		categories: [new Date("//{{  $completed_surveys_grp[0]['date']; }}").toISOString(), new Date("// {{ $completed_surveys_grp[1]['date']; }}").toISOString(), new Date("{{  $completed_surveys_grp[2]['date']; }}").toISOString(), new Date("{{  $completed_surveys_grp[3]['date']; }}").toISOString(), new Date("{{   $completed_surveys_grp[4]['date']; }}").toISOString(), new Date("{{   $completed_surveys_grp[5]['date']; }}").toISOString()]
+	},
+	tooltip: {
+		x: {
+			format: 'm'
+		},
+	},
+	legend: {
+		show: false,
+	}
+};
+var chart1 = new ApexCharts(document.querySelector("#chart"), options1);
+chart1.render();
+
+// each category chart	
+var cat_data = [];
+var cat_list = [];
+@php if($completed_surveys){
+	foreach($completed_surveys as $ck=>$cv)
+	{ @endphp
+cat_data.push( "{{ $cv['count'] }}" ); 
+cat_list.push( "{{ $cv['name'] }}" ); 
+
+	@php }
+} @endphp
+
+
+var options2 = {
+	series: [{
+		data: cat_data
+	}],
+	colors: ['#705ec8','#fa057a'],
+	chart: {
+		type: 'bar',
+		height: 300,
+	},
+	plotOptions: {
+		bar: {
+			horizontal: false,
+		}
+	},
+	dataLabels: {
+		enabled: false
+	},
+	xaxis: {
+		categories: cat_list,
+	},
+	legend: {
+		show: false,
+	}
+};
+var chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+chart2.render();
+
+
+// accepted vs pending
+
+
+var options8 = {
+	series: [{{ $accepted_surveys_percentage }}],
+	chart: {
+		height: 200,
+		type: 'radialBar',
+	},
+	plotOptions: {
+		radialBar: {
+			hollow: {
+				size: '70%',
+			}
+		},
+	},
+	labels: ['Accepted'],
+	colors: ['#4454c3'],
+	responsive: [{
+		options: {
+			legend: {
+				show: false,
+			}
+		}
+	}]
+};
+var chart8 = new ApexCharts(document.querySelector("#chart8"), options8);
+chart8.render();
+
+
+</script> -->
 
 @endsection
