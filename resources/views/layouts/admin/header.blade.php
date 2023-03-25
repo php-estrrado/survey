@@ -72,10 +72,18 @@
 							}
 							elseif(auth()->user()->role_id == 2 || auth()->user()->role_id == 7)
 							{
-
 								$notifications = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
-								$n_count = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
-
+								$n_count = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->where('viewed',0)->count();
+								if(auth()->user()->role_id == 2)
+								{
+									$notifications = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+									$n_count = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->where('viewed',0)->count();
+								}
+								else
+								{
+									$notifications = AdminNotification::where('role_id',7)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+									$n_count = AdminNotification::where('role_id',7)->where('notify_to',auth()->user()->id)->where('viewed',0)->count();
+								}
 							}
 							elseif(auth()->user()->role_id == 3)
 							{

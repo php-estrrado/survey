@@ -391,7 +391,7 @@ class ServicerequestsController extends Controller
 
         if($datas->request_status != $status)
         {
-            return redirect('superadmin/requested_services');
+            return redirect('superadmin/requested_service_detail/'.$id.'/'.$datas->request_status);
         }
         
         if($datas->service_id == 1)
@@ -1150,6 +1150,18 @@ class ServicerequestsController extends Controller
         $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
 
         UserNotification::create($usr_noti);
+
+        $from       = auth()->user()->id; 
+        $utype      = 7;
+        $to         = Admin::where('role_id',7)->where('is_deleted',0)->where('is_active',1)->first()->id;
+        $ntype      = 'final_report_verified_by_ch';
+        $title      = 'CH Verified Final Report';
+        $desc       = 'Final Report Verified by CH. Request ID:HSW'.$id;
+        $refId      = $id;
+        $reflink    = '/admin/service_requests_detail/'.$id.'/27/';
+        $notify     = 'admin';
+        $notify_from_role_id = 1;
+        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
         if(isset($survey_request_log_id))
         {   

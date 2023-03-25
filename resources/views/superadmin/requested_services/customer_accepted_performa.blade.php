@@ -341,7 +341,7 @@
 												Remarks:
 											</div>
 										</div>
-										<label class="form-label">@if(isset($survey_remarks)){{$survey_remarks->remarks}}@endif</label>
+										<label class="form-label">{{$survey_remarks}}</label>
 									</div>
 								</div>
 							</div>

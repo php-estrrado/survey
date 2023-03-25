@@ -307,6 +307,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>Remarks: <br> {{$ms_remarks}}</p>
+                                        </div>
+                                    </div>
                                     <div class="row g-2 mt-2" style="float: right;">
                                         <div class="col-md-12">
                                             <a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-bs-target="#modaldemo1" data-bs-toggle="modal" href=""> Accept </a>

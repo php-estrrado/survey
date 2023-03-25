@@ -310,6 +310,7 @@ Route::middleware('role:admin','revalidate')->group(function () {
 
     Route::get('/admin/help', [App\Http\Controllers\Admin\HelpController::class, 'help']);
     Route::get('/admin/help_detail/{id}', [App\Http\Controllers\Admin\HelpController::class, 'help_detail']);
+    Route::post('/admin/sendReply', [App\Http\Controllers\Admin\HelpController::class, 'sendReply']);
     
 });
 

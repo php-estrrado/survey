@@ -159,6 +159,11 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p>Remarks: <br> <strong>{{$ms_remarks}}</strong></p>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <ul class="list-inline pull-right">
                                                 <li><a href="{{url('/customer/customer_invoice_download')}}/{{$survey_data->survey_id}}"><button type="button" class="btn btn-info">Download</button></a></li>

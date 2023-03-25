@@ -11,7 +11,7 @@
             <div class="login-card">
                 <div>
                     <div>
-                        <a class="logo" href="index.html">
+                        <a class="logo" href="#">
                             <img class="img-fluid for-light" src="{{URL::asset('admin/assets/images/logo.png')}}" alt="looginpage">
                             <img class="img-fluid for-dark" src="{{URL::asset('admin/assets/images/logo.png')}}" alt="looginpage">
                         </a>

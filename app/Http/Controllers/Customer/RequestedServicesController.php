@@ -155,7 +155,7 @@ class RequestedServicesController extends Controller
             return redirect('customer/request_service_detail/'.$id.'/'.$data['survey_data']->request_status);
         }
         
-
+        $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
         return view('customer.requested_service.performa_invoice_received',$data);
         // return view('customer.requested_service.request_service_invoice',$data);
     }

@@ -179,20 +179,16 @@
 }); 
 
 	$(document).ready(function(){
-
 		$('body').on('click','#removeAvatar',function(){
-
-
-		$.ajax({
-		type: "POST",
-		url: '{{ url("accountant/remove-avatar") }}',
-		data: {'_token': '{{ csrf_token()}}'},
-		success: function (data) {
-			 window.location.href=window.location.href;
-		}
+			$.ajax({
+				type: "POST",
+				url: '{{ url("accountant/remove-avatar") }}',
+				data: {'_token': '{{ csrf_token()}}'},
+				success: function (data) {
+					window.location.href=window.location.href;
+				}
+			});
 		});
-		});
-
 	});
 
 </script>
