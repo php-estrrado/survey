@@ -59,7 +59,16 @@
                             @foreach($notifications as $notify)
                                 <li>
                                     <a href="{{url($notify->ref_link)}}" data-id="{{ $notify->id }}">
-                                        <p>{{$notify->title}} <span class="pull-right">{{date('d/m/Y',strtotime($notify->created_at))}}.</span></p>
+                                        <?php 
+                                            $exp_desc = explode("HSW", $notify->description);
+											$file_no = "";
+											if(isset($exp_desc))
+                                            {
+												$exp_desc_file = $exp_desc[1];
+												$file_no = "#HSW".$exp_desc_file;
+											}
+                                        ?>
+                                        <p class="<?php if($notify->viewed == 1){ echo 'font-weight-normal'; }else{ echo 'font-weight-normal1'; } ?>">{{$file_no}} {{$notify->title}} <span class="pull-right">{{date('d/m/Y',strtotime($notify->created_at))}}.</span></p>
                                     </a>
                                 </li>
                             @endforeach
@@ -74,7 +83,7 @@
                     <div class="media profile-media">
                         <img class="user-profile rounded-circle" src="{{URL::asset('public/admin/assets/images/image2.png')}}" alt="profile-picture">
                         <div class="user-name-hide media-body"><span>{{auth()->user()->fname.' '.auth()->user()->lname}}</span>
-                            <p class="mb-0 font-roboto">Admin <i class="middle fa fa-angle-down"></i></p>
+                            <p class="mb-0 font-roboto">User <i class="middle fa fa-angle-down"></i></p>
                         </div>
                     </div>
                     <ul class="profile-dropdown onhover-show-div">

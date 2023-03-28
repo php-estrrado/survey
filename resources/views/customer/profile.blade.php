@@ -115,7 +115,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-top: 10px;">
                                 <h5>Change Password</h5>
                                 <div class="col-sm-6">
                                     <label class="form-label mt-3" for="password">Password <span class="text-red">*</span></label>
@@ -140,7 +140,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-primary mt-3" style="float:right ;" type="submit">Submit</button>
+                                    <button class="btn btn-primary mt-3" style="float:right ;" type="submit">Save</button>
                                 </div>
                             </div>
                         </form>

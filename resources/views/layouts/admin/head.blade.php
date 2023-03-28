@@ -41,3 +41,4 @@
         <link href="{{URL::asset('public/admin/assets/plugins/fancyuploder/fancy_fileupload.css')}}" rel="stylesheet" />
         <!-- INTERNAL File Uploads css-->
         <link href="{{URL::asset('public/admin/assets/plugins/fileupload/css/fileupload.css')}}" rel="stylesheet" type="text/css" />
+		<link href="{{URL::asset('public/assets/css/dropzone.min.css')}}" rel="stylesheet" type="text/css" />

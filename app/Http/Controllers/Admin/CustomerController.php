@@ -85,7 +85,7 @@ class CustomerController extends Controller
             'full_name'=>['required','regex:/^[a-zA-Z\s]*$/'],
             'firm'=>['required','max:255','regex:/^[a-zA-Z\s]*$/'],
             'firm_type'=>['required'],
-            'email' => ['required','email','max:255','unique:cust_mst,username'],
+            'email' => ['required','email','max:255','unique:admins,email'],
             'mobile'=>['required','numeric','digits:10'],
             'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'id_file_front' => ['required','max:10000'],

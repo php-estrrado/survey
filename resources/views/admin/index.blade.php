@@ -13,45 +13,72 @@
 	<!--End Page header-->
 @endsection
 @section('content')
-	<!-- Row-1 -->
-	<div class="row">
-		<div class="col-md-12 col-xl-3 col-lg-6">
-			<div class="card text-center">
-				<div class="card-body"> <span>No. Of Total Cancelled Service</span>
-					<h1 class=" mb-1 mt-1 font-weight-bold">{{$rejected_surveys}}</h1>
+	@php
+		if(auth()->user()->role_id == 2)
+		{
+	@endphp
+			<!-- Row-1 -->
+				<div class="row">
+					<div class="col-md-12 col-xl-3 col-lg-6">
+						<div class="card text-center">
+							<div class="card-body"> <span>No. Of Total Cancelled Service</span>
+								<h1 class=" mb-1 mt-1 font-weight-bold">{{$rejected_surveys}}</h1>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Row-1 -->
+			<!-- End Row-1 -->
+	@php
+		}
+		else if(auth()->user()->role_id == 7)
+		{
+	@endphp
+			<!-- Row-1 -->
+				<div class="row">
+					<div class="col-md-12 col-xl-3 col-lg-6">
+						<div class="card text-center">
+							<div class="card-body"> <span>No. Of Total Completed Service</span>
+								<h1 class=" mb-1 mt-1 font-weight-bold">{{$surveys_completed}}</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- End Row-1 -->
+	@php
+		}
+		if(auth()->user()->role_id == 2)
+		{
+	@endphp
+			<!-- Row-2 -->
+			<div class="row">
+				<div class="col-xl-6 col-lg-6 col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">No. Of Service Request For Each Category</div>
+						</div>
+						<div class="card-body">
+							<div class="h-300" id="flotBar2"></div>
+						</div>
+					</div>
+				</div>
 
-	<!-- Row-2 -->
-	<div class="row">
-		<div class="col-xl-6 col-lg-6 col-md-12">
-			<div class="card">
-				<div class="card-header">
-					<div class="card-title">No. Of Service Request For Each Category</div>
-				</div>
-				<div class="card-body">
-					<div class="h-300" id="flotBar2"></div>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-xl-6 col-md-12">
-			<div class="card">
-				<div class="card-header">
-					<div class="card-title">Total Request Received v/s Total Accepted Requests</div>
-				</div>
-				<div class="card-body">
-					<div class="chartjs-wrapper-demo">
-						<div id="chart8" class="h-300 mh-300"></div>
+				<div class="col-xl-6 col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Total Request Received v/s Total Accepted Requests</div>
+						</div>
+						<div class="card-body">
+							<div class="chartjs-wrapper-demo">
+								<div id="chart8" class="h-300 mh-300"></div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<!-- End Row-2 -->
+			<!-- End Row-2 -->
+	@php
+		}
+	@endphp
 
 </div>
 </div>

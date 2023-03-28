@@ -1267,9 +1267,18 @@ function get_remote_file_info($url) {
             if (file_exists($file_path))
             {
             // Send Download
-            return Response::download($file_path, $file_name, [
-            'Content-Length: '. filesize($file_path)
-            ]);
+            $headers = [
+                'Content-Description' => 'File Transfer',
+                'Content-Type' => 'application/pdf',
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
+                'Access-Control-Allow-Headers'=> 'Content-Type, Accept, Authorization, X-Requested-With, Application'
+            ];
+
+            return Response::download($file_path, $file_name, $headers);
+            // return Response::download($file_path, $file_name, [
+            // 'Content-Length: '. filesize($file_path)
+            // ]);
             }
             else
             {

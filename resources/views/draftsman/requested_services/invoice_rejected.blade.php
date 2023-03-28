@@ -180,14 +180,56 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 										<label class="form-label">{{$field_study->type_of_waterbody}}</label>
 									</div>
 								</div>
-								<div class="col-sm-4 col-md-4">
+							</div>
+							<hr />
+							<div class="row">
+								<div class="col-sm-12 col-md-12">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
-												Limit Of Survey Area
+												<h6>Limit of Survey</h6>
 											</div>
 										</div>
-										<label class="form-label">{{$field_study->limit_of_survey_area}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Latitude
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->lattitude}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Longitude
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->longitude}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												X Coordinates
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->x_coordinates}}</label>
+									</div>
+								</div>
+								<div class="col-sm-6 col-md-6">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Y Coordinates
+											</div>
+										</div>
+										<label class="form-label">{{$field_study->y_coordinates}}</label>
 									</div>
 								</div>
 							</div>

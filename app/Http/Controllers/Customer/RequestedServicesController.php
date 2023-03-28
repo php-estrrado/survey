@@ -120,7 +120,7 @@ class RequestedServicesController extends Controller
         }
         elseif($status == 4)
         {
-            $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+            $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->get();
 
             // dd($data);
 

@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="card-title font-weight-bold"><b>Basic info:</b></div>
+                    <div class="card-title font-weight-bold"><b>Basic Info</b></div>
                     <div class="row">
                         <div class="col-sm-4 col-md-4">
                             <div class="form-group">
@@ -275,7 +275,7 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="btn-list d-flex justify-content-end">
-                                        <button class="btn btn-primary" style="float:right ;" type="submit">Submit</button>
+                                        <button class="btn btn-primary" style="float: right; margin-right: 5px;" type="submit">Submit</button>
                                         <a href="{{URL('/customer/requested_services')}}" class="btn btn-danger">Cancel</a>
                                     </div>
                                 </div>

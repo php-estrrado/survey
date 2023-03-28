@@ -26,14 +26,14 @@
                                 <div class="col-md-6">
                                     <div class="about-sec">
                                         <p>Requested Service</p>
-                                        <h4>{{$service}}</h4>
+                                        <p><strong>{{$service}}</strong></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 margin-up">
                                     <div class="about-sec">
                                         <p>Status</p>
                                         <!-- <h4>Request Reject Closed</h4> -->
-                                        <h4>{{$status}}</h4>
+                                        <p><strong>{{$status}}</strong></p>
                                     </div>
                                 </div>
                             </div>

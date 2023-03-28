@@ -4,10 +4,7 @@
 	<div class="page-header">
 		<div class="page-leftheader">
 			<h4 class="page-title mb-0">Dashboard</h4>
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a ><i class="fe fe-home mr-2 fs-14"></i>Home</a></li>
-				<li class="breadcrumb-item active" aria-current="page"><a href="{{url('/accountant/dashboard')}}">Dashboard</a></li>
-			</ol>
+			
 		</div>
 	</div>
 	<!--End Page header-->

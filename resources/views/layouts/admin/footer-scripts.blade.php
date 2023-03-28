@@ -43,6 +43,7 @@
                 <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.iframe-transport.js')}}"></script>
                 <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/jquery.fancy-fileupload.js')}}"></script>
                 <script src="{{URL::asset('public/admin/assets/plugins/fancyuploder/fancy-uploader.js')}}"></script>
+				<script src="{{URL::asset('public/assets/js/dropzone.min.js')}}"></script>
 
 			@php 
 

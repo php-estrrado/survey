@@ -47,9 +47,13 @@ class AdminController extends Controller
         $data['menu']               =   'dashboard';
 
         $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('assigned_user',auth()->user()->id)->orWhere('assigned_survey_user',auth()->user()->id);})->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4)->orWhere('request_status',29);})->count();
+
+        $data['surveys_completed'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',27);})->count();
+
         $completed_surveys = [];
         $pending_surveys = [];
-            for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 6; $i++)
+        {
             $mo =  date('m', strtotime("-$i month"));
             $year =  date('Y', strtotime("-$i month"));
             $day =  "01";
@@ -58,9 +62,7 @@ class AdminController extends Controller
             $js_date = date('Y/m/d', strtotime("$year/$mo/$day 00:00:00"));
             $completed_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',29)->count());
             $pending_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',1)->count());
-
-
-            }
+        }
 
         $data['completed_surveys_grp'] = $completed_surveys;
         $data['pending_surveys_grp'] = $pending_surveys;
@@ -69,22 +71,25 @@ class AdminController extends Controller
         $category_requests = []; 
         if($all_services)
         {
-        foreach($all_services as $ak=>$av)
-        {
-        $cat_count = 0;
-        $cat_count = Survey_requests::where('service_id',$av->id)->where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
-        $category_requests[$av->id] = array('name'=>$av->service_name,'count'=>$cat_count);
-        }
+            foreach($all_services as $ak=>$av)
+            {
+                $cat_count = 0;
+                $cat_count = Survey_requests::where('service_id',$av->id)->where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
+                $category_requests[$av->id] = array('name'=>$av->service_name,'count'=>$cat_count);
+            }
         }
         $data['completed_surveys'] = $category_requests;
 
         $total_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->count();
         $accepted_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('request_status',[3])->count();
 
-        if($accepted_surveys && $total_surveys) {
-                $data['accepted_surveys_percentage'] = round((($accepted_surveys/$total_surveys)*100), 0);
-        }else{
-                $data['accepted_surveys_percentage'] = 0;
+        if($accepted_surveys && $total_surveys) 
+        {
+            $data['accepted_surveys_percentage'] = round((($accepted_surveys/$total_surveys)*100), 0);
+        }
+        else
+        {
+            $data['accepted_surveys_percentage'] = 0;
         }
 
             /* graph data ends */
@@ -93,17 +98,17 @@ class AdminController extends Controller
         return view('admin.index',$data);
     }
 
-public function marknotifications(Request $request)
+    public function marknotifications(Request $request)
+    {
+        $notify = AdminNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
+        if($notify)
         {
-            $notify = AdminNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
-            if($notify)
-            {
-                $notify->update(['viewed'=>1]);
-            }else{
-                return false;
-            }
-            return true;
+            $notify->update(['viewed'=>1]);
+        }else{
+            return false;
         }
+        return true;
+    }
         
         function sale_ord_cnt($date){
             $cnt = 0;

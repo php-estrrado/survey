@@ -43,7 +43,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
 							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
-							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
+							<li><span class="h6 mt-3">Mobile No: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
 						</ul>
 					</div>
@@ -129,12 +129,12 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
                                       		<input type="file" class="dropify" data-height="180" data-max-file-size="20M" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple/>
                                     	</div>
                                   	</div>
-									<div class="col-sm-12 col-md-12">
+									<!-- <div class="col-sm-12 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="remarks">Remarks</label>
 											<textarea class="form-control" name="remarks" id="remarks" placeholder="Type Here..."></textarea>
 										</div>
-									</div>
+									</div> -->
 								</div>
 								<hr />
 								<div class="btn-list d-flex justify-content-end">

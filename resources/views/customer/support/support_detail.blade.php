@@ -60,7 +60,7 @@
 										<div class="form-group">
 											<div class="media-body">
 												<div class="font-weight-normal1 mb-2">
-													Remarks
+													Reply
 												</div>
 											</div>
 											<textarea class="form-control mb-4" placeholder="Type Here..." rows="3" name="remarks"></textarea>

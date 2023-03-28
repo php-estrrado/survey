@@ -26,13 +26,13 @@
                                 <div class="col-md-6">
                                     <div class="about-sec">
                                         <p>Requested Service</p>
-                                        <h4>{{$service_name}}</h4>
+                                        <p><strong>{{$service_name}}</strong></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 margin-up">
                                     <div class="about-sec">
                                         <p>Status</p>
-                                        <h4>{{$status_name}}</h4>
+                                        <p><strong>{{$status_name}}</strong></p>
                                     </div>
                                 </div>
                             </div>
@@ -42,8 +42,10 @@
                                     <div class="about-sec">
                                         <h4>Remarks</h4>
                                         <div>
-                                            <p>{{$ao_remarks}}</p>
-                                            <p>{{$ch_remarks}}</p>
+                                            <ul>
+                                                <li>{{$ao_remarks}}</li>
+                                                <li>{{$ch_remarks}}</li>
+                                            </ul>
                                         </div>                                        
                                     </div>
                                 </div>

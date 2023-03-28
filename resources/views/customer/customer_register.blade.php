@@ -18,8 +18,7 @@
                     <div class="login-main reg">
                         <form method="POST" id="customerLogin" action="{{ url('customer/register') }}" class="theme-form" enctype="multipart/form-data">
                             @csrf
-                            <h4>Sign in to account</h4>
-                            <p>Enter your email & password to login</p>
+                            <h4>Create a new account</h4>
                             <div class="row">
 
                                 <div class="col-sm-6">

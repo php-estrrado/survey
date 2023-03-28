@@ -91,7 +91,7 @@
                             </div>
                             <div class="menu-part accordion tab-pane fade show active" id="itinerary">
                                 <div class="card-body">
-                                    <div class="card-title font-weight-bold"><b>Basic info:</b></div>
+                                    <div class="card-title font-weight-bold"><b>Basic Info</b></div>
                                     <div class="row">
                                         <div class="col-sm-4 col-md-4">
                                             <div class="form-group">
