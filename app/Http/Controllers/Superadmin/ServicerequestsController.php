@@ -790,17 +790,17 @@ class ServicerequestsController extends Controller
             $notify_from_role_id = 1;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);            
 
-            $from       = auth()->user()->id; 
-            $utype      = 5;
-            $to         = 5; 
-            $ntype      = 'survey_study_assigned';
-            $title      = 'New Survey Study Request';
-            $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
-            $refId      = $input['id'];
-            $reflink    = 'accountant/receipt_received/'.$input['id'];
-            $notify     = 'accounts';
-            $notify_from_role_id = 1;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            // $from       = auth()->user()->id; 
+            // $utype      = 5;
+            // $to         = 5; 
+            // $ntype      = 'survey_study_assigned';
+            // $title      = 'New Survey Study Request';
+            // $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
+            // $refId      = $input['id'];
+            // $reflink    = 'accountant/receipt_received/'.$input['id'];
+            // $notify     = 'accounts';
+            // $notify_from_role_id = 1;
+            // addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
@@ -1158,7 +1158,7 @@ class ServicerequestsController extends Controller
         $title      = 'CH Verified Final Report';
         $desc       = 'Final Report Verified by CH. Request ID:HSW'.$id;
         $refId      = $id;
-        $reflink    = '/admin/service_requests_detail/'.$id.'/27/';
+        $reflink    = '/admin/repository-management-detail/'.$id.'/27/';
         $notify     = 'admin';
         $notify_from_role_id = 1;
         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);

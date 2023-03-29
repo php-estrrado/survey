@@ -20,7 +20,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body bodhgt">
 
                         <div class="row g-2 mb-3">
                                 <div class="col-md-6">

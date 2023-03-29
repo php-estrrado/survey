@@ -51,7 +51,7 @@
 					<td colspan="2"><b>Basic Info</b></td>
 				</tr>
 				<tr>
-					<td width="50%">Date And Time Of Inspectione</td>
+					<td width="50%">Date And Time Of Inspection</td>
 					<td width="50%"></td>
 				</tr>
 				<tr>

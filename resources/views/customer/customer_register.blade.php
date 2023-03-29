@@ -16,7 +16,7 @@
                         </a>
                     </div>
                     <div class="login-main reg">
-                        <form method="POST" id="customerLogin" action="{{ url('customer/register') }}" class="theme-form" enctype="multipart/form-data">
+                        <form method="POST" id="customerLogin" action="{{ url('customer/register') }}" class="theme-form" enctype="multipart/form-data" autocomplete="off">
                             @csrf
                             <h4>Create a new account</h4>
                             <div class="row">

@@ -61,7 +61,7 @@
 <div class="container-fluid">
     <div class="row">
         <!-- chart caard section start -->
-        <div class="col-sm-6 col-xxl-3 col-lg-3">
+        <div class="col-sm-6 col-xxl-3 col-lg-4">
             <div class="b-b-primary border-5 border-0 card o-hidden">
                 <div class="custome-1-bg b-r-4 card-body">
                     <div class="media align-items-center static-top-widget">
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xxl-3 col-lg-3">
+        <div class="col-sm-6 col-xxl-3 col-lg-4">
             <div class="b-b-danger border-5  border-0 card o-hidden">
                 <div class=" custome-2-bg  b-r-4 card-body">
                     <div class="media static-top-widget">
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xxl-3 col-lg-3">
+        <div class="col-sm-6 col-xxl-3 col-lg-4">
             <div class="b-b-secondary border-5 border-0  card o-hidden">
                 <div class=" custome-3-bg b-r-4 card-body">
                     <div class="media static-top-widget">
@@ -100,7 +100,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 col-xxl-3 col-lg-3">
+        <div class="col-sm-6 col-xxl-3 col-lg-4">
             <div class="b-b-secondary border-5 border-0  card o-hidden">
                 <div class=" custome-3-bg b-r-4 card-body">
                     <div class="media static-top-widget">

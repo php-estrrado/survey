@@ -14,6 +14,9 @@
         font-size: 12px;
 	}
 </style>
+<div class="loader-wrapper">
+    <img src="{{url('assets/images/svgs/svgexport-3.svg')}}" alt="loader gif">
+</div>
 <div class="page-header">
     <div class="header-wrapper row m-0">
         <div class="header-logo-wrapper col-auto p-0">

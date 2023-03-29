@@ -67,7 +67,16 @@
 				},
 				success: function(result)
 				{
-					console.log(result);
+					var result = JSON.parse(result );
+					
+					if(result.status ==1)
+					{
+						toastr.success(result.message);
+					}
+					else
+					{
+						toastr.error(result.message);
+					}
 				}
 			});
 		}

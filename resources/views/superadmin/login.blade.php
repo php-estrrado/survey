@@ -23,7 +23,7 @@
 									</div>
 									<form method="POST" id="adminLogin" action="{{ url('/superadmin/regVerifyotpemail') }}" class="theme-form">
 										@csrf
-										<label class="col-form-label form-label-title" for="email">Email ID</label>
+										<label class="form-label" for="email">Email ID</label>
 										<div class="input-group mb-4">
 											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" value="{{ old('email')}}">
 											<div id="email_error"></div>
@@ -36,7 +36,7 @@
 											<button type="button" class="btn  btn-primary btn-block px-4" id="send_otp" onclick="sendOtp()">Send OTP</button>
 											</div>
 										</div>
-										<label class="col-form-label form-label-title" for="otp">OTP</label>
+										<label class="form-label" for="otp">OTP</label>
 										<div class="input-group mb-4">
 											<input type="password" class="form-control" name="otp" id="otp" placeholder="OTP">
 											<div id="otp_error"></div>
@@ -82,8 +82,7 @@
 					else
 					{
 						toastr.error(result.message);
-					}	
-
+					}
 				}
 			});
 		}

@@ -82,12 +82,15 @@ class LoginController extends Controller
                 //     $message->subject('OTP Verification');
                 // });
 
+                
                 Admin::where('email',$request->email)->update(['otp'=>$otp,'otp_sent_at'=>date('Y-m-d H:i:s')]);
-                return back()->withInput($request->only('email', 'remember'))->with('message',' OTP Sent to mail.');
+                $arr = array('status'=>1,'message'=>" OTP Sent to mail.");
+                return json_encode($arr);
             }
             else
             {
-                return back()->withInput($request->only('email', 'remember'))->with('message',' Email does not exist!.');
+                $arr = array('status'=>0,'message'=>"Email doesnot Exists!");
+                return json_encode($arr);
             }
             
         }
