@@ -47,7 +47,7 @@
 									<div class="row">
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 25px;">
 											<div class="wrapper ml-3">
-												<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request_detail->id}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request_detail->created_at))}}</span></h6>
+												<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request_detail->id}}<span style="float: right;">{{date('d/m/Y h:i:sa',strtotime($help_request_detail->created_at))}}</span></h6>
 												<small class="text-muted">
 													{{$help_request_detail->description}}
 												</small>
@@ -55,7 +55,8 @@
 												@if(isset($help_request_logs) && count($help_request_logs) > 0)
 													@foreach($help_request_logs as $help_request)
 														<div>
-															<p class="mb-0 mt-1 text-dark font-weight-semibold">{{$help_request->comment}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request->created_at))}}</span></p>
+															<p class="mb-0 mt-1 text-dark font-weight-semibold">{{$help_request->comment}}<span style="float: right;">{{date('d/m/Y h:i:sa',strtotime($help_request->created_at))}}</span></p>
+															<hr>
 														</div>
 													@endforeach
 												@endif
