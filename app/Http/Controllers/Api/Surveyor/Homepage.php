@@ -363,7 +363,7 @@ class Homepage extends Controller
                 {
                 $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->field_study));
                 }else{
-                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->survey_study));
+                $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->field_study));
                 }
                 
                 $a_list['customer_name'] = $av->CustomerInfo->name;
