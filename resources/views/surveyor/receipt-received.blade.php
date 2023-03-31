@@ -32,13 +32,13 @@
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">@if(isset($survey_id)){{ "HSW".$survey_id }}@endif</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$cust_info->name}}</span></li>
 							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
 							<li><span class="h6 mt-3">Type of firm: {{$cust_info->firm_type}}</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
-							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
+							<li><span class="h6 mt-3">Mobile No: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
 							<li><span class="h6 mt-3">Amount to be paid: {{$survey_invoice->total_invoice_amount}}</span></li>
 							<li><span class="h6 mt-3">Amount paid: {{$survey_invoice->total_invoice_amount}}</span></li>

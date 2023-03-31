@@ -467,7 +467,7 @@ class ServicerequestsController extends Controller
         if($status == 25 || $status == 26)
         {
             $data['final_report'] = Survey_requests::where('id',$id)->first()->final_report;
-            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',25)->first()->remarks;
+            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',25)->orderBy('id','desc')->first()->remarks;
 
             // dd($data);
 
@@ -488,7 +488,7 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
             $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
-            $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',17)->first()->remarks;
+            $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',17)->orderBy('id','desc')->first()->remarks;
             $data['survey_request_data'] = Survey_requests::where('id',$id)->first();
 
             // dd($data);
@@ -500,7 +500,7 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
             $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
-            $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',16)->first()->remarks;
+            $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',16)->orderBy('id','desc')->first()->remarks;
             $data['survey_request_data'] = Survey_requests::where('id',$id)->first();
 
             return view('superadmin.requested_services.customer_payment_verified',$data);
@@ -510,7 +510,7 @@ class ServicerequestsController extends Controller
             $data['draftmans'] = Admin::where('role_id',4)->get();
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_performa_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
-            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',54)->first()->remarks;
+            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',54)->orderBy('id','desc')->first()->remarks;
 
             return view('superadmin.requested_services.customer_accepted_performa',$data);
         }
@@ -518,7 +518,7 @@ class ServicerequestsController extends Controller
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
-            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',49)->first()->remarks;
+            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',49)->orderBy('id','desc')->first()->remarks;
 
             return view('superadmin.requested_services.dh_verified_invoice',$data);
         }
@@ -526,7 +526,7 @@ class ServicerequestsController extends Controller
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
-            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',13)->first()->remarks;
+            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',13)->orderBy('id','desc')->first()->remarks;
 
             return view('superadmin.requested_services.dh_verified_performa_invoice',$data);
         }

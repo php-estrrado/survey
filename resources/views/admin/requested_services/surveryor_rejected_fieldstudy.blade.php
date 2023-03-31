@@ -41,7 +41,7 @@
 							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
 							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
-							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
+							<li><span class="h6 mt-3">Mobile No: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
 						</ul>
 					</div>
@@ -133,7 +133,7 @@
 							<form action="{{url('admin/assign_surveyor')}}" method="POST" id="assign_surveyor">
 								@csrf
 								<input type="hidden" value="{{$survey_id}}" id="id" name="id">
-								<div class="card-title font-weight-bold">Basic info:</div>
+								<div class="card-title font-weight-bold">Basic Info</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-6">
 										<div class="form-group">
@@ -173,7 +173,7 @@
 				<div class="tab-pane" id="tab-9">
 					<div class="card newser">
 						<div class="card-body">
-							<div class="card-title font-weight-bold">Basic info:</div>
+							<div class="card-title font-weight-bold">Basic Info</div>
 							<div class="row">
 								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
@@ -232,7 +232,7 @@
 												Purpose
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->purpose}} </label>
+										<label class="form-label">{{$request_data->purpose}}</label>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -242,7 +242,7 @@
 												Brief Description Of Type Of Work
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->description}} </label>
+										<label class="form-label">{{$request_data->description}}</label>
 									</div>
 								</div>
 								<div class="col-md-12">

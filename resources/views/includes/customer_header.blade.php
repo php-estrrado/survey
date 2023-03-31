@@ -51,7 +51,13 @@
                     <!-- <div class="notification-box"><i class="fa fa-bell-o"> </i><span class="badge rounded-pill badge-theme"> </span></div> -->
                     <div class="notification-box">
                         <i class="fa fa-bell-o"> </i>
-                        @if($notifications)<span class="n_count">{{ $n_count }}</span>@endif
+                        @if($notifications)
+							@if($n_count > 99)
+								<span class="n_count">99+</span>
+							@else
+								<span class="n_count">{{ $n_count }}</span>
+							@endif								
+						@endif
                     </div>
                     <ul class="notification-dropdown onhover-show-div marknotifications">
                         

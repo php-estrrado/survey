@@ -62,7 +62,9 @@ class LoginController extends Controller
         if ($validator->fails()) 
         {
             foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-            return back()->withInput($request->only('email', 'remember'))->withErrors('error',' Enter Valid E-mail ID !.');
+            // return back()->withInput($request->only('email', 'remember'))->withErrors('error',' Enter Valid E-mail ID !.');
+            $arr = array('status'=>0,'message'=>"Enter Valid E-mail ID !");
+            return json_encode($arr);
         }
         else
         {
@@ -103,10 +105,10 @@ class LoginController extends Controller
         $rules['otp']             = 'required|numeric';
         $validator  =   Validator::make($request->all(), $rules);
         if ($validator->fails()) 
-            {
-                foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
-                return back()->withInput($request->only('email', 'remember'))->withErrors('Enter all fields.');
-            }
+        {
+            foreach($validator->messages()->getMessages() as $k=>$row){ $error[$k] = $row[0]; $errorMag[] = $row[0]; }  
+            return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Enter all fields.']);
+        }
         else
             {
                 $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where(function ($query) { $query->where('role_id',2)->orWhere('role_id',7);})->first();
@@ -127,18 +129,18 @@ class LoginController extends Controller
                         else{
                             Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
                             //return redirect('/login')->withInput($request->only('email', 'remember'))->with('message',' The seller is not approved yet. ');
-                            return back()->withInput($request->only('email', 'remember'))->withErrors('This account is inactive.');
+                            return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'This account is inactive.']);
                         }
                     }
                     }
                     else
                     {
-                        return back()->withInput($request->only('email', 'remember'))->withErrors('Invalid OTP.');
+                        return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Invalid OTP.']);
                     }
                 }
                 else
                 {
-                    return back()->withInput($request->only('email', 'remember'))->withErrors('Invalid Email.');
+                    return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Invalid Email.']);
                 }
               
             }

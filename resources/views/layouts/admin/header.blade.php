@@ -108,9 +108,11 @@
 
 						@endphp
 						@if($notifications)
-							
-							<span class="n_count">{{ $n_count }}</span>
-								
+							@if($n_count > 99)
+								<span class="n_count">99+</span>
+							@else
+								<span class="n_count">{{ $n_count }}</span>
+							@endif								
 						@endif
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow  animated">

@@ -329,17 +329,17 @@ class ServicerequestsController extends Controller
 
         $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-        $from       = auth()->user()->id; 
-        $utype      = 1;
-        $to         = 1; 
-        $ntype      = 'payment_receipt_rejected';
-        $title      = 'Payment Receipt Rejected';
-        $desc       = 'Payment Receipt Rejected. Request ID:HSW'.$id;
-        $refId      = $id;
-        $reflink    =  '/superadmin/requested_service_detail/'.$id.'/17/';
-        $notify     = 'superadmin';
-        $notify_from_role_id = 5;
-        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+        // $from       = auth()->user()->id; 
+        // $utype      = 1;
+        // $to         = 1; 
+        // $ntype      = 'payment_receipt_rejected';
+        // $title      = 'Payment Receipt Rejected';
+        // $desc       = 'Payment Receipt Rejected. Request ID:HSW'.$id;
+        // $refId      = $id;
+        // $reflink    =  '/superadmin/requested_service_detail/'.$id.'/17/';
+        // $notify     = 'superadmin';
+        // $notify_from_role_id = 5;
+        // addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
         if(isset($survey_request_log_id))
         {   

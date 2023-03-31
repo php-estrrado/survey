@@ -48,7 +48,7 @@
 											<small class="text-muted">{{$user->designation}}</small>
 										</div>
 									</div>
-									<div class="card-body border-top">
+									<div class="card-body">
 										<ul class="mb-0 user-details">
 											<li class="mb-3"><span class="user-icon"><i class="fe fe-mail "></i></span><span class="h6">{{$user->email}}</span></li>
 											<li><span class="user-icon"><i class="fe fe-phone-call"></i></span><span class="h6">{{$user->phone}}</span></li>

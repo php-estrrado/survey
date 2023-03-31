@@ -480,7 +480,7 @@ class AdminController extends Controller
                 'role_id'        =>  ['required'],
                 'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
-                'avatar'=>['required','image','mimes:jpeg,png,jpg']
+                'avatar'         =>  ['nullable','image','mimes:jpeg,png,jpg']
             ],
             [],
             [

@@ -120,7 +120,7 @@
 							<form action="{{url('admin/assign_surveyor_survey')}}" method="POST" id="assign_surveyor">
 								@csrf
 								<input type="hidden" value="{{$survey_id}}" id="id" name="id">
-								<div class="card-title font-weight-bold">Basic info:</div>
+								<div class="card-title font-weight-bold">Basic Info</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-6">
 										<div class="form-group">
@@ -160,7 +160,7 @@
 				<div class="tab-pane" id="tab-9">
 					<div class="card newser">
 						<div class="card-body">
-							<div class="card-title font-weight-bold">Basic info:</div>
+							<div class="card-title font-weight-bold">Basic Info</div>
 							<div class="row">
 								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
@@ -219,7 +219,7 @@
 												Purpose
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->purpose}} </label>
+										<label class="form-label">{{$request_data->purpose}}</label>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -229,7 +229,7 @@
 												Brief Description Of Type Of Work
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->description}} </label>
+										<label class="form-label">{{$request_data->description}}</label>
 									</div>
 								</div>
 								<div class="col-md-12">

@@ -41,7 +41,7 @@
 							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
 							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
-							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
+							<li><span class="h6 mt-3">Mobile No: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
 							<li><span class="h6 mt-3">Remarks: {{$ms_remarks}}</span></li>
 						</ul>
