@@ -62,7 +62,7 @@
 									<td>
 										<div class="btn-list actn">
 											<a href="{{url('/superadmin/admins-list/edit/')}}/{{$user['admin_id']}}" class="btn btn-success">Edit</a>
-											<button class="btn btn-danger" type="button" onclick="deleteuser({{$user['admin_id']}});">Delete</button>
+											<button class="btn btn-danger" type="button" onclick="return confirm('Are you sure you want to delete this role?')?deleteuser({{$user['admin_id']}}):'';">Delete</button>
 										</div>
 									</td>
 								</tr>

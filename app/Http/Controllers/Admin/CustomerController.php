@@ -82,12 +82,12 @@ class CustomerController extends Controller
         // dd($input);
 
         $validator = Validator::make($request->all(), [
-            'full_name'=>['required','max:255'],
-            'firm'=>['required','max:255'],
+            'full_name'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'firm'=>['required','max:255','regex:/^[a-zA-Z\s]*$/'],
             'firm_type'=>['required'],
-            'email' => ['required','email','max:255','unique:cust_mst,username'],
+            'email' => ['required','email','max:255','unique:admins,email'],
             'mobile'=>['required','numeric','digits:10'],
-            'valid_id'=>['required','max:255'],
+            'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'id_file_front' => ['required','max:10000'],
             'id_file_back' => ['required','max:10000'],
             'password' =>['required','confirmed','min:8','max:20'],
@@ -256,6 +256,6 @@ class CustomerController extends Controller
         
         // dd($data);
 
-        return view('superadmin.customer.customer_detail', $data);
+        return view('admin.customer.customer_details', $data);
     }
 }

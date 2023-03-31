@@ -20,7 +20,7 @@
 	</div>
 	<div class="page-rightheader">
 		<div class="btn btn-list">
-			<a href="{{ url('/superadmin/user-roles/create')}}" class="btn btn-info"><i class="fe fe-plus mr-1"></i> Add </a>
+			<!-- <a href="{{ url('/superadmin/user-roles/create')}}" class="btn btn-info"><i class="fe fe-plus mr-1"></i> Add </a> -->
 		</div>
 	</div>
 </div>
@@ -69,7 +69,7 @@
 										<td>
 											<div class="btn-list actn">
 												<button class="btn btn-success" type="button"><a href="{{ url('superadmin/user-roles/edit/') }}/{{$row['id']}}">Edit</a></button>
-												<button class="btn btn-danger" type="button" onclick="deleteuser_roles({{$row['id']}})">Delete</button>
+												<button class="btn btn-danger" type="button" onclick="return confirm('Are you sure you want to delete this role?')?deleteuser_roles({{$row['id']}}):'';">Delete</button>
 											</div>
 										</td>
 									</tr>
@@ -124,5 +124,45 @@
             }
         });
     }
+
+	$(".ser_status").on("click", function(e){
+        
+        var selid = jQuery(this).data("selid");
+        
+        var sestatus='0';
+        if($(this).prop('checked') == true)
+        {
+        	sestatus='1';
+        }
+        
+        $.ajax({
+        	type: "POST",
+        	url: '{{url("/superadmin/user-roles/status")}}',
+        	data: { "_token": "{{csrf_token()}}", id: selid,status:sestatus},
+        	success: function (data)
+			{
+        		// alert(data);
+        		if(data ==1)
+				{
+            		if(sestatus ==1)
+					{
+            			jQuery('#status-'+selid).val(1);
+              			toastr.success("Role activated successfully.");   
+            		}
+					else
+					{
+            			jQuery('#status-'+selid).val(0);
+               			toastr.success("Role deactivated successfully.");  
+            		}
+					var table = $.fn.dataTable.tables( { api: true } );
+					table.rows().invalidate().draw();        
+        		}
+				else
+				{
+        			toastr.error("Failed to update status."); 	
+        		}
+        	}
+        });
+    });
 </script>
 @endsection

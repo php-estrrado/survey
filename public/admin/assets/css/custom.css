@@ -90,3 +90,65 @@ hr {
     text-align: center;
     float: right;
 }
+
+.header-notify.show .dropdown-menu {
+    left: -295px !important;
+}
+
+.notify-menu .font-weight-normal1{
+    word-break: break-all;
+    white-space: normal;
+}
+
+.wrapper{
+    display:block;
+    width:100%;
+}
+
+.header-brand-img {
+  height: auto !important;
+  width: 170px;
+  display: block;
+}
+
+.app-sidebar__logo {
+  padding: 2px 15px;
+}
+
+.side-menu__label {
+  font-size: 13px;
+}
+
+.n_count {
+    display: block;
+    position: absolute;
+    top: -5px;
+    right: 0px;
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50%;
+    background: #FED204;
+    cursor: pointer;
+    color: #000;
+    font-size: 10px !important;
+    line-height: 24px;
+}
+
+.widget-user-image {
+    overflow: hidden;
+}
+
+.widget-user-image img{
+    object-fit:cover;
+    width: 100%;
+    height: 100%;
+}
+
+@media (min-width: 768px){
+.sidenav-toggled .app-sidebar__logo {
+    padding: 6px 8px;
+    width: 70px;
+    border-right: 0px solid #ebecf1;
+    height: auto;
+}
+}

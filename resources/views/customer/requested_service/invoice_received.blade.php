@@ -17,13 +17,13 @@
             <div class="card">
                 <div class="card-header  card-header--2 package-card">
                     <div>
-                        <h5>File Number</h5>
+                        <h5>HSW{{$survey_data->survey_request_id}}</h5>
                     </div>
                     <a style="float:right ;" href="{{url('/customer/customer_invoice_download/')}}/{{$survey_data->survey_id}}"><button class="btn btn-primary">Download</button></a>
                 </div>
 
                 <div class="card-body">
-                    <div class="card-title font-weight-bold"><b>Basic info:</b></div>
+                    <div class="card-title font-weight-bold"><b>Basic Info</b></div>
                     <div class="row">
                         <div class="col-sm-4 col-md-4">
                             <div class="form-group">
@@ -275,7 +275,7 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="btn-list d-flex justify-content-end">
-                                        <button class="btn btn-primary" style="float:right ;" type="submit">Submit</button>
+                                        <button class="btn btn-primary" style="float: right; margin-right: 5px;" type="submit">Submit</button>
                                         <a href="{{URL('/customer/requested_services')}}" class="btn btn-danger">Cancel</a>
                                     </div>
                                 </div>
@@ -289,18 +289,7 @@
     </div>
 </div>
 
-<div class="container-fluid">
-    <!-- footer start-->
-    <footer class="footer">
-
-        <div class="row">
-            <div class="col-md-12 footer-copyright text-center">
-                <p class="mb-0">Copyright 2022 © HSW </p>
-            </div>
-        </div>
-
-    </footer>
-</div>
+@include('includes.customer_footer')
 </div>
 @endsection
 @section('js')

@@ -49,7 +49,7 @@
 
                                     <?php if($cust_info->name){ $cname =$cust_info->name;  }else{ $cname = ""; } ?>
                                     <label class="form-label-title mt-3" for="fname">Name</label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="<?php if($cname){ echo $cname; }else{ echo old('fname'); } ?>">
+                                    <input class="form-control bg-white" type="text" name="fname" id="fname" placeholder="Name" value="<?php if($cname){ echo $cname; }else{ echo old('fname'); } ?>" readonly>
 
                                     <div id="fname_error"></div>
                                     @error('fname')
@@ -58,7 +58,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="designation">Designation <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation" value="{{ old('fname') }}">
+                                    <input class="form-control" type="text" name="designation" id="designation" placeholder="Designation" value="{{ old('designation') }}">
                                     <div id="designation_error"></div>
                                     @error('designation')
                                       <p style="color: red">{{ $message }}</p>
@@ -69,7 +69,7 @@
                                     <?php if($cust_info->firm_type){ $firm_type =$cust_info->firm_type;  }else{ $firm_type = ""; } ?>
                                     <label class="form-label-title mt-3" for="sector">Whether Govt./Private/ Public Sector undertaking/person</label>
                                     <select class="js-example-basic-single col-sm-12" name="sector" id="sector">
-                                           <option value="1" {{ $firm_type == 1 ? 'selected' : '' }}>Government</option>
+                                        <option value="1" {{ $firm_type == 1 ? 'selected' : '' }}>Government</option>
                                         <option value="2" {{ $firm_type == 2 ? 'selected' : '' }}>Private</option>
                                         <option value="3" {{ $firm_type == 3 ? 'selected' : '' }}>Individual</option>
                                         <option value="4" {{ $firm_type == 4 ? 'selected' : '' }}>Quasi Government</option>
@@ -84,7 +84,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="department">Name of Department (for government departments) <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department" value="{{ old('fname') }}">
+                                    <input class="form-control" type="text" placeholder="Name of Department" name="department" id="department" value="{{ old('department') }}">
                                     <div id="department_error"></div>
                                     @error('department')
                                       <p style="color: red">{{ $message }}</p>
@@ -101,7 +101,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="others">Others</label>
-                                    <input class="form-control" type="text" placeholder="Others" name="others" id="others" value="{{ old('fname') }}">
+                                    <input class="form-control" type="text" placeholder="Others" name="others" id="others" value="{{ old('others') }}">
                                     <div id="others_error"></div>
                                       @error('others')
                                         <p style="color: red">{{ $message }}</p>
@@ -109,7 +109,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                       <label class="form-label-title mt-3" for="purpose">Purpose <span class="text-red">*</span></label>
-                                      <input class="form-control" type="text" placeholder="Name of project or specify the purpose" name="purpose" id="purpose" value="{{ old('fname') }}">
+                                      <input class="form-control" type="text" placeholder="Name of project or specify the purpose" name="purpose" id="purpose" value="{{ old('purpose') }}">
                                       <div id="purpose_error"></div>
                                       @error('purpose')
                                         <p style="color: red">{{ $message }}</p>
@@ -117,11 +117,11 @@
                                   </div>
                                    <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
-                                          <option value="{{$service['id']}}" {{ old('service') == $service['id'] ? 'selected' : '' }}>{{$service['service_name']}}</option>
+                                          <option value="{{$service['id']}}" {{ (collect(old('additional_services'))->contains($service['id'])) ? 'selected':'' }}>{{$service['service_name']}}</option>
                                         @endforeach
                                       @endif
                                     </select>
@@ -132,7 +132,7 @@
                                   </div>
                                   <div class="col-sm-12">
                                     <label class="form-label-title mt-3" for="description">Brief description of type of work <span class="text-red">*</span></label>
-                                    <textarea id="description" name="description" placeholder="Location, scale, format of result required" rows="4" style="width:100%;"></textarea>
+                                    <textarea id="description" name="description" placeholder="Location, scale, format of result required" rows="4" style="width:100%;">{{ old('description')}}</textarea>
                                     <div id="description_error"></div>
                                     @error('description')
                                       <p style="color: red">{{ $message }}</p>
@@ -178,7 +178,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="place">Name of Place <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" placeholder="Place" name="place" id="place" value="{{ old('fname') }}">
+                                    <input class="form-control" type="text" placeholder="Place" name="place" id="place" value="{{ old('place') }}">
                                     <div id="place_error"></div>
                                     @error('place')
                                       <p style="color: red">{{ $message }}</p>
@@ -187,7 +187,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="survey_area">Survey Area Location <span class="text-red">*</span></label>
-                                      <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ old('fname') }}">
+                                      <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ old('survey_area') }}">
                                     </div>
                                     <div id="survey_area_error"></div>
                                     @error('survey_area')
@@ -306,7 +306,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="no_of_surveys">Number of Surveys needed</label>
-                                    <input class="form-control" type="number" placeholder="Number of Surveys needed" min="0" max="5" name="no_of_surveys" id="no_of_surveys">
+                                    <input class="form-control" type="number" placeholder="Number of Surveys needed" min="0" max="5" name="no_of_surveys" id="no_of_surveys" value="{{ old('y_coordinates2') }}">
                                     <div id="no_of_surveys_error"></div>
                                     @error('no_of_surveys')
                                       <p style="color: red">{{ $message }}</p>
@@ -318,9 +318,9 @@
                                     <label class="form-label-title mt-3" for="dredging_survey_method">Whether pre/post dredging survey required or both <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="dredging_survey_method[]" id="dredging_survey_method" multiple="multiple" >
                                       
-                                          <option value="pre" {{ old('dredging_survey_method') == "pre" ? 'selected' : '' }}>Pre</option>
-                                          <option value="post" {{ old('dredging_survey_method') == "post" ? 'selected' : '' }}>Post</option>
-                                          <option value="intermediate" {{ old('dredging_survey_method') == "intermediate" ? 'selected' : '' }}>Intermediate</option>
+                                          <option value="pre" {{ (collect(old('dredging_survey_method'))->contains("pre")) ? 'selected':'' }}>Pre</option>
+                                          <option value="post" {{ (collect(old('dredging_survey_method'))->contains("post")) ? 'selected':'' }}>Post</option>
+                                          <option value="intermediate" {{ (collect(old('dredging_survey_method'))->contains("intermediate")) ? 'selected':'' }}>Intermediate</option>
                                         
                                     </select>
                                     <div id="dredging_survey_method_error"></div>
@@ -388,7 +388,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="length">Length for Survey Calculation <span class="text-red">*</span></label>
-                                    <input class="form-control" type="number" placeholder="Length for Survey Calculation (metres)" name="length" id="length">
+                                    <input class="form-control" type="number" placeholder="Length for Survey Calculation (metres)" name="length" id="length" value="{{ old('length') }}">
                                     <div id="length_error"></div>
                                     @error('length')
                                       <p style="color: red">{{ $message }}</p>
@@ -439,16 +439,7 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid">
-      <!-- footer start-->
-      <footer class="footer">
-        <div class="row">
-          <div class="col-md-12 footer-copyright text-center">
-            <p class="mb-0">Copyright 2022 © HSW </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+    @include('includes.customer_footer')
 </div>
 @endsection
 @section('js')

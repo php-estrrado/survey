@@ -49,7 +49,7 @@
                                 <div class="row">
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="fname">Name</label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ $survey_data->fname }}">
+                                    <input class="form-control bg-white" type="text" name="fname" id="fname" placeholder="Name" value="{{ $survey_data->fname }}" readonly>
 
                                     <div id="fname_error"></div>
                                     @error('fname')
@@ -116,7 +116,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       <?php $additional_services_arr = explode(',', $survey_data->additional_services);?>
                                       @if($services && count($services)>0)
@@ -363,7 +363,7 @@
                                   @endif
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
+                                      <label class="form-label-title mt-3" for="filenames">Upload existing drawings/map showing the locations of file upload (jpg, jpeg, jiff, png, pdf)</label>
                                       <input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg","jfif","png"]' multiple />
                                     </div>
                                   </div>
@@ -387,16 +387,7 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid">
-      <!-- footer start-->
-      <footer class="footer">
-        <div class="row">
-          <div class="col-md-12 footer-copyright text-center">
-            <p class="mb-0">Copyright 2022 © HSW </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+    @include('includes.customer_footer')
 </div>
 @endsection
 @section('js')

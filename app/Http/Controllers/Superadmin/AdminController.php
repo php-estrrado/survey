@@ -275,76 +275,80 @@ class AdminController extends Controller
     public function edit_profile(Request $request)
     {
         $input = $request->all();
+        $validator = Validator::make($request->all(),[
+            'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
+            'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where(function ($query) { $query->where('is_deleted',0)->where('role_id','!=',6);}),'email','max:100'],
+            'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
+            'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
+            'pen'            =>  ['required'],
+            'institution'    =>  ['required'],
+            'avatar'         =>  ['nullable','mimes:jpeg,png,jpg']
+        ]);
 
-            $validator = Validator::make($request->all(),[
-                'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
-                'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
-                'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
-                'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
-                'pen'            =>  ['required'],
-                'institution'    =>  ['required']
-            ]);
-
-if($validator->passes())
+        if($validator->passes())
         {
        
-        $admin_arr = [];
-        $admin_arr['fname'] = $input['name'];
-        $admin_arr['email'] = $input['email'];
-        $admin_arr['phone'] = $input['phone'];
-        $admin_arr['is_active'] = 1;
-        $admin_arr['is_deleted'] = 0;
-        $admin_arr['updated_by'] = auth()->user()->id;
-        $admin_arr['updated_at'] = date("Y-m-d H:s:i");
+            $admin_arr = [];
+            $admin_arr['fname'] = $input['name'];
+            $admin_arr['email'] = $input['email'];
+            $admin_arr['phone'] = $input['phone'];
+            $admin_arr['is_active'] = 1;
+            $admin_arr['is_deleted'] = 0;
+            $admin_arr['updated_by'] = auth()->user()->id;
+            $admin_arr['updated_at'] = date("Y-m-d H:s:i");
 
-        Admin::where('id',$input['admin_id'])->update($admin_arr);
+            Admin::where('id',$input['admin_id'])->update($admin_arr);
 
-        $usr_arr = [];
-        $usr_arr['fullname'] = $input['name'];
-        $usr_arr['email'] = $input['email'];
-        $usr_arr['phone'] = $input['phone'];
-        $usr_arr['designation'] = $input['designation'];
-        $usr_arr['pen'] = $input['pen'];
-        $usr_arr['institution'] = $input['institution'];
-        $usr_arr['is_active'] = 1;
-        $usr_arr['is_deleted'] = 0;
-        $usr_arr['updated_by'] = auth()->user()->id;
-        $usr_arr['updated_at'] = date("Y-m-d H:s:i");
+            $usr_arr = [];
+            $usr_arr['fullname'] = $input['name'];
+            $usr_arr['email'] = $input['email'];
+            $usr_arr['phone'] = $input['phone'];
+            $usr_arr['designation'] = $input['designation'];
+            $usr_arr['pen'] = $input['pen'];
+            $usr_arr['institution'] = $input['institution'];
+            $usr_arr['is_active'] = 1;
+            $usr_arr['is_deleted'] = 0;
+            $usr_arr['updated_by'] = auth()->user()->id;
+            $usr_arr['updated_at'] = date("Y-m-d H:s:i");
 
-        UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
+            UserManagement::where('admin_id',$input['admin_id'])->update($usr_arr);
 
-        if($request->hasfile('avatar'))
-        {
-            $file = $request->avatar;
-            $folder_name = "uploads/profile_images/";
+            if($request->hasfile('avatar'))
+            {
+                $file = $request->avatar;
+                $folder_name = "uploads/profile_images/";
 
-            $upload_path = base_path() . '/public/' . $folder_name;
+                $upload_path = base_path() . '/public/' . $folder_name;
 
-            $extension = strtolower($file->getClientOriginalExtension());
+                $extension = strtolower($file->getClientOriginalExtension());
 
-            $filename = "profile" . '_' . time() . '.' . $extension;
+                $filename = "profile" . '_' . time() . '.' . $extension;
 
-            $file->move($upload_path, $filename);
+                $file->move($upload_path, $filename);
 
-            $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
 
-            Admin::where('id',$input['admin_id'])->update([
-                'avatar' => $file_path,
-                'updated_by'=>auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
-            
-            UserManagement::where('admin_id',$input['admin_id'])->update([
-                'avatar' => $file_path,
-                'updated_by'=>auth()->user()->id,
-                'updated_at'=>date("Y-m-d H:i:s")
-            ]);
+
+                Admin::where('id',$input['admin_id'])->update([
+                    'avatar' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+                
+                UserManagement::where('admin_id',$input['admin_id'])->update([
+                    'avatar' => $file_path,
+                    'updated_by'=>auth()->user()->id,
+                    'updated_at'=>date("Y-m-d H:i:s")
+                ]);
+            }
+            Session::flash('message', ['text'=>'Profile Updated Successfully !','type'=>'success']);
+            return redirect(route('superadmin.profile'));
         }
-
-         return redirect(route('superadmin.profile'));
-    }else{
-        return redirect()->back()->withErrors($validator)->withInput($request->all());
-    }
+        else
+        {
+            Session::flash('message', ['text'=>'Profile Not Updated Successfully !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
     }
 
     function validateUser(Request $request){
@@ -468,7 +472,7 @@ if($validator->passes())
 
         if($input['id'] > 0)
         {
-            $validator = $request->validate([
+            $validator = Validator::make($request->all(),[
                 'name'           =>  ['required','max:100'],
                 'email'          =>  ['required',Rule::unique('admins')->ignore($input['id'])->where('is_deleted',0),'email','max:100'],
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['id'])->where('is_deleted',0)],
@@ -476,7 +480,7 @@ if($validator->passes())
                 'role_id'        =>  ['required'],
                 'pen'            =>  ['required'],
                 'institution'    =>  ['required'],
-                'avatar'=>['required','image','mimes:jpeg,png,jpg']
+                'avatar'         =>  ['nullable','image','mimes:jpeg,png,jpg']
             ],
             [],
             [
@@ -487,18 +491,18 @@ if($validator->passes())
                 'role_id' => 'User Role',
                 'pen' => 'PEN Number',
                 'institution' => 'User Institution',
-                'avatar' => 'Profile Pic',
+                'avatar' => 'Profile Picture',
             ]);
-            // if ($validator->fails()) 
-            // {
-            //     foreach($validator->messages()->getMessages() as $k=>$row)
-            //     {
-            //         $error[$k] = $row[0];
-            //         Session::flash('message', ['text'=>$row[0],'type'=>'danger']);
-            //     }
+            if ($validator->fails()) 
+            {
+                foreach($validator->messages()->getMessages() as $k=>$row)
+                {
+                    $error[$k] = $row[0];
+                    Session::flash('message', ['text'=>$row[0],'type'=>'danger']);
+                }
     
-            //     return back()->withErrors($validator)->withInput($request->all());
-            // }
+                return back()->withErrors($validator)->withInput($request->all());
+            }
 
             if($input['role_id'] == 3)
             {
@@ -590,7 +594,7 @@ if($validator->passes())
         }
         else
         {
-            $validator = $request->validate([
+            $validator = Validator::make($request->all(),[
                 'name'           =>  ['required','max:100'],
                 'email'          =>  ['required',Rule::unique('admins')->where('is_deleted',0),'email','max:100'],
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->where('is_deleted',0)],
@@ -609,18 +613,18 @@ if($validator->passes())
                 'role_id' => 'User Role',
                 'pen' => 'PEN Number',
                 'institution' => 'User Institution',
-                'avatar' => 'Profile Pic',
+                'avatar' => 'Profile Picture',
             ]);
-            // if ($validator->fails()) 
-            // {
-            //     foreach($validator->messages()->getMessages() as $k=>$row)
-            //     {
-            //         $error[$k] = $row[0];
-            //         Session::flash('message', ['text'=>$row[0],'type'=>'danger']);
-            //     }
+            if ($validator->fails()) 
+            {
+                foreach($validator->messages()->getMessages() as $k=>$row)
+                {
+                    $error[$k] = $row[0];
+                    Session::flash('message', ['text'=>$row[0],'type'=>'danger']);
+                }
     
-            //     return back()->withErrors($validator)->withInput($request->all());
-            // }
+                return back()->withErrors($validator)->withInput($request->all());
+            }
 
             // echo 'Validator passed';
             // exit;
@@ -716,20 +720,21 @@ if($validator->passes())
         {
             if($request->file('avatar') && $request->file('avatar') != '')
             {
-                $image = $request->file('avatar');
-                $input['imagename'] = rand(100,999).'avatar.'.$image->extension();
-                $path               =   '/app/public/user/'.$admin_id;
-                $destinationPath = storage_path($path.'/thumbnail');
-                $img = Image::make($image->path());
-                if (!file_exists($destinationPath)) { mkdir($destinationPath, 755, true);}
-                $img->resize(150, 150, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($destinationPath.'/'.$input['imagename']);
-                $destinationPath = storage_path($path);
-                $image->move($destinationPath, $input['imagename']);
-                // $imgUpload          =   uploadFile($path,$input['imagename']);
-                Admin::where('id',$admin_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
-                UserManagement::where('admin_id',$admin_id)->update(['avatar'=>$path.'/'.$input['imagename']]);
+                $file = $request->file('avatar');
+                $folder_name = "uploads/profile_images/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "user_profile" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+                Admin::where('id',$admin_id)->update(['avatar'=>$file_path]);
+                UserManagement::where('admin_id',$admin_id)->update(['avatar'=>$file_path]);
             }
             $data['title']              =   'User';
             $data['menu']               =   'admin-list';

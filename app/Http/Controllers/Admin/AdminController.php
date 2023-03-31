@@ -16,6 +16,7 @@ use App\Models\Modules;
 // use App\Models\UserRoles;
 use App\Models\Country;
 use App\Models\Admin;
+use App\Models\Services;
 use App\Models\Institution;
 use App\Models\UserManagement;
 use App\Models\UserRole;
@@ -45,23 +46,69 @@ class AdminController extends Controller
         $data['title']              =   'Dashboard';
         $data['menu']               =   'dashboard';
 
-                $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('assigned_user',auth()->user()->id)->orWhere('assigned_survey_user',auth()->user()->id);})->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4)->orWhere('request_status',29);})->count();
+        $data['rejected_surveys'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('assigned_user',auth()->user()->id)->orWhere('assigned_survey_user',auth()->user()->id);})->where(function ($query) { $query->where('request_status',3)->orWhere('request_status',4)->orWhere('request_status',29);})->count();
 
+        $data['surveys_completed'] = Survey_requests::where('is_deleted',0)->where('is_active',1)->where(function ($query) { $query->where('request_status',27);})->count();
+
+        $completed_surveys = [];
+        $pending_surveys = [];
+        for ($i = 0; $i < 6; $i++)
+        {
+            $mo =  date('m', strtotime("-$i month"));
+            $year =  date('Y', strtotime("-$i month"));
+            $day =  "01";
+
+
+            $js_date = date('Y/m/d', strtotime("$year/$mo/$day 00:00:00"));
+            $completed_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',29)->count());
+            $pending_surveys[$i] = array('date'=>$js_date,'count'=>Survey_requests::where('is_deleted',0)->where('is_active',1)->whereMonth('created_at', $mo)->whereYear('survey_requests.created_at', $year)->where('request_status',1)->count());
+        }
+
+        $data['completed_surveys_grp'] = $completed_surveys;
+        $data['pending_surveys_grp'] = $pending_surveys;
+
+        $all_services = Services::where('is_active',1)->where('is_deleted',0)->get();
+        $category_requests = []; 
+        if($all_services)
+        {
+            foreach($all_services as $ak=>$av)
+            {
+                $cat_count = 0;
+                $cat_count = Survey_requests::where('service_id',$av->id)->where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
+                $category_requests[$av->id] = array('name'=>$av->service_name,'count'=>$cat_count);
+            }
+        }
+        $data['completed_surveys'] = $category_requests;
+
+        $total_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->count();
+        $accepted_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('request_status',[3])->count();
+
+        if($accepted_surveys && $total_surveys) 
+        {
+            $data['accepted_surveys_percentage'] = round((($accepted_surveys/$total_surveys)*100), 0);
+        }
+        else
+        {
+            $data['accepted_surveys_percentage'] = 0;
+        }
+
+            /* graph data ends */
+        
         
         return view('admin.index',$data);
     }
 
-public function marknotifications(Request $request)
+    public function marknotifications(Request $request)
+    {
+        $notify = AdminNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
+        if($notify)
         {
-            $notify = AdminNotification::where('role_id',auth()->user()->role_id)->where('id',$request->not_id)->first();
-            if($notify)
-            {
-                $notify->update(['viewed'=>1]);
-            }else{
-                return false;
-            }
-            return true;
+            $notify->update(['viewed'=>1]);
+        }else{
+            return false;
         }
+        return true;
+    }
         
         function sale_ord_cnt($date){
             $cnt = 0;
@@ -111,12 +158,13 @@ public function marknotifications(Request $request)
         $input = $request->all();
         $validator = Validator::make($request->all(), [
             'name'         =>  ['required','max:255'],
-            'email'        =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'email','max:100'],
+            'email'        =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where(function ($query) { $query->where('is_deleted',0)->where('role_id','!=',6);}),'email','max:100'],
             'phone'        =>  ['required','numeric','digits:10',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0)],
             'designation'  =>  ['required','max:255'],
             'pen'          =>  ['required','max:100'],
             'avatar'       =>  ['nullable','max:10000'],
             'institution'  =>  ['required'],
+            'avatar'       =>  ['nullable','mimes:jpeg,png,jpg']
         ]);
 
         if($validator->passes())
@@ -174,10 +222,12 @@ public function marknotifications(Request $request)
                 ]);
             }
 
+            Session::flash('message', ['text'=>'Profile Updated Successfully !','type'=>'success']);
             return redirect(route('admin.profile'));
         }
         else
         {
+            Session::flash('message', ['text'=>'Profile Not Updated Successfully !','type'=>'danger']);
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }        
     }
@@ -472,20 +522,21 @@ public function marknotifications(Request $request)
     }
     
          
-        public function adminStatus(Request $request)
-        {
+    public function adminStatus(Request $request)
+    {
         $input = $request->all();
-        
-        if($input['id']>0) {
-        $deleted =  Admin::where('id',$input['id'])->update(array('is_active'=>$input['status']));
-        
-        return '1';
-        }else {
-        
-        return '0';
+    
+        if($input['id']>0)
+        {
+            $deleted =  Admin::where('id',$input['id'])->update(array('is_active'=>$input['status']));
+    
+            return '1';
         }
-        
+        else
+        {
+            return '0';
         }
+    }
         
           public function adminDelete(Request $request)
         {

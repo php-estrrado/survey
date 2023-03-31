@@ -123,7 +123,7 @@ class SubbottomprofillingController extends Controller
                 $bottom_profilling['created_at'] = date('Y-m-d H:i:s');
                 $bottom_profilling['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $bottom_profilling['additional_services'] = implode(",", $input['additional_services']); 
@@ -232,7 +232,7 @@ class SubbottomprofillingController extends Controller
                 $bottom_profilling['created_at'] = date('Y-m-d H:i:s');
                 $bottom_profilling['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $bottom_profilling['additional_services'] = implode(",", $input['additional_services']); 

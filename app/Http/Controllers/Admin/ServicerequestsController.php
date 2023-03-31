@@ -70,6 +70,19 @@ class ServicerequestsController extends Controller
                                         ->orderBy('survey_requests.id','DESC')
                                         ->get();
 
+        $survey_status_in  = array(18);
+        $data['survey_study_requests']    =   DB::table('survey_requests')
+                                        ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
+                                        ->leftjoin('cust_info', 'survey_requests.cust_id', '=', 'cust_info.cust_id')
+                                        ->leftjoin('cust_telecom', 'survey_requests.cust_id', '=', 'cust_telecom.cust_id')
+                                        ->leftjoin('services', 'survey_requests.service_id', '=', 'services.id')
+                                        ->whereIn('survey_requests.request_status',$survey_status_in)->where('assigned_survey_user',auth()->user()->id)->Where('survey_requests.is_deleted',0)
+                                        ->where('cust_mst.is_deleted',0)
+                                        ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
+                                        ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*')
+                                        ->orderBy('survey_requests.id','DESC')
+                                        ->get();
+
         // dd($data);
 
         return view('admin.new_service_requests',$data);
@@ -119,6 +132,13 @@ class ServicerequestsController extends Controller
         $data['survey_id'] = $id;
         $data['institutions'] = Institution::where('is_deleted',0)->where('is_active',1) ->get();
         $data['surveyors'] = Admin::where('role_id',3)->get();
+
+        $status_in  = array(2,6,16);
+
+        if(!in_array($datas->request_status,$status_in))
+        {
+            return redirect('admin/new_service_requests');
+        }
 
         if($datas->service_id == 1)
         {
@@ -267,11 +287,11 @@ class ServicerequestsController extends Controller
 
             if(isset($survey_request_log_id))
             {   
-                Session::flash('message', ['text'=>'Successfully Assigned Marine Surveyor !','type'=>'success']);  
+                Session::flash('message', ['text'=>'Successfully Assigned to Surveyor for Field Study !','type'=>'success']);  
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Marine Surveyor is not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Surveyor for Field Study is not Successfull !','type'=>'danger']);
             }
 
             return redirect('/admin/new_service_requests');
@@ -353,8 +373,9 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_from_role_id'] = 2;
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Field Study Rescheduled';
+            $usr_noti['description'] = 'Field Study Rescheduled By Surveyor. Request ID:HSW'.$input['id'];
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '#';
+            $usr_noti['ref_link'] = '/customer/requested_services/'.$input['id'];
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -446,11 +467,11 @@ class ServicerequestsController extends Controller
 
             if(isset($survey_request_log_id))
             {   
-                Session::flash('message', ['text'=>'Successfully Assigned Surveyor !','type'=>'success']);  
+                Session::flash('message', ['text'=>'Successfully Assigned to Surveyor for Survey Study !','type'=>'success']);  
             }
             else
             {
-                Session::flash('message', ['text'=>'Assigning Surveyor is not Successfull !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Assigning Surveyor for Survey Study is not Successfull !','type'=>'danger']);
             }
 
             return redirect('/admin/requested_services');
@@ -533,8 +554,9 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_from_role_id'] = 2;
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Survey Study Rescheduled';
+            $usr_noti['description'] = 'Survey Study Rescheduled By Surveyor. Request ID:HSW'.$input['id'];
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '#';
+            $usr_noti['ref_link'] = '/customer/requested_services/'.$input['id'];
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -678,7 +700,7 @@ class ServicerequestsController extends Controller
             }
             else
             {
-                Session::flash('message', ['text'=>'Survey   Study Reschedule Request Not Rejected Successfully !','type'=>'danger']);
+                Session::flash('message', ['text'=>'Survey Study Reschedule Request Not Rejected Successfully !','type'=>'danger']);
             }
 
             return redirect('/admin/requested_services');
@@ -831,6 +853,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+            $assigned_draftsman_final = survey_requests::where('id',$input['id'])->first()->assigned_draftsman_final;
 
             $assign_arr['request_status'] = 28;
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -855,7 +878,7 @@ class ServicerequestsController extends Controller
 
                 $from       = auth()->user()->id;
                 $utype      = 4;
-                $to         = $assignment_requests->assigned_draftsman_final; 
+                $to         = $assigned_draftsman_final; 
                 $ntype      = 'final_report_rejected';
                 $title      = 'Final Report Rejected by Admin';
                 $desc       = 'Final Report Rejected by Admin. Request ID: HSW'.$input['id'];
@@ -941,7 +964,7 @@ class ServicerequestsController extends Controller
 
         if($datas->request_status != $status)
         {
-            return redirect('admin/requested_services');
+            return redirect('admin/requested_service_detail/'.$id.'/'.$datas->request_status);
         }
 
         if($datas->service_id == 1)
@@ -995,6 +1018,7 @@ class ServicerequestsController extends Controller
         if($status == 24)
         {
             $data['final_report'] = Survey_requests::where('id',$id)->first()->final_report;
+            $data['draftsman_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',24)->orderBy('id','desc')->first()->remarks;
 
             // dd($data);
 
@@ -1009,14 +1033,16 @@ class ServicerequestsController extends Controller
         }
         elseif($status == 64)
         {
-            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',64)->first()->remarks;
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',64)->orderBy('id','desc')->first()->remarks;
             $data['survey_study_reschedule'] = Survey_requests::where('id',$id)->first()->survey_study_reschedule;
 
             return view('admin.requested_services.surveryor_rescheduled_surveystudy',$data);
         }
         elseif($status == 44)
         {
-            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',44)->first()->remarks;
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',44)->orderby('id','DESC')->get();
+
+            // dd($data);
             return view('admin.requested_services.surveryor_rejected_surveystudy',$data);
         }
         elseif($status == 18)
@@ -1024,25 +1050,44 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
 
+            $data['ch_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',18)->orderBy('id','desc')->first()->remarks;
+
             return view('admin.requested_services.assign_survey_study',$data);
         }
         elseif($status == 47 || $status == 69)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
-
+            if($status == 47)
+            {
+                $data['draftsman_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',47)->orderBy('id','desc')->first()->remarks;
+            }
+            else
+            {
+                $data['draftsman_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',69)->orderBy('id','desc')->first()->remarks;
+            }
             return view('admin.requested_services.invoice_submitted',$data);
         }
-        elseif($status == 11)
+        elseif($status == 11 || $status == 68)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
             
+            if($status == 11)
+            {
+                $data['draftsman_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',11)->orderBy('id','desc')->first()->remarks;
+            }
+            else
+            {
+                $data['draftsman_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',68)->orderBy('id','desc')->first()->remarks;
+            }
+
             return view('admin.requested_services.performa_invoice_submitted',$data);
         }
         elseif($status == 67)
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
+            $data['ch_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',67)->orderBy('id','desc')->first()->remarks;
 
             return view('admin.requested_services.eta_rejected',$data);
         }
@@ -1054,14 +1099,16 @@ class ServicerequestsController extends Controller
         }
         elseif($status == 61)
         {
-            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',61)->first()->remarks;
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',61)->orderBy('id','desc')->first()->remarks;
             $data['field_study_reschedule'] = Survey_requests::where('id',$id)->first()->field_study_reschedule;
             // dd($data);
             return view('admin.requested_services.surveryor_rescheduled_fieldstudy',$data);
         }
         elseif($status == 45)
         {
-            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',45)->first()->remarks;
+            $data['surveyor_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',45)->orderby('id','desc')->get();
+
+            // dd($data);
 
             return view('admin.requested_services.surveryor_rejected_fieldstudy',$data);
         }
@@ -1220,9 +1267,18 @@ function get_remote_file_info($url) {
             if (file_exists($file_path))
             {
             // Send Download
-            return Response::download($file_path, $file_name, [
-            'Content-Length: '. filesize($file_path)
-            ]);
+            $headers = [
+                'Content-Description' => 'File Transfer',
+                'Content-Type' => 'application/pdf',
+                'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
+                'Access-Control-Allow-Headers'=> 'Content-Type, Accept, Authorization, X-Requested-With, Application'
+            ];
+
+            return Response::download($file_path, $file_name, $headers);
+            // return Response::download($file_path, $file_name, [
+            // 'Content-Length: '. filesize($file_path)
+            // ]);
             }
             else
             {
@@ -1257,8 +1313,9 @@ function get_remote_file_info($url) {
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'general_area'=>['required'],
-            'location'=>['required','alpha'],
-            'scale_of_survey_recomended'=>['required'],
+
+            'location'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'scale_of_survey_recomended'=>['required','alpha_num'],
             'type_of_survey'=>['required'],
             'no_of_days_required'=>['required','numeric'],
             'charges'=>['required','numeric'],
@@ -1349,7 +1406,7 @@ function get_remote_file_info($url) {
         $data['survey_type'] = SurveyType::where('is_deleted',0)->get();
 
         $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
-        $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',67)->first()->remarks;
+        $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',67)->orderBy('id','desc')->first()->remarks;
         
         // dd($data);
 
@@ -1364,8 +1421,10 @@ function get_remote_file_info($url) {
             'survey_id'=>['required'],
             'eta_id'=>['required'],
             'general_area'=>['required'],
-            'location'=>['required','alpha'],
-            'scale_of_survey_recomended'=>['required'],
+
+            'location'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'scale_of_survey_recomended'=>['required','alpha_num'],
+
             'type_of_survey'=>['required'],
             'no_of_days_required'=>['required','numeric'],
             'charges'=>['required','numeric'],

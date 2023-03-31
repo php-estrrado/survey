@@ -65,7 +65,16 @@
 				},
 				success: function(result)
 				{
-					console.log(result);
+					var result = JSON.parse(result );
+					
+					if(result.status ==1)
+					{
+						toastr.success(result.message);
+					}
+					else
+					{
+						toastr.error(result.message);
+					}
 				}
 			});
 		}
@@ -74,16 +83,10 @@
 @section('js')
 	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
     <script type="text/javascript">
-		@if(Session::has('message'))
-			@if(session('message') =="success")
-				toastr.success("{{session('message')}}"); 
-			@else
-				toastr.error("{{session('message')}}"); 
-			@endif
-		@endif
-		
-		@if ($errors->any())          
-			toastr.error("{{$errors->all()[0]}}"); 
+		@if(count($errors) > 0)
+			@foreach($errors->all() as $error)
+				toastr.error("{{ $error }}");
+			@endforeach
 		@endif
     </script>
 @endsection

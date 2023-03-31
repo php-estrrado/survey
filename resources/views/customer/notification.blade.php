@@ -30,13 +30,13 @@
                                         <th class="wd-20p border-bottom-0">Created On</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="marknotifications">
                                     @if($notifications && count($notifications) > 0)
                                         @php $i=1; @endphp
                                         @foreach($notifications as $notify)
                                             <tr>
                                                 <td>{{ $i; }}</td>
-                                                <td>{{ $notify->title }}</td>
+                                                <td><a href="{{ url($notify->ref_link) }}" style="color:#2b8fca; <?php if($notify->viewed ==1){ echo 'font-weight:normal;';  }else{ echo 'font-weight:bold;'; } ?> " data-id="{{ $notify->id }}">{{ $notify->title }}</a></td>
                                                 <td>{{ $notify->description }}</td>
                                                 <td>{{  date('d/m/Y', strtotime($notify->created_at)); }}</td>
                                             </tr>
@@ -53,15 +53,6 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <!-- footer start-->
-        <footer class="footer">
-            <div class="row">
-                <div class="col-md-12 footer-copyright text-center">
-                    <p class="mb-0">Copyright 2022 © HSW </p>
-                </div>
-            </div>
-        </footer>
-    </div>
+    @include('includes.customer_footer')
 </div>
 @endsection

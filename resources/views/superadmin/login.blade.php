@@ -23,6 +23,7 @@
 									</div>
 									<form method="POST" id="adminLogin" action="{{ url('/superadmin/regVerifyotpemail') }}" class="theme-form">
 										@csrf
+										<label class="form-label" for="email">Email ID</label>
 										<div class="input-group mb-4">
 											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" value="{{ old('email')}}">
 											<div id="email_error"></div>
@@ -35,6 +36,7 @@
 											<button type="button" class="btn  btn-primary btn-block px-4" id="send_otp" onclick="sendOtp()">Send OTP</button>
 											</div>
 										</div>
+										<label class="form-label" for="otp">OTP</label>
 										<div class="input-group mb-4">
 											<input type="password" class="form-control" name="otp" id="otp" placeholder="OTP">
 											<div id="otp_error"></div>
@@ -80,8 +82,7 @@
 					else
 					{
 						toastr.error(result.message);
-					}	
-
+					}
 				}
 			});
 		}
@@ -90,16 +91,11 @@
 @section('js')
 	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
     <script type="text/javascript">
-		@if(Session::has('message'))
-			@if(session('message')['type'] =="success")
-				toastr.success("{{session('message')['text']}}"); 
-			@else
-				toastr.error("{{session('message')['text']}}"); 
-			@endif
-		@endif
 		
-		@if ($errors->any())          
-			toastr.error("{{$errors->all()[0]}}"); 
+		@if(count($errors) > 0)
+			@foreach($errors->all() as $error)
+				toastr.error("{{ $error }}");
+			@endforeach
 		@endif
     </script>
 @endsection

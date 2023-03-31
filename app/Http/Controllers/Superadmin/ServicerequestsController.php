@@ -38,6 +38,7 @@ use App\Rules\Name;
 use Svg\Tag\Rect;
 use Twilio\TwiML\Voice\Reject;
 use Validator;
+use Illuminate\Support\Facades\Mail;
 
 class ServicerequestsController extends Controller
 {
@@ -129,6 +130,11 @@ class ServicerequestsController extends Controller
         $data['institutions'] = Institution::where('is_deleted',0)->where('is_active',1) ->get();
 
         // $data['admins'] = Admin::where('role_id',2)->get();
+
+        if($datas->request_status != 1)
+        {
+            return redirect('superadmin/new_service_requests');
+        }
 
         if($datas->service_id == 1)
         {
@@ -224,6 +230,7 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
+            $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
             $assign_arr['request_status'] = 2;
             $assign_arr['assigned_institution'] = $input['assigned_institution'];
@@ -284,6 +291,14 @@ class ServicerequestsController extends Controller
             $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            $data['id'] = $input['id'];
+            
+            // $var = Mail::send('emails.accept_survey', $data, function($message) use($data,$cust_email) {
+            //     $message->from(getadmin_mail(),'HSW');    
+            //     $message->to($cust_email);
+            //     $message->subject('Survey Request Accepted by CH');
+            // });
 
             if(isset($survey_request_log_id))
             {   
@@ -364,20 +379,8 @@ class ServicerequestsController extends Controller
         
         $cust_id = $datas->cust_id;
         $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
-            $cust_phone = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first();
-        if($cust_phone)
-        {
-          $data['cust_phone'] = $cust_phone->cust_telecom_value;  
-        }else{
-          $data['cust_phone'] = "";    
-        }
-        $cust_email = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first();
-        if($cust_email)
-        {
-          $data['cust_email'] = $cust_email->cust_telecom_value;  
-        }else{
-          $data['cust_email'] = "";    
-        }
+        $data['cust_phone'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',2)->where('is_deleted',0)->first()->cust_telecom_value;
+        $data['cust_email'] = CustomerTelecom::where('cust_id',$cust_id)->where('telecom_type',1)->where('is_deleted',0)->first()->cust_telecom_value;
 
         $data['service'] = Services::where('id',$datas->service_id)->first()->service_name;
         $data['survey_id'] = $id;
@@ -388,7 +391,7 @@ class ServicerequestsController extends Controller
 
         if($datas->request_status != $status)
         {
-            return redirect('superadmin/requested_services');
+            return redirect('superadmin/requested_service_detail/'.$id.'/'.$datas->request_status);
         }
         
         if($datas->service_id == 1)
@@ -464,6 +467,7 @@ class ServicerequestsController extends Controller
         if($status == 25 || $status == 26)
         {
             $data['final_report'] = Survey_requests::where('id',$id)->first()->final_report;
+            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',25)->orderBy('id','desc')->first()->remarks;
 
             // dd($data);
 
@@ -473,6 +477,7 @@ class ServicerequestsController extends Controller
         {
             $data['draftmans'] = Admin::where('role_id',4)->get();
             $data['survey_study'] = Survey_study_report::where('survey_request_id',$id)->first();
+            $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',21)->orderBy('id','desc')->first()->remarks;
 
             // dd($data);
 
@@ -483,7 +488,8 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
             $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
-            $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',17)->first()->remarks;
+            $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',17)->orderBy('id','desc')->first()->remarks;
+            $data['survey_request_data'] = Survey_requests::where('id',$id)->first();
 
             // dd($data);
 
@@ -494,6 +500,8 @@ class ServicerequestsController extends Controller
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
             $data['fieldstudy_eta'] = Fieldstudy_eta::where('survey_request_id',$id)->first();
+            $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',16)->orderBy('id','desc')->first()->remarks;
+            $data['survey_request_data'] = Survey_requests::where('id',$id)->first();
 
             return view('superadmin.requested_services.customer_payment_verified',$data);
         }
@@ -502,7 +510,7 @@ class ServicerequestsController extends Controller
             $data['draftmans'] = Admin::where('role_id',4)->get();
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_performa_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
-            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',54)->first();
+            $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',54)->orderBy('id','desc')->first()->remarks;
 
             return view('superadmin.requested_services.customer_accepted_performa',$data);
         }
@@ -510,6 +518,7 @@ class ServicerequestsController extends Controller
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_invoice::where('survey_request_id',$id)->first();
+            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',49)->orderBy('id','desc')->first()->remarks;
 
             return view('superadmin.requested_services.dh_verified_invoice',$data);
         }
@@ -517,6 +526,7 @@ class ServicerequestsController extends Controller
         {
             $data['field_study'] = Field_study_report::where('survey_request_id',$id)->first();
             $data['survey_invoice'] = Survey_performa_invoice::where('survey_request_id',$id)->first();
+            $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',13)->orderBy('id','desc')->first()->remarks;
 
             return view('superadmin.requested_services.dh_verified_performa_invoice',$data);
         }
@@ -540,6 +550,7 @@ class ServicerequestsController extends Controller
         }
         else
         {
+            // dd($data);
             return view('superadmin.requested_services.requested_services_details',$data);
         }
     }
@@ -779,17 +790,17 @@ class ServicerequestsController extends Controller
             $notify_from_role_id = 1;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);            
 
-            $from       = auth()->user()->id; 
-            $utype      = 5;
-            $to         = 5; 
-            $ntype      = 'survey_study_assigned';
-            $title      = 'New Survey Study Request';
-            $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
-            $refId      = $input['id'];
-            $reflink    = 'accountant/receipt_received/'.$input['id'];
-            $notify     = 'accounts';
-            $notify_from_role_id = 1;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            // $from       = auth()->user()->id; 
+            // $utype      = 5;
+            // $to         = 5; 
+            // $ntype      = 'survey_study_assigned';
+            // $title      = 'New Survey Study Request';
+            // $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
+            // $refId      = $input['id'];
+            // $reflink    = 'accountant/receipt_received/'.$input['id'];
+            // $notify     = 'accounts';
+            // $notify_from_role_id = 1;
+            // addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
             $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
@@ -815,6 +826,7 @@ class ServicerequestsController extends Controller
         $id = $request->id;
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+        $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
         Survey_requests::where('id',$id)->update(['request_status'=>15]);
 
@@ -860,6 +872,14 @@ class ServicerequestsController extends Controller
         $notify_from_role_id = 1;
         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
+        $data['id'] = $id;
+
+        // $var = Mail::send('emails.performa_invoice_received', $data, function($message) use($data,$cust_email) {
+        //     $message->from(getadmin_mail(),'HSW');    
+        //     $message->to($cust_email);
+        //     $message->subject('Performa Invoice Generated');
+        // });
+
 
         if(isset($survey_request_log_id))
         {   
@@ -878,6 +898,7 @@ class ServicerequestsController extends Controller
         $id = $request->id;
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+        $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
         Survey_requests::where('id',$id)->update(['request_status'=>51]);
 
@@ -922,6 +943,14 @@ class ServicerequestsController extends Controller
         $notify_from_role_id = 1;
         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
+        $data['id'] = $id;
+
+        // $var = Mail::send('emails.invoice_received', $data, function($message) use($data,$cust_email) {
+        //     $message->from(getadmin_mail(),'HSW');    
+        //     $message->to($cust_email);
+        //     $message->subject('Invoice Generated');
+        // });
+
         if(isset($survey_request_log_id))
         {   
             Session::flash('message', ['text'=>'Invoice Send to Customer Successfully !','type'=>'success']);  
@@ -942,22 +971,22 @@ class ServicerequestsController extends Controller
 
         $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
-        // Survey_requests::where('id',$id)->update(['request_status'=>51]);
+        Survey_requests::where('id',$id)->update(['request_status'=>70]);
 
-        // $survey_request_logs = [];
+        $survey_request_logs = [];
 
-        // $survey_request_logs['survey_request_id'] = $id;
-        // $survey_request_logs['cust_id'] = $cust_id;
-        // $survey_request_logs['survey_status'] = 51;
-        // $survey_request_logs['remarks'] = $request->remarks;
-        // $survey_request_logs['is_active'] = 1;
-        // $survey_request_logs['is_deleted'] = 0;
-        // $survey_request_logs['created_by'] = auth()->user()->id;
-        // $survey_request_logs['updated_by'] = auth()->user()->id;
-        // $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        // $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['survey_request_id'] = $id;
+        $survey_request_logs['cust_id'] = $cust_id;
+        $survey_request_logs['survey_status'] = 70;
+        $survey_request_logs['remarks'] = $request->remarks;
+        $survey_request_logs['is_active'] = 1;
+        $survey_request_logs['is_deleted'] = 0;
+        $survey_request_logs['created_by'] = auth()->user()->id;
+        $survey_request_logs['updated_by'] = auth()->user()->id;
+        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-        // $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
         $usr_noti = [];
 
@@ -967,8 +996,9 @@ class ServicerequestsController extends Controller
         $usr_noti['notify_from_role_id'] = 1;
         $usr_noti['notify_type'] = 0;
         $usr_noti['title'] = 'Payment Rejected';
+        $usr_noti['description'] = 'Payment Rejected by Accounts Officer for Request ID HSW'.$id;
         $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '#';
+        $usr_noti['ref_link'] = '/customer/receipt_rejected/'.$id.'/70';
         $usr_noti['viewed'] = 0;
         $usr_noti['created_at'] = date('Y-m-d H:i:s');
         $usr_noti['updated_at'] = date('Y-m-d H:i:s');
@@ -1111,14 +1141,27 @@ class ServicerequestsController extends Controller
         $usr_noti['notify_from_role_id'] = 1;
         $usr_noti['notify_type'] = 0;
         $usr_noti['title'] = 'Final Report Received';
+        $usr_noti['description'] = 'Final Report Received for Request ID HSW'.$id;
         $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '#';
+        $usr_noti['ref_link'] = '/customer/survey_report/'.$id.'/27';
         $usr_noti['viewed'] = 0;
         $usr_noti['created_at'] = date('Y-m-d H:i:s');
         $usr_noti['updated_at'] = date('Y-m-d H:i:s');
         $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
 
         UserNotification::create($usr_noti);
+
+        $from       = auth()->user()->id; 
+        $utype      = 7;
+        $to         = Admin::where('role_id',7)->where('is_deleted',0)->where('is_active',1)->first()->id;
+        $ntype      = 'final_report_verified_by_ch';
+        $title      = 'CH Verified Final Report';
+        $desc       = 'Final Report Verified by CH. Request ID:HSW'.$id;
+        $refId      = $id;
+        $reflink    = '/admin/repository-management-detail/'.$id.'/27/';
+        $notify     = 'admin';
+        $notify_from_role_id = 1;
+        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
         if(isset($survey_request_log_id))
         {   
@@ -1134,8 +1177,6 @@ class ServicerequestsController extends Controller
 
     public function reject_close(Request $request)    
     {
-        $id = $request->id;
-
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'remarks'=>['required'],
@@ -1143,9 +1184,12 @@ class ServicerequestsController extends Controller
 
         if($validator->passes())
         {
+            $id = $request->id;
+
             Survey_requests::where('id',$id)->update(['request_status'=>3]);
 
             $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
             $survey_request_logs = [];
 
@@ -1170,14 +1214,24 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_from_role_id'] = 1;
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Request Rejected';
+            $usr_noti['description'] = 'Survey Request Rejected for Request ID HSW'.$id;
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '#';
+            $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/3';
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
             $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
 
             UserNotification::create($usr_noti);
+
+            $data['id'] = $id;
+            $data['remarks'] = $request->remarks;
+            
+            // $var = Mail::send('emails.reject_closed', $data, function($message) use($data,$cust_email) {
+            //     $message->from(getadmin_mail(),'HSW');    
+            //     $message->to($cust_email);
+            //     $message->subject('Request Reject Closed');
+            // });
 
             if(isset($survey_request_log_id))
             {   
@@ -1194,8 +1248,6 @@ class ServicerequestsController extends Controller
 
     public function reject_open(Request $request)    
     {
-        $id = $request->id;
-
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'remarks'=>['required'],
@@ -1203,9 +1255,12 @@ class ServicerequestsController extends Controller
 
         if($validator->passes())
         {
+            $id = $request->id;
+
             Survey_requests::where('id',$id)->update(['request_status'=>4]);
 
             $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
             $survey_request_logs = [];
 
@@ -1230,14 +1285,25 @@ class ServicerequestsController extends Controller
             $usr_noti['notify_from_role_id'] = 1;
             $usr_noti['notify_type'] = 0;
             $usr_noti['title'] = 'Request Reject Open';
+            $usr_noti['description'] = 'Survey Request Reject Open for Request ID HSW'.$id;
             $usr_noti['ref_id'] = auth()->user()->id;
-            $usr_noti['ref_link'] = '#';
+            $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/4';
             $usr_noti['viewed'] = 0;
             $usr_noti['created_at'] = date('Y-m-d H:i:s');
             $usr_noti['updated_at'] = date('Y-m-d H:i:s');
             $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
 
             UserNotification::create($usr_noti);
+
+            $data['id'] = $id;
+            $data['remarks'] = $request->remarks;
+            $data['link'] = url('/customer/requested_services');
+            
+            // $var = Mail::send('emails.reject_open', $data, function($message) use($data,$cust_email) {
+            //     $message->from(getadmin_mail(),'HSW');    
+            //     $message->to($cust_email);
+            //     $message->subject('Request Reject Open');
+            // });
 
             if(isset($survey_request_log_id))
             {   
@@ -1707,7 +1773,7 @@ class ServicerequestsController extends Controller
     {
         $input = $request->all();
 
-        $data['admins'] = UserManagement::where('institution',$input['institution_id'])->where('role',2)->where('is_deleted',0)->get();
+        $data['admins'] = UserManagement::where('institution',$input['institution_id'])->where('role',2)->where('is_deleted',0)->where('is_active',1)->get();
 
         // dd($data);
         return view('superadmin.admins',$data);

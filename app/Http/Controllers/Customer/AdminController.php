@@ -122,35 +122,17 @@ class AdminController extends Controller
     public function edit_profile(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'=>['required','max:255'],
-            'firm'=>['required','max:255'],
+            'name'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'firm'=>['required','regex:/^[a-zA-Z\s]*$/'],
             'firm_type'=>['required','numeric'],
-            'email' => ['required','email','max:255',Rule::unique('cust_mst','username')->ignore($request->cust_id)],
+            'email' => ['required','email','max:255',Rule::unique('admins','email')->ignore(auth()->user()->id)],
             'mobile'=>['required','numeric','digits:10'],
             'otp'=> ['nullable','max:255'],
-            'valid_id'=>['required','max:255'],
+            'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'id_file_front' => ['nullable','max:10000'],
             'id_file_back' => ['nullable','max:10000'],
-            'password' =>['nullable','confirmed','min:6'],
-            'password_confirmation' =>['nullable','min:6'],
-            'g-recaptcha-response' => function ($attribute, $value, $fail) {
-                $data = array('secret' => config('services.recaptcha.secret'),'response' => $value,'remoteip' => $_SERVER['REMOTE_ADDR']);
-  
-                $verify = curl_init();
-                curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
-                curl_setopt($verify, CURLOPT_POST, true);
-                curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
-                curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
-                $response = curl_exec($verify);
-                $response = json_decode($response);
-                
-                if(!$response->success)
-                {
-                    Session::flash('message', ['text'=>'Please check reCAptcha !','type'=>'danger']);
-                    $fail($attribute.'google reCaptcha failed');
-                }
-            },
+            'password' =>['nullable','confirmed','min:6','max:20'],
+            'password_confirmation' =>['nullable','min:6','max:20'],
         ]);
         $input = $request->all();
 
@@ -169,6 +151,8 @@ class AdminController extends Controller
 
             $info_id = CustomerInfo::where('cust_id',$input['cust_id'])->update([
                 'name' => $request->name,
+                'firm' => $request->firm,
+                'firm_type' => $request->firm_type,
                 'valid_id' => $request->valid_id,
                 'is_active'=>1,
                 'is_deleted'=>0,
@@ -277,12 +261,13 @@ class AdminController extends Controller
                 ]);
             }
 
-            Session::flash('message', ['text'=>'Customer Profile Updated Successfully !','type'=>'success']);  
+            Session::flash('message', ['text'=>'Profile Updated Successfully !','type'=>'success']);  
 
             return redirect('customer/profile');
         }
         else
         {
+            Session::flash('message', ['text'=>'Profile Not Updated Successfully !','type'=>'danger']);
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
     }

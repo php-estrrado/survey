@@ -29,7 +29,7 @@
                         </div>
                         <div class="menu-top menu-up">
                             <ul class="nav nav-tabs" id="top-tab" role="tablist">
-                                <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#highlight">Timeline</a></li>
+                                <!-- <li class="nav-item"><a data-bs-toggle="tab" class="nav-link" href="#highlight">Timeline</a></li> -->
                                 <li class="nav-item"><a data-bs-toggle="tab" class="nav-link active" href="#itinerary">Invoice Details</a>
                                 </li>
                             </ul>
@@ -91,7 +91,7 @@
                             </div>
                             <div class="menu-part accordion tab-pane fade show active" id="itinerary">
                                 <div class="card-body">
-                                    <div class="card-title font-weight-bold"><b>Basic info:</b></div>
+                                    <div class="card-title font-weight-bold"><b>Basic Info</b></div>
                                     <div class="row">
                                         <div class="col-sm-4 col-md-4">
                                             <div class="form-group">
@@ -307,6 +307,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p>Remarks: <br> {{$ms_remarks}}</p>
+                                        </div>
+                                    </div>
                                     <div class="row g-2 mt-2" style="float: right;">
                                         <div class="col-md-12">
                                             <a href="#" class="modal-effect btn btn-primary" data-effect="effect-scale" data-bs-target="#modaldemo1" data-bs-toggle="modal" href=""> Accept </a>
@@ -325,18 +330,7 @@
     </div>
 </div>
 
-<div class="container-fluid">
-    <!-- footer start-->
-    <footer class="footer">
-
-        <div class="row">
-            <div class="col-md-12 footer-copyright text-center">
-                <p class="mb-0">Copyright 2022 © HSW </p>
-            </div>
-        </div>
-
-    </footer>
-</div>
+@include('includes.customer_footer')
 </div>
 <div class="modal" tabindex="-1" id="modaldemo1">
   <div class="modal-dialog">

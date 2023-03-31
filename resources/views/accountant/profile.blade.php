@@ -105,21 +105,15 @@
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group">
 									<label class="form-label" for="avatar">Profile Pic </label>
-									<div class="custom-file">
-										<input type="file" class="custom-file-input" name="avatar" id="avatar" >
-										<label class="custom-file-label"></label>
-									</div>
+									<input type="file" class="file-input form-control" name="avatar" id="avatar">
 									<div id="avatar_error"></div>
 									@error('avatar')
 										<p style="color: red">{{ $message }}</p>
 									@enderror
 								</div>
-								<div class="col-md-6 mb-3">
-
-									<img id="avatar_img" src="{{url('public/admin/assets/images/image2.png')}}" alt="avatar" style="height: 120px;" />
-								</div>
-								@if($admin->avatar)
-								<a class="" style="cursor: pointer;" id="removeAvatar"><i class="fa fa-trash" aria-hidden="true"></i> Remove Photo</a> @endif
+								<div id="divImageMediaPreview"></div>
+								<!-- @if($admin->avatar)
+								<a class="" style="cursor: pointer;" id="removeAvatar"><i class="fa fa-trash" aria-hidden="true"></i> Remove Photo</a> @endif -->
 							</div>
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group">
@@ -143,7 +137,7 @@
 			</div>
 			<div class="btn-list d-flex justify-content-end">
 				<button class="btn btn-info" type="submit">Save</button>
-				<a href="#" class="btn btn-danger">Cancel</a>
+				<a class="btn btn-danger" onclick="history.back()">Cancel</a>
 			</div>
 		</form>
 	</div>
@@ -171,28 +165,61 @@
 <script src="{{URL::asset('assets/js/datatables.js')}}"></script>
 
 <script type="text/javascript">
+	$(document).on('change', '.file-input', function() {
+		var filesCount = $(this)[0].files.length;
+
+		var textbox = $(this).prev();
+
+		if (filesCount === 1)
+		{
+			var fileName = $(this).val().split('\\').pop();
+			textbox.text(fileName);
+		}
+		else
+		{
+			textbox.text(filesCount + ' files selected');
+		}
+
+		if (typeof (FileReader) != "undefined")
+		{
+			var dvPreview = $("#divImageMediaPreview");
+			dvPreview.html("");            
+			$($(this)[0].files).each(function ()
+			{
+				var file = $(this);                
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					var img = $("<img />");
+					img.attr("style", "width: 150px; height:100px; padding: 10px");
+					img.attr("src", e.target.result);
+					dvPreview.append(img);
+				}
+				reader.readAsDataURL(file[0]);                
+			});
+		}
+		else
+		{
+			alert("This browser does not support HTML5 FileReader.");
+		}
+	});
 	
-	    $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-}); 
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	}); 
 
 	$(document).ready(function(){
-
 		$('body').on('click','#removeAvatar',function(){
-
-
-		$.ajax({
-		type: "POST",
-		url: '{{ url("accountant/remove-avatar") }}',
-		data: {'_token': '{{ csrf_token()}}'},
-		success: function (data) {
-			 window.location.href=window.location.href;
-		}
+			$.ajax({
+				type: "POST",
+				url: '{{ url("accountant/remove-avatar") }}',
+				data: {'_token': '{{ csrf_token()}}'},
+				success: function (data) {
+					window.location.href=window.location.href;
+				}
+			});
 		});
-		});
-
 	});
 
 </script>

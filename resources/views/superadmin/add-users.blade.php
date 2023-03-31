@@ -32,13 +32,13 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="row">
-						<div class="col-lg-12 mb-3">
+						<!-- <div class="col-lg-12 mb-3">
 							<div class="box-widget widget-user">
 								<div class="widget-user-image1 d-sm-flex">
 									<img alt="User Avatar" class="rounded-circle border p-0" src="https://laravel.spruko.com/admitro/Vertical-IconSidedar-Light/assets/images/users/2.jpg">
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="name">Full Name <span class="text-red">*</span></label>

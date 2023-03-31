@@ -2,6 +2,7 @@
 @section('css')
 @endsection
 @section('content')
+<link rel="stylesheet" href="{{URL::asset('admin/assets/css/toastr.min.css')}}" />
 <div class="page">
 	<div class="page-single">
 		<div class="container">
@@ -22,6 +23,7 @@
 									</div>
 									<form method="POST" id="adminLogin" action="{{ url('/admin/regVerifyotpemail') }}" class="theme-form">
 										@csrf
+										<label class="form-label" for="email">Email ID</label>
 										<div class="input-group mb-4">
 											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID">
 										</div>
@@ -30,6 +32,7 @@
 											<button type="button" class="btn  btn-primary btn-block px-4" id="send_otp" onclick="sendOtp()">Send OTP</button>
 											</div>
 										</div>
+										<label class="form-label" for="otp">OTP</label>
 										<div class="input-group mb-4">
 											<input type="password" class="form-control" name="otp" id="otp" placeholder="OTP">
 										</div>
@@ -62,12 +65,28 @@
 				},
 				success: function(result)
 				{
-					console.log(result);
+					var result = JSON.parse(result);
+					
+					if(result.status ==1)
+					{
+						toastr.success(result.message);
+					}
+					else
+					{
+						toastr.error(result.message);
+					}	
 				}
 			});
 		}
 	</script>
 @endsection
 @section('js')
-	
+	<script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script>
+    <script type="text/javascript">
+		@if(count($errors) > 0)
+			@foreach($errors->all() as $error)
+				toastr.error("{{ $error }}");
+			@endforeach
+		@endif
+    </script>
 @endsection

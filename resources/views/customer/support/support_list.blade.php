@@ -35,7 +35,7 @@
 															<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request->id}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request->created_at))}}</span></h6>
 															<small class="text-muted">{{$help_request->description}}
 															</small>
-															<p><a href="{{ url('/customer/help_detail/')}}/{{$help_request->id}}" style="float: right;">Reply</a></p>
+															<p><a href="{{ url('/customer/help_detail/')}}/{{$help_request->id}}" style="float: right;">View</a></p>
 														</div>
 													</div>
 												</div>
@@ -50,16 +50,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container-fluid">
-    	<!-- footer start-->
-    	<footer class="footer">
-			<div class="row">
-				<div class="col-md-12 footer-copyright text-center">
-					<p class="mb-0">Copyright 2022 © HSW </p>
-				</div>
-			</div>
-    	</footer>
-	</div>
+	@include('includes.customer_footer')
 </div>
 <div class="modal" id="modaldemo2">
 	<div class="modal-dialog" role="document">
@@ -79,7 +70,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="submit">Submit</button> <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+					<button class="btn btn-primary" type="submit">Submit</button> <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
 				</div>
 			</form>
 		</div>
@@ -96,6 +87,7 @@
 		@csrf
 		<div class="modal-body">
 			<div class="col-md-12">
+				<h6>Token - {{$token_no}}</h6>
 				<div class="form-group">
 					<label class="form-label" for="title">File No <span class="text-red">*</span></label>
 					<input class="form-control" type="text" name="title" id="title">
@@ -109,8 +101,8 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-primary">Save</button>
+			<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+			<button type="submit" class="btn btn-primary">Submit</button>
 		</div>
 	  </form>
     </div>

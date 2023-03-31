@@ -47,8 +47,15 @@ class HelpController extends Controller
         $data['menu']         =  'Hydrofraphic Survey';
 
         $data['help_requests'] = SupportRequests::where('from_id',auth()->user()->id)->get();
-
-        // dd($data);
+        $token_no = SupportRequests::orderby('id','DESC')->first()->id;
+        if($token_no > 0)
+        {
+            $data['token_no'] = $token_no+1;
+        }
+        else
+        {
+            $data['token_no'] = 1;
+        }
 
         return view('customer.support.support_list',$data);
     }
@@ -59,10 +66,7 @@ class HelpController extends Controller
         $data['menu']         =  'Hydrofraphic Survey';
 
         $data['help_request_detail'] = SupportRequests::where('id',$id)->where('from_id',auth()->user()->id)->first();
-        $data['help_request_logs'] = SupportRequestLogs::where('support_id',$id)->orWhere(function ($query) { $query->Where('to_user_id', auth()->user()->id)->where('to_role_id',6);})->get();
-        
-
-        // dd($data);
+        $data['help_request_logs'] = SupportRequestLogs::where('support_id',$id)->orderby('id','ASC')->get();
 
         return view('customer.support.support_detail',$data);
     }

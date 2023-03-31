@@ -265,7 +265,7 @@
     float: right;
   }
   .wizard .form-label-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
 }
 .card-blog {
@@ -337,6 +337,10 @@
     float: right;
     /* line-height: 30px; */
 }
+.wrapper{
+    width:100%;
+    display:block;
+}
 
   /*-----------custom-checkbox-----------*/
   /*----------Custom-Checkbox---------*/
@@ -401,7 +405,7 @@
             padding: 12px 10px !important;
         }
       .page-wrapper.modern-type .page-header .header-wrapper .logo-wrapper {
-            width: calc(170px + (120 - 94) * ((100vw - 320px) / (1920 - 320)));
+            width: calc(150px + (120 - 94) * ((100vw - 320px) / (1920 - 320)));
         }
   }
 
@@ -589,11 +593,11 @@
     line-height: 20px;
 }
 p {
-    font-size: 16px;
+    font-size: 15px;
     letter-spacing: normal;
 }
 .page-wrapper.compact-wrapper .page-body-wrapper .page-body {
-    margin-top: 80px;
+    margin-top: 60px;
 }
 .media .media-body > span {
     color: rgb(124 124 124);
@@ -687,6 +691,7 @@ a:hover {
 }
 .card .card-header {
   background-color: #f4f4f4;
+  padding: 15px 20px;
 }
 .scis {
     position: relative;
@@ -728,3 +733,95 @@ and (max-width: 1920px)
     max-height: 450px;
     }
 } 
+
+.footer {
+    bottom: 0px;
+    left: 0;
+    transition: 0.5s;
+    position: absolute;
+    display: block;
+    right: 0;
+    margin-left: 14px !important;
+    margin-right: 8px;
+    border-radius: 15px;
+}
+.theme-form select {
+    height: 46px;
+}
+.theme-form input[type="text"]{
+    height: 46px;
+}
+.theme-form select.form-control:not([size]):not([multiple]) {
+    border-color: #ced4da;
+}
+.SumoSelect>.CaptionCont {
+    padding: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))) 10px !important;
+    font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)))!important;
+    border: 1px solid #ced4da !important;
+    height: 46px !important;
+    line-height: 20px !important;
+    background-color: #fffcf3 !important;
+}
+.SumoSelect>.CaptionCont>span.placeholder {
+    color: #898989 !important;
+    font-style: normal !important;
+}
+.bodhgt{
+    min-height:60vh;
+}
+.table th {
+    font-weight: 500;
+}
+.table th, .table td {
+    padding: 0.45rem;
+}
+.all-cars-table thead tr th:nth-child(2) {
+    min-width: 110px !important;
+}
+.all-cars-table tbody tr td:nth-child(2) {
+    min-width: 110px;
+}
+.all-cars-table thead tr th:nth-child(3) {
+    min-width: 140px !important;
+}
+.all-cars-table tbody tr td:nth-child(3) {
+    min-width: 140px !important;
+}
+.all-cars-table thead tr th, .all-cars-table tbody tr th {
+    font-size: calc(14px + (18 - 15) * ((100vw - 320px) / (1920 - 320))) !important;
+}
+.position {
+    margin: 2px 20px 16px 20px !important;
+}
+.n_count {
+    display: block;
+    position: absolute;
+    top: -5px;
+    right: 0px;
+    left: 15px;
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50%;
+    background: #FED204;
+    cursor: pointer;
+    color: #000;
+    font-size: 12px;
+    line-height: 26px;
+    text-align: center;
+}
+.notification-dropdown p{
+    font-size: 14px;
+}
+.notification-dropdown div{
+    font-size: 12px;
+}
+.page-wrapper .page-header .header-wrapper .nav-right .notification-dropdown li+li p {
+    margin-bottom: 0;
+}
+a:hover {
+    text-decoration: none;
+    color: #e2a900;
+}
+.page-wrapper .page-header .header-wrapper .nav-right .onhover-show-div li p {
+    opacity: 1;
+}

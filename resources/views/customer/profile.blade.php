@@ -18,7 +18,7 @@
                         <h5>Profile</h5>
                     </div>
                     <div class="card-body">
-                        <form method="POST" id="customerLogin" action="{{ url('customer/edit_profile') }}" class="theme-form" enctype="multipart/form-data">
+                        <form method="POST" id="customerLogin" action="{{ url('customer/edit_profile') }}" class="theme-form" enctype="multipart/form-data" autocomplete="off">
                             @csrf
                             <input type="hidden" id="id" name="id" value="{{$id}}">
                             <input type="hidden" id="cust_id" name="cust_id" value="{{$cust_id}}">
@@ -114,12 +114,11 @@
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                 </div>
-                            </div>
-                            <div class="row">
-                                <h5>Change Password</h5>
+
+                                <p class="mt-3"><strong>Change Password</strong></p>
                                 <div class="col-sm-6">
-                                    <label class="form-label mt-3" for="password">Password <span class="text-red">*</span></label>
-                                    <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}">
+                                    <label class="form-label" for="password">Password <span class="text-red">*</span></label>
+                                    <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}" autocomplete="false">
                                     <div id="password_error"></div>
                                     @error('password')
                                       <p style="color: red">{{ $message }}</p>
@@ -127,8 +126,8 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label mt-3" for="password_confirmation">Confirm Password <span class="text-red">*</span></label>
-                                    <input class="form-control" type="password" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}">
+                                    <label class="form-label" for="password_confirmation">Confirm Password <span class="text-red">*</span></label>
+                                    <input class="form-control" type="password" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}" autocomplete="false">
                                     <div id="password_confirmation_error"></div>
                                     @error('password_confirmation')
                                       <p style="color: red">{{ $message }}</p>
@@ -140,7 +139,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <button class="btn btn-primary mt-3" style="float:right ;" type="submit">Submit</button>
+                                    <button class="btn btn-primary mt-3" style="float:right ;" type="submit">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -149,15 +148,6 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid">
-        <!-- footer start-->
-        <footer class="footer">
-            <div class="row">
-                <div class="col-md-12 footer-copyright text-center">
-                    <p class="mb-0">Copyright 2022 © HSW </p>
-                </div>
-            </div>
-        </footer>
-    </div>
+    @include('includes.customer_footer')
 </div>
 @endsection

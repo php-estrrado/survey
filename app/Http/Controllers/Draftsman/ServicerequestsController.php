@@ -163,6 +163,8 @@ class ServicerequestsController extends Controller
 
         if($status == 23 || $status == 28 || $status == 38 || $status == 39)
         {
+            $data['ch_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+
             return view('draftsman.requested_services.survey_report',$data);
         }
         elseif($status == 48 || $status == 52 || $status == 53)
@@ -186,6 +188,8 @@ class ServicerequestsController extends Controller
         elseif($status == 10)
         {
             $data['survey_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+
+            // dd($data);
             
             return view('draftsman.requested_services.invoice',$data);
         }

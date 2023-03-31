@@ -60,6 +60,7 @@
 						</svg>
 						@php 
 							use App\Models\AdminNotification;
+							use App\Models\Admin;
 							use App\Models\UsrNotification;
 
 							$newnotification = 0;
@@ -69,10 +70,20 @@
 								$notifications = AdminNotification::where('role_id',1)->limit(5)->orderby('id','desc')->get();
 								$n_count = AdminNotification::where('role_id',1)->where('viewed',0)->orderby('id','desc')->count(); 
 							}
-							elseif(auth()->user()->role_id == 2)
+							elseif(auth()->user()->role_id == 2 || auth()->user()->role_id == 7)
 							{
 								$notifications = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
-								$n_count = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->where('viewed',0)->count(); 
+								$n_count = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->where('viewed',0)->count();
+								if(auth()->user()->role_id == 2)
+								{
+									$notifications = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+									$n_count = AdminNotification::where('role_id',2)->where('notify_to',auth()->user()->id)->where('viewed',0)->count();
+								}
+								else
+								{
+									$notifications = AdminNotification::where('role_id',7)->where('notify_to',auth()->user()->id)->limit(5)->orderby('id','desc')->get();
+									$n_count = AdminNotification::where('role_id',7)->where('notify_to',auth()->user()->id)->where('viewed',0)->count();
+								}
 							}
 							elseif(auth()->user()->role_id == 3)
 							{
@@ -97,9 +108,11 @@
 
 						@endphp
 						@if($notifications)
-							
-									<span class="n_count">{{ $n_count }}</span>		
-								
+							@if($n_count > 99)
+								<span class="n_count">99+</span>
+							@else
+								<span class="n_count">{{ $n_count }}</span>
+							@endif								
 						@endif
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow  animated">
@@ -158,7 +171,7 @@
 						<div class=" text-center p-2 border-top">
 							@if(auth()->user()->role_id == 1)
 								<a href="{{URL('/superadmin/notifications')}}" class="">View All Notifications</a>
-							@elseif(auth()->user()->role_id == 2)
+							@elseif(auth()->user()->role_id == 2 || auth()->user()->role_id == 7)
 								<a href="{{URL('/admin/notifications')}}" class="">View All Notifications</a>
 							@elseif(auth()->user()->role_id == 3)
 								<a href="{{URL('/surveyor/notifications')}}" class="">View All Notifications</a>
@@ -173,7 +186,15 @@
 				<div class="dropdown profile-dropdown">
 					<a href="{{url('/' . $page='#')}}" class="nav-link pr-0 leading-none" data-toggle="dropdown">
 						<span>
-							<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="img" class="avatar avatar-md brround">
+							@php
+								$avatar = Admin::where('id',auth()->user()->id)->first()->avatar;
+							@endphp
+	
+							@if(isset($avatar) && !empty($avatar))
+								<img src="{{$avatar}}" alt="img" class="avatar avatar-md brround">
+							@else
+								<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="img" class="avatar avatar-md brround">
+							@endif
 						</span>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow animated">
@@ -181,13 +202,13 @@
 							<a href="#" class="dropdown-item text-center user pb-0 font-weight-bold">{{auth()->user()->fname.' '.auth()->user()->lname}}</a>
 							@if(auth()->user()->role_id == 1)
 								<span class="text-center user-semi-title">Super Admin</span>
-							@elseif(auth()->user()->role_id == 2)
+							@elseif(auth()->user()->role_id == 2 || auth()->user()->role_id == 7)
 								<span class="text-center user-semi-title">Admin</span>
-								@elseif(auth()->user()->role_id == 3)
+							@elseif(auth()->user()->role_id == 3)
 								<span class="text-center user-semi-title">Surveyor</span>
-								@elseif(auth()->user()->role_id == 4)
+							@elseif(auth()->user()->role_id == 4)
 								<span class="text-center user-semi-title">Draftsman</span>
-								@elseif(auth()->user()->role_id == 5)
+							@elseif(auth()->user()->role_id == 5)
 								<span class="text-center user-semi-title">Accounts Officer</span>
 							@endif
 							<div class="dropdown-divider"></div>
@@ -226,7 +247,7 @@
 								</svg>
 								<div class="">Sign Out</div>
 							</a>
-						@elseif(auth()->user()->role_id == 2)
+						@elseif(auth()->user()->role_id == 2 || auth()->user()->role_id == 7)
 							<a class="dropdown-item d-flex" href="{{url('/admin/profile')}}">
 								<svg class="header-icon mr-3" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
 									<path d="M0 0h24v24H0V0z" fill="none" />

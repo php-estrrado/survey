@@ -16,10 +16,9 @@
                         </a>
                     </div>
                     <div class="login-main reg">
-                        <form method="POST" id="customerLogin" action="{{ url('customer/register') }}" class="theme-form" enctype="multipart/form-data">
+                        <form method="POST" id="customerLogin" action="{{ url('customer/register') }}" class="theme-form" enctype="multipart/form-data" autocomplete="off">
                             @csrf
-                            <h4>Sign in to account</h4>
-                            <p>Enter your email & password to login</p>
+                            <h4>Create a new account</h4>
                             <div class="row">
 
                                 <div class="col-sm-6">
@@ -88,7 +87,7 @@
                                 </div> -->
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="valid_id">Valid ID Proof Number (Aadhaar, Voter ID, License) <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="valid_id">Valid ID Proof Number(Aadhaar, Voter ID, License) <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="valid_id" placeholder="Valid Proof" value="{{ old('valid_id') }}">
                                     <div id="valid_id_error"></div>
                                     @error('valid_id')
@@ -119,7 +118,7 @@
                 
                                 <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="password">Password <span class="text-red">*</span></label>
-                                    <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}">
+                                    <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}" autocomplete="false">
                                     <div id="password_error"></div>
                                     @error('password')
                                       <p style="color: red">{{ $message }}</p>
@@ -128,7 +127,7 @@
 
                                 <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="password_confirmation">Confirm Password <span class="text-red">*</span></label>
-                                    <input class="form-control" type="password" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}">
+                                    <input class="form-control" type="password" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}" autocomplete="false">
                                     <div id="password_confirmation_error"></div>
                                     @error('password_confirmation')
                                       <p style="color: red">{{ $message }}</p>
@@ -141,7 +140,7 @@
                                 </div>
                             <div class="text-end mt-3">
                                 
-                                <button class="btn btn-primary btn-block w-100" type="submit">Create Account</button>
+                                <button class="btn btn-primary btn-block w-100" type="submit">Submit</button>
                             </div>
                             <p class="mt-4 mb-0 text-center">Already have an account?<a class="ms-2"
                                     href="{{ URL('/customer/login')}}">Sign in</a>

@@ -139,7 +139,7 @@ class DredgingsurveyController extends Controller
                 $dredging['created_at'] = date('Y-m-d H:i:s');
                 $dredging['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $dredging['additional_services'] = implode(",", $input['additional_services']); 
@@ -147,7 +147,7 @@ class DredgingsurveyController extends Controller
                     $dredging['additional_services'] = "";
                 }
     
-                if($input['dredging_survey_method'])
+                if(isset($input['dredging_survey_method']))
                 {
                     
                    $dredging['dredging_survey_method'] = implode(",", $input['dredging_survey_method']); 
@@ -293,7 +293,7 @@ class DredgingsurveyController extends Controller
                 $dredging['created_at'] = date('Y-m-d H:i:s');
                 $dredging['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $dredging['additional_services'] = implode(",", $input['additional_services']); 
@@ -301,7 +301,7 @@ class DredgingsurveyController extends Controller
                     $dredging['additional_services'] = "";
                 }
     
-                if($input['dredging_survey_method'])
+                if(isset($input['dredging_survey_method']))
                 {
                     
                    $dredging['dredging_survey_method'] = implode(",", $input['dredging_survey_method']); 

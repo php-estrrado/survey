@@ -86,7 +86,7 @@ class RequestedServicesController extends Controller
         $data['survey_datas'] = DB::table('survey_request_logs')
                                 ->leftjoin('survey_status', 'survey_request_logs.survey_status', '=', 'survey_status.id')
                                 ->leftjoin('survey_requests', 'survey_request_logs.survey_request_id', '=', 'survey_requests.id')
-                                ->where('survey_request_logs.cust_id',$cust_id)->where('survey_request_logs.survey_request_id',$id)->where('survey_request_logs.is_active',1)->where('survey_request_logs.is_deleted',0)
+                                ->where('survey_request_logs.cust_id',$cust_id)->where('survey_request_logs.survey_request_id',$id)->where('survey_request_logs.is_active',1)->where('survey_request_logs.is_deleted',0)->where('survey_request_logs.survey_status','!=',17)
                                 ->select('survey_request_logs.created_at AS log_date','survey_request_logs.*','survey_status.*','survey_requests.*')
                                 ->orderBy('survey_request_logs.id','DESC')
                                 ->get();
@@ -102,6 +102,15 @@ class RequestedServicesController extends Controller
 
         $data['service_id'] = $service_id;
         $data['service_request_id'] = $service_request_id;
+
+        $request_status = Survey_requests::where('id',$id)->first()->request_status;
+
+        $data['request_status'] = $request_status;
+
+        if($request_status != $status)
+        {
+            return redirect('customer/request_service_detail/'.$id.'/'.$request_status);
+        }
         
         if($status == 3)
         {
@@ -111,7 +120,7 @@ class RequestedServicesController extends Controller
         }
         elseif($status == 4)
         {
-            $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
+            $data['remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->get();
 
             // dd($data);
 
@@ -123,7 +132,7 @@ class RequestedServicesController extends Controller
         }        
     }
 
-    public function request_service_performa_invoice($id)
+    public function request_service_performa_invoice($id,$status)
     {
         $data['title']        =  'Requested Service Performa Invoice';
         $data['menu']         =  'requested-service-performa-invoice';
@@ -141,8 +150,12 @@ class RequestedServicesController extends Controller
                                     ->orderBy('survey_requests.id','DESC')
                                     ->first();
 
-        // dd($data);
-
+        if($data['survey_data']->request_status != $status)
+        {
+            return redirect('customer/request_service_detail/'.$id.'/'.$data['survey_data']->request_status);
+        }
+        
+        $data['ms_remarks'] = Survey_request_logs::where('survey_request_id',$id)->where('survey_status',$status)->first()->remarks;
         return view('customer.requested_service.performa_invoice_received',$data);
         // return view('customer.requested_service.request_service_invoice',$data);
     }
@@ -256,7 +269,7 @@ class RequestedServicesController extends Controller
         return redirect('customer/requested_services');
     }
 
-    public function request_service_invoice($id)
+    public function request_service_invoice($id,$status)
     {
         $data['title']        =  'Requested Service Invoice';
         $data['menu']         =  'requested-service-invoice';
@@ -274,6 +287,10 @@ class RequestedServicesController extends Controller
                                     ->orderBy('survey_requests.id','DESC')
                                     ->first();
 
+        if($data['survey_data']->request_status != $status)
+        {
+            return redirect('customer/request_service_detail/'.$id.'/'.$data['survey_data']->request_status);
+        }
         // dd($data);
 
         return view('customer.requested_service.invoice_received',$data);
@@ -376,16 +393,21 @@ class RequestedServicesController extends Controller
         }
     }
 
-    public function receipt_rejected($survey_id)
+    public function receipt_rejected($survey_id,$status)
     {
         $datas = Survey_requests::where('id',$survey_id)->first();
         // dd($datas);
         $data['id'] = $survey_id;
         $data['service_name'] = Services::where('id',$datas->service_id)->first()->service_name;
         $data['status_name'] = Survey_status::where('id',$datas->request_status)->first()->status_name;
-        $data['remarks'] = Survey_request_logs::where('survey_request_id',$survey_id)->where('survey_status',$datas->request_status)->first()->remarks;
+        $data['ao_remarks'] = Survey_request_logs::where('survey_request_id',$survey_id)->where('survey_status',17)->first()->remarks;
+        $data['ch_remarks'] = Survey_request_logs::where('survey_request_id',$survey_id)->where('survey_status',70)->first()->remarks;
 
         // dd($data);
+        if($datas->request_status != $status)
+        {
+            return redirect('customer/request_service_detail/'.$survey_id.'/'.$datas->request_status);
+        }
 
         return view('customer.requested_service.receipt_rejected',$data);
     }
@@ -474,12 +496,17 @@ class RequestedServicesController extends Controller
         }
     }
 
-    public function survey_report($survey_id)
+    public function survey_report($survey_id,$status)
     {
         $datas = Survey_requests::where('id',$survey_id)->first();
         $data['id'] = $survey_id;
         $data['service_name'] = Services::where('id',$datas->service_id)->first()->service_name;
         $data['final_report'] = $datas->final_report;
+
+        if($datas->request_status != $status)
+        {
+            return redirect('customer/request_service_detail/'.$survey_id.'/'.$datas->request_status);
+        }
 
         // dd($data);
 

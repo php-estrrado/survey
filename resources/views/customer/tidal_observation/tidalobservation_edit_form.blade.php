@@ -49,7 +49,7 @@
                                 <div class="row">
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="fname">Name <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="fname" id="fname" placeholder="Name" value="{{ $survey_data->fname }}">
+                                    <input class="form-control bg-white" type="text" name="fname" id="fname" placeholder="Name" value="{{ $survey_data->fname }}" readonly>
                                     <div id="fname_error"></div>
                                     @error('fname')
                                       <p style="color: red">{{ $message }}</p>
@@ -111,7 +111,7 @@
                                   </div>
                                    <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       <?php $additional_services_arr = explode(',', $survey_data->additional_services);?>
                                       @if($services && count($services)>0)
@@ -257,7 +257,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="start_date">Start Date</label>
-                                      <input class="form-control" type="date" placeholder="Period of observation" name="start_date" id="start_date" value="{{ date('d-m-Y',strtotime($survey_data->start_date)) }}">
+                                      <input class="form-control bg-white" type="text" placeholder="Period of observation" name="start_date" id="start_date" value="{{ date('d-m-Y',strtotime($survey_data->start_date)) }}" readonly>
                                     </div>
                                     <div id="start_date_error"></div>
                                     @error('start_date')
@@ -267,7 +267,7 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                       <label class="form-label-title mt-3" for="end_date">End Date</label>
-                                      <input class="form-control" type="date" placeholder="Period of observation" name="end_date" id="end_date" value="{{ date('d-m-Y',strtotime($survey_data->end_date)) }}">
+                                      <input class="form-control bg-white" type="text" placeholder="Period of observation" name="end_date" id="end_date" value="{{ date('d-m-Y',strtotime($survey_data->end_date)) }}" readonly>
                                     </div>
                                     <div id="end_date_error"></div>
                                     @error('end_date')
@@ -374,7 +374,7 @@
                                   </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
+                                      <label class="form-label-title mt-3" for="filenames">Upload existing drawings/map showing the locations of file upload (jpg, jpeg, jiff, png, pdf)</label>
                                       <input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg","jfif","png"]' multiple />
                                     </div>
                                   </div>
@@ -398,16 +398,7 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid">
-      <!-- footer start-->
-      <footer class="footer">
-        <div class="row">
-          <div class="col-md-12 footer-copyright text-center">
-            <p class="mb-0">Copyright 2022 © HSW </p>
-          </div>
-        </div>
-      </footer>
-    </div>
+    @include('includes.customer_footer')
 </div>
 @endsection
 @section('js')
@@ -481,6 +472,25 @@
         format: 'dd-mm-yyyy',
         todayHighlight: true,
         startDate: '0',
+        autoclose: true
+      });
+      $('#start_date').datepicker({
+        format: 'dd-mm-yyyy',
+        todayHighlight: true,
+        startDate: '0',
+        autoclose: true
+      });
+
+      $("#start_date").datepicker().on('changeDate', function(selected){
+        startDate = new Date(selected.date.valueOf());
+        $('#end_date').datepicker('setStartDate', startDate);
+      });
+
+      $('#end_date').datepicker({
+        format: 'dd-mm-yyyy',
+        todayHighlight: true,
+        startDate: '0',
+        endDate: '+100y',
         autoclose: true
       });
     }); 

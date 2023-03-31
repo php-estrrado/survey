@@ -123,7 +123,7 @@ class SidescansonarsurveyController extends Controller
                 $sidescansonar['created_at'] = date('Y-m-d H:i:s');
                 $sidescansonar['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $sidescansonar['additional_services'] = implode(",", $input['additional_services']); 
@@ -233,7 +233,7 @@ class SidescansonarsurveyController extends Controller
                 $sidescansonar['created_at'] = date('Y-m-d H:i:s');
                 $sidescansonar['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $sidescansonar['additional_services'] = implode(",", $input['additional_services']); 

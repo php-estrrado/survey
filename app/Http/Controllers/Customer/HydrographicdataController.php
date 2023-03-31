@@ -125,7 +125,7 @@ class HydrographicdataController extends Controller
                 $hydrographic_data['created_at'] = date('Y-m-d H:i:s');
                 $hydrographic_data['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $hydrographic_data['additional_services'] = implode(",", $input['additional_services']); 
@@ -236,7 +236,7 @@ class HydrographicdataController extends Controller
                 $hydrographic_data['created_at'] = date('Y-m-d H:i:s');
                 $hydrographic_data['updated_at'] = date('Y-m-d H:i:s');
     
-                if($input['additional_services'])
+                if(isset($input['additional_services']))
                 {
                     
                    $hydrographic_data['additional_services'] = implode(",", $input['additional_services']); 

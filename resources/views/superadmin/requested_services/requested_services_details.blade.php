@@ -32,17 +32,16 @@
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">File Number</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">HSW{{$survey_id}}</h4>
 						<ul class="mb-0 pro-details">
 							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
-<?php
-$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
-?>
-							
-							<li><span class="h6 mt-3">Name of the firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
-							<li><span class="h6 mt-3">Type of firm: {{ getOrgType($request_data->firm) }}</span></li>
+							<?php
+								$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+							?>							
+							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
+							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
-							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
+							<li><span class="h6 mt-3">Mobile No: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
 						</ul>
 					</div>
@@ -111,7 +110,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 				<div class="tab-pane active" id="tab-9">
 					<div class="card newser">
 						<div class="card-body">
-							<div class="card-title font-weight-bold">Basic info:</div>
+							<div class="card-title font-weight-bold">Basic Info</div>
 							<div class="row">
 								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
@@ -163,14 +162,14 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 										<label class="form-label">{{ getOrgType($request_data->firm) }}</label>
 									</div>
 								</div>
-								<div class="col-md-12">
+								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
 												Purpose
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->purpose}}. </label>
+										<label class="form-label">{{$request_data->purpose}}</label>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -180,7 +179,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 												Brief Description Of Type Of Work
 											</div>
 										</div>
-										<label class="form-label">{{$request_data->description}}. </label>
+										<label class="form-label">{{$request_data->description}}</label>
 									</div>
 								</div>
 								<div class="col-md-12">
@@ -262,17 +261,17 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 									</div>
 								</div>
 								@endif
-									@if(isset($data_collection))
-								<div class="col-md-12">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Method/Equipment for Data Collection
+								@if(isset($data_collection) && !empty($data_collection))
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Method/Equipment for Data Collection
+												</div>
 											</div>
+											<label class="form-label">{{$data_collection}}</label>
 										</div>
-										<label class="form-label">{{$data_collection}}</label>
 									</div>
-								</div>
 								@endif
 								@if($request_data->tidal_area_location)
 									<div class="col-sm-4 col-md-4">
@@ -313,7 +312,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 							</div>
 							
 							<div class="card-title font-weight-bold mt-5">Location Coordinates</div>
-				<div class="row">
+							<div class="row">
 								@if($request_data->lattitude)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">
@@ -411,7 +410,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 										</div>
 									</div>
 								@endif
-								</div>
+							</div>
 							<hr />
 							<div class="card-title font-weight-bold mt-5">Details</div>
 							<div class="row">
@@ -587,21 +586,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 										</div>
 									</div>
 								@endif
-								@if($request_data->file_upload)
-									<div class="col-sm-4 col-md-4">
-										<div class="form-group">
-											<div class="media-body">
-												<div class="font-weight-normal1">
-													Bottom Sample File upload
-												</div>
-											</div>
-											<label class="form-label">
-												<a href="{{ url('/').'/storage/'.$request_data->file_upload}}" target="_blank">View</a>
-												</label>
-										</div>
-									</div>
-								@endif
-								@if($request_data->interval_bottom_sample)
+								<!-- @if($request_data->interval_bottom_sample)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">
 											<div class="media-body">
@@ -612,7 +597,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 											<label class="form-label">{{$request_data->interval_bottom_sample}}</label>
 										</div>
 									</div>
-								@endif
+								@endif -->
 								@if($request_data->quantity_of_samples)
 									<div class="col-sm-4 col-md-4">
 										<div class="form-group">

@@ -20,7 +20,7 @@ body { background-color:#ECF0F1;}
 .progress-bar-cust div span {
   position: absolute;
   font-family: Arial;
-  font-size: 10px;
+  font-size: 12.5px;
   line-height: 35px;
   height: 35px;
   width: 35px;

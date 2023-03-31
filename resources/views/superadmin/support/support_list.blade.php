@@ -29,7 +29,7 @@
 			<div class="col-12 mb-3">
 				<div class="e-panel card">
 					<div class="card-body pb-2">
-						<div class="row">
+						<!-- <div class="row">
 							<div class="col-6 col-auto">
 								<div class="form-group">
 									<div class="input-icon">
@@ -40,7 +40,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div> -->
 						<div class="row">
 							<div class="col-xl-12 col-lg-12">
 								@if($help_requests && count($help_requests))
@@ -51,7 +51,7 @@
 													<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request->id}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request->created_at))}}</span></h6>
 													<small class="text-muted">{{$help_request->description}}
 													</small>
-													<p><a href="{{ url('/superadmin/help_detail/')}}/{{$help_request->id}}" style="float: right;">Reply</a></p>
+													<p><a href="{{ url('/superadmin/help_detail/')}}/{{$help_request->id}}" style="float: right;">view</a></p>
 												</div>
 											</div>
 										</div>

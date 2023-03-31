@@ -26,13 +26,13 @@
                                 <div class="col-md-6">
                                     <div class="about-sec">
                                         <p>Requested Service</p>
-                                        <h4>{{$service_name}}</h4>
+                                        <p><strong>{{$service_name}}</strong></p>
                                     </div>
                                 </div>
                                 <div class="col-md-6 margin-up">
                                     <div class="about-sec">
                                         <p>Status</p>
-                                        <h4>{{$status_name}}</h4>
+                                        <p><strong>{{$status_name}}</strong></p>
                                     </div>
                                 </div>
                             </div>
@@ -41,7 +41,12 @@
                                 <div class="col-md-12">
                                     <div class="about-sec">
                                         <h4>Remarks</h4>
-                                        <div>{{$remarks}}</div>                                        
+                                        <div>
+                                            <ul>
+                                                <li>{{$ao_remarks}}</li>
+                                                <li>{{$ch_remarks}}</li>
+                                            </ul>
+                                        </div>                                        
                                     </div>
                                 </div>
                             </div>
@@ -74,16 +79,7 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
-            <!-- footer start-->
-            <footer class="footer">
-                <div class="row">
-                    <div class="col-md-12 footer-copyright text-center">
-                        <p class="mb-0">Copyright © 2022 . Powered by GAUDE.  All rights reserved. </p>
-                    </div>
-                </div>
-            </footer>
-        </div>
+        @include('includes.customer_footer')
     </div>
 @endsection
 @section('js')

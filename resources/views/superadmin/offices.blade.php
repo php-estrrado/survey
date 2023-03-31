@@ -34,7 +34,7 @@
 		<!--div-->
 		<div class="card">
 			<div class="card-header">
-				<div class="card-title">Institution List</div>
+				<div class="card-title">Institution Table</div>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">

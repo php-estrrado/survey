@@ -35,19 +35,27 @@
                 <div class="row">
                     @if(isset($users) && count($users))
                         @foreach($users as $user)
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p>
-                                            <strong>Name</strong> : {{$user->fullname}}
-                                            <br />
-                                            <span>{{$user->designation}}</span>
-                                        </p>
-                                        <p><strong>Email</strong> : {{$user->email}}</p>
-                                        <p><strong>Phone</strong> : {{$user->phone}}</p>
-                                    </div>
-                                </div>
-                            </div>
+							<div class="col-xl-4 col-lg-6">
+								<div class="card border p-0 shadow-none">
+									<div class="d-flex align-items-center p-4">
+										@if($user->avatar != '')
+											<div class="avatar avatar-lg brround d-block cover-image" data-image-src="{{$user->avatar}}"></div>
+										@else
+											<div class="avatar avatar-lg brround d-block cover-image" data-image-src="{{URL::asset('admin/assets/images/image2.png')}}"></div>
+										@endif
+										<div class="wrapper ml-3">
+											<p class="mb-0 mt-1 text-dark font-weight-semibold">{{$user->fullname}}</p>
+											<small class="text-muted">{{$user->designation}}</small>
+										</div>
+									</div>
+									<div class="card-body">
+										<ul class="mb-0 user-details">
+											<li class="mb-3"><span class="user-icon"><i class="fe fe-mail "></i></span><span class="h6">{{$user->email}}</span></li>
+											<li><span class="user-icon"><i class="fe fe-phone-call"></i></span><span class="h6">{{$user->phone}}</span></li>
+										</ul>
+									</div>
+								</div>
+							</div>
                         @endforeach
                     @endif
                 </div>
