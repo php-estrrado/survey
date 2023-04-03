@@ -247,8 +247,10 @@ class Homepage extends Controller
         if($req_type =="survey")
         {
             $accepted_assignments = Survey_requests::where('assigned_surveyor_survey',$user_id)->whereIn('request_status',[40,65,66])->get();
+
         }else{
             $accepted_assignments = Survey_requests::where('assigned_surveyor',$user_id)->whereIn('request_status',[42,62,63])->get();  
+
         }
         
         if($accepted_assignments)
@@ -256,17 +258,21 @@ class Homepage extends Controller
             $assignments_list = [];
             foreach ($accepted_assignments as $ak => $av) {
                 
+                 $form_id = 0;
                 $a_list['id'] = $av->id;
                 $a_list['file_no'] = "HSW".$av->id;
                 if($req_type =="survey")
                 {
                 $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->survey_study));
+                $form_id = Survey_study_report::where("survey_request_id",$av->id)->first(); 
                 }else  if($req_type =="field_study")
                 {
                 $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->field_study));
+                $form_id = Field_study_report::where("survey_request_id",$av->id)->first();
                 }else{
                 $a_list['date_of_survey'] = date("d-m-Y",strtotime($av->survey_study));
                 }
+                 if($form_id){ $form_id = $form_id->id; }
                 $a_list['customer_name'] = $av->CustomerInfo->name;
                 $a_list['cust_id'] = $av->cust_id;
                 $a_list['service_id'] = $av->service_id;
@@ -302,7 +308,7 @@ class Homepage extends Controller
                     $a_list['remarks'] ="";
                 }   
 
-
+                $a_list['form_id'] =  $form_id;
                 $assignments_list[] = $a_list;
             }
         }
