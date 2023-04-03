@@ -77,7 +77,7 @@
 												$file_no = "#HSW".$exp_desc_file;
 											}
                                         ?>
-                                        <p class="<?php if($notify->viewed == 1){ echo 'font-weight-normal'; }else{ echo 'font-weight-normal1'; } ?>">{{$file_no}} {{$notify->title}} <div>{{date('d/m/Y',strtotime($notify->created_at))}}.</div></p>
+                                        <p class="<?php if($notify->viewed == 1){ echo 'font-weight-normal'; }else{ echo 'font-weight-normal1'; } ?>">{{$file_no}} {{$notify->title}} <div>{{date('d/m/Y h:i:sa',strtotime($notify->created_at))}}.</div></p>
                                     </a>
                                 </li>
                             @endforeach

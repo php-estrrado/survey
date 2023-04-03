@@ -75,6 +75,9 @@
 	<div class="col-xl-8 col-lg-8 col-md-12">
 		<div class="main-content-body main-content-body-profile card">
 			<div class="main-profile-body">
+				<div class="card-header">
+					<div class="card-title">Requested Services</div>
+				</div>
 				<div class="card-body">
 					<div class="table-responsive">
 						<table class="table table-bordered text-nowrap" id="example2" width="100%">

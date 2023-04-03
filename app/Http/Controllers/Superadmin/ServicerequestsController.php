@@ -187,14 +187,17 @@ class ServicerequestsController extends Controller
         if(isset($data['request_data']->additional_services))
         {
            $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
-        }else{
+        }
+        else
+        {
              $data['additional_services'] ="";
         }
 
         if(isset($data['request_data']->data_collection_equipments))
         {
            $data['data_collection'] = $datas->datacollection_selected($data['request_data']->data_collection_equipments);
-        }else{
+        }else
+        {
              $data['data_collection'] ="";
         }
         
@@ -442,14 +445,16 @@ class ServicerequestsController extends Controller
         if(isset($data['request_data']->additional_services))
         {
            $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
-        }else{
+        }else
+        {
              $data['additional_services'] ="";
         }
 
         if(isset($data['request_data']->data_collection_equipments))
         {
            $data['data_collection'] = $datas->datacollection_selected($data['request_data']->data_collection_equipments);
-        }else{
+        }else
+        {
              $data['data_collection'] ="";
         }
         

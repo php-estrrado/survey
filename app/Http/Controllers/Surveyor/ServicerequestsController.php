@@ -55,7 +55,8 @@ class ServicerequestsController extends Controller
         $data['title']              =   'Requested Services';
         $data['menu']               =   'requested-services';
 
-        $status_in                  =   array(41,42,7,62,60,30,32,33,43,40,19,65,59,20,36,37);
+        // $status_in               =   array(41,42,7,62,60,30,32,33,43,40,19,65,59,20,36,37);
+        $status_in                  =   array(41,42,62,60,30,32,33,43,40,65,59,20,36,37);
 
         $data['survey_requests']    =   DB::table('survey_requests')
                                         ->leftjoin('cust_mst', 'survey_requests.cust_id', '=', 'cust_mst.id')
@@ -152,7 +153,9 @@ class ServicerequestsController extends Controller
         if(isset($data['request_data']->additional_services))
         {
            $data['additional_services'] = $datas->services_selected($data['request_data']->additional_services);
-        }else{
+        }
+        else
+        {
              $data['additional_services'] ="";
         }
 

@@ -46,7 +46,7 @@ class HelpController extends Controller
         $data['title']        =  'Support Management';
         $data['menu']         =  'Support Management';
 
-        $data['help_requests'] = SupportRequests::where('is_active',1)->where('is_deleted',0)->get();
+        $data['help_requests'] = SupportRequests::where('is_active',1)->where('is_deleted',0)->orderby('id','DESC')->get();
 
         // dd($data);
 
