@@ -394,8 +394,8 @@ Route::middleware('role:surveyor','revalidate')->group(function () {
     Route::get('/surveyor/service_requests', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'requested_services'])->name('surveyor.requested_services');
     Route::get('/surveyor/requested_service_detail/{id}/{status}', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'requested_service_detail']);
 
-    Route::post('/surveyor/upload_fieldstudy', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload_fieldstudy']);
-    Route::post('/surveyor/upload_surveystudy', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload_surveystudy']);    
+    Route::post('/surveyor/upload_fieldstudy', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload_fieldstudy'])->name('fieldstudy.upload');
+    Route::post('/surveyor/upload_surveystudy', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload_surveystudy'])->name('surveystudy.upload');
 });
 
 //Default Pages

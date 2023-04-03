@@ -30,6 +30,9 @@
 
 		<!--div-->
 		<div class="card newser">
+			<div class="card-header">
+				<div class="card-title">HSW{{$survey_id}}</div>
+			</div>
 			<div class="card-body">
 				<div class="card-title font-weight-bold">Basic Info</div>
 				<div class="row">
@@ -121,16 +124,26 @@
 							<label class="form-label">{{$request_data->description}}</label>
 						</div>
 					</div>
-					<div class="col-md-12">
-									<div class="form-group">
-										<div class="media-body">
-											<div class="font-weight-normal1">
-												Additional service needed
-											</div>
-										</div>
-										<label class="form-label">{{$additional_services}}</label>
-									</div>
+					<div class="col-sm-4 col-md-4">
+						<div class="form-group">
+							<div class="media-body">
+								<div class="font-weight-normal1">
+									Required Service from HSW
 								</div>
+							</div>
+							<label class="form-label">{{$service}}</label>
+						</div>
+					</div>
+					<div class="col-sm-8 col-md-8">
+						<div class="form-group">
+							<div class="media-body">
+								<div class="font-weight-normal1">
+									Additional service needed
+								</div>
+							</div>
+							<label class="form-label">{{$additional_services}}</label>
+						</div>
+					</div>
 				</div>
 				<hr />
 				<div class="card-title font-weight-bold mt-5">Location</div>
@@ -158,9 +171,15 @@
 					<div class="col-sm-4 col-md-4">
 						<div class="form-group">
 							<div class="media-body">
-								<div class="font-weight-normal1">
-									Name of Place
-								</div>
+								@if($service == 'Bottom sample collection')
+									<div class="font-weight-normal1">
+										Name of waterbody
+									</div>
+								@else
+									<div class="font-weight-normal1">
+										Name of Place
+									</div>
+								@endif
 							</div>
 							<label class="form-label">{{$request_data->place}}</label>
 						</div>
