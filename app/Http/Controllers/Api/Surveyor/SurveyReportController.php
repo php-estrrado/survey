@@ -75,7 +75,7 @@ class SurveyReportController extends Controller
             'remarks' => ['required'],
             'presence_and_nature_of_obstructions_in_survey' => ['required'],
             'details_location_for_setting_tide_pole' => ['required'],
-            
+            'is_submitted'=>['required'],
             'access_token' => ['required']
         ]);
         if ($validator->fails()) 
@@ -101,8 +101,16 @@ class SurveyReportController extends Controller
 
             Survey_study_report::where("id",$ins)->update(["upload_photos_of_study_area"=>json_encode($request->upload_photos_of_study_area)]);
         }
+        if($request->is_submitted ==1)
+        {
+            Survey_study_report::where("id",$ins)->update(["is_submitted"=>1,"submitted_at"=>date("Y-m-d H:i:s")]);
+            Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>19]);
+        }else{
+            Survey_study_report::where("id",$ins)->update(["is_submitted"=>0]);
 
-        Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>19]);
+        }
+
+        
         $assignment_requests = Survey_requests::where("id",$request->survey_request_id)->first();
         $req_logs = [];
         $req_logs['survey_request_id'] = $request->survey_request_id;
@@ -173,7 +181,7 @@ class SurveyReportController extends Controller
             'remarks' => ['required'],
             'presence_and_nature_of_obstructions_in_survey' => ['required'],
             'details_location_for_setting_tide_pole' => ['required'],
-            
+            'is_submitted'=>['required'],
             'access_token' => ['required']
         ]);
         if ($validator->fails()) 
@@ -199,7 +207,17 @@ class SurveyReportController extends Controller
 
             Field_study_report::where("id",$ins)->update(["upload_photos_of_study_area"=>json_encode($request->upload_photos_of_study_area)]);
         }
-        Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>7]);
+        
+
+        if($request->is_submitted ==1)
+        {
+            Field_study_report::where("id",$ins)->update(["is_submitted"=>1,"submitted_at"=>date("Y-m-d H:i:s")]);
+            Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>7]);
+        }else{
+            Field_study_report::where("id",$ins)->update(["is_submitted"=>0]);
+
+        }
+
         $assignment_requests = Survey_requests::where("id",$request->survey_request_id)->first();
                 $req_logs = [];
         $req_logs['survey_request_id'] = $request->survey_request_id;
@@ -389,7 +407,7 @@ class SurveyReportController extends Controller
             'remarks' => ['required'],
             'presence_and_nature_of_obstructions_in_survey' => ['required'],
             'details_location_for_setting_tide_pole' => ['required'],
-            
+            'is_submitted'=>['required'],
             'access_token' => ['required']
         ]);
         if ($validator->fails()) 
@@ -416,7 +434,16 @@ class SurveyReportController extends Controller
             Survey_study_report::where("id",$request->form_id)->update(["upload_photos_of_study_area"=>json_encode($request->upload_photos_of_study_area)]);
         }
 
-        Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>19]);
+            if($request->is_submitted ==1)
+            {
+            Survey_study_report::where("id",$ins)->update(["is_submitted"=>1,"submitted_at"=>date("Y-m-d H:i:s")]);
+            Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>19]);
+            }else{
+            Survey_study_report::where("id",$ins)->update(["is_submitted"=>0]);
+
+            }
+
+
 
         // $req_logs = [];
         // $req_logs['survey_request_id'] = $request->survey_request_id;
@@ -476,7 +503,7 @@ class SurveyReportController extends Controller
             'remarks' => ['required'],
             'presence_and_nature_of_obstructions_in_survey' => ['required'],
             'details_location_for_setting_tide_pole' => ['required'],
-            
+            'is_submitted'=>['required'],
             'access_token' => ['required']
         ]);
         if ($validator->fails()) 
@@ -502,7 +529,16 @@ class SurveyReportController extends Controller
 
             Field_study_report::where("id",$request->form_id)->update(["upload_photos_of_study_area"=>json_encode($request->upload_photos_of_study_area)]);
         }
-        Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>7]);
+    
+
+        if($request->is_submitted ==1)
+        {
+            Field_study_report::where("id",$ins)->update(["is_submitted"=>1,"submitted_at"=>date("Y-m-d H:i:s")]);
+            Survey_requests::where("id",$request->survey_request_id)->update(["request_status"=>7]);
+        }else{
+            Field_study_report::where("id",$ins)->update(["is_submitted"=>0]);
+
+        }
 
         //         $req_logs = [];
         // $req_logs['survey_request_id'] = $request->survey_request_id;
