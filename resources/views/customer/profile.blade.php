@@ -17,7 +17,7 @@
                     <div class="card-header-title card-header">
                         <h5>Profile</h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body bodhgt">
                         <form method="POST" id="customerLogin" action="{{ url('customer/edit_profile') }}" class="theme-form" enctype="multipart/form-data" autocomplete="off">
                             @csrf
                             <input type="hidden" id="id" name="id" value="{{$id}}">

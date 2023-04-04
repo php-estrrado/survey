@@ -133,6 +133,7 @@ Route::middleware('role:customer','revalidate')->group(function () {
     Route::get('/customer/edit_survey_request/{survey_id}/{service_id}/{service_request_id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'edit_survey_request']);
 
     Route::get('/customer/survey_report/{survey_id}/{status}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'survey_report']);
+    Route::get('/customer/survey_file_download/{id}', [App\Http\Controllers\Customer\RequestedServicesController::class, 'survey_file_download'])->name('customer.survey_file_download');
 
     Route::get('/customer/help', [App\Http\Controllers\Customer\HelpController::class, 'help']);
     Route::get('/customer/help_detail/{id}', [App\Http\Controllers\Customer\HelpController::class, 'help_detail']);
@@ -396,6 +397,8 @@ Route::middleware('role:surveyor','revalidate')->group(function () {
 
     Route::post('/surveyor/upload_fieldstudy', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload_fieldstudy'])->name('fieldstudy.upload');
     Route::post('/surveyor/upload_surveystudy', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload_surveystudy'])->name('surveystudy.upload');
+
+    Route::post('/surveyor/storeMedia', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'storeMedia'])->name('survey.storeMedia');
 });
 
 //Default Pages

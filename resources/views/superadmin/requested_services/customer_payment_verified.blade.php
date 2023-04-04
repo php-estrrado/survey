@@ -584,7 +584,7 @@
 							@if($survey_datas && count($survey_datas) > 0)
 								@foreach($survey_datas as $survey_data)
 									<li> <i class="fa fa-clock-o bg-pink"></i>
-										<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y',strtotime($survey_data->log_date))}}</span>
+										<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y h:i:sa',strtotime($survey_data->log_date))}}</span>
 											<h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>											
 										</div>
 									</li>

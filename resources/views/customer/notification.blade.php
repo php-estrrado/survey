@@ -19,7 +19,7 @@
                     <div class="card-header">
                         <div class="card-title">Notifications List</div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body bodhgt">
                         <div class="table-responsive">
                             <table class="table table-bordered text-nowrap" id="example2">
                                 <thead>

@@ -813,7 +813,7 @@
     position: fixed;
   }
   .login-card {
-    background: transparent;
+    background: url(../../admin/assets/images/bg.jpg);
   }
   .knowledgebase-bg {
     height: 400px;
@@ -1242,6 +1242,7 @@
   .product-page-main .product-page-details h3 {
     font-size: 26px;
   }
+  
 }
 @media only screen and (max-width: 1199px) and (min-width: 992px) {
   .page-wrapper.horizontal-wrapper.material-type .page-header {
@@ -3530,7 +3531,7 @@
   .nav-tabs .nav-link:hover,
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-link:focus {
-    border-top: 0;
+    border-top: 1px solid #dee2e6;
     border-bottom: 0;
   }
   .border-tab.nav-tabs .nav-item {
@@ -4169,6 +4170,22 @@
   }
   .wizard .nav-tabs > li a i {
     display: block;
+  }
+  .login-card .login-main.reg {
+    width: 360px;
+  }
+  .login-card {
+    background: url(../../admin/assets/images/bg.jpg);
+  }
+  .page-wrapper.compact-wrapper .page-header .header-wrapper .maximize {
+    display: block;
+  }
+  .n_count {
+    top: -10px !important;
+    left: 5px !important;
+  }
+  .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .logo-wrapper {
+    padding: 30px 30px;
   }
 }
 @media only screen and (max-width: 480px) {

@@ -178,11 +178,13 @@ class ServicerequestsController extends Controller
 
         // dd($data);
 
-        if($status == 7)
+        $field_array = array(42,62,60,30,32,33);
+        $survey_array = array(40,65,59,20,36,37);
+        if(in_array($status,$field_array))
         {
             return view('surveyor.requested_services.field_study_upload',$data);    
         }
-        elseif($status == 19)
+        elseif(in_array($status,$survey_array))
         {
             return view('surveyor.requested_services.survey_study_upload',$data);    
         }
@@ -276,5 +278,25 @@ if($validator->passes())
         Session::flash('message', ['text'=>'Survey Study Files Uploaded Successfully !','type'=>'success']);
 
         return redirect('surveyor/service_requests');
+    }
+
+    public function storeMedia(Request $request)
+    {
+        $path = storage_path('tmp/uploads');
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+
+        $file = $request->file('file');
+
+        $name = uniqid() . '_' . trim($file->getClientOriginalName());
+
+        $file->move($path, $name);
+
+        return response()->json([
+            'name'          => $name,
+            'original_name' => $file->getClientOriginalName(),
+        ]);
     }
 }

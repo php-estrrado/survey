@@ -14,6 +14,34 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+        $currenturl = url()->full();
+        $exp_arr = explode("/",$currenturl);
+        
+        if(in_array("superadmin",$exp_arr))
+        {
+            return '/superadmin/login';
+        }
+        else if(in_array("admin",$exp_arr))
+        {
+            return '/admin/login';
+        }
+        else if(in_array("surveyor",$exp_arr))
+        {
+            return '/surveyor/login';
+        }
+        else if(in_array("draftsman",$exp_arr))
+        {
+            return '/draftsman/login';
+        }
+        else if(in_array("accountant",$exp_arr))
+        {
+            return '/accountant/login';
+        }
+        else if(in_array("customer",$exp_arr))
+        {
+            return '/customer/login';
+        }
+        
         if (! $request->expectsJson()) {
             // return redirect('/login');
         }

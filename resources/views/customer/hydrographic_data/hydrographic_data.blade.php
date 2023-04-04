@@ -26,7 +26,7 @@
                     </form>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body bodhgt">
                     <section class="single-section small-section bg-inner">
 
                         <div class="row">

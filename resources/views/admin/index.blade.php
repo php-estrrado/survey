@@ -57,7 +57,7 @@
 							<div class="card-title">No. Of Service Request For Each Category</div>
 						</div>
 						<div class="card-body">
-							<div class="h-300" id="flotBar2"></div>
+							<div class="h-300" id="chart2"></div>
 						</div>
 					</div>
 				</div>
@@ -109,8 +109,8 @@
 <script src="{{URL::asset('assets/plugins/moment/moment.js')}}"></script>
 
 <!--INTERNAL Chart js -->
-<script src="{{URL::asset('assets/js/apexcharts.js')}}"></script>
-<script src="{{URL::asset('assets/js/apexchart-custom.js')}}"></script>
+<!-- <script src="{{URL::asset('assets/js/apexcharts.js')}}"></script>
+<script src="{{URL::asset('assets/js/apexchart-custom.js')}}"></script> -->
 
 <!--INTERNAL Flot Charts js-->
 <script src="{{URL::asset('assets/plugins/flot/jquery.flot.js')}}"></script>
@@ -122,7 +122,7 @@
 <script src="{{URL::asset('assets/js/index1.js')}}"></script>
 
 
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 
 
 
@@ -167,12 +167,11 @@ chart1.render();
 // each category chart	
 var cat_data = [];
 var cat_list = [];
-@php if($completed_surveys){
-	foreach($completed_surveys as $ck=>$cv)
+@php if($each_surveys){
+	foreach($each_surveys as $ck=>$cv)
 	{ @endphp
-cat_data.push( "{{ $cv['count'] }}" ); 
-cat_list.push( "{{ $cv['name'] }}" ); 
-
+		cat_data.push( "{{ $cv['count'] }}" );
+		cat_list.push( "{{ $cv['name'] }}" );
 	@php }
 } @endphp
 
@@ -235,6 +234,6 @@ var chart8 = new ApexCharts(document.querySelector("#chart8"), options8);
 chart8.render();
 
 
-</script> -->
+</script>
 
 @endsection

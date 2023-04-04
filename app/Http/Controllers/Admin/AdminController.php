@@ -76,9 +76,14 @@ class AdminController extends Controller
                 $cat_count = 0;
                 $cat_count = Survey_requests::where('service_id',$av->id)->where('is_deleted',0)->where('is_active',1)->where('request_status',1)->count();
                 $category_requests[$av->id] = array('name'=>$av->service_name,'count'=>$cat_count);
+
+                $cat_req_count = 0;
+                $cat_req_count = Survey_requests::where('service_id',$av->id)->where('is_deleted',0)->where('is_active',1)->count();
+                $per_category_requests[$av->id] = array('name'=>$av->service_name,'count'=>$cat_req_count);
             }
         }
         $data['completed_surveys'] = $category_requests;
+        $data['each_surveys'] = $per_category_requests;
 
         $total_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->count();
         $accepted_surveys = Survey_requests::where('is_deleted',0)->where('is_active',1)->whereNotIn('request_status',[3])->count();

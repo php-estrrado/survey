@@ -128,8 +128,8 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
                                       		<label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
                                       		<input type="file" class="dropify" data-max-file-size="20M" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple/>
                                       		@error('filenames')
-										<p style="color: red">{{ $message }}</p>
-									@enderror
+												<p style="color: red">{{ $message }}</p>
+											@enderror
                                     	</div>
                                   	</div>
 									<!-- <div class="col-sm-12 col-md-12">
