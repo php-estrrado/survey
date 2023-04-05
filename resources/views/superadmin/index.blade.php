@@ -1,24 +1,27 @@
-						@extends('layouts.admin.master')
-						@section('page-header')
-						  <link href="{{URL::asset('assets/css/jQuery-plugin-progressbar.css')}}" rel="stylesheet" />
-						  
-		<meta name="csrf-token" content="{{ csrf_token() }}" />
-		<link href="{{URL::asset('admin/assets/js/datatable/datatables.min.css')}}" rel="stylesheet" />
-		<style type="text/css">
-			.btn-primary {
-    background-color: #000056 !important;
-    border-color: #000056 !important;
-}
+@extends('layouts.admin.master')
+@section('page-header')
+	<link href="{{URL::asset('assets/css/jQuery-plugin-progressbar.css')}}" rel="stylesheet" />		  
+	<meta name="csrf-token" content="{{ csrf_token() }}" />
+	<link href="{{URL::asset('admin/assets/js/datatable/datatables.min.css')}}" rel="stylesheet" />
+	<style type="text/css">
+		.btn-primary {
+    		background-color: #000056 !important;
+    		border-color: #000056 !important;
+		}
 
-.paginate_button {
-
-    padding: 0.5rem 0.75rem;
-    margin-left: -1px;
-    line-height: 1.25;
-    background-color: #fff;
-    border: 1px solid #ebecf1;
-}
-		</style>
+		.paginate_button
+		{
+			padding: 0.5rem 0.75rem;
+			margin-left: -1px;
+			line-height: 1.25;
+			background-color: #fff;
+			border: 1px solid #ebecf1;
+		}
+		.paginate_button.current
+		{
+			background-color: #705ec8 !important;
+		}
+	</style>
 						<!--Page header-->
 						<div class="page-header">
 							<div class="page-leftheader">
@@ -401,7 +404,7 @@ var table =  $('#superadmin_dashboard').DataTable({
         [10,25, 50, 100, 200, -1],
         [10,25, 50, 100, 200, "All"]
     ],
-           "pageLength": 10,
+        "pageLength": 10,
         "rowReorder": false,
         "colReorder": true,
         "paging": true,

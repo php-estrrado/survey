@@ -231,7 +231,7 @@ class AdminController extends Controller
                if($row->is_active   ==  1){ $checked    = 'checked="checked"'; $act = 'Active'; }else{ $checked = '';  $act = 'Inactive'; }
              
                // $val['id']           =   $row->id;       
-               $val['i']      =   $i;       
+               $val['i']      =   $start+$i;
                $val['name']      =   $row->name; 
                $val['file_no']      =   '<a href="'.URL('/superadmin/requested_service_detail').'/'.$row->survey_id.'/'.$row->request_status.'">HSW'.$row->survey_id.'</a>'; 
                $val['sub_office']      =   findSubOffice($row->id); 

@@ -115,7 +115,7 @@
 												<td>{{$i}}</td>
 												<td>@php echo date('d/m/Y',strtotime($survey_study_request->survey_date)) @endphp</td>
 												<td>{{$survey_study_request->name}}</td>
-												<td><a href="{{url('/admin/new_service_request_detail/')}}/{{$survey_study_request->survey_id}}/{{$survey_study_request->request_status}}" style="color:#2b8fca; font-weight:bold;">HSW{{$survey_study_request->survey_id}}</a></td>
+												<td><a href="{{url('/admin/requested_service_detail/')}}/{{$survey_study_request->survey_id}}/{{$survey_study_request->request_status}}" style="color:#2b8fca; font-weight:bold;">HSW{{$survey_study_request->survey_id}}</a></td>
 												<td>{{$survey_study_request->cust_telecom_value}}</td>
 												<td>{{$survey_study_request->username}}</td>
 												<td>{{$survey_study_request->service_name}}</td>

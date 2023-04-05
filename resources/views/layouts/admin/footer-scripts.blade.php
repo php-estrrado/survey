@@ -111,14 +111,15 @@
 					url: '{{ $mark_url }}',
 					data: {not_id:not_id,'_token': '{{ csrf_token()}}'},
 					success: function (data) {
-					window.location = href;
+						setTimeout(window.location = href, 1000);
+					// window.location = href;
 						// alert(data);
 					console.log(data);
 					// $("#data_content").html('').html(data); 
 					}
 					});
 
-				window.location = href;
+				// window.location = href;
 				});
 
 			});

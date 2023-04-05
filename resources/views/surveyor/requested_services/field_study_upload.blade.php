@@ -126,7 +126,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 									<div class="col-md-12">
                                     	<div class="form-group">
                                       		<label class="form-label-title mt-3" for="filenames">File upload (jpg, pdf)</label>
-                                      		<input type="file" class="dropify" data-max-file-size="20M" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple/>
+                                      		<input type="file" class="dropify" data-max-file-size="100M" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg"]' multiple/>
                                       		@error('filenames')
 												<p style="color: red">{{ $message }}</p>
 											@enderror
@@ -151,23 +151,24 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 						<div class="card-body">
 							<div class="card-title font-weight-bold">Uploaded Files:</div>
 							<div class="row">
-								@php
-									$file_name = json_decode($field_study->upload_photos_of_study_area,true);
-								@endphp
-								@if($file_name && count($file_name) > 0)
-									@foreach($file_name as $file)
-
-									@php $path_info = pathinfo($file); $extension = $path_info['extension']; @endphp
-										<div class="col-md-3 col-sm-3">
-											@if($extension == "jpeg" || $extension == "jpg" || $extension == "png" || $extension == "gif" )
-											<img src="{{$file}}" alt="" width="100px">
-											@else
-											<a href="{{$file}}" target="_blank">
-											<img src="{{URL::asset('admin/assets/images/file_image.png')}}" alt="" width="100px">
-										</a>
-											@endif
-										</div>
-									@endforeach
+								@if(isset($field_study->upload_photos_of_study_area))
+									@php
+										$file_name = json_decode($field_study->upload_photos_of_study_area,true);
+									@endphp
+									@if($file_name && count($file_name) > 0)
+										@foreach($file_name as $file)
+											@php $path_info = pathinfo($file); $extension = $path_info['extension']; @endphp
+											<div class="col-md-3 col-sm-3">
+												@if($extension == "jpeg" || $extension == "jpg" || $extension == "png" || $extension == "gif" )
+													<img src="{{$file}}" alt="" width="100px">
+												@else
+													<a href="{{$file}}" target="_blank">
+														<img src="{{URL::asset('admin/assets/images/file_image.png')}}" alt="" width="100px">
+													</a>
+												@endif
+											</div>
+										@endforeach
+									@endif
 								@endif
 							</div>
 						</div>

@@ -949,6 +949,7 @@ class ServicerequestsController extends Controller
         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
         $data['id'] = $id;
+        $data['link'] = url('/customer/customer_invoice_download/'.$id);
 
         // $var = Mail::send('emails.invoice_received', $data, function($message) use($data,$cust_email) {
         //     $message->from(getadmin_mail(),'HSW');    
@@ -1061,7 +1062,7 @@ class ServicerequestsController extends Controller
 
             $from       = auth()->user()->id; 
             $utype      = 4;
-            $to         = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
+            $to         = $input['final_draftsman'];
             $ntype      = 'assigned_for_final_report';
             $title      = 'Assigned for Final Report by CH';
             $desc       = 'Assigned for Final Report by CH. Request ID:HSW'.$input['id'];
@@ -1167,6 +1168,15 @@ class ServicerequestsController extends Controller
         $notify     = 'admin';
         $notify_from_role_id = 1;
         addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+        $data['id'] = $id;
+        $data['link'] = url('/customer/survey_report/'.$id.'/27');
+
+        // $var = Mail::send('emails.report_received', $data, function($message) use($data,$cust_email) {
+        //     $message->from(getadmin_mail(),'HSW');    
+        //     $message->to($cust_email);
+        //     $message->subject('Report Generated');
+        // });
 
         if(isset($survey_request_log_id))
         {   
