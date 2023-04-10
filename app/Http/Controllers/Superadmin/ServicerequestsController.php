@@ -335,6 +335,7 @@ class ServicerequestsController extends Controller
                                         ->leftjoin('institution', 'survey_requests.assigned_institution', '=', 'institution.id')
                                         ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
                                         ->where('survey_requests.request_status','!=',1)->where('survey_requests.request_status','!=',NULL)->Where('survey_requests.is_deleted',0)
+                                        ->where('survey_requests.cartographer_request','=',0)
                                         ->where('cust_mst.is_deleted',0)
                                         ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
                                         
