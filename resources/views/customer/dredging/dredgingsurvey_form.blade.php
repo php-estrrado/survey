@@ -17,7 +17,7 @@
             <div class="card-header-title card-header">
               <h5>{{$title}}</h5>
             </div>
-            <div class="card-body">
+            <div class="card-body bodhgt">
               <div class="row">
                 <section class="signup-step-container">
                   <div class="container">
@@ -306,7 +306,7 @@
                                   </div>
                                   <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="no_of_surveys">Number of Surveys needed</label>
-                                    <input class="form-control" type="number" placeholder="Number of Surveys needed" min="0" max="5" name="no_of_surveys" id="no_of_surveys" value="{{ old('y_coordinates2') }}">
+                                    <input class="form-control" type="number" placeholder="Number of Surveys needed" min="0" max="5" name="no_of_surveys" id="no_of_surveys" value="{{ old('no_of_surveys') }}">
                                     <div id="no_of_surveys_error"></div>
                                     @error('no_of_surveys')
                                       <p style="color: red">{{ $message }}</p>

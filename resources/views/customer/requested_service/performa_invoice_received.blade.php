@@ -21,7 +21,7 @@
                     </div>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body bodhgt">
 
                     <div class="description-section tab-section">
                         <div class="detail-img">

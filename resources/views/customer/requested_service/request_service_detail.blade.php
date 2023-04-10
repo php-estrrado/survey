@@ -20,7 +20,7 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
+                        <div class="card-body bodhgt">
 
                             <div class="description-section tab-section">
                                 <div class="detail-img">
@@ -32,7 +32,7 @@
                                             @if($survey_datas && count($survey_datas) > 0)
                                                 @foreach($survey_datas as $survey_data)
                                                     <li> <i class="fa fa-clock-o bg-pink"></i>
-                                                        <div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y',strtotime($survey_data->log_date))}}</span>
+                                                        <div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y h:i:sa',strtotime($survey_data->log_date))}}</span>
                                                             @if($survey_data->survey_status == 27)
                                                                 @if($request_status == 27)
                                                                     <h3 class="timelineleft-header"><a href="{{url('/customer/survey_report')}}/{{$survey_data->survey_request_id}}/{{$survey_data->survey_status}}" target="_blank">{{$survey_data->status_name}}</a></h3>

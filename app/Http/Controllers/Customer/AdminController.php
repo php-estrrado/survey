@@ -65,13 +65,16 @@ class AdminController extends Controller
     public function marknotifications(Request $request)
         {
             $notify = UsrNotification::where('role_id',6)->where('id',$request->not_id)->first();
+            
             if($notify)
             {
-                $notify->update(['viewed'=>1]);
-            }else{
+                UsrNotification::where('role_id',6)->where('id',$request->not_id)->update(['viewed'=>1]);
+                return true;
+            }
+            else
+            {
                 return false;
             }
-            return true;
         }
 
         function sale_ord_cnt($date){

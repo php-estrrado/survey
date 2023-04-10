@@ -22,7 +22,7 @@
                     <a style="float:right ;" href="{{url('/customer/customer_invoice_download/')}}/{{$survey_data->survey_id}}"><button class="btn btn-primary">Download</button></a>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body bodhgt">
                     <div class="card-title font-weight-bold"><b>Basic Info</b></div>
                     <div class="row">
                         <div class="col-sm-4 col-md-4">

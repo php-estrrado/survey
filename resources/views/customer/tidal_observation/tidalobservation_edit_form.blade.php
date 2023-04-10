@@ -17,7 +17,7 @@
             <div class="card-header-title card-header">
               <h5>Tidal observation</h5>
             </div>
-            <div class="card-body">
+            <div class="card-body bodhgt">
               <div class="row">
                 <section class="signup-step-container">
                   <div class="container">

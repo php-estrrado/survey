@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     Survey_report.pdf <br />
-                                    <a href="{{$final_report}}" target="_blank"><button class="btn btn-primary">Download</button></a>
+                                    <a href="{{ url('/customer/survey_file_download/') }}/{{$id}}" target="_blank"><button class="btn btn-primary">Download</button></a>
                                 </div>
                             </div>
 

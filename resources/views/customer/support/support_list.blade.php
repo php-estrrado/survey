@@ -33,8 +33,9 @@
 													<div class="d-flex align-items-center p-4">
 														<div class="wrapper ml-3">
 															<h6 class="mb-0 mt-1 text-dark font-weight-semibold">Token - {{$help_request->id}}<span style="float: right;">{{date('d/m/Y',strtotime($help_request->created_at))}}</span></h6>
-															<small class="text-muted">{{$help_request->description}}
-															</small>
+															<p class="mt-2 mb-2"><strong>{{$help_request->title}}</strong></p>
+															<label class="form-label">{{$help_request->title}}</label>
+															<small class="text-muted">{{$help_request->description}}</small>
 															<p><a href="{{ url('/customer/help_detail/')}}/{{$help_request->id}}" style="float: right;">View</a></p>
 														</div>
 													</div>
@@ -89,7 +90,7 @@
 			<div class="col-md-12">
 				<h6>Token - {{$token_no}}</h6>
 				<div class="form-group">
-					<label class="form-label" for="title">File No <span class="text-red">*</span></label>
+					<label class="form-label" for="title">Title <span class="text-red">*</span></label>
 					<input class="form-control" type="text" name="title" id="title">
 				</div>
 			</div>

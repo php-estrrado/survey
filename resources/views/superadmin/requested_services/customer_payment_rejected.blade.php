@@ -614,7 +614,7 @@
 							@if($survey_datas && count($survey_datas) > 0)
 								@foreach($survey_datas as $survey_data)
 									<li> <i class="fa fa-clock-o bg-pink"></i>
-										<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y',strtotime($survey_data->log_date))}}</span>
+										<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y h:i:sa',strtotime($survey_data->log_date))}}</span>
 											<h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>											
 										</div>
 									</li>
@@ -678,6 +678,18 @@
 										<label class="form-label">{{ getOrgType($request_data->firm) }}</label>
 									</div>
 								</div>
+								@if($request_data->others)
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Others
+												</div>
+											</div>
+											<label class="form-label">{{$request_data->others}}</label>
+										</div>
+									</div>
+								@endif
 								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
 										<div class="media-body">
@@ -698,7 +710,17 @@
 										<label class="form-label">{{$request_data->description}}</label>
 									</div>
 								</div>
-								<div class="col-md-12">
+								<div class="col-sm-4 col-md-4">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Required Service from HSW
+											</div>
+										</div>
+										<label class="form-label">{{$service}}</label>
+									</div>
+								</div>
+								<div class="col-sm-8 col-md-8">
 									<div class="form-group">
 										<div class="media-body">
 											<div class="font-weight-normal1">
@@ -735,9 +757,15 @@
 								<div class="col-sm-4 col-md-4">
 									<div class="form-group">
 										<div class="media-body">
-											<div class="font-weight-normal1">
-												Name of waterbody
-											</div>
+											@if($service == 'Bottom sample collection')
+												<div class="font-weight-normal1">
+													Name of waterbody
+												</div>
+											@else
+												<div class="font-weight-normal1">
+													Name of Place
+												</div>
+											@endif
 										</div>
 										<label class="form-label">{{$request_data->place}}</label>
 									</div>

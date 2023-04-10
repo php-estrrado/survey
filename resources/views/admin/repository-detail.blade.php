@@ -143,27 +143,14 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 					<div class="card p-5">
 						<ul class="timelineleft pb-5">
 							@if($survey_datas && count($survey_datas) > 0)
-                                                @foreach($survey_datas as $survey_data)
-							<li>
-								<i class="fa fa-clock-o bg-primary"></i>
-								<div class="timelineleft-item">
-									<span class="time"><i class="fa fa-clock-o text-danger"></i>  {{date('d/m/Y',strtotime($survey_data->log_date))}}</span>
-									 @if($survey_data->survey_status == 27)
-                                                                <h3 class="timelineleft-header"><a href="{{url('/customer/survey_report')}}/{{$survey_data->survey_request_id}}" target="_blank">{{$survey_data->status_name}}</a></h3>
-                                                            @elseif($survey_data->survey_status == 17)
-                                                                <h3 class="timelineleft-header"><a href="{{url('/customer/receipt_rejected')}}/{{$survey_data->survey_request_id}}">{{$survey_data->status_name}}</a></h3>
-                                                            @elseif($survey_data->survey_status == 15)
-                                                                <h3 class="timelineleft-header"><a href="{{url('/customer/request_service_performa_invoice')}}/{{$survey_data->survey_request_id}}">{{$survey_data->status_name}}</a></h3>
-                                                            @elseif($survey_data->survey_status == 51)
-                                                                <h3 class="timelineleft-header"><a href="{{url('/customer/request_service_invoice')}}/{{$survey_data->survey_request_id}}">{{$survey_data->status_name}}</a></h3>
-                                                            @else
-                                                                <h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>
-                                                            @endif
-								</div>
-							</li>
-							@endforeach
-                            @endif
-							
+								@foreach($survey_datas as $survey_data)
+									<li> <i class="fa fa-clock-o bg-pink"></i>
+										<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y h:i:sa',strtotime($survey_data->log_date))}}</span>
+											<h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>											
+										</div>
+									</li>
+								@endforeach
+							@endif
 						</ul>
 					</div>
 				</div>
