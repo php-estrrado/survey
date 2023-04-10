@@ -116,6 +116,85 @@ class ServicerequestsController extends Controller
         return view('admin.repository',$data);
     }
 
+     public function createRepository()
+    { 
+        $data['title']        =  'Repository Management';
+        $data['menu']         =  'Repository Management';
+
+        return view('admin.repository_create',$data);
+    }
+
+    public function saveRepository(Request $request)
+    {
+        $input = $request->all();
+        
+        $validator = Validator::make($request->all(), [
+            'date_of_survey'=>['required'],
+            'first_name'=>['required'],
+            'last_name'=>['required'],
+            'file_number'=>['required'],
+            'final_report'=>['required', 'mimetypes:application/pdf'],
+            
+        ]);
+
+        if($validator->passes())
+        {
+           $file_path = "";
+           if($request->hasfile('final_report'))
+            {
+                $file = $request->final_report;
+                $folder_name = "uploads/final_report/" . date("Ym", time()) . '/'.date("d", time()).'/';
+
+                $upload_path = base_path() . '/public/' . $folder_name;
+
+                $extension = strtolower($file->getClientOriginalExtension());
+
+                $filename = "final_report" . '_' . time() . '.' . $extension;
+
+                $file->move($upload_path, $filename);
+
+                $file_path = config('app.url') . "/public/$folder_name/$filename";
+
+            }
+
+            $cartographer_service['cust_id'] = 1;
+            $cartographer_service['service_id'] = 1;
+            $cartographer_service['service_request_id'] = 1;
+            $cartographer_service['cartographer_request'] = 1;
+            $cartographer_service['date'] = $input['date_of_survey'];
+            $cartographer_service['file_no'] = $input['file_number'];
+            $cartographer_service['first_name'] = $input['first_name'];
+            $cartographer_service['last_name'] = $input['last_name'];
+            $cartographer_service['final_report'] = $file_path;
+            $cartographer_service['request_status'] = 27;
+            $cartographer_service['is_active'] = 1;
+            $cartographer_service['is_deleted'] = 0;
+            $cartographer_service['created_by'] = auth()->user()->id;
+            $cartographer_service['updated_by'] = auth()->user()->id;
+            $cartographer_service['created_at'] = date('Y-m-d H:i:s');
+            $cartographer_service['updated_at'] = date('Y-m-d H:i:s');
+
+            $Survey_requests_id =  Survey_requests::create($cartographer_service)->id;
+
+            
+
+            if(isset($Survey_requests_id))
+            {   
+                Session::flash('message', ['text'=>'Final Report added Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Final Report not added Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/admin/repository-management');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
+    }
+
     public function new_service_request_detail($id,$status)
     {
         $data['title']              =   'Requested Services';
@@ -1177,7 +1256,11 @@ function get_remote_file_info($url) {
                        
         }
 
-        
+        $data['cartographer_request'] =  $datas->cartographer_request;
+        $data['date'] =  $datas->date;
+        $data['file_no'] =  $datas->file_no;
+        $data['first_name'] =  $datas->first_name;
+        $data['last_name'] =  $datas->last_name;
 
         $cust_id = $datas->cust_id;
         $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
@@ -1252,9 +1335,19 @@ function get_remote_file_info($url) {
         {
             $data['request_data'] = $datas->Bathymetry_survey->first();
         }
-
-        $data['state_name'] = State::where('id',$data['request_data']['state'])->first()->state_name;
-        $data['district_name'] = City::where('id',$data['request_data']['district'])->first()->city_name;
+        if(State::where('id',@$data['request_data']['state'])->first())
+        {
+            $data['state_name'] = State::where('id',@$data['request_data']['state'])->first()->state_name;
+        }else{
+          $data['state_name'] = "";  
+        }
+        if(City::where('id',@$data['request_data']['district'])->first())
+        {
+            $data['district_name'] = City::where('id',@$data['request_data']['district'])->first()->city_name;
+        }else{
+            $data['district_name'] = "";
+        }
+        
 
         $data['survey_datas'] = DB::table('survey_request_logs')
                                 ->leftjoin('survey_status', 'survey_request_logs.survey_status', '=', 'survey_status.id')

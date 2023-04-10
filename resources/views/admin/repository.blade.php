@@ -18,11 +18,11 @@
 			<li class="breadcrumb-item active" aria-current="page"><a href="#">Repository Management</a></li>
 		</ol>
 	</div>
-	<!-- <div class="page-rightheader">
+	 <div class="page-rightheader">
 		<div class="btn btn-list">
-			<a href="#" class="btn btn-info" data-target="#modaldemo1" data-toggle="modal" href=""><i class="fe fe-plus mr-1"></i> Add </a>
+			<a href="{{ url('/admin/repository-management/create')}}" class="btn btn-info"><i class="fe fe-plus mr-1"></i> Add </a>
 		</div>
-	</div> -->
+	</div> 
 </div>
 <!--End Page header-->
 @endsection
@@ -54,9 +54,9 @@
 								@foreach($survey_requests as $request)
 							<tr>
 								<td>{{$i}}</td>
-								<td>@php echo date('d/m/Y',strtotime($request->survey_date)) @endphp</td>
-								<td>{{$request->name}}</td>
-								<td>HSW{{$request->survey_id}}</td>
+								<td>@if($request->cartographer_request ==0) {{ date('d/m/Y',strtotime($request->survey_date)) }} @else {{date('d/m/Y',strtotime($request->date))}} @endif</td>
+								<td>@if($request->cartographer_request ==0) {{$request->name}} @else  {{$request->first_name." ".$request->last_name}} @endif</td>
+								<td>@if($request->cartographer_request ==0) HSW{{$request->survey_id}} @else {{ strtoupper($request->file_no) }} @endif</td>
 								<td>
 									<div class="btn-list actn">
 										<a href="{{URL('/admin/repository-management-detail')}}/{{$request->survey_id}}/{{$request->request_status}}" type="button" class="btn btn-dark btn-svgs btn-svg-white"><svg class="svg-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">

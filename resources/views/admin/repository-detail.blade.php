@@ -34,17 +34,21 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 			<div class="box-widget widget-user">
 				<div class="widget-user-image1 d-sm-flex">
 					<div class="mt-1">
-						<h4 class="pro-user-username mb-3 font-weight-bold">HSW{{$survey_id}}</h4>
+						<h4 class="pro-user-username mb-3 font-weight-bold">@if($cartographer_request == 0)	HSW{{$survey_id}} @else {{ strtoupper($file_no) }} @endif</h4>
 						<ul class="mb-0 pro-details">
-							<li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li>
+							@if($cartographer_request == 0) <li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li> @else
+							<li style="width:100%"><span class="h6 mt-3">Name: {{$first_name." ".$last_name}}</span></li>
+							@endif
 							<?php
 								$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government')                          
 							?>
+							@if($cartographer_request == 0)
 							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
 							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
 							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
 							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
 							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
+							@endif
 						</ul>
 					</div>
 				</div>
@@ -65,11 +69,11 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 						<div class="media-body">
 							<small class="text-muted">Date</small>
 							<div class="font-weight-normal1">
-								{{date('d/m/Y',strtotime($request_data->created_at))}}
+							@if($cartographer_request == 0)	{{date('d/m/Y',strtotime($request_data->created_at))}} @else {{date('d/m/Y',strtotime($date))}} @endif
 							</div>
 						</div>
 					</div>
-					<div class="media col-sm-4">
+					@if($cartographer_request == 0) <div class="media col-sm-4">
 						<div class="media-icon bg-secondary text-white mr-3 mt-1">
 							<i class="fa fa-users fs-18"></i>
 						</div>
@@ -91,6 +95,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 							</div>
 						</div>
 					</div>
+					@endif
 				</div>
 			</div>
 		</div>
@@ -101,8 +106,8 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 				<div class="tabs-menu1 px-3">
 					<ul class="nav">
 						<li><a href="#tab-7" class="active fs-14" data-toggle="tab">Basic</a></li>
-						<li><a href="#tab-8" data-toggle="tab" class="fs-14">Timeline</a></li>
-						<li><a href="#tab-9" data-toggle="tab" class="fs-14">Submitted Form</a></li>
+					@if($cartographer_request == 0)	<li><a href="#tab-8" data-toggle="tab" class="fs-14">Timeline</a></li>
+						<li><a href="#tab-9" data-toggle="tab" class="fs-14">Submitted Form</a></li> @endif
 					</ul>
 				</div>
 			</div>

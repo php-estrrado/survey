@@ -285,6 +285,12 @@ Route::middleware('role:admin','revalidate')->group(function () {
     Route::get('/admin/requested_services', [App\Http\Controllers\Admin\ServicerequestsController::class, 'requested_services'])->name('admin.requested_services');
     Route::get('/admin/repository-management', [App\Http\Controllers\Admin\ServicerequestsController::class, 'services_repository'])->name('admin.services_repository');
 
+        Route::get('/admin/repository-management/create', [App\Http\Controllers\Admin\ServicerequestsController::class, 'createRepository']);
+        Route::post('/admin/repository-management/save', [App\Http\Controllers\Admin\ServicerequestsController::class, 'saveRepository']);
+
+    // Route::get('/admin/repository-management/edit/{role}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'editAdmin']);
+    // Route::get('/admin/repository-management/view/{admin}', [App\Http\Controllers\Superadmin\ServicerequestsController::class, 'viewAdmin']);
+
     Route::get('/admin/repository-management-detail/{id}/{status}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'services_repository_detail'])->name('admin.services_repository_detail');
 
     Route::get('/admin/repository-management-download/{file}', [App\Http\Controllers\Admin\ServicerequestsController::class, 'repository_file_download'])->name('admin.repository_file_download');
