@@ -35,7 +35,7 @@
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="date_of_survey">Date <span class="text-red">*</span></label>
-								<input type="date" class="form-control" name="date_of_survey" id="date_of_survey" value="{{ old('date_of_survey') }}"  placeholder="Date">
+								<input type="date" class="form-control" name="date_of_survey" max="{{ date('Y-m-d') }}" id="date_of_survey" value="{{ old('date_of_survey') }}"  placeholder="Date">
 							</div>
 							@error('date_of_survey')
 							<p style="color: red">{{ $message }}</p>
