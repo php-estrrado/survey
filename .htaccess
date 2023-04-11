@@ -4,6 +4,8 @@
     </IfModule>
 
     RewriteEngine On
+    RewriteCond %{REQUEST_METHOD} ^OPTIONS
+    RewriteRule .* - [F]
     
     RewriteCond %{REQUEST_FILENAME} -d [OR]
     RewriteCond %{REQUEST_FILENAME} -f

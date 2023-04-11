@@ -2,7 +2,7 @@
 		<a href="#top" id="back-to-top"><i class="fe fe-chevrons-up"></i></a>
 
 		<!-- Jquery js-->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="{{URL::asset('admin/assets/js/jquery-3.6.4.min.js')}}"></script>
 
 		<!-- Bootstrap4 js-->
 		<script src="{{URL::asset('admin/assets/plugins/bootstrap/popper.min.js')}}"></script>

@@ -1,5 +1,6 @@
 <!-- latest jquery-->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{{URL::asset('admin/assets/js/jquery-3.6.4.min.js')}}"></script>
+
 <!-- Bootstrap js-->
 <script src="{{URL::asset('public/assets/js/bootstrap.bundle.min.js')}}"></script>
 <!-- feather icon js-->
@@ -87,6 +88,37 @@
             });
             // window.location = href;
 		});
+
+        $('body').on('click','#search_data',function(){
+            var search_val       = $("#search_val").val();
+            $(".searcherror").hide(); $(".searcherror").text("");
+            $.ajax({
+                type: "POST",
+                url: '{{ url("customer/search") }}',
+                data: {search_val:search_val,'_token': '{{ csrf_token()}}'},
+                success: function (data) {
+                    searchdata = JSON.parse(data);
+                    if(searchdata.id ==0)
+                    {
+                        $(".searcherror").text("No result(s) found!");
+                        $(".searcherror").show();
+                    }
+                    else
+                    {
+                        if(searchdata.type =="new")
+                        {
+                            window.location = "{{ url('/customer/request_service_detail/')}}/"+searchdata.id;
+                        }
+                        else
+                        {
+                            window.location = "{{ url('/customer/request_service_detail/')}}/"+searchdata.id+"/"+searchdata.type;
+                        }
+                    }        
+                    console.log(data);
+                    // $("#data_content").html('').html(data); 
+                }
+            });
+        });
     });
 </script>
 <script>
