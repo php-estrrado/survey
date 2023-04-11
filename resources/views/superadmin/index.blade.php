@@ -33,7 +33,7 @@
 						@endsection
 						@section('content')
 
-						 <div class="card">
+						 	<div class="card">
 						       <div class="card-body">
 						           <div class="row">
 						           		<div class="col-md-10">

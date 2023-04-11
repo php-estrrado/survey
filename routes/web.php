@@ -46,6 +46,8 @@ Route::middleware('role:customer','revalidate')->group(function () {
 
     Route::get('/customer/dashboard', [App\Http\Controllers\Customer\AdminController::class, 'index']);
 
+    Route::post('/customer/search', [App\Http\Controllers\Customer\AdminController::class, 'search'])->name('dashboard.search');
+
     //Hydrographic survey
     Route::get('/customer/hydrographic_survey', [App\Http\Controllers\Customer\HydrographicsurveyController::class, 'index'])->name('customer.hydrographic_survey');
     Route::get('/customer/hydrographic_survey/create', [App\Http\Controllers\Customer\HydrographicsurveyController::class, 'create'])->name('hydrographic_survey.create');

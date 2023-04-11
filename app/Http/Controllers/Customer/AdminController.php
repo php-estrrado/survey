@@ -26,6 +26,7 @@ use App\Models\customer\CustomerInfo;
 use App\Models\customer\CustomerTelecom;
 use App\Models\Survey_requests;
 use App\Models\SellerInfo;
+use App\Models\Services;
 use App\Models\UserVisit;
 use App\Models\UsrNotification;
 use App\Rules\Name;
@@ -273,6 +274,45 @@ class AdminController extends Controller
             Session::flash('message', ['text'=>'Profile Not Updated Successfully !','type'=>'danger']);
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
+    }
+
+    public function search(Request $request)
+    {
+        $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
+        $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
+
+        $return_data = 0; $type = $id = 0;
+        $search = $request->search_val;
+        
+        if(str_contains($search, 'hsw') || str_contains($search, 'HSW'))
+        {
+            $search = strtolower($search);
+            $search = explode("hsw", $search);
+            $search = $search[1];
+            $find = Survey_requests::where('id',$search)->where('cust_id',$cust_id)->first();
+            if($find)
+            {
+                $current_status = $find->request_status;
+                if($current_status ==1)
+                {
+                    $type = "new";
+                    $id = $find->id; 
+                }else{
+                    $type = $current_status;
+                    $id = $id = $find->id;
+                }
+            }
+        }
+        else
+        {
+            $roles = Services::where('service_name', $search)
+            ->when($request->input('q'), fn ($query, $search) => $query->where('name', 'like', '%'. $search .'%'))
+            ->when($request->input('gender'), fn ($query, $gender) => $query->where('gender', $gender))
+            ->orderBy('id', 'DESC')
+            ->paginate(20);
+        }
+        return json_encode(array("type"=>$type,"id"=>$id));
+        
     }
 
     function validateUser(Request $request){

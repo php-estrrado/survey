@@ -7,6 +7,7 @@
 		<meta content="Admitro - Admin Panel HTML template" name="description">
 		<meta content="Spruko Technologies Private Limited" name="author">
 		<meta name="keywords" content="admin panel ui, user dashboard template, web application templates, premium admin templates, html css admin templates, premium admin templates, best admin template bootstrap 4, dark admin template, bootstrap 4 template admin, responsive admin template, bootstrap panel template, bootstrap simple dashboard, html web app template, bootstrap report template, modern admin template, nice admin template"/>
+		<meta http-equiv="X-Frame-Options" content="deny">
 		@include('layouts.head')
 	</head>
 

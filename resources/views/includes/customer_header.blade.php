@@ -30,9 +30,20 @@
                 <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
             </div>
         </div>
-        <div class="nav-right col-4 pull-right right-header p-0">
+        <div class="nav-right col-8 pull-right right-header p-0">
             <ul class="nav-menus">    
-                <!-- <li> <span class="header-search"><i data-feather="search"></i></span></li> -->
+                <!-- <li><input type="text" class="form-control" placeholder="Search Service ID" id="search_val"><span class="header-search"><i data-feather="search"></i></span></li> -->
+                <!-- <li>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" placeholder="Search Service ID" id="search_val">
+                            <span class="searcherror" style="color: red; margin-left: 0px;margin-top: 0px; display: none;"></span>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btn btn-primary" id="search_data" value="Search" style="width: 120px;">
+                        </div>
+                    </div>
+                </li> -->
                 <li class="maximize">
                     <a class="text-dark" href="{{url('/customer/help')}}"><i data-feather="help-circle"></i></a>
                 </li>

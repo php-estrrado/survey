@@ -8,6 +8,7 @@
 	<meta content="Hydrographic Survey Wing" name="description">
 	<meta content="HSW" name="author">
 	<meta name="keywords" content="Hydrographic, Survey" />
+	<meta http-equiv="X-Frame-Options" content="deny">
 	@include('layouts.admin.head')
 </head>
 
