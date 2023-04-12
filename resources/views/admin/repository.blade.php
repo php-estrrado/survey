@@ -55,7 +55,7 @@
 							<tr>
 								<td>{{$i}}</td>
 								<td>@if($request->cartographer_request ==0) {{ date('d/m/Y',strtotime($request->survey_date)) }} @else {{date('d/m/Y',strtotime($request->date))}} @endif</td>
-								<td>@if($request->cartographer_request ==0) {{$request->name}} @else  {{$request->first_name." ".$request->last_name}} @endif</td>
+								<td>@if($request->cartographer_request ==0) {{$request->name}} @else  {{$request->first_name}} @endif</td>
 								<td>@if($request->cartographer_request ==0) HSW{{$request->survey_id}} @else {{ strtoupper($request->file_no) }} @endif</td>
 								<td>
 									<div class="btn-list actn">

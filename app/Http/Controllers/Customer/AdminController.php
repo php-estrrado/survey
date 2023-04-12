@@ -311,7 +311,7 @@ class AdminController extends Controller
             ->orderBy('id', 'DESC')
             ->paginate(20);
         }
-        return json_encode(array("type"=>$type,"id"=>$id));
+        return view('customer.search_results');
         
     }
 

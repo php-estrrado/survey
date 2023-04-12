@@ -88,37 +88,6 @@
             });
             // window.location = href;
 		});
-
-        $('body').on('click','#search_data',function(){
-            var search_val       = $("#search_val").val();
-            $(".searcherror").hide(); $(".searcherror").text("");
-            $.ajax({
-                type: "POST",
-                url: '{{ url("customer/search") }}',
-                data: {search_val:search_val,'_token': '{{ csrf_token()}}'},
-                success: function (data) {
-                    searchdata = JSON.parse(data);
-                    if(searchdata.id ==0)
-                    {
-                        $(".searcherror").text("No result(s) found!");
-                        $(".searcherror").show();
-                    }
-                    else
-                    {
-                        if(searchdata.type =="new")
-                        {
-                            window.location = "{{ url('/customer/request_service_detail/')}}/"+searchdata.id;
-                        }
-                        else
-                        {
-                            window.location = "{{ url('/customer/request_service_detail/')}}/"+searchdata.id+"/"+searchdata.type;
-                        }
-                    }        
-                    console.log(data);
-                    // $("#data_content").html('').html(data); 
-                }
-            });
-        });
     });
 </script>
 <script>

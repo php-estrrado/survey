@@ -37,17 +37,19 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 						<h4 class="pro-user-username mb-3 font-weight-bold">@if($cartographer_request == 0)	HSW{{$survey_id}} @else {{ strtoupper($file_no) }} @endif</h4>
 						<ul class="mb-0 pro-details">
 							@if($cartographer_request == 0) <li><span class="h6 mt-3">Name: {{$request_data->fname}}</span></li> @else
-							<li style="width:100%"><span class="h6 mt-3">Name: {{$first_name." ".$last_name}}</span></li>
+								<li><span class="h6 mt-3">Name: {{$first_name." ".$last_name}}</span></li>
+								<li><span class="h6 mt-3">Department Name: {{$department_name}}</span></li>
+								<li><span class="h6 mt-3">District: {{$district}}</span></li>
 							@endif
 							<?php
 								$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government')                          
 							?>
 							@if($cartographer_request == 0)
-							<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
-							<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
-							<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
-							<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
-							<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
+								<li><span class="h6 mt-3">Name of the firm: {{$cust_info->firm}}</span></li>
+								<li><span class="h6 mt-3">Type of firm: @if(isset($sector_name[$request_data->sector])) {{ $sector_name[$request_data->sector]}} @else {{ $request_data->sector }} @endif</span></li>
+								<li><span class="h6 mt-3">Email ID: {{$cust_email}}</span></li>
+								<li><span class="h6 mt-3">Mobile No.: {{$cust_phone}}</span></li>
+								<li><span class="h6 mt-3">Valid ID Proof: {{$cust_info->valid_id}}</span></li>
 							@endif
 						</ul>
 					</div>
@@ -73,7 +75,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 							</div>
 						</div>
 					</div>
-					@if($cartographer_request == 0) <div class="media col-sm-4">
+					<div class="media col-sm-4">
 						<div class="media-icon bg-secondary text-white mr-3 mt-1">
 							<i class="fa fa-users fs-18"></i>
 						</div>
@@ -84,17 +86,18 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 							</div>
 						</div>
 					</div>
-					<div class="media col-sm-5">
-						<div class="media-icon bg-info text-white mr-3 mt-1">
-							<i class="fa fa-feed fs-18"></i>
-						</div>
-						<div class="media-body">
-							<small class="text-muted">Status</small>
-							<div class="font-weight-normal1">
-								{{$survey_status}}
+					@if($cartographer_request == 0)
+						<div class="media col-sm-5">
+							<div class="media-icon bg-info text-white mr-3 mt-1">
+								<i class="fa fa-feed fs-18"></i>
+							</div>
+							<div class="media-body">
+								<small class="text-muted">Status</small>
+								<div class="font-weight-normal1">
+									{{$survey_status}}
+								</div>
 							</div>
 						</div>
-					</div>
 					@endif
 				</div>
 			</div>

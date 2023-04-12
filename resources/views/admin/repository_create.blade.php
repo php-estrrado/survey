@@ -34,7 +34,7 @@
 					<div class="row">
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="date_of_survey">Date <span class="text-red">*</span></label>
+								<label class="form-label" for="date_of_survey">Date of Survey <span class="text-red">*</span></label>
 								<input type="date" class="form-control" name="date_of_survey" max="{{ date('Y-m-d') }}" id="date_of_survey" value="{{ old('date_of_survey') }}"  placeholder="Date">
 							</div>
 							@error('date_of_survey')
@@ -43,8 +43,8 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="first_name">First Name <span class="text-red">*</span></label>
-								<input type="text" class="form-control" name="first_name" id="first_name" value="{{ old('first_name') }}" placeholder="First Name">
+								<label class="form-label" for="first_name">Customer Name <span class="text-red">*</span></label>
+								<input type="text" class="form-control" name="first_name" id="first_name" value="{{ old('first_name') }}" placeholder="Customer Name">
 							</div>
 							@error('first_name')
 							<p style="color: red">{{ $message }}</p>
@@ -52,10 +52,10 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="last_name">Last Name <span class="text-red">*</span></label>
-								<input type="text" class="form-control" name="last_name" id="last_name" value="{{ old('last_name') }}" placeholder="Last Name">
+								<label class="form-label" for="department_name">Department Name <span class="text-red">*</span></label>
+								<input type="text" class="form-control" name="department_name" id="department_name" value="{{ old('department_name') }}" placeholder="Department Name">
 							</div>
-							@error('last_name')
+							@error('department_name')
 							<p style="color: red">{{ $message }}</p>
 							@enderror
 						</div>
@@ -68,18 +68,47 @@
 							<p style="color: red">{{ $message }}</p>
 							@enderror
 						</div>
-						
-						
+						<div class="col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="form-label" for="service_id">Type of Survey <span class="text-red">*</span></label>
+								<select name="service_id" id="service_id" class="form-control">
+									<option value="">Select</option>
+									@if(count($services) > 0)
+										@foreach($services as $service)
+											<option value="{{$service->id}}" {{ (collect(old('service_id'))->contains($service->id)) ? 'selected':'' }}>{{$service->service_name}}</option>
+										@endforeach
+									@endif
+								</select>
+							</div>
+							@error('service_id')
+							<p style="color: red">{{ $message }}</p>
+							@enderror
+						</div>
+						<div class="col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="form-label" for="district">District <span class="text-red">*</span></label>
+								<select name="district" id="district" class="form-control">
+									<option value="">Select</option>
+									@if(count($services) > 0)
+										@foreach($cities as $city)
+											<option value="{{$city->id}}" {{ (collect(old('district'))->contains($city->id)) ? 'selected':'' }}>{{$city->city_name}}</option>
+										@endforeach
+									@endif
+								</select>
+							</div>
+							@error('district')
+							<p style="color: red">{{ $message }}</p>
+							@enderror
+						</div>
 						<div class="col-md-12">
-                                    	<div class="form-group">
-                                      		<label class="form-label" for="final_report">Final Report <span class="text-red">*</span></label>
-                                      		<input type="file" class="dropify" data-max-file-size="100M" data-height="180" name="final_report" id="final_report" data-allowed-file-extensions='["pdf"]' multiple/>
-                                      		@error('final_report')
-												<p style="color: red">{{ $message }}</p>
-											@enderror
-                                    	</div>
-                                  	</div>
-						
+							<div class="form-group">
+								<label class="form-label" for="final_report">Final Report <span class="text-red">*</span></label>
+								<input type="file" class="dropify" data-max-file-size="100M" data-height="180" name="final_report" id="final_report" data-allowed-file-extensions='["pdf"]' multiple/>
+								@error('final_report')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

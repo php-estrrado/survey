@@ -121,6 +121,10 @@ class ServicerequestsController extends Controller
         $data['title']        =  'Repository Management';
         $data['menu']         =  'Repository Management';
 
+        $data['services'] = Services::where('is_active',1)->where('is_deleted',0)->get();
+        $data['cities'] = City::where('is_deleted',0)->get();
+
+        // dd($data);
         return view('admin.repository_create',$data);
     }
 
@@ -131,10 +135,11 @@ class ServicerequestsController extends Controller
         $validator = Validator::make($request->all(), [
             'date_of_survey'=>['required'],
             'first_name'=>['required'],
-            'last_name'=>['required'],
+            'department_name'=>['required'],
             'file_number'=>['required'],
+            'service_id'=>['required'],
+            'district'=>['required'],
             'final_report'=>['required', 'mimetypes:application/pdf'],
-            
         ]);
 
         if($validator->passes())
@@ -158,13 +163,14 @@ class ServicerequestsController extends Controller
             }
 
             $cartographer_service['cust_id'] = 1;
-            $cartographer_service['service_id'] = 1;
+            $cartographer_service['service_id'] = $input['service_id'];
             $cartographer_service['service_request_id'] = 1;
             $cartographer_service['cartographer_request'] = 1;
             $cartographer_service['date'] = $input['date_of_survey'];
             $cartographer_service['file_no'] = $input['file_number'];
             $cartographer_service['first_name'] = $input['first_name'];
-            $cartographer_service['last_name'] = $input['last_name'];
+            $cartographer_service['department_name'] = $input['department_name'];
+            $cartographer_service['district'] = $input['district'];
             $cartographer_service['final_report'] = $file_path;
             $cartographer_service['request_status'] = 27;
             $cartographer_service['is_active'] = 1;
@@ -1261,6 +1267,8 @@ function get_remote_file_info($url) {
         $data['file_no'] =  $datas->file_no;
         $data['first_name'] =  $datas->first_name;
         $data['last_name'] =  $datas->last_name;
+        $data['department_name'] =  $datas->department_name;
+        $data['district'] =  City::where('id',$datas->district)->first()->city_name;
 
         $cust_id = $datas->cust_id;
         $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
