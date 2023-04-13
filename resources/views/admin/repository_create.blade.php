@@ -35,7 +35,7 @@
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="date_of_survey">Date of Survey <span class="text-red">*</span></label>
-								<input type="date" class="form-control" name="date_of_survey" max="{{ date('Y-m-d') }}" id="date_of_survey" value="{{ old('date_of_survey') }}"  placeholder="Date">
+								<input type="text" class="form-control bg-white" name="date_of_survey" max="{{ date('Y-m-d') }}" id="date_of_survey" value="{{ old('date_of_survey') }}"  placeholder="Date" readonly>
 							</div>
 							@error('date_of_survey')
 							<p style="color: red">{{ $message }}</p>
@@ -146,6 +146,17 @@
 
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('admin/assets/plugins/select2/select2.full.min.js')}}"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+    	$('#date_of_survey').datepicker({
+        	format: 'dd-mm-yyyy',
+        	todayHighlight: true,
+        	startDate: '-100y',
+			endDate:'0',
+        	autoclose: true
+      	});
+    });
+</script>
 <script>
 	if (window.File && window.FileList && window.FileReader)
 	{

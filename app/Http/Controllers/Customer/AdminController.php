@@ -278,30 +278,40 @@ class AdminController extends Controller
 
     public function search(Request $request)
     {
-        $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
-        $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
+        $validator = Validator::make($request->all(), [
+            'search_val'=>['required'],
+        ]);
 
-        $return_data = 0; $type = $id = 0;
-        $search = $request->search_val;
-
-        
-        if(str_contains($search, 'hsw') || str_contains($search, 'HSW'))
+        if($validator->passes())
         {
-            $search = strtolower($search);
-            $search = explode("hsw", $search);
-            $search = $search[1];
-            $data['results'] = Survey_requests::where('id','LIKE','%'.$search.'%')->where('cust_id',$cust_id)->get();
-            $data['type'] = 'survey_request';
+            $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
+            $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
+
+            $return_data = 0; $type = $id = 0;
+            $search = $request->search_val;
+
+            
+            if(str_contains($search, 'hsw') || str_contains($search, 'HSW'))
+            {
+                $search = strtolower($search);
+                $search = explode("hsw", $search);
+                $search = $search[1];
+                $data['results'] = Survey_requests::where('id','LIKE','%'.$search.'%')->where('cust_id',$cust_id)->get();
+                $data['type'] = 'survey_request';
+            }
+            else
+            {
+                $data['results'] = Services::where('service_name', 'like', '%'. $search .'%')->get();
+                $data['type'] = 'service';
+            }
+            
+            return view('customer.search_result',$data);
         }
         else
         {
-            $data['results'] = Services::where('service_name', 'like', '%'. $search .'%')->get();
-            $data['type'] = 'service';
-        }
-        
-
-        return view('customer.search_result',$data);
-        
+            Session::flash('message', ['text'=>'Enter Search value !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }      
     }
 
     function validateUser(Request $request){

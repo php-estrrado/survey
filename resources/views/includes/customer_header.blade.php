@@ -30,10 +30,10 @@
                 <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
             </div>
         </div>
-        <div class="nav-right col-8 pull-right right-header p-0">
+        <div class="nav-right col-9 pull-right right-header p-0">
             <ul class="nav-menus">    
                 <!-- <li><input type="text" class="form-control" placeholder="Search Service ID" id="search_val"><span class="header-search"><i data-feather="search"></i></span></li> -->
-                <li>
+                <li class="col-8">
                     <form action="{{url('customer/search')}}" method="post" id="search_form">
                         @csrf
                         <div class="input-group">

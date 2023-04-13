@@ -134,9 +134,9 @@ class ServicerequestsController extends Controller
         
         $validator = Validator::make($request->all(), [
             'date_of_survey'=>['required'],
-            'first_name'=>['required'],
-            'department_name'=>['required'],
-            'file_number'=>['required'],
+            'first_name'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'department_name'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'file_number'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'service_id'=>['required'],
             'district'=>['required'],
             'final_report'=>['required', 'mimetypes:application/pdf'],
@@ -1268,7 +1268,14 @@ function get_remote_file_info($url) {
         $data['first_name'] =  $datas->first_name;
         $data['last_name'] =  $datas->last_name;
         $data['department_name'] =  $datas->department_name;
-        $data['district'] =  City::where('id',$datas->district)->first()->city_name;
+        if(isset($datas->district))
+        {
+            $data['district'] =  City::where('id',$datas->district)->first()->city_name;
+        }
+        else
+        {
+            $data['district'] = '';
+        }
 
         $cust_id = $datas->cust_id;
         $data['cust_info'] = CustomerInfo::where('cust_id',$cust_id)->where('is_deleted',0)->first();
