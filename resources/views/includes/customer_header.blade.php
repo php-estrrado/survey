@@ -35,12 +35,10 @@
                 <!-- <li><input type="text" class="form-control" placeholder="Search Service ID" id="search_val"><span class="header-search"><i data-feather="search"></i></span></li> -->
                 <li>
                     <form action="{{url('customer/search')}}" method="post" id="search_form">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="text" class="form-control" placeholder="Search " id="search_val"><span class="header-search"><i data-feather="search"></i></span>
-                                <button type="submit" class="btn"></button>
-                                <span class="searcherror" style="color: red; margin-left: 0px;margin-top: 0px; display: none;"></span>
-                            </div>
+                        @csrf
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="search_val" id="search_val" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                            <button class="btn btn-theme" type="submit" id="button-addon2"><i data-feather="search"></i></button>
                         </div>
                     </form>
                 </li>

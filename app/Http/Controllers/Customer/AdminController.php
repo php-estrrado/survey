@@ -283,35 +283,24 @@ class AdminController extends Controller
 
         $return_data = 0; $type = $id = 0;
         $search = $request->search_val;
+
         
         if(str_contains($search, 'hsw') || str_contains($search, 'HSW'))
         {
             $search = strtolower($search);
             $search = explode("hsw", $search);
             $search = $search[1];
-            $find = Survey_requests::where('id',$search)->where('cust_id',$cust_id)->first();
-            if($find)
-            {
-                $current_status = $find->request_status;
-                if($current_status ==1)
-                {
-                    $type = "new";
-                    $id = $find->id; 
-                }else{
-                    $type = $current_status;
-                    $id = $id = $find->id;
-                }
-            }
+            $data['results'] = Survey_requests::where('id','LIKE','%'.$search.'%')->where('cust_id',$cust_id)->get();
+            $data['type'] = 'survey_request';
         }
         else
         {
-            $roles = Services::where('service_name', $search)
-            ->when($request->input('q'), fn ($query, $search) => $query->where('name', 'like', '%'. $search .'%'))
-            ->when($request->input('gender'), fn ($query, $gender) => $query->where('gender', $gender))
-            ->orderBy('id', 'DESC')
-            ->paginate(20);
+            $data['results'] = Services::where('service_name', 'like', '%'. $search .'%')->get();
+            $data['type'] = 'service';
         }
-        return view('customer.search_results');
+        
+
+        return view('customer.search_result',$data);
         
     }
 
