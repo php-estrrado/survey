@@ -76,8 +76,8 @@ class HelpController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'title'=>['required','max:255'],
-            'description'=>['required']
+            'title'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'description'=>['required','regex:/^[a-zA-Z\s.,-@&*()]*$/']
         ]);
 
         if($validator->passes())
@@ -122,8 +122,8 @@ class HelpController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'support_id'=>['required'],
-            'remarks'=>['required']
+            'support_id'=>['required','regex:/^[0-9]*$/'],
+            'remarks'=>['required','regex:/^[a-zA-Z\s.,-@&*()]*$/']
         ]);
 
         if($validator->passes())

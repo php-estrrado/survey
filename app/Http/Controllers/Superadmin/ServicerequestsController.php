@@ -227,7 +227,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assigned_institution'=>['required'],
             'assigned_user'=>['required'],
-            'remarks'=>['nullable'],
+            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -600,7 +600,7 @@ class ServicerequestsController extends Controller
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'draftsman'=>['required'],
-            'remarks'=>['nullable']
+            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
         ]);
 
         if($validator->passes())
@@ -664,7 +664,8 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'draftsman'=>['required']
+            'draftsman'=>['required'],
+            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
         ]);
 
         if($validator->passes())
@@ -731,7 +732,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assigned_survey_institution'=>['required'],
             'assigned_survey_user'=>['required'],
-            'remarks' => ['nullable']
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
         ]);
 
         if($validator->passes())
@@ -829,200 +830,233 @@ class ServicerequestsController extends Controller
 
     public function send_performa_invoice_customer(Request $request)
     {
-        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+        ]);
 
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
-        $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
+        if($validator->passes())
+        {
+            $id = $request->id;
 
-        Survey_requests::where('id',$id)->update(['request_status'=>15]);
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
-
-                    // // notify customer
-        $from       = auth()->user()->id; 
-        $utype      = 6;
-        $to         = $cust_id; 
-        $ntype      = 'peforma_invoice_verified';
-        $title      = 'Performa Invoice Verified by CH';
-        $desc       = 'Performa Invoice Verified by CH. Request ID:HSW'.$id;
-        $refId      = $id;
-        $reflink    = 'customer/request_service_detail/'.$id.'/15/';
-        $notify     = 'customer';
-        $notify_from_role_id = 1;
-        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
-
-        $survey_request_logs = [];
-
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 15;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
-
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
-
-                    // // notify customer
-        $from       = auth()->user()->id; 
-        $utype      = 6;
-        $to         = $cust_id; 
-        $ntype      = 'peforma_invoice_sent';
-        $title      = 'Performa Invoice Sent To Customer by CH';
-        $desc       = 'Performa Invoice Sent To Customer by CH. Request ID:HSW'.$id;
-        $refId      = $id;
-        $reflink    = 'customer/request_service_detail/'.$id.'/15/';
-        $notify     = 'customer';
-        $notify_from_role_id = 1;
-        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
-
-        $data['id'] = $id;
-
-        // $var = Mail::send('emails.performa_invoice_received', $data, function($message) use($data,$cust_email) {
-        //     $message->from(getadmin_mail(),'HSW');    
-        //     $message->to($cust_email);
-        //     $message->subject('Performa Invoice Generated');
-        // });
+            Survey_requests::where('id',$id)->update(['request_status'=>15]);
 
 
-        if(isset($survey_request_log_id))
-        {   
-            Session::flash('message', ['text'=>'Performa Invoice Send to Customer Successfully !','type'=>'success']);  
+                        // // notify customer
+            $from       = auth()->user()->id; 
+            $utype      = 6;
+            $to         = $cust_id; 
+            $ntype      = 'peforma_invoice_verified';
+            $title      = 'Performa Invoice Verified by CH';
+            $desc       = 'Performa Invoice Verified by CH. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    = 'customer/request_service_detail/'.$id.'/15/';
+            $notify     = 'customer';
+            $notify_from_role_id = 1;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 15;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+                        // // notify customer
+            $from       = auth()->user()->id; 
+            $utype      = 6;
+            $to         = $cust_id; 
+            $ntype      = 'peforma_invoice_sent';
+            $title      = 'Performa Invoice Sent To Customer by CH';
+            $desc       = 'Performa Invoice Sent To Customer by CH. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    = 'customer/request_service_detail/'.$id.'/15/';
+            $notify     = 'customer';
+            $notify_from_role_id = 1;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            $data['id'] = $id;
+
+            // $var = Mail::send('emails.performa_invoice_received', $data, function($message) use($data,$cust_email) {
+            //     $message->from(getadmin_mail(),'HSW');    
+            //     $message->to($cust_email);
+            //     $message->subject('Performa Invoice Generated');
+            // });
+
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Performa Invoice Send to Customer Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Performa Invoice Send to Customer is not Successfull !','type'=>'danger']);
+            }
+
+            return redirect('superadmin/requested_services');
         }
         else
         {
-            Session::flash('message', ['text'=>'Performa Invoice Send to Customer is not Successfull !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-        return redirect('superadmin/requested_services');
     }
 
     public function send_invoice_customer(Request $request)
     {
-        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+        ]);
 
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
-        $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
+        if($validator->passes())
+        {
+            $id = $request->id;
 
-        Survey_requests::where('id',$id)->update(['request_status'=>51]);
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
-                    // // notify customer
-        $from       = auth()->user()->id; 
-        $utype      = 6;
-        $to         = $cust_id; 
-        $ntype      = 'invoice_verified_by_ch';
-        $title      = 'Invoice Verified by CH';
-        $desc       = 'Invoice Verified by CH. Request ID:HSW'.$id;
-        $refId      = $id;
-        $reflink    = 'customer/request_service_detail/'.$id.'/51/';
-        $notify     = 'customer';
-        $notify_from_role_id = 1;
-        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            Survey_requests::where('id',$id)->update(['request_status'=>51]);
 
-        $survey_request_logs = [];
+                        // // notify customer
+            $from       = auth()->user()->id; 
+            $utype      = 6;
+            $to         = $cust_id; 
+            $ntype      = 'invoice_verified_by_ch';
+            $title      = 'Invoice Verified by CH';
+            $desc       = 'Invoice Verified by CH. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    = 'customer/request_service_detail/'.$id.'/51/';
+            $notify     = 'customer';
+            $notify_from_role_id = 1;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 51;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs = [];
 
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 51;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-                    // // notify customer
-        $from       = auth()->user()->id; 
-        $utype      = 6;
-        $to         = $cust_id; 
-        $ntype      = 'invoice_sent';
-        $title      = 'Invoice Sent To Customer by CH';
-        $desc       = 'Invoice Sent To Customer by CH. Request ID:HSW'.$id;
-        $refId      = $id;
-        $reflink    = 'customer/request_service_detail/'.$id.'/51/';
-        $notify     = 'customer';
-        $notify_from_role_id = 1;
-        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-        $data['id'] = $id;
-        $data['link'] = url('/customer/customer_invoice_download/'.$id);
+                        // // notify customer
+            $from       = auth()->user()->id; 
+            $utype      = 6;
+            $to         = $cust_id; 
+            $ntype      = 'invoice_sent';
+            $title      = 'Invoice Sent To Customer by CH';
+            $desc       = 'Invoice Sent To Customer by CH. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    = 'customer/request_service_detail/'.$id.'/51/';
+            $notify     = 'customer';
+            $notify_from_role_id = 1;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
-        // $var = Mail::send('emails.invoice_received', $data, function($message) use($data,$cust_email) {
-        //     $message->from(getadmin_mail(),'HSW');    
-        //     $message->to($cust_email);
-        //     $message->subject('Invoice Generated');
-        // });
+            $data['id'] = $id;
+            $data['link'] = url('/customer/customer_invoice_download/'.$id);
 
-        if(isset($survey_request_log_id))
-        {   
-            Session::flash('message', ['text'=>'Invoice Send to Customer Successfully !','type'=>'success']);  
+            // $var = Mail::send('emails.invoice_received', $data, function($message) use($data,$cust_email) {
+            //     $message->from(getadmin_mail(),'HSW');    
+            //     $message->to($cust_email);
+            //     $message->subject('Invoice Generated');
+            // });
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Invoice Send to Customer Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Invoice Send to Customer is not Successfull !','type'=>'danger']);
+            }
+
+            return redirect('superadmin/requested_services');
         }
         else
         {
-            Session::flash('message', ['text'=>'Invoice Send to Customer is not Successfull !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-        return redirect('superadmin/requested_services');
     }
 
     public function send_rejected_receipt_customer(Request $request)
     {
-        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+        ]);
 
-        // dd($id);
+        if($validator->passes())
+        {
+            $id = $request->id;
 
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            // dd($id);
 
-        Survey_requests::where('id',$id)->update(['request_status'=>70]);
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
-        $survey_request_logs = [];
+            Survey_requests::where('id',$id)->update(['request_status'=>70]);
 
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 70;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs = [];
 
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 70;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-        $usr_noti = [];
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-        $usr_noti['notify_from'] = auth()->user()->id;
-        $usr_noti['notify_to'] = $cust_id;
-        $usr_noti['role_id'] = 6;
-        $usr_noti['notify_from_role_id'] = 1;
-        $usr_noti['notify_type'] = 0;
-        $usr_noti['title'] = 'Payment Rejected';
-        $usr_noti['description'] = 'Payment Rejected by Accounts Officer for Request ID HSW'.$id;
-        $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '/customer/receipt_rejected/'.$id.'/70';
-        $usr_noti['viewed'] = 0;
-        $usr_noti['created_at'] = date('Y-m-d H:i:s');
-        $usr_noti['updated_at'] = date('Y-m-d H:i:s');
-        $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
+            $usr_noti = [];
 
-        $user_noti_id = UserNotification::create($usr_noti)->id;
+            $usr_noti['notify_from'] = auth()->user()->id;
+            $usr_noti['notify_to'] = $cust_id;
+            $usr_noti['role_id'] = 6;
+            $usr_noti['notify_from_role_id'] = 1;
+            $usr_noti['notify_type'] = 0;
+            $usr_noti['title'] = 'Payment Rejected';
+            $usr_noti['description'] = 'Payment Rejected by Accounts Officer for Request ID HSW'.$id;
+            $usr_noti['ref_id'] = auth()->user()->id;
+            $usr_noti['ref_link'] = '/customer/receipt_rejected/'.$id.'/70';
+            $usr_noti['viewed'] = 0;
+            $usr_noti['created_at'] = date('Y-m-d H:i:s');
+            $usr_noti['updated_at'] = date('Y-m-d H:i:s');
+            $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
 
-        if(isset($user_noti_id))
-        {   
-            Session::flash('message', ['text'=>'Rejected receipt Send to Customer Successfully !','type'=>'success']);  
+            $user_noti_id = UserNotification::create($usr_noti)->id;
+
+            if(isset($user_noti_id))
+            {   
+                Session::flash('message', ['text'=>'Rejected receipt Send to Customer Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Rejected receipt Send to Customer is not Successfull !','type'=>'danger']);
+            }
+
+            return redirect('superadmin/requested_services');
         }
         else
         {
-            Session::flash('message', ['text'=>'Rejected receipt Send to Customer is not Successfull !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-        return redirect('superadmin/requested_services');
     }
 
     public function assign_draftsman_final(Request $request)
@@ -1032,7 +1066,7 @@ class ServicerequestsController extends Controller
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'final_draftsman'=>['required'],
-            'remarks' => ['nullable']
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
         ]);
 
         if($validator->passes())
@@ -1096,7 +1130,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'service_id'=>['required'],
-            'service_rate'=>['required'],
+            'service_rate'=>['required','regex:/^[0-9]*$/'],
         ]);
 
         if($validator->passes())
@@ -1119,83 +1153,94 @@ class ServicerequestsController extends Controller
 
     public function verify_final_report(Request $request)
     {
-        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+        ]);
 
-        Survey_requests::where('id',$id)->update(['request_status'=>27]);
+        if($validator->passes())
+        {
+            $id = $request->id;
 
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            Survey_requests::where('id',$id)->update(['request_status'=>27]);
 
-        $survey_request_logs = [];
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 27;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs = [];
 
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 27;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-        $usr_noti = [];
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-        $usr_noti['notify_from'] = auth()->user()->id;
-        $usr_noti['notify_to'] = $cust_id;
-        $usr_noti['role_id'] = 6;
-        $usr_noti['notify_from_role_id'] = 1;
-        $usr_noti['notify_type'] = 0;
-        $usr_noti['title'] = 'Final Report Received';
-        $usr_noti['description'] = 'Final Report Received for Request ID HSW'.$id;
-        $usr_noti['ref_id'] = auth()->user()->id;
-        $usr_noti['ref_link'] = '/customer/survey_report/'.$id.'/27';
-        $usr_noti['viewed'] = 0;
-        $usr_noti['created_at'] = date('Y-m-d H:i:s');
-        $usr_noti['updated_at'] = date('Y-m-d H:i:s');
-        $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
+            $usr_noti = [];
 
-        UserNotification::create($usr_noti);
+            $usr_noti['notify_from'] = auth()->user()->id;
+            $usr_noti['notify_to'] = $cust_id;
+            $usr_noti['role_id'] = 6;
+            $usr_noti['notify_from_role_id'] = 1;
+            $usr_noti['notify_type'] = 0;
+            $usr_noti['title'] = 'Final Report Received';
+            $usr_noti['description'] = 'Final Report Received for Request ID HSW'.$id;
+            $usr_noti['ref_id'] = auth()->user()->id;
+            $usr_noti['ref_link'] = '/customer/survey_report/'.$id.'/27';
+            $usr_noti['viewed'] = 0;
+            $usr_noti['created_at'] = date('Y-m-d H:i:s');
+            $usr_noti['updated_at'] = date('Y-m-d H:i:s');
+            $usr_noti['deleted_at'] = date('Y-m-d H:i:s');
 
-        $from       = auth()->user()->id; 
-        $utype      = 7;
-        $to         = Admin::where('role_id',7)->where('is_deleted',0)->where('is_active',1)->first()->id;
-        $ntype      = 'final_report_verified_by_ch';
-        $title      = 'CH Verified Final Report';
-        $desc       = 'Final Report Verified by CH. Request ID:HSW'.$id;
-        $refId      = $id;
-        $reflink    = '/admin/repository-management-detail/'.$id.'/27/';
-        $notify     = 'admin';
-        $notify_from_role_id = 1;
-        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            UserNotification::create($usr_noti);
 
-        $data['id'] = $id;
-        $data['link'] = url('/customer/survey_report/'.$id.'/27');
+            $from       = auth()->user()->id; 
+            $utype      = 7;
+            $to         = Admin::where('role_id',7)->where('is_deleted',0)->where('is_active',1)->first()->id;
+            $ntype      = 'final_report_verified_by_ch';
+            $title      = 'CH Verified Final Report';
+            $desc       = 'Final Report Verified by CH. Request ID:HSW'.$id;
+            $refId      = $id;
+            $reflink    = '/admin/repository-management-detail/'.$id.'/27/';
+            $notify     = 'admin';
+            $notify_from_role_id = 1;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
-        // $var = Mail::send('emails.report_received', $data, function($message) use($data,$cust_email) {
-        //     $message->from(getadmin_mail(),'HSW');    
-        //     $message->to($cust_email);
-        //     $message->subject('Report Generated');
-        // });
+            $data['id'] = $id;
+            $data['link'] = url('/customer/survey_report/'.$id.'/27');
 
-        if(isset($survey_request_log_id))
-        {   
-            Session::flash('message', ['text'=>'Final Report Verified Successfully !','type'=>'success']);  
+            // $var = Mail::send('emails.report_received', $data, function($message) use($data,$cust_email) {
+            //     $message->from(getadmin_mail(),'HSW');    
+            //     $message->to($cust_email);
+            //     $message->subject('Report Generated');
+            // });
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Final Report Verified Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Final Report Not Verified Successfully !','type'=>'danger']);
+            }
+
+            return redirect('superadmin/requested_services');
         }
         else
         {
-            Session::flash('message', ['text'=>'Final Report Not Verified Successfully !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-        return redirect('superadmin/requested_services');
     }
 
     public function reject_close(Request $request)    
     {
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1260,13 +1305,17 @@ class ServicerequestsController extends Controller
 
             return redirect('superadmin/new_service_requests');            
         }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
     }
 
     public function reject_open(Request $request)    
     {
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1332,6 +1381,10 @@ class ServicerequestsController extends Controller
 
             return redirect('superadmin/new_service_requests');            
         }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
     }
 
     public function reject_fieldstudy(Request $request)
@@ -1340,7 +1393,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1523,7 +1576,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1587,7 +1640,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1650,7 +1703,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1713,7 +1766,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())

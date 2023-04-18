@@ -65,10 +65,10 @@ class RegisterController extends Controller
             'mobile'=>['required','numeric','digits:10'],
             'otp'=> ['nullable','max:255'],
             'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
-            'id_file_front' => ['required','max:10000'],
-            'id_file_back' => ['required','max:10000'],
-            'password' =>['required','confirmed','min:6','max:20'],
-            'password_confirmation' =>['required','min:6','max:20'],
+            'id_file_front' => ['required','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
+            'id_file_back' => ['required','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
+            'password' =>['required','confirmed','min:6','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+            'password_confirmation' =>['required','min:6','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
             'g-recaptcha-response' => function ($attribute, $value, $fail) {
                 $data = array('secret' => config('services.recaptcha.secret'),'response' => $value,'remoteip' => $_SERVER['REMOTE_ADDR']);
   
@@ -106,6 +106,8 @@ class RegisterController extends Controller
             $info_id = CustomerInfo::create([
                 'cust_id' => $masterId,
                 'name' => $request->name,
+                'firm' => $request->firm,
+                'firm_type' => $request->firm_type,
                 'valid_id' => $request->valid_id,
                 'is_active'=>1,
                 'is_deleted'=>0,

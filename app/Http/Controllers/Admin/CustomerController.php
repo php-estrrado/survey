@@ -88,10 +88,10 @@ class CustomerController extends Controller
             'email' => ['required','email','max:255','unique:admins,email'],
             'mobile'=>['required','numeric','digits:10'],
             'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
-            'id_file_front' => ['required','max:10000'],
-            'id_file_back' => ['required','max:10000'],
-            'password' =>['required','confirmed','min:8','max:20'],
-            'password_confirmation' =>['required','min:8','max:20']
+            'id_file_front' => ['required','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
+            'id_file_back' => ['required','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
+            'password' =>['required','confirmed','min:8','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+            'password_confirmation' =>['required','min:8','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/']
         ]);
 
         if($validator->passes())

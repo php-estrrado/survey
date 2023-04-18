@@ -61,7 +61,7 @@ class LoginController extends Controller
 
         $validator = Validator::make($request->all(), [
             'email'   => ['required','string','email'],
-            'password' => ['required','string']
+            'password' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/']
         ]);
         if($validator->passes())
         {

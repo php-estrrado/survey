@@ -37,12 +37,20 @@
                             <div class="form-group">
                                 <label class="form-label" for="module_name">Modules <span class="text-red">*</span></label>
                                 <input type="text" class="form-control" name="module_name" id="module_name" value="{{$module_details['module_name']}}" placeholder="Module name">
+                                <div id="module_name_error"></div>
+								@error('module_name')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="class">Class <span class="text-red">*</span></label>
                                 <input type="text" class="form-control" name="class" id="class" value="{{$module_details['class']}}" placeholder="Class name">
+                                <div id="class_error"></div>
+								@error('class')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
                             </div>
                         </div>
                     </div>
@@ -51,12 +59,20 @@
                             <div class="form-group">
                                 <label class="form-label" for="link">Slug <span class="text-red">*</span></label>
                                 <input type="text" class="form-control" name="link" id="link" value="{{$module_details['link']}}" placeholder="Slug">
+                                <div id="link_error"></div>
+								@error('link')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="menu_icon">Menu Icon </label>
                                 <input type="text" class="form-control" name="menu_icon" id="menu_icon" value="{{$module_details['menu_icon']}}" placeholder="Menu name">
+                                <div id="menu_icon_error"></div>
+								@error('menu_icon')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
                             </div>
                         </div>
                     </div>
@@ -73,6 +89,10 @@
                                         @endforeach
                                     @endif
                                 </select>
+                                <div id="parent_error"></div>
+								@error('parent')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
                             </div>
                         </div>
                         <div class="col-sm-6 col-md-6">
@@ -82,6 +102,10 @@
                                     <option value='1' @if($module_details['is_active'] == 1){{"selected"}} @endif>Active</option>
                                     <option value='0' @if($module_details['is_active'] == 0){{"selected"}} @endif>Inactive</option>
                                 </select>
+                                <div id="is_active_error"></div>
+								@error('is_active')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
                             </div>
                         </div>
                     </div>

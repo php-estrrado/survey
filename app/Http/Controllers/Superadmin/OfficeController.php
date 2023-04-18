@@ -47,7 +47,7 @@ class OfficeController extends Controller
         if($input['id'] > 0) 
         {
             $validator= $request->validate([
-                'institution_name' => ['required','max:255',Rule::unique('institution')->ignore($input['id'])]
+                'institution_name' => ['required','max:255',Rule::unique('institution')->ignore($input['id']),'regex:/^[a-zA-Z0-9\s]*$/']
             ],
             [],
             [
@@ -72,7 +72,7 @@ class OfficeController extends Controller
         else
         {
             $validator= $request->validate([
-                'institution_name' => ['required','max:255',Rule::unique('institution')]
+                'institution_name' => ['required','max:255',Rule::unique('institution'),'regex:/^[a-zA-Z0-9\s]*$/']
             ],
             [],
             [

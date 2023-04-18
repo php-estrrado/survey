@@ -279,16 +279,16 @@ class ServicerequestsController extends Controller
                 'id'=>['required'],
                 'bill_invoice_no'=>['required'],
                 'invoice_date'=>['required'],
-                'name_of_work'=>['required','regex:/^[\pL\s]+$/u'],
-                'work_orderno_date' => ['required'],
-                'service_code'=>['required'],
-                'service_description'=>['required'],
-                'organization_name' =>['required'],
-                'payment_mode' =>['required'],
-                'receiver_name' =>['required','regex:/^[\pL\s]+$/u'],
-                'receiver_address' =>['required'],
+                'name_of_work'=>['required','regex:/^[a-zA-Z\s]*$/'],
+                'work_orderno_date' => ['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_/]*$/'],
+                'service_code'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'service_description'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+                'organization_name' =>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'payment_mode' =>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'receiver_name' =>['required','regex:/^[a-zA-Z\s]*$/'],
+                'receiver_address' =>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
                 'state_code' =>['required','numeric'],
-                'gstin_unique_id' =>['required','max:15'],
+                'gstin_unique_id' =>['required','max:15','regex:/^[a-zA-Z0-9\s]*$/'],
                 'survey_charges' =>['required','numeric','digits_between:1,6'],
                 'cgst_percentage' =>['required'],
                 'sgst_percentage' =>['required'],
@@ -298,7 +298,7 @@ class ServicerequestsController extends Controller
                 'total_tax_amount_words' =>['required'],
                 'total_invoice_amount' =>['required'],
                 'total_invoice_amount_words' => ['required'],
-                'remarks'=>['nullable']
+                'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
             ]);
     
             if($validator->passes())
@@ -383,16 +383,16 @@ class ServicerequestsController extends Controller
                 'id'=>['required'],
                 'bill_invoice_no'=>['required'],
                 'invoice_date'=>['required'],
-                'name_of_work'=>['required','regex:/^[\pL\s]+$/u'],
-                'work_orderno_date' => ['required'],
-                'service_code'=>['required'],
-                'service_description'=>['required'],
-                'organization_name' =>['required'],
-                'payment_mode' =>['required'],
-                'receiver_name' =>['required','regex:/^[\pL\s]+$/u'],
-                'receiver_address' =>['required'],
+                'name_of_work'=>['required','regex:/^[a-zA-Z\s]*$/'],
+                'work_orderno_date' => ['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_/]*$/'],
+                'service_code'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'service_description'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+                'organization_name' =>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'payment_mode' =>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'receiver_name' =>['required','regex:/^[a-zA-Z\s]*$/'],
+                'receiver_address' =>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
                 'state_code' =>['required','numeric'],
-                'gstin_unique_id' =>['required','max:15'],
+                'gstin_unique_id' =>['required','max:15','regex:/^[a-zA-Z0-9\s]*$/'],
                 'survey_charges' =>['required','numeric','digits_between:1,6'],
                 'cgst_percentage' =>['required'],
                 'sgst_percentage' =>['required'],
@@ -402,7 +402,7 @@ class ServicerequestsController extends Controller
                 'total_tax_amount_words' =>['required'],
                 'total_invoice_amount' =>['required'],
                 'total_invoice_amount_words' => ['required'],
-                'remarks'=>['nullable']
+                'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
             ]);
     
             if($validator->passes())
@@ -558,16 +558,16 @@ class ServicerequestsController extends Controller
                 'id'=>['required'],
                 'bill_invoice_no'=>['required'],
                 'invoice_date'=>['required'],
-                'name_of_work'=>['required'],
-                'work_orderno_date' => ['required'],
-                'service_code'=>['required'],
-                'service_description'=>['required'],
-                'organization_name' =>['required'],
-                'payment_mode' =>['required'],
-                'receiver_name' =>['required'],
-                'receiver_address' =>['required'],
+                'name_of_work'=>['required','regex:/^[a-zA-Z\s]*$/'],
+                'work_orderno_date' => ['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_/]*$/'],
+                'service_code'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'service_description'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+                'organization_name' =>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'payment_mode' =>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'receiver_name' =>['required','regex:/^[a-zA-Z\s]*$/'],
+                'receiver_address' =>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
                 'state_code' =>['required','numeric'],
-                'gstin_unique_id' =>['required','max:15'],
+                'gstin_unique_id' =>['required','max:15','regex:/^[a-zA-Z0-9\s]*$/'],
                 'survey_charges' =>['required','numeric','digits_between:1,6'],
                 'cgst_percentage' =>['required'],
                 'sgst_percentage' =>['required'],
@@ -577,7 +577,7 @@ class ServicerequestsController extends Controller
                 'total_tax_amount_words' =>['required'],
                 'total_invoice_amount' =>['required'],
                 'total_invoice_amount_words' => ['required'],
-                'remarks' => ['nullable']
+                'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
             ]);
     
             if($validator->passes())
@@ -659,26 +659,26 @@ class ServicerequestsController extends Controller
                 'id'=>['required'],
                 'bill_invoice_no'=>['required'],
                 'invoice_date'=>['required'],
-                'name_of_work'=>['required'],
-                'work_orderno_date' => ['required'],
-                'service_code'=>['required'],
-                'service_description'=>['required'],
-                'organization_name' =>['required'],
-                'payment_mode' =>['required'],
-                'receiver_name' =>['required'],
-                'receiver_address' =>['required'],
+                'name_of_work'=>['required','regex:/^[a-zA-Z\s]*$/'],
+                'work_orderno_date' => ['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_/]*$/'],
+                'service_code'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'service_description'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+                'organization_name' =>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'payment_mode' =>['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'receiver_name' =>['required','regex:/^[a-zA-Z\s]*$/'],
+                'receiver_address' =>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
                 'state_code' =>['required','numeric'],
-                'gstin_unique_id' =>['required','max:15'],
+                'gstin_unique_id' =>['required','max:15','regex:/^[a-zA-Z0-9\s]*$/'],
                 'survey_charges' =>['required','numeric','digits_between:1,6'],
                 'cgst_percentage' =>['required'],
                 'sgst_percentage' =>['required'],
                 'cgst_amount' =>['required'],
                 'sgst_amount' =>['required'],
-                 'total_tax_amount' =>['required'],
+                'total_tax_amount' =>['required'],
                 'total_tax_amount_words' =>['required'],
                 'total_invoice_amount' =>['required'],
                 'total_invoice_amount_words' => ['required'],
-                'remarks' => ['nullable']
+                'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
             ]);
     
             if($validator->passes())
@@ -786,7 +786,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'upload_report' => ['required','max:10000'],
-            'remarks' => ['nullable']
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
         ]);
 
         if($validator->passes())

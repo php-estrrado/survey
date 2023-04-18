@@ -310,7 +310,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assign_surveyor'=>['required'],
             'field_study'=>['required'],
-            'remarks'=>['nullable'],
+            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ],
     [
         'assign_surveyor.required' => 'Assign Surveyor is required.',
@@ -394,7 +394,7 @@ class ServicerequestsController extends Controller
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'field_study'=>['required'],
-            'remarks'=>['nullable'],
+            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -493,7 +493,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assign_surveyor'=>['required'],
             'survey_study'=>['required'],
-            'remarks' => ['nullable']
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
         ]);
 
         if($validator->passes())
@@ -574,7 +574,7 @@ class ServicerequestsController extends Controller
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'survey_study'=>['required'],
-            'remarks' => ['nullable']
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
         ]);
 
         if($validator->passes())
@@ -672,7 +672,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -737,7 +737,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -802,7 +802,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -867,7 +867,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -932,7 +932,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1438,13 +1438,13 @@ function get_remote_file_info($url) {
             'id'=>['required'],
             'general_area'=>['required'],
 
-            'location'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'location'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'scale_of_survey_recomended'=>['required','alpha_num'],
             'type_of_survey'=>['required'],
             'no_of_days_required'=>['required','numeric'],
             'charges'=>['required','numeric'],
             'recipient'=>['required'],
-            'remarks'=>['nullable'],
+            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1546,14 +1546,14 @@ function get_remote_file_info($url) {
             'eta_id'=>['required'],
             'general_area'=>['required'],
 
-            'location'=>['required','regex:/^[a-zA-Z\s]*$/'],
+            'location'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'scale_of_survey_recomended'=>['required','alpha_num'],
 
             'type_of_survey'=>['required'],
             'no_of_days_required'=>['required','numeric'],
             'charges'=>['required','numeric'],
             'recipient'=>['required'],
-            'remarks'=>['nullable'],
+            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1630,97 +1630,118 @@ function get_remote_file_info($url) {
 
     public function verify_performa_invoice(Request $request)
     {
-        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+        ]);
 
-        Survey_requests::where('id',$id)->update(['request_status'=>13]);
+        if($validator->passes())
+        {
+            $id = $request->id;
 
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            Survey_requests::where('id',$id)->update(['request_status'=>13]);
 
-        $survey_request_logs = [];
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 13;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs = [];
 
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 13;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-            $from       = auth()->user()->id; 
-            $utype      = 1;
-            $to         = 1; 
-            $ntype      = 'performa_invoice_verified';
-            $title      = 'Performa Invoice Verified';
-            $desc       = 'Performa Invoice Verified. Request ID:HSW'. $id;
-            $refId      = $id;
-            $reflink    = '/superadmin/requested_service_detail/'.$id.'/13/';
-            $notify     = 'superadmin';
-            $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-        if(isset($survey_request_log_id))
-        {   
-            Session::flash('message', ['text'=>'Performa Invoice Verified Successfully !','type'=>'success']);  
+                $from       = auth()->user()->id; 
+                $utype      = 1;
+                $to         = 1; 
+                $ntype      = 'performa_invoice_verified';
+                $title      = 'Performa Invoice Verified';
+                $desc       = 'Performa Invoice Verified. Request ID:HSW'. $id;
+                $refId      = $id;
+                $reflink    = '/superadmin/requested_service_detail/'.$id.'/13/';
+                $notify     = 'superadmin';
+                $notify_from_role_id = 2;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Performa Invoice Verified Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Performa Invoice Not Verified Successfully !','type'=>'danger']);
+            }
+
+            return redirect('admin/requested_services');
         }
         else
         {
-            Session::flash('message', ['text'=>'Performa Invoice Not Verified Successfully !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-        return redirect('admin/requested_services');
     }
 
     public function verify_invoice(Request $request)
     {
-        $input = $request->all();
-        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+        ]);
+        if($validator->passes())
+        {
+            $input = $request->all();
+            $id = $request->id;
 
-        Survey_requests::where('id',$id)->update(['request_status'=>49]);
+            Survey_requests::where('id',$id)->update(['request_status'=>49]);
 
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
-        $survey_request_logs = [];
+            $survey_request_logs = [];
 
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 49;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 49;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-            $from       = auth()->user()->id; 
-            $utype      = 1;
-            $to         = 1; 
-            $ntype      = 'invoice_verified_by_admin';
-            $title      = 'Invoice Verified by Admin';
-            $desc       = 'Invoice Verified by Admin. Request ID: HSW'.$id;
-            $refId      = $id;
-            $reflink    = '/superadmin/requested_service_detail/'.$id.'/49/';
-            $notify     = 'superadmin';
-            $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+                $from       = auth()->user()->id; 
+                $utype      = 1;
+                $to         = 1; 
+                $ntype      = 'invoice_verified_by_admin';
+                $title      = 'Invoice Verified by Admin';
+                $desc       = 'Invoice Verified by Admin. Request ID: HSW'.$id;
+                $refId      = $id;
+                $reflink    = '/superadmin/requested_service_detail/'.$id.'/49/';
+                $notify     = 'superadmin';
+                $notify_from_role_id = 2;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
 
-        if(isset($survey_request_log_id))
-        {   
-            Session::flash('message', ['text'=>'Invoice Verified Successfully !','type'=>'success']);  
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Invoice Verified Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Invoice Not Verified Successfully !','type'=>'danger']);
+            }
+
+            return redirect('admin/requested_services');
         }
         else
         {
-            Session::flash('message', ['text'=>'Invoice Not Verified Successfully !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-        return redirect('admin/requested_services');
     }
 
     public function reject_performa_invoice(Request $request)
@@ -1729,7 +1750,7 @@ function get_remote_file_info($url) {
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1792,7 +1813,7 @@ function get_remote_file_info($url) {
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required'],
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
         if($validator->passes())
@@ -1851,96 +1872,118 @@ function get_remote_file_info($url) {
 
     public function verify_survey_study(Request $request)
     {
-        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+        ]);
 
-        Survey_requests::where('id',$id)->update(['request_status'=>21]);
+        if($validator->passes())
+        {
+            $id = $request->id;
 
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            Survey_requests::where('id',$id)->update(['request_status'=>21]);
 
-        $survey_request_logs = [];
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 21;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs = [];
 
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 21;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-            $from       = auth()->user()->id; 
-            $utype      = 1;
-            $to         = 1; 
-            $ntype      = 'survey_study_verified';
-            $title      = 'Survey Study Report Verified By Admin';
-            $desc       = 'Survey Study Report Verified By Admin. Request ID:HSW'.$id;
-            $refId      = $id;
-            $reflink    = '/superadmin/requested_service_detail/'.$id.'/21/';
-            $notify     = 'superadmin';
-            $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-        if(isset($survey_request_log_id))
-        {   
-            Session::flash('message', ['text'=>'Survey Study Verified Successfully !','type'=>'success']);  
+                $from       = auth()->user()->id; 
+                $utype      = 1;
+                $to         = 1; 
+                $ntype      = 'survey_study_verified';
+                $title      = 'Survey Study Report Verified By Admin';
+                $desc       = 'Survey Study Report Verified By Admin. Request ID:HSW'.$id;
+                $refId      = $id;
+                $reflink    = '/superadmin/requested_service_detail/'.$id.'/21/';
+                $notify     = 'superadmin';
+                $notify_from_role_id = 2;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Survey Study Verified Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Survey Study Not Verified Successfully !','type'=>'danger']);
+            }
+
+            return redirect('admin/requested_services');
         }
         else
         {
-            Session::flash('message', ['text'=>'Survey Study Not Verified Successfully !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-        return redirect('admin/requested_services');
     }
 
     public function verify_final_report(Request $request)
     {
-        $id = $request->id;
+        $validator = Validator::make($request->all(), [
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+        ]);
 
-        Survey_requests::where('id',$id)->update(['request_status'=>25]);
+        if($validator->passes())
+        {
+            $id = $request->id;
 
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            Survey_requests::where('id',$id)->update(['request_status'=>25]);
 
-        $survey_request_logs = [];
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 25;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs = [];
 
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 25;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
 
-            $from       = auth()->user()->id; 
-            $utype      = 1;
-            $to         = 1; 
-            $ntype      = 'final_report_verified';
-            $title      = 'Final Report Verified By Admin';
-            $desc       = 'Final Report Verified By Admin. Request ID:HSW'.$id;
-            $refId      = $id;
-            $reflink    = '/superadmin/requested_service_detail/'.$id.'/25/';
-            $notify     = 'superadmin';
-            $notify_from_role_id = 2;
-            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
 
-        if(isset($survey_request_log_id))
-        {   
-            Session::flash('message', ['text'=>'Final Report Verified Successfully !','type'=>'success']);  
+                $from       = auth()->user()->id; 
+                $utype      = 1;
+                $to         = 1; 
+                $ntype      = 'final_report_verified';
+                $title      = 'Final Report Verified By Admin';
+                $desc       = 'Final Report Verified By Admin. Request ID:HSW'.$id;
+                $refId      = $id;
+                $reflink    = '/superadmin/requested_service_detail/'.$id.'/25/';
+                $notify     = 'superadmin';
+                $notify_from_role_id = 2;
+                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Final Report Verified Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Final Report Not Verified Successfully !','type'=>'danger']);
+            }
+
+            return redirect('admin/requested_services');
         }
         else
         {
-            Session::flash('message', ['text'=>'Final Report Not Verified Successfully !','type'=>'danger']);
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
-
-        return redirect('admin/requested_services');
     }
     
 }

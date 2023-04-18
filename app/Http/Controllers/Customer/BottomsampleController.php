@@ -75,19 +75,26 @@ class BottomsampleController extends Controller
         if($input['id'] > 0)
         {
             $validator = Validator::make($request->all(), [
-                'fname'=>['required','max:255'],
-                'designation'=>['required','max:255'],
+                'fname'=>['required','regex:/^[a-zA-Z\s]*$/'],
+                'designation'=>['required','regex:/^[a-zA-Z\s]*$/'],
                 'sector'=>['required'],
-                'department' => ['required'],
+                'department' => ['required','regex:/^[a-zA-Z\s]*$/'],
                 'firm' => ['required'],
-                'purpose' => ['required'],
-                'description' => ['required'],
+                'others' => ['nullable','regex:/^[a-zA-Z\s]*$/'],
+                'purpose' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'description' => ['required','regex:/^[a-zA-Z\s.,-@&*()]*$/'],
                 'state' => ['required'],
                 'district' => ['required'],
-                'place' => ['required'],
+                'place' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'lattitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'longitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'x_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'y_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 // 'depth_at_saples_collected' => ['required'],
-                'number_of_locations' => ['required'],
-                'quantity_of_samples' => ['required'],
+                'number_of_locations' => ['required','regex:/^[0-9]*$/'],
+                'quantity_of_samples' => ['required','regex:/^[0-9]*$/'],
+                'interval_bottom_sample' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'description_of_requirement' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
             ]);
     
             if($validator->passes())
@@ -213,19 +220,26 @@ class BottomsampleController extends Controller
         else
         {
             $validator = Validator::make($request->all(), [
-                'fname'=>['required','max:255'],
-                'designation'=>['required','max:255'],
+                'fname'=>['required','regex:/^[a-zA-Z\s]*$/'],
+                'designation'=>['required','regex:/^[a-zA-Z\s]*$/'],
                 'sector'=>['required'],
-                'department' => ['required'],
+                'department' => ['required','regex:/^[a-zA-Z\s]*$/'],
                 'firm' => ['required'],
-                'purpose' => ['required'],
-                'description' => ['required'],
+                'others' => ['nullable','regex:/^[a-zA-Z\s]*$/'],
+                'purpose' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'description' => ['required','regex:/^[a-zA-Z\s.,-@&*()]*$/'],
                 'state' => ['required'],
                 'district' => ['required'],
-                'place' => ['required'],
+                'place' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'lattitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'longitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'x_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'y_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 // 'depth_at_saples_collected' => ['required'],
-                'number_of_locations' => ['required'],
-                'quantity_of_samples' => ['required'],
+                'number_of_locations' => ['required','regex:/^[0-9]*$/'],
+                'quantity_of_samples' => ['required','regex:/^[0-9]*$/'],
+                'interval_bottom_sample' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'description_of_requirement' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
             ]);
     
             if($validator->passes())

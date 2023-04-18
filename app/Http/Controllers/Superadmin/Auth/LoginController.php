@@ -112,38 +112,38 @@ class LoginController extends Controller
             return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Enter all fields.']);
         }
         else
+        {
+            $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',1)->first();
+            if($exisit)
             {
-                $exisit = Admin::where('email',$request->email)->where('is_active',1)->where('is_deleted',0)->where('role_id',1)->first();
-                if($exisit)
+                $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',1)->first();
+                if($exist)
                 {
-                    $exist = Admin::where('email',$request->email)->where('otp',$request->otp)->where('is_active',1)->where('is_deleted',0)->where('role_id',1)->first();
-                    if($exist)
+                    if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => '123456']))
                     {
-                        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => '123456']))
+                        if(Admin::where('id', Auth::guard('admin')->user()->id)->first()->is_active == 1)
                         {
-                            if(Admin::where('id', Auth::guard('admin')->user()->id)->first()->is_active == 1)
-                            {
-                                return redirect()->intended('/superadmin/dashboard');
-                            }
-                            else
-                            {
-                                Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
-                                //return redirect('/login')->withInput($request->only('email', 'remember'))->with('message',' The seller is not approved yet. ');
-                                return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'This account is inactive.']);
-                            }
+                            return redirect()->intended('/superadmin/dashboard');
                         }
-                    }
-                    else
-                    {
-                        return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Invalid OTP.']);
+                        else
+                        {
+                            Auth::guard('admin')->logout(); $request->session()->flush(); $request->session()->regenerate();
+                            //return redirect('/login')->withInput($request->only('email', 'remember'))->with('message',' The seller is not approved yet. ');
+                            return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'This account is inactive.']);
+                        }
                     }
                 }
                 else
                 {
-                    return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Invalid Email.']);
+                    return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Invalid OTP.']);
                 }
-              
             }
+            else
+            {
+                return back()->withInput($request->only('email', 'remember'))->withErrors(['error'=>'Invalid Email.']);
+            }
+            
+        }
     }
 
     public function adminLogin(Request $request)

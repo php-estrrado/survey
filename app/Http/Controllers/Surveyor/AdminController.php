@@ -91,12 +91,13 @@ class AdminController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($request->all(),[
-            'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
+            'name'           =>  ['required','regex:/^[a-zA-Z\s]*$/'],
             'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where(function ($query) { $query->where('is_deleted',0)->where('role_id','!=',6);}),'email','max:100'],
             'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
-            'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
-            'pen'            =>  ['required'],
-            'institution'    =>  ['required']
+            'designation'    =>  ['required','max:100','regex:/^[a-zA-Z\s]*$/'],
+            'pen'            =>  ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+            'institution'    =>  ['required'],
+            'avatar'         =>  ['nullable','mimes:jpeg,png,jpg']
         ]);
 
         if($validator->passes())

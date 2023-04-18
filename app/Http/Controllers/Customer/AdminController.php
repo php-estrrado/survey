@@ -133,10 +133,10 @@ class AdminController extends Controller
             'mobile'=>['required','numeric','digits:10'],
             'otp'=> ['nullable','max:255'],
             'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
-            'id_file_front' => ['nullable','max:10000'],
-            'id_file_back' => ['nullable','max:10000'],
-            'password' =>['nullable','confirmed','min:6','max:20'],
-            'password_confirmation' =>['nullable','min:6','max:20'],
+            'id_file_front' => ['nullable','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
+            'id_file_back' => ['nullable','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
+            'password' =>['nullable','confirmed','min:6','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+            'password_confirmation' =>['nullable','min:6','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
         ]);
         $input = $request->all();
 
@@ -279,7 +279,7 @@ class AdminController extends Controller
     public function search(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'search_val'=>['required'],
+            'search_val'=>['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
         ]);
 
         if($validator->passes())

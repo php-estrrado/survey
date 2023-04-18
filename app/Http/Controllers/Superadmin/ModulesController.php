@@ -67,20 +67,33 @@ class ModulesController extends Controller
             {
                 if($input['link'] !="#")
                 {
-                    $validator = $request->validate([
-                        'link'   =>  ['required',Rule::unique('module')->ignore($input['id']),]
-                    ]); 
+                    $validator= Validator::make($request->all(),[
+                        'module_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                        'class' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+                        'link'   =>  ['required',Rule::unique('module')->ignore($input['id']),'regex:/^[a-zA-Z0-9\s.,@#&*()_-=]*$/']
+                    ]);
                 }
-                $validate = $request->validate([
-                    'module_name' => ['required', 'string'],
-                    'class' => ['required'],
-                    'link'  => ['required', 'string']
-                ]);
-
-                $input = $request->except('_token','submit');
-                $Modules = Modules::where('id',$input['id'])->update($input);
-                // dd($Modules);
-                Session::flash('message', ['text'=>'Module updated successfully','type'=>'success']);
+                else
+                {
+                    $validator= Validator::make($request->all(),[
+                        'module_name' => ['required', 'regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+                        'class' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+                        'link'  =>  ['required','regex:/^[a-zA-Z0-9\s.,@#&*()_-=]*$/']
+                    ]);
+                }
+                
+                if($validator->passes())
+                {
+                    $input = $request->except('_token','submit');
+                    $Modules = Modules::where('id',$input['id'])->update($input);
+                    // dd($Modules);
+                    Session::flash('message', ['text'=>'Module updated successfully','type'=>'success']);
+                }
+                else
+                {
+                    Session::flash('message', ['text'=>'Module Link Already Exixts !','type'=>'danger']);
+                    return redirect()->back()->withErrors($validator)->withInput($request->all());
+                }
             }
             else
             {
@@ -88,17 +101,17 @@ class ModulesController extends Controller
                 if($input['link'] !="#")
                 {
                     $validator= Validator::make($request->all(),[
-                        'module_name' => ['required', 'string'],
-                        'class' => ['required'],
-                        'link'  =>  ['required',Rule::unique('module')]
+                        'module_name' => ['required', 'regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+                        'class' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+                        'link'  =>  ['required',Rule::unique('module'),'regex:/^[a-zA-Z0-9\s.,@#&*()_-=]*$/']
                     ]);
                 }
                 else
                 {
                     $validator= Validator::make($request->all(),[
-                        'module_name' => ['required', 'string'],
-                        'class' => ['required'],
-                        'link'  =>  ['required']
+                        'module_name' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+                        'class' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+                        'link'  =>  ['required','regex:/^[a-zA-Z0-9\s.,@#&*()_-=]*$/']
                     ]);
                 }
                 // dd($input);

@@ -79,6 +79,10 @@
 											</div>
 										</div>
 										<textarea class="form-control mb-4" placeholder="Type Here..." rows="3" name="remarks"></textarea>
+										<div id="remarks_error"></div>
+										@error('remarks')
+											<p style="color: red">{{ $message }}</p>
+										@enderror
 									</div>
 									<div class="row">
 										<div class="col-12">

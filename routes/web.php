@@ -46,7 +46,7 @@ Route::middleware('role:customer','revalidate')->group(function () {
 
     Route::get('/customer/dashboard', [App\Http\Controllers\Customer\AdminController::class, 'index']);
 
-    Route::post('/customer/search', [App\Http\Controllers\Customer\AdminController::class, 'search'])->name('dashboard.search');
+    Route::post('/customer/search', [App\Http\Controllers\Customer\AdminController::class, 'search'])->name('customer.search');
 
     //Hydrographic survey
     Route::get('/customer/hydrographic_survey', [App\Http\Controllers\Customer\HydrographicsurveyController::class, 'index'])->name('customer.hydrographic_survey');
@@ -408,6 +408,14 @@ Route::middleware('role:surveyor','revalidate')->group(function () {
 
     Route::post('/surveyor/storeMedia', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'storeMedia'])->name('survey.storeMedia');
 });
+
+Route::get('dropzone', [App\Http\Controllers\DropzoneController::class, 'index']);
+
+Route::post('dropzone/upload', [App\Http\Controllers\DropzoneController::class, 'upload'])->name('dropzone.upload');
+
+Route::get('dropzone/fetch', [App\Http\Controllers\DropzoneController::class, 'fetch'])->name('dropzone.fetch');
+
+Route::get('dropzone/delete', [App\Http\Controllers\DropzoneController::class, 'delete'])->name('dropzone.delete');
 
 //Default Pages
 

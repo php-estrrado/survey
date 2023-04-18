@@ -75,20 +75,25 @@ class SubbottomprofillingController extends Controller
         if($input['id'] > 0)
         {
             $validator = Validator::make($request->all(), [
-                'fname'=>['required','max:255'],
-                'designation'=>['required','max:255'],
+                'fname'=>['required','regex:/^[a-zA-Z\s]*$/'],
+                'designation'=>['required','regex:/^[a-zA-Z\s]*$/'],
                 'sector'=>['required'],
-                'department' => ['required'],
+                'department' => ['required','regex:/^[a-zA-Z\s]*$/'],
                 'firm' => ['required'],
-                'purpose' => ['required'],
-                'description' => ['required'],
+                'others' => ['nullable','regex:/^[a-zA-Z\s]*$/'],
+                'purpose' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'description' => ['required','regex:/^[a-zA-Z\s.,-@&*()]*$/'],
                 'state' => ['required'],
                 'district' => ['required'],
-                'place' => ['required'],
-                'survey_area_location' => ['required'],
-                'area_to_scan' => ['required'],
-                'depth_of_area' => ['required'],
-                'interval' => ['required']
+                'place' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'survey_area_location' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'lattitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'longitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'x_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'y_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'area_to_scan' => ['required','regex:/^[0-9]*$/'],
+                'depth_of_area' => ['required','regex:/^[0-9]*$/'],
+                'interval' => ['required','regex:/^[0-9]*$/']
             ]);
     
             if($validator->passes())
@@ -184,20 +189,25 @@ class SubbottomprofillingController extends Controller
         else
         {
             $validator = Validator::make($request->all(), [
-                'fname'=>['required','max:255'],
-                'designation'=>['required','max:255'],
+                'fname'=>['required','regex:/^[a-zA-Z\s]*$/'],
+                'designation'=>['required','regex:/^[a-zA-Z\s]*$/'],
                 'sector'=>['required'],
-                'department' => ['required'],
+                'department' => ['required','regex:/^[a-zA-Z\s]*$/'],
                 'firm' => ['required'],
-                'purpose' => ['required'],
-                'description' => ['required'],
+                'others' => ['nullable','regex:/^[a-zA-Z\s]*$/'],
+                'purpose' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'description' => ['required','regex:/^[a-zA-Z\s.,-@&*()]*$/'],
                 'state' => ['required'],
                 'district' => ['required'],
-                'place' => ['required'],
-                'survey_area_location' => ['required'],
-                'area_to_scan' => ['required'],
-                'depth_of_area' => ['required'],
-                'interval' => ['required']
+                'place' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'survey_area_location' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'lattitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'longitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'x_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'y_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
+                'area_to_scan' => ['required','regex:/^[0-9]*$/'],
+                'depth_of_area' => ['required','regex:/^[0-9]*$/'],
+                'interval' => ['required','regex:/^[0-9]*$/']
             ]);
     
             if($validator->passes())

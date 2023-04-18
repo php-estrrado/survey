@@ -79,99 +79,109 @@ class UserRoleController extends Controller
 
             if($input['id']>0)
             {
-                $validator= $request->validate([
-                    'usr_role_name'   =>  ['required',Rule::unique('usr_role_lk')->ignore($input['id'])->where('is_deleted',0),],
-                ], [], 
-                [
-                    'usr_role_name' => 'Role Name'
+                $validator = Validator::make($request->all(),[
+                    'usr_role_name'   =>  ['required',Rule::unique('usr_role_lk')->ignore($input['id'])->where('is_deleted',0),'regex:/^[a-zA-Z\s]*$/']
                 ]);
 
-                $roles_arr = [];
-                $roles_arr['org_id'] = 1;
-                $roles_arr['usr_role_name'] = $input['usr_role_name'];
-                $roles_arr['is_active'] = 1;
-                $roles_arr['is_deleted'] = 0;
-
-
-                $UserRoles = UserRole::where('id',$input['id'])->update($roles_arr);
-
-                $data['title']              =   'User Roles';
-                $data['menu']               =   'user-roles';
-                $data['userroles']              =   UserRole::where('is_deleted',NULL)->orWhere('is_deleted',0)->get();
-
-                if($input['id']  )
+                if($validator->passes())
                 {
-                    if( $input['module_changed'] ==1) 
+                    $roles_arr = [];
+                    $roles_arr['org_id'] = 1;
+                    $roles_arr['usr_role_name'] = $input['usr_role_name'];
+                    $roles_arr['is_active'] = 1;
+                    $roles_arr['is_deleted'] = 0;
+
+
+                    $UserRoles = UserRole::where('id',$input['id'])->update($roles_arr);
+
+                    $data['title']              =   'User Roles';
+                    $data['menu']               =   'user-roles';
+                    $data['userroles']              =   UserRole::where('is_deleted',NULL)->orWhere('is_deleted',0)->get();
+
+                    if($input['id']  )
                     {
-                        DB::table('usr_role_action')->where('usr_role_id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
-                        // dd($input);
-                        foreach ($input['modules'] as $mk => $mv)
+                        if( $input['module_changed'] ==1) 
                         {
-                            $actions = [];
-                            $actions['org_id'] =1;
-                            $actions['usr_role_id'] =$input['id'];   
-                            $actions['module_id'] =$mk; 
-                            if(@$mv["'view'"] == 1) {$actions['view'] =1; }else { $actions['view'] =0; }
-                            if(@$mv["'edit'"] == 1) {$actions['edit'] =1; }else { $actions['edit'] =0; }
-                            if(@$mv["'delete'"] == 1) {$actions['delete'] =1; }else { $actions['delete'] =0; } 
-                            $actions['is_active'] = 1;
-                            $actions['is_deleted'] = 0;
+                            DB::table('usr_role_action')->where('usr_role_id',$input['id'])->update(array('is_deleted'=>1,'is_active'=>0));
+                            // dd($input);
+                            foreach ($input['modules'] as $mk => $mv)
+                            {
+                                $actions = [];
+                                $actions['org_id'] =1;
+                                $actions['usr_role_id'] =$input['id'];   
+                                $actions['module_id'] =$mk; 
+                                if(@$mv["'view'"] == 1) {$actions['view'] =1; }else { $actions['view'] =0; }
+                                if(@$mv["'edit'"] == 1) {$actions['edit'] =1; }else { $actions['edit'] =0; }
+                                if(@$mv["'delete'"] == 1) {$actions['delete'] =1; }else { $actions['delete'] =0; } 
+                                $actions['is_active'] = 1;
+                                $actions['is_deleted'] = 0;
 
-                            DB::table('usr_role_action')->insert($actions);
+                                DB::table('usr_role_action')->insert($actions);
+                            }
                         }
-                    }
 
-                    Session::flash('message', ['text'=>'Role updated successfully','type'=>'success']);
+                        Session::flash('message', ['text'=>'Role updated successfully','type'=>'success']);
+                    }
+                    else
+                    {
+                        Session::flash('message', ['text'=>'Role updation failed','type'=>'danger']);
+                    }
                 }
                 else
                 {
-                Session::flash('message', ['text'=>'Role updation failed','type'=>'danger']);
+                    Session::flash('message', ['text'=>'Enter Valid Role Name !','type'=>'danger']);
+                    return redirect()->back()->withErrors($validator)->withInput($request->all());
                 }
             }
             else
             {
-                $validator= $request->validate([
-                    'usr_role_name'   =>  ['required',Rule::unique('usr_role_lk')->where('is_deleted',0),],
-                ], [], 
-                [
-                    'usr_role_name' => 'Role Name',
+                $validator = Validator::make($request->all(),[
+                    'usr_role_name'   =>  ['required',Rule::unique('usr_role_lk')->where('is_deleted',0),'regex:/^[a-zA-Z\s]*$/']
                 ]);
 
-                $roles_arr = [];
-                $roles_arr['org_id'] = 1;
-                $roles_arr['usr_role_name'] = $input['usr_role_name'];
-                $roles_arr['is_active'] = 1;
-                $roles_arr['is_deleted'] = 0;
-
-                $UserRoles = UserRole::create($roles_arr);
-                $lastId = $UserRoles->id;
-                $data['title']           =   'User Roles';
-                $data['menu']            =   'user-roles';
-                $data['userroles']       =   UserRole::where('is_deleted',NULL)->orWhere('is_deleted',0)->get();
-
-                if($lastId)
+                if($validator->passes())
                 {
-                    if(isset($input['modules']))
+                    $roles_arr = [];
+                    $roles_arr['org_id'] = 1;
+                    $roles_arr['usr_role_name'] = $input['usr_role_name'];
+                    $roles_arr['is_active'] = 1;
+                    $roles_arr['is_deleted'] = 0;
+
+                    $UserRoles = UserRole::create($roles_arr);
+                    $lastId = $UserRoles->id;
+                    $data['title']           =   'User Roles';
+                    $data['menu']            =   'user-roles';
+                    $data['userroles']       =   UserRole::where('is_deleted',NULL)->orWhere('is_deleted',0)->get();
+
+                    if($lastId)
                     {
-                        foreach ($input['modules'] as $mk => $mv)
+                        if(isset($input['modules']))
                         {
-                            $actions = [];
-                            $actions['org_id'] =1;
-                            $actions['usr_role_id'] =$lastId;   
-                            $actions['module_id'] =$mk; 
-                            if(@$mv["'view'"] == 1) {$actions['view'] =1; }else { $actions['view'] =0; }
-                            if(@$mv["'edit'"] == 1) {$actions['edit'] =1; }else { $actions['edit'] =0; }
-                            if(@$mv["'delete'"] == 1) {$actions['delete'] =1; }else { $actions['delete'] =0; } 
-                            $actions['is_active'] = 1;
-                            $actions['is_deleted'] = 0;
-                            DB::table('usr_role_action')->insert($actions);
+                            foreach ($input['modules'] as $mk => $mv)
+                            {
+                                $actions = [];
+                                $actions['org_id'] =1;
+                                $actions['usr_role_id'] =$lastId;   
+                                $actions['module_id'] =$mk; 
+                                if(@$mv["'view'"] == 1) {$actions['view'] =1; }else { $actions['view'] =0; }
+                                if(@$mv["'edit'"] == 1) {$actions['edit'] =1; }else { $actions['edit'] =0; }
+                                if(@$mv["'delete'"] == 1) {$actions['delete'] =1; }else { $actions['delete'] =0; } 
+                                $actions['is_active'] = 1;
+                                $actions['is_deleted'] = 0;
+                                DB::table('usr_role_action')->insert($actions);
+                            }
                         }
+                        Session::flash('message', ['text'=>'Role created successfully','type'=>'success']);
                     }
-                    Session::flash('message', ['text'=>'Role created successfully','type'=>'success']);
+                    else
+                    {
+                        Session::flash('message', ['text'=>'Role creation failed','type'=>'danger']);
+                    }
                 }
                 else
                 {
-                    Session::flash('message', ['text'=>'Role creation failed','type'=>'danger']);
+                    Session::flash('message', ['text'=>'Enter Valid Role Name !','type'=>'danger']);
+                    return redirect()->back()->withErrors($validator)->withInput($request->all());
                 }
             }
             return redirect(route('superadmin.user-roles'));

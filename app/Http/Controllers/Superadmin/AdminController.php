@@ -132,24 +132,25 @@ class AdminController extends Controller
     {
         $return_data = 0; $type = $id = 0;
         $search = $request->search_val;
-        if (str_contains($search, 'hsw') || str_contains($search, 'HSW')) { 
-                        $search = strtolower($search);
-                        $search = explode("hsw", $search);
-                        $search = $search[1];
-                        $find = Survey_requests::where('id',$search)->first();
-                        if($find)
-                        {
-                            $current_status = $find->request_status;
-                            if($current_status ==1)
-                            {
-                                $type = "new";
-                                $id = $find->id; 
-                            }else{
-                                $type = $current_status;
-                                $id = $id = $find->id;
-                            }
-                        }
-                        }
+        if (str_contains($search, 'hsw') || str_contains($search, 'HSW'))
+        { 
+            $search = strtolower($search);
+            $search = explode("hsw", $search);
+            $search = $search[1];
+            $find = Survey_requests::where('id',$search)->first();
+            if($find)
+            {
+                $current_status = $find->request_status;
+                if($current_status ==1)
+                {
+                    $type = "new";
+                    $id = $find->id; 
+                }else{
+                    $type = $current_status;
+                    $id = $id = $find->id;
+                }
+            }
+        }
         return json_encode(array("type"=>$type,"id"=>$id));
         
     }
@@ -276,11 +277,11 @@ class AdminController extends Controller
     {
         $input = $request->all();
         $validator = Validator::make($request->all(),[
-            'name'           =>  ['required','regex:/^[\pL\s]+$/u'],
+            'name'           =>  ['required','regex:/^[a-zA-Z\s]*$/'],
             'email'          =>  ['required',Rule::unique('admins')->ignore($input['admin_id'])->where(function ($query) { $query->where('is_deleted',0)->where('role_id','!=',6);}),'email','max:100'],
             'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['admin_id'])->where('is_deleted',0),'digits:10'],
-            'designation'    =>  ['required','max:100','regex:/^[\pL\s]+$/u'],
-            'pen'            =>  ['required'],
+            'designation'    =>  ['required','max:100','regex:/^[a-zA-Z\s]*$/'],
+            'pen'            =>  ['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'institution'    =>  ['required'],
             'avatar'         =>  ['nullable','mimes:jpeg,png,jpg']
         ]);
@@ -473,12 +474,12 @@ class AdminController extends Controller
         if($input['id'] > 0)
         {
             $validator = Validator::make($request->all(),[
-                'name'           =>  ['required','max:100'],
+                'name'           =>  ['required','regex:/^[a-zA-Z\s]*$/'],
                 'email'          =>  ['required',Rule::unique('admins')->ignore($input['id'])->where('is_deleted',0),'email','max:100'],
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->ignore($input['id'])->where('is_deleted',0)],
-                'designation'    =>  ['required','max:100'],
+                'designation'    =>  ['required','regex:/^[a-zA-Z\s]*$/'],
                 'role_id'        =>  ['required'],
-                'pen'            =>  ['required'],
+                'pen'            =>  ['required','regex:/^[a-zA-Z0-9\s]*$/'],
                 'institution'    =>  ['required'],
                 'avatar'         =>  ['nullable','image','mimes:jpeg,png,jpg']
             ],
@@ -595,12 +596,12 @@ class AdminController extends Controller
         else
         {
             $validator = Validator::make($request->all(),[
-                'name'           =>  ['required','max:100'],
+                'name'           =>  ['required','regex:/^[a-zA-Z\s]*$/'],
                 'email'          =>  ['required',Rule::unique('admins')->where('is_deleted',0),'email','max:100'],
                 'phone'          =>  ['required','numeric',Rule::unique('admins')->where('is_deleted',0)],
-                'designation'    =>  ['required','max:100'],
+                'designation'    =>  ['required','regex:/^[a-zA-Z0-9\s]*$/'],
                 'role_id'        =>  ['required'],
-                'pen'            =>  ['required'],
+                'pen'            =>  ['required','regex:/^[a-zA-Z0-9\s]*$/'],
                 'institution'    =>  ['required'],
                 'avatar'=>['required','image','mimes:jpeg,png,jpg']
             ],

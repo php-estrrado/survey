@@ -247,30 +247,36 @@ class ServicerequestsController extends Controller
     
     public function verify_customer_receipt(Request $request)
     {
-        $id = $request->id;
-
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
-        $assigned_user = survey_requests::where('id',$id)->first()->assigned_user;
-        Survey_requests::where('id',$id)->update([
-            'request_status' => 16,
-            'updated_by' => auth()->user()->id,
-            'updated_at'=>date("Y-m-d H:i:s")
+        $validator = Validator::make($request->all(), [
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
-        $survey_request_logs = [];
+        if($validator->passes())
+        {
+            $id = $request->id;
 
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 16;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+            $assigned_user = survey_requests::where('id',$id)->first()->assigned_user;
+            Survey_requests::where('id',$id)->update([
+                'request_status' => 16,
+                'updated_by' => auth()->user()->id,
+                'updated_at'=>date("Y-m-d H:i:s")
+            ]);
 
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id; 
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 16;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id; 
 
             $from       = auth()->user()->id; 
             $utype      = 2;
@@ -296,79 +302,87 @@ class ServicerequestsController extends Controller
             $notify_from_role_id = 5;
             addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
-        if(isset($survey_request_log_id))
-        {   
-            Session::flash('message', ['text'=>'Receipt Verified Successfully !','type'=>'success']);  
-        }
-        else
-        {
-            Session::flash('message', ['text'=>'Receipt Not Verified Successfully !','type'=>'danger']);
-        }
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Receipt Verified Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Receipt Not Verified Successfully !','type'=>'danger']);
+            }
 
-        return redirect('/accountant/service_requests');
+            return redirect('/accountant/service_requests');
+        }
     }
 
     public function reject_customer_receipt(Request $request)
     {
-        $id = $request->id;
-
-        $cust_id = survey_requests::where('id',$id)->first()->cust_id;
-
-        Survey_requests::where('id',$id)->update([
-            'request_status' => 17,
-            'updated_by' => auth()->user()->id,
-            'updated_at'=>date("Y-m-d H:i:s")
+        $validator = Validator::make($request->all(), [
+            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
         ]);
 
-                $from       = auth()->user()->id; 
-                $utype      = 1;
-                $to         = 1; 
-                $ntype      = 'rejected_customer_receipt';
-                $title      = 'Customer Receipt Rejected By AO.';
-                $desc       = 'Customer Receipt Rejected By AO. Request ID: HSW'.$id;
-                $refId      = $id;
-                $reflink    = '/superadmin/requested_service_detail/'.$id.'/17/';
-                $notify     = 'superadmin';
-                $notify_from_role_id = 5;
-                addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
-
-        $survey_request_logs = [];
-
-        $survey_request_logs['survey_request_id'] = $id;
-        $survey_request_logs['cust_id'] = $cust_id;
-        $survey_request_logs['survey_status'] = 17;
-        $survey_request_logs['remarks'] = $request->remarks;
-        $survey_request_logs['is_active'] = 1;
-        $survey_request_logs['is_deleted'] = 0;
-        $survey_request_logs['created_by'] = auth()->user()->id;
-        $survey_request_logs['updated_by'] = auth()->user()->id;
-        $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
-        $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
-
-        $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
-
-        // $from       = auth()->user()->id; 
-        // $utype      = 1;
-        // $to         = 1; 
-        // $ntype      = 'payment_receipt_rejected';
-        // $title      = 'Payment Receipt Rejected';
-        // $desc       = 'Payment Receipt Rejected. Request ID:HSW'.$id;
-        // $refId      = $id;
-        // $reflink    =  '/superadmin/requested_service_detail/'.$id.'/17/';
-        // $notify     = 'superadmin';
-        // $notify_from_role_id = 5;
-        // addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
-
-        if(isset($survey_request_log_id))
-        {   
-            Session::flash('message', ['text'=>'Receipt Rejected Successfully !','type'=>'success']);  
-        }
-        else
+        if($validator->passes())
         {
-            Session::flash('message', ['text'=>'Receipt Not Rejected Successfully !','type'=>'danger']);
-        }
+            $id = $request->id;
 
-        return redirect('/accountant/service_requests');
+            $cust_id = survey_requests::where('id',$id)->first()->cust_id;
+
+            Survey_requests::where('id',$id)->update([
+                'request_status' => 17,
+                'updated_by' => auth()->user()->id,
+                'updated_at'=>date("Y-m-d H:i:s")
+            ]);
+
+            $from       = auth()->user()->id; 
+            $utype      = 1;
+            $to         = 1; 
+            $ntype      = 'rejected_customer_receipt';
+            $title      = 'Customer Receipt Rejected By AO.';
+            $desc       = 'Customer Receipt Rejected By AO. Request ID: HSW'.$id;
+            $refId      = $id;
+            $reflink    = '/superadmin/requested_service_detail/'.$id.'/17/';
+            $notify     = 'superadmin';
+            $notify_from_role_id = 5;
+            addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
+            $survey_request_logs = [];
+
+            $survey_request_logs['survey_request_id'] = $id;
+            $survey_request_logs['cust_id'] = $cust_id;
+            $survey_request_logs['survey_status'] = 17;
+            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['is_active'] = 1;
+            $survey_request_logs['is_deleted'] = 0;
+            $survey_request_logs['created_by'] = auth()->user()->id;
+            $survey_request_logs['updated_by'] = auth()->user()->id;
+            $survey_request_logs['created_at'] = date('Y-m-d H:i:s');
+            $survey_request_logs['updated_at'] = date('Y-m-d H:i:s');
+
+            $survey_request_log_id = Survey_request_logs::create($survey_request_logs)->id;
+
+            // $from       = auth()->user()->id; 
+            // $utype      = 1;
+            // $to         = 1; 
+            // $ntype      = 'payment_receipt_rejected';
+            // $title      = 'Payment Receipt Rejected';
+            // $desc       = 'Payment Receipt Rejected. Request ID:HSW'.$id;
+            // $refId      = $id;
+            // $reflink    =  '/superadmin/requested_service_detail/'.$id.'/17/';
+            // $notify     = 'superadmin';
+            // $notify_from_role_id = 5;
+            // addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
+
+            if(isset($survey_request_log_id))
+            {   
+                Session::flash('message', ['text'=>'Receipt Rejected Successfully !','type'=>'success']);  
+            }
+            else
+            {
+                Session::flash('message', ['text'=>'Receipt Not Rejected Successfully !','type'=>'danger']);
+            }
+
+            return redirect('/accountant/service_requests');
+        }
     }
     
 }
