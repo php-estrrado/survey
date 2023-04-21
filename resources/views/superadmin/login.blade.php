@@ -25,7 +25,7 @@
 										@csrf
 										<label class="form-label" for="email">Email ID</label>
 										<div class="input-group mb-4">
-											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" value="{{ old('email')}}">
+											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" value="{{ old('email')}}" autocomplete="off">
 											<div id="email_error"></div>
 											@error('email')
 												<p style="color: red">{{ $message }}</p>
@@ -38,7 +38,7 @@
 										</div>
 										<label class="form-label" for="otp">OTP</label>
 										<div class="input-group mb-4">
-											<input type="password" class="form-control" name="otp" id="otp" placeholder="OTP">
+											<input type="text" class="form-control" name="otp" id="otp" placeholder="OTP">
 											<div id="otp_error"></div>
 											@error('otp')
 												<p style="color: red">{{ $message }}</p>
@@ -86,6 +86,16 @@
 				}
 			});
 		}
+		$('body').on('input','#otp',function(){
+           clearPassword();
+        });
+        function clearPassword()
+        {
+            if($('#otp').val() != "")
+            {                
+                $('#otp').attr('type', 'password');
+            }
+        }
 	</script>
 @endsection
 @section('js')

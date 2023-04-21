@@ -407,15 +407,23 @@ Route::middleware('role:surveyor','revalidate')->group(function () {
     Route::post('/surveyor/upload_surveystudy', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload_surveystudy'])->name('surveystudy.upload');
 
     Route::post('/surveyor/storeMedia', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'storeMedia'])->name('survey.storeMedia');
+
+    // Route::get('/surveyor/dropzone', [App\Http\Controllers\ServicerequestsController::class, 'index']);
+
+    Route::post('/surveyor/dropzone/upload', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'upload'])->name('dropzone.upload');
+
+    Route::get('/surveyor/dropzone/fetch', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'fetch'])->name('dropzone.fetch');
+
+    Route::get('/surveyor/dropzone/delete', [App\Http\Controllers\Surveyor\ServicerequestsController::class, 'delete'])->name('dropzone.delete');
 });
 
-Route::get('dropzone', [App\Http\Controllers\DropzoneController::class, 'index']);
+// Route::get('dropzone', [App\Http\Controllers\DropzoneController::class, 'index']);
 
-Route::post('dropzone/upload', [App\Http\Controllers\DropzoneController::class, 'upload'])->name('dropzone.upload');
+// Route::post('dropzone/upload', [App\Http\Controllers\DropzoneController::class, 'upload'])->name('dropzone.upload');
 
-Route::get('dropzone/fetch', [App\Http\Controllers\DropzoneController::class, 'fetch'])->name('dropzone.fetch');
+// Route::get('dropzone/fetch', [App\Http\Controllers\DropzoneController::class, 'fetch'])->name('dropzone.fetch');
 
-Route::get('dropzone/delete', [App\Http\Controllers\DropzoneController::class, 'delete'])->name('dropzone.delete');
+// Route::get('dropzone/delete', [App\Http\Controllers\DropzoneController::class, 'delete'])->name('dropzone.delete');
 
 //Default Pages
 

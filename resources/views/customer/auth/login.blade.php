@@ -23,13 +23,12 @@
                             <p>Enter your email & password to login</p>
                             <div class="form-group">
                                 <label class="col-form-label form-label-title ">Email ID</label>
-                                <input class="form-control" type="email" name="email" placeholder="Email ID" value="{{ old('email')}}">
+                                <input class="form-control" type="email" name="email" placeholder="Email ID" value="{{ old('email')}}" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label class="col-form-label form-label-title ">Password</label>
                                 <div class="form-input position-relative">
-                                    <input class="form-control" type="password" name="password" id="password" 
-                                        placeholder="*********">
+                                    <input class="form-control" type="text" name="password" id="password" placeholder="*********">
                                     <div class="show-hide"><span class="show" id="showPass" onclick="showPass()"> </span></div>
                                 </div>
                             </div>
@@ -45,8 +44,7 @@
                                     <button class="btn btn-primary btn-block w-100" type="submit">Sign in</button>
                                 </div>
                             </div>
-                            <p class="mt-4 mb-0 text-center">Don't have account?<a class="ms-2"
-                                    href="{{ url('customer/register') }}">Create Account</a></p>
+                            <p class="mt-4 mb-0 text-center">Don't have account?<a class="ms-2" href="{{ url('customer/register') }}">Create Account</a></p>
                         </form>
                     </div>
                 </div>
@@ -71,7 +69,26 @@
             @if ($errors->any())          
                 toastr.error("{{$errors->all()[0]}}"); 
             @endif
+
+            // function clearPassword()
+            // {
+            //     if(this.val() != "")
+            //     {
+            //         this.setAttribute('type', 'password');
+            //     }
+            // }
         });
+        
+        $('body').on('input','#password',function(){
+           clearPassword();
+        });
+        function clearPassword()
+        {
+            if($('#password').val() != "")
+            {                
+                $('#password').attr('type', 'password');
+            }
+        }
 
         function showPass()
         {
@@ -88,5 +105,7 @@
                 $('#showPass').addClass('show').removeClass('hide');
             }
         }
+
+        
     </script>
 @endsection

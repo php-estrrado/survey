@@ -1510,8 +1510,12 @@
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks</label>
-							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
+							<label class="form-label" for="reject_remarks">Remarks</label>
+							<textarea class="form-control mb-4" name="reject_remarks" id="reject_remarks" placeholder="Type Here..." rows="3"></textarea>
+							<div id="reject_remarks_error"></div>
+							@error('reject_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1552,4 +1556,9 @@
 
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
+<script type="text/javascript">
+   	@if($errors->has('reject_remarks'))
+    	$('#modaldemo2').modal('show');
+   	@endif
+</script>
 @endsection

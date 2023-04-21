@@ -132,6 +132,10 @@
                             <div class="form-group">
                                 <label class="form-label" for="remarks">Remarks</label>
                                 <textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+                                <div id="remarks_error"></div>
+								@error('remarks')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
                             </div>
                         </div>
                     </div>

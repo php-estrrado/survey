@@ -140,12 +140,20 @@
 										<div class="form-group">
 											<label class="form-label" for="field_study">Date for field study <span class="text-red">*</span></label>
 											<input type="text" class="form-control" name="field_study" id="field_study" placeholder="dd-mm-yyyy" value="{{date('d-m-Y',strtotime($field_study_reschedule))}}">
+											<div id="field_study_error"></div>
+											@error('field_study')
+												<p style="color: red">{{ $message }}</p>
+											@enderror
 										</div>
 									</div>
                                     <div class="col-sm-12 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="remarks">Remarks</label>
 											<textarea class="form-control" name="remarks" id="remarks" placeholder="Type Here..."></textarea>
+											<div id="remarks_error"></div>
+											@error('remarks')
+												<p style="color: red">{{ $message }}</p>
+											@enderror
 										</div>
 									</div>
 								</div>
@@ -1057,7 +1065,11 @@
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label" for="remarks">Remarks</label>
-							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+							<textarea class="form-control" name="reject_remarks" id="reject_remarks" rows="3" placeholder="Type Here..."></textarea>
+							<div id="reject_remarks_error"></div>
+							@error('reject_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1107,5 +1119,10 @@
         autoclose: true
       });
     });
+</script>
+<script type="text/javascript">
+   	@if($errors->has('reject_remarks'))
+    	$('#modaldemo2').modal('show');
+   	@endif
 </script>
 @endsection

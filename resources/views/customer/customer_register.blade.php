@@ -59,7 +59,7 @@
                 
                                 <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="email">Email ID <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="email" placeholder="Email ID" value="{{ old('email') }}">
+                                    <input class="form-control" type="text" name="email" placeholder="Email ID" value="{{ old('email') }}" autocomplete="off">
                                     <div id="email_error"></div>
                                     @error('email')
                                       <p style="color: red">{{ $message }}</p>
@@ -118,7 +118,7 @@
                 
                                 <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="password">Password <span class="text-red">*</span></label>
-                                    <input class="form-control" type="password" name="password" placeholder="Password" value="{{ old('password') }}" autocomplete="false">
+                                    <input class="form-control" type="text" name="password" placeholder="Password" value="{{ old('password') }}" onfocus="this.setAttribute('type', 'password')">
                                     <div id="password_error"></div>
                                     @error('password')
                                       <p style="color: red">{{ $message }}</p>
@@ -127,7 +127,7 @@
 
                                 <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="password_confirmation">Confirm Password <span class="text-red">*</span></label>
-                                    <input class="form-control" type="password" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}" autocomplete="false">
+                                    <input class="form-control" type="text" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}" onfocus="this.setAttribute('type', 'password')">
                                     <div id="password_confirmation_error"></div>
                                     @error('password_confirmation')
                                       <p style="color: red">{{ $message }}</p>

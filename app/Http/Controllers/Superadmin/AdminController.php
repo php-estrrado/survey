@@ -533,7 +533,7 @@ class AdminController extends Controller
                 $usr_arr['role'] = $input['role_id'];
                 $usr_arr['pen'] = $input['pen'];
                 $usr_arr['institution'] = $input['institution'];
-                $usr_arr['userparent'] = $input['parent_id'];
+                // $usr_arr['userparent'] = $input['parent_id'];
                 $usr_arr['is_active'] = 1;
                 $usr_arr['is_deleted'] = 0;
                 $usr_arr['created_by'] = 1;
@@ -577,7 +577,7 @@ class AdminController extends Controller
                 $usr_arr['role'] = $input['role_id'];
                 $usr_arr['pen'] = $input['pen'];
                 $usr_arr['institution'] = $input['institution'];
-                $usr_arr['userparent'] = $input['parent_id'];
+                // $usr_arr['userparent'] = $input['parent_id'];
                 $usr_arr['is_active'] = 1;
                 $usr_arr['is_deleted'] = 0;
                 $usr_arr['created_by'] = 1;
@@ -658,7 +658,7 @@ class AdminController extends Controller
                 $usr_arr['role'] = $input['role_id'];
                 $usr_arr['pen'] = $input['pen'];
                 $usr_arr['institution'] = $input['institution'];
-                $usr_arr['userparent'] = $input['parent_id'];
+                // $usr_arr['userparent'] = $input['parent_id'];
                 $usr_arr['is_active'] = 1;
                 $usr_arr['is_deleted'] = 0;
                 $usr_arr['created_by'] = auth()->user()->id;
@@ -704,7 +704,7 @@ class AdminController extends Controller
                 $usr_arr['role'] = $input['role_id'];
                 $usr_arr['pen'] = $input['pen'];
                 $usr_arr['institution'] = $input['institution'];
-                $usr_arr['userparent'] = $input['parent_id'];
+                // $usr_arr['userparent'] = $input['parent_id'];
                 $usr_arr['is_active'] = 1;
                 $usr_arr['is_deleted'] = 0;
                 $usr_arr['created_by'] = auth()->user()->id;

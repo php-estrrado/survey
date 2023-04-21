@@ -1278,16 +1278,28 @@
 									@endforeach
 								@endif
 							</select>
+							<div id="assigned_survey_institution_error"></div>
+							@error('assigned_survey_institution')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="form-group">
 							<label class="form-label">User <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" name="assigned_survey_user" id="assigned_survey_user">
 								<option value="">--Select--</option>
 							</select>
+							<div id="assigned_survey_user_error"></div>
+							@error('assigned_survey_user')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="form-group">
 							<label class="form-label" for="remarks">Remarks</label>
 							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+							<div id="remarks_error"></div>
+							@error('remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1320,12 +1332,20 @@
 									@endforeach
 								@endif
 							</select>
+							<div id="draftsman_error"></div>
+							@error('draftsman')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label" for="remarks">Remarks</label>
 							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
+							<div id="remarks_error"></div>
+							@error('remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1354,18 +1374,30 @@
 								<label class="custom-control custom-checkbox d-inline-block mr-3" for="report">
 									<input type="checkbox" class="custom-control-input" name="report" id="report" value="1">
 									<span class="custom-control-label">Report</span>
+									<div id="report_error"></div>
+									@error('report')
+										<p style="color: red">{{ $message }}</p>
+									@enderror
 								</label>
 								<label class="custom-control custom-checkbox d-inline-block" for="eta">
 									<input type="checkbox" class="custom-control-input" name="eta" id="eta" value="1">
 									<span class="custom-control-label">ETA</span>
+									<div id="eta_error"></div>
+									@error('eta')
+										<p style="color: red">{{ $message }}</p>
+									@enderror
 								</label>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control" rows="3" placeholder="Type Here..." name="remarks" id="remarks"></textarea>
+							<label class="form-label" for="reject_field_remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control" rows="3" placeholder="Type Here..." name="reject_field_remarks" id="reject_field_remarks"></textarea>
+							<div id="reject_field_remarks_error"></div>
+							@error('reject_field_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1426,5 +1458,16 @@
 			}
 		});
 		}
+	</script>
+	<script type="text/javascript">
+		@if ($errors->has('assigned_survey_institution')||$errors->has('assigned_survey_user')||$errors->has('remarks'))
+			$('#modaldemo1').modal('show');
+		@endif
+		@if ($errors->has('draftsman')||$errors->has('remarks'))
+			$('#modaldemo2').modal('show');
+		@endif
+		@if ($errors->has('reject_field_remarks'))
+			$('#modaldemo3').modal('show');
+		@endif
 	</script>
 @endsection

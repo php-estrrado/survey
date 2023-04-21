@@ -1002,9 +1002,9 @@
 							@enderror
 						</div>
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
-							@error('remarks')
+							<label class="form-label" for="assign_survey_remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control" name="assign_survey_remarks" id="assign_survey_remarks" rows="3" placeholder="Type Here..."></textarea>
+							@error('assign_survey_remarks')
 								<p style="color: red">{{ $message }}</p>
 							@enderror
 						</div>
@@ -1030,8 +1030,11 @@
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control" rows="3" name="remarks" id="remarks" placeholder="Type Here..."></textarea>
+							<label class="form-label" for="reject_open_remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control" rows="3" name="reject_open_remarks" id="reject_open_remarks" placeholder="Type Here..."></textarea>
+							@error('reject_open_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1056,8 +1059,11 @@
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+							<label class="form-label" for="reject_close_remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control" name="reject_close_remarks" id="reject_close_remarks" rows="3" placeholder="Type Here..."></textarea>
+							@error('reject_close_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<p class="text-center">Your request has been rejected with closed file. You will not be able to resubmit this request.</p>
 					</div>
@@ -1119,10 +1125,16 @@
         }
       });
 	}
-	@if(Session::has('errors'))
-		$(document).ready(function(){
-    		$('#modaldemo1').modal({show: true});
-		});
-	@endif
+</script>
+<script type="text/javascript">
+   	@if ($errors->has('assigned_institution')||$errors->has('assigned_user')||$errors->has('assign_survey_remarks') )
+    	$('#modaldemo1').modal('show');
+   	@endif
+   	@if ($errors->has('reject_open_remarks'))
+    	$('#modaldemo2').modal('show');
+   	@endif
+	@if ($errors->has('reject_close_remarks'))
+    	$('#modaldemo3').modal('show');
+   	@endif
 </script>
 @endsection

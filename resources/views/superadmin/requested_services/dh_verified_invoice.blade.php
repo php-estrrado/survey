@@ -1279,6 +1279,10 @@
 									@endforeach
 								@endif
 							</select>
+							<div id="assigned_survey_institution_error"></div>
+							@error('assigned_survey_institution')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="form-group">
 							<label class="form-label">User <span class="text-red">*</span></label>
@@ -1290,6 +1294,18 @@
 									@endforeach
 								@endif
 							</select>
+							<div id="assigned_survey_user_error"></div>
+							@error('assigned_survey_user')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
+						</div>
+						<div class="form-group">
+							<label class="form-label" for="remarks">Remarks</label>
+							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+							<div id="remarks_error"></div>
+							@error('remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1313,8 +1329,12 @@
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks</label>
-							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+							<label class="form-label" for="send_remarks">Remarks</label>
+							<textarea class="form-control" name="send_remarks" id="send_remarks" rows="3" placeholder="Type Here..."></textarea>
+							<div id="send_remarks_error"></div>
+							@error('send_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1338,8 +1358,12 @@
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
+							<label class="form-label" for="reject_remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control mb-4" name="reject_remarks" id="reject_remarks" placeholder="Type Here..." rows="3"></textarea>
+							<div id="reject_remarks_error"></div>
+							@error('reject_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1380,4 +1404,15 @@
 
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
+<script type="text/javascript">
+	@if ($errors->has('assigned_survey_institution')||$errors->has('assigned_survey_user')||$errors->has('remarks'))
+		$('#modaldemo1').modal('show');
+	@endif
+	@if ($errors->has('send_remarks'))
+		$('#modaldemo2').modal('show');
+	@endif
+	@if ($errors->has('reject_remarks'))
+		$('#modaldemo3').modal('show');
+	@endif
+</script>
 @endsection

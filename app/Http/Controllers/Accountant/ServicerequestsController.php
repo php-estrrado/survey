@@ -248,7 +248,7 @@ class ServicerequestsController extends Controller
     public function verify_customer_receipt(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'verify_remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -268,7 +268,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $id;
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 16;
-            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['remarks'] = $request->verify_remarks;
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -313,12 +313,16 @@ class ServicerequestsController extends Controller
 
             return redirect('/accountant/service_requests');
         }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
+        }
     }
 
     public function reject_customer_receipt(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'reject_remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -350,7 +354,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $id;
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 17;
-            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['remarks'] = $request->reject_remarks;
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -382,6 +386,10 @@ class ServicerequestsController extends Controller
             }
 
             return redirect('/accountant/service_requests');
+        }
+        else
+        {
+            return redirect()->back()->withErrors($validator)->withInput($request->all());
         }
     }
     

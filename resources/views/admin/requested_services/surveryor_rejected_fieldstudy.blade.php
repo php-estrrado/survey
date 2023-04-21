@@ -146,18 +146,30 @@
 													@endforeach
 												@endif
 											</select>
+											<div id="assign_surveyor_error"></div>
+											@error('assign_surveyor')
+												<p style="color: red">{{ $message }}</p>
+											@enderror
 										</div>
 									</div>
 									<div class="col-sm-6 col-md-6">
 										<div class="form-group">
 											<label class="form-label" for="field_study">Date for field study <span class="text-red">*</span></label>
 											<input type="text" class="form-control" name="field_study" id="field_study" placeholder="dd-mm-yyyy">
+											<div id="field_study_error"></div>
+											@error('field_study')
+												<p style="color: red">{{ $message }}</p>
+											@enderror
 										</div>
 									</div>
                                     <div class="col-sm-12 col-md-12">
 										<div class="form-group">
 											<label class="form-label" for="remarks">Remarks</label>
 											<textarea class="form-control" name="remarks" id="remarks" placeholder="Type Here..."></textarea>
+											<div id="remarks_error"></div>
+											@error('remarks')
+												<p style="color: red">{{ $message }}</p>
+											@enderror
 										</div>
 									</div>
 								</div>

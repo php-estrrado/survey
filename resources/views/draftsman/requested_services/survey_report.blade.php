@@ -1374,12 +1374,20 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group">
                         <input class="form-control" type="file" name="upload_report" id="upload_report">
+						<div id="upload_report_error"></div>
+						@error('upload_report')
+							<p style="color: red">{{ $message }}</p>
+						@enderror
                     </div>
                 </div>
 				<div class="col-sm-12 col-md-12">
 					<div class="form-group">
 						<label class="form-label" for="remarks">Remarks</label>
 						<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+						<div id="remarks_error"></div>
+						@error('remarks')
+							<p style="color: red">{{ $message }}</p>
+						@enderror
 					</div>
 				</div>
                 <div class="row">

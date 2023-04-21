@@ -347,6 +347,10 @@
                 <div class="form-group">
 					<label class="form-label" for="performa_remarks">Remarks <span class="text-red">*</span></label>
 					<textarea class="form-control mb-4" name="performa_remarks" id="performa_remarks" placeholder="Type Here..." rows="3"></textarea>
+                    <div id="performa_remarks_error"></div>
+                    @error('performa_remarks')
+                        <p style="color: red">{{ $message }}</p>
+                    @enderror
 				</div>
 			</div>
 		</div>
@@ -373,6 +377,10 @@
 				<div class="form-group">
 					<label class="form-label" for="performa_remarks">Remarks <span class="text-red">*</span></label>
 					<textarea class="form-control mb-4" name="performa_remarks" id="performa_remarks" placeholder="Type Here..." rows="3"></textarea>
+                    <div id="performa_remarks_error"></div>
+                    @error('performa_remarks')
+                        <p style="color: red">{{ $message }}</p>
+                    @enderror
 				</div>
 			</div>
 		</div>

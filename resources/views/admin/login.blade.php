@@ -25,7 +25,7 @@
 										@csrf
 										<label class="form-label" for="email">Email ID</label>
 										<div class="input-group mb-4">
-											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID">
+											<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" autocomplete="off">
 										</div>
 										<div class="row justify-content-end mb-4">
 											<div class="col-4">
@@ -34,7 +34,7 @@
 										</div>
 										<label class="form-label" for="otp">OTP</label>
 										<div class="input-group mb-4">
-											<input type="password" class="form-control" name="otp" id="otp" placeholder="OTP">
+											<input type="text" class="form-control" name="otp" id="otp" placeholder="OTP">
 										</div>
 										<div class="row justify-content-end">
 											<div class="col-4">
@@ -78,6 +78,16 @@
 				}
 			});
 		}
+		$('body').on('input','#otp',function(){
+           clearPassword();
+        });
+        function clearPassword()
+        {
+            if($('#otp').val() != "")
+            {                
+                $('#otp').attr('type', 'password');
+            }
+        }
 	</script>
 @endsection
 @section('js')

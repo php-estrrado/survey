@@ -1413,12 +1413,20 @@
 									@endforeach
 								@endif
 							</select>
+							<div id="final_draftsman_error"></div>
+							@error('final_draftsman')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks</label>
-							<textarea class="form-control" name="remarks" id="remarks" rows="2" placeholder="Type Here..."></textarea>
+							<label class="form-label" for="assign_remarks">Remarks</label>
+							<textarea class="form-control" name="assign_remarks" id="assign_remarks" rows="2" placeholder="Type Here..."></textarea>
+							<div id="assign_remarks_error"></div>
+							@error('assign_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1442,8 +1450,12 @@
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control mb-4" name="remarks" id="remarks" placeholder="Type Here..." rows="3"></textarea>
+							<label class="form-label" for="reject_remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control mb-4" name="reject_remarks" id="reject_remarks" placeholder="Type Here..." rows="3"></textarea>
+							<div id="reject_remarks_error"></div>
+							@error('reject_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1484,4 +1496,12 @@
 
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
+<script type="text/javascript">
+	@if ($errors->has('final_draftsman')||$errors->has('assign_remarks'))
+		$('#modaldemo1').modal('show');
+	@endif
+	@if ($errors->has('reject_remarks'))
+		$('#modaldemo2').modal('show');
+	@endif
+</script>
 @endsection

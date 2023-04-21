@@ -141,7 +141,7 @@
 								<p style="color: red">{{ $message }}</p>
 							@enderror
 						</div>
-						<div class="col-sm-6 col-md-6">
+						<!-- <div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="parent_id">User Parent <span class="text-red">*</span></label>
 								<select class="form-control select2" name="parent_id" id="parent_id">
@@ -155,7 +155,7 @@
 							@error('parent_id')
 								<p style="color: red">{{ $message }}</p>
 							@enderror
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

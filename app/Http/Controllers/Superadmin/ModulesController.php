@@ -70,7 +70,7 @@ class ModulesController extends Controller
                     $validator= Validator::make($request->all(),[
                         'module_name' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
                         'class' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
-                        'link'   =>  ['required',Rule::unique('module')->ignore($input['id']),'regex:/^[a-zA-Z0-9\s.,@#&*()_-=]*$/']
+                        'link'   =>  ['required',Rule::unique('module')->ignore($input['id']),'regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
                     ]);
                 }
                 else
@@ -78,7 +78,7 @@ class ModulesController extends Controller
                     $validator= Validator::make($request->all(),[
                         'module_name' => ['required', 'regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
                         'class' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
-                        'link'  =>  ['required','regex:/^[a-zA-Z0-9\s.,@#&*()_-=]*$/']
+                        'link'  =>  ['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
                     ]);
                 }
                 
@@ -103,7 +103,7 @@ class ModulesController extends Controller
                     $validator= Validator::make($request->all(),[
                         'module_name' => ['required', 'regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
                         'class' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
-                        'link'  =>  ['required',Rule::unique('module'),'regex:/^[a-zA-Z0-9\s.,@#&*()_-=]*$/']
+                        'link'  =>  ['required',Rule::unique('module'),'regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
                     ]);
                 }
                 else
@@ -111,7 +111,7 @@ class ModulesController extends Controller
                     $validator= Validator::make($request->all(),[
                         'module_name' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
                         'class' => ['required','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
-                        'link'  =>  ['required','regex:/^[a-zA-Z0-9\s.,@#&*()_-=]*$/']
+                        'link'  =>  ['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
                     ]);
                 }
                 // dd($input);

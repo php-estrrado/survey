@@ -227,7 +227,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assigned_institution'=>['required'],
             'assigned_user'=>['required'],
-            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'assign_survey_remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -285,7 +285,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 2;
-            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['remarks'] = $input['assign_survey_remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -600,7 +600,7 @@ class ServicerequestsController extends Controller
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'draftsman'=>['required'],
-            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
         ]);
 
         if($validator->passes())
@@ -665,7 +665,7 @@ class ServicerequestsController extends Controller
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'draftsman'=>['required'],
-            'remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+            'invoice_remarks'=>['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
         ]);
 
         if($validator->passes())
@@ -732,7 +732,7 @@ class ServicerequestsController extends Controller
             'id'=>['required'],
             'assigned_survey_institution'=>['required'],
             'assigned_survey_user'=>['required'],
-            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
         ]);
 
         if($validator->passes())
@@ -764,7 +764,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 18;
-            $survey_request_logs['remarks'] = @$input['remarks'];
+            $survey_request_logs['remarks'] = $input['remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -831,7 +831,7 @@ class ServicerequestsController extends Controller
     public function send_performa_invoice_customer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+            'send_remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
         ]);
 
         if($validator->passes())
@@ -862,7 +862,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $id;
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 15;
-            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['remarks'] = $request->send_remarks;
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -914,7 +914,7 @@ class ServicerequestsController extends Controller
     public function send_invoice_customer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+            'send_remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
         ]);
 
         if($validator->passes())
@@ -944,7 +944,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $id;
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 51;
-            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['remarks'] = $request->send_remarks;
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -996,7 +996,7 @@ class ServicerequestsController extends Controller
     public function send_rejected_receipt_customer(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
         ]);
 
         if($validator->passes())
@@ -1066,7 +1066,7 @@ class ServicerequestsController extends Controller
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
             'final_draftsman'=>['required'],
-            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+            'assign_remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
         ]);
 
         if($validator->passes())
@@ -1085,7 +1085,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 23;
-            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['remarks'] = $input['assign_remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -1154,7 +1154,7 @@ class ServicerequestsController extends Controller
     public function verify_final_report(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/']
+            'verify_remarks' => ['nullable','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/']
         ]);
 
         if($validator->passes())
@@ -1170,7 +1170,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $id;
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 27;
-            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['remarks'] = $request->verify_remarks;
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -1240,7 +1240,7 @@ class ServicerequestsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'reject_close_remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -1257,7 +1257,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $id;
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 3;
-            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['remarks'] = $request->reject_close_remarks;
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -1286,7 +1286,7 @@ class ServicerequestsController extends Controller
             UserNotification::create($usr_noti);
 
             $data['id'] = $id;
-            $data['remarks'] = $request->remarks;
+            $data['remarks'] = $request->reject_close_remarks;
             
             // $var = Mail::send('emails.reject_closed', $data, function($message) use($data,$cust_email) {
             //     $message->from(getadmin_mail(),'HSW');    
@@ -1315,7 +1315,7 @@ class ServicerequestsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'reject_open_remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -1332,7 +1332,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $id;
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 4;
-            $survey_request_logs['remarks'] = $request->remarks;
+            $survey_request_logs['remarks'] = $request->reject_open_remarks;
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -1361,7 +1361,7 @@ class ServicerequestsController extends Controller
             UserNotification::create($usr_noti);
 
             $data['id'] = $id;
-            $data['remarks'] = $request->remarks;
+            $data['remarks'] = $request->reject_open_remarks;
             $data['link'] = url('/customer/requested_services');
             
             // $var = Mail::send('emails.reject_open', $data, function($message) use($data,$cust_email) {
@@ -1393,7 +1393,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'reject_field_remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -1428,7 +1428,7 @@ class ServicerequestsController extends Controller
                 $survey_request_logs['survey_request_id'] = $input['id'];
                 $survey_request_logs['cust_id'] = $cust_id;
                 $survey_request_logs['survey_status'] = 67;
-                $survey_request_logs['remarks'] = $input['remarks'];
+                $survey_request_logs['remarks'] = $input['reject_field_remarks'];
                 $survey_request_logs['is_active'] = 1;
                 $survey_request_logs['is_deleted'] = 0;
                 $survey_request_logs['created_by'] = auth()->user()->id;
@@ -1576,7 +1576,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'reject_remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -1595,7 +1595,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 37;
-            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['remarks'] = $input['reject_remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -1640,7 +1640,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'reject_remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -1658,7 +1658,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 35;
-            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['remarks'] = $input['reject_remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -1703,7 +1703,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'reject_remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -1721,7 +1721,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 53;
-            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['remarks'] = $input['reject_remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;
@@ -1766,7 +1766,7 @@ class ServicerequestsController extends Controller
 
         $validator = Validator::make($request->all(), [
             'id'=>['required'],
-            'remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()-_]*$/'],
+            'reject_remarks'=>['required','regex:/^[a-zA-Z0-9\s.,@#&*()_\-\/=]*$/'],
         ]);
 
         if($validator->passes())
@@ -1785,7 +1785,7 @@ class ServicerequestsController extends Controller
             $survey_request_logs['survey_request_id'] = $input['id'];
             $survey_request_logs['cust_id'] = $cust_id;
             $survey_request_logs['survey_status'] = 39;
-            $survey_request_logs['remarks'] = $input['remarks'];
+            $survey_request_logs['remarks'] = $input['reject_remarks'];
             $survey_request_logs['is_active'] = 1;
             $survey_request_logs['is_deleted'] = 0;
             $survey_request_logs['created_by'] = auth()->user()->id;

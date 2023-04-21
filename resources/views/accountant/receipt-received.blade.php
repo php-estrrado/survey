@@ -158,9 +158,12 @@
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks</label>
-							<textarea class="form-control verifyremarks" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
-							<p style="color: red; display: none;" id="remarksverify"></p>
+							<label class="form-label" for="verify_remarks">Remarks</label>
+							<textarea class="form-control verifyremarks" name="verify_remarks" id="verify_remarks" rows="3" placeholder="Type Here..."></textarea>
+							<div id="verify_remarks_error"></div>
+							@error('verify_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -184,9 +187,12 @@
 				<div class="modal-body">
 					<div class="col-md-12">
 						<div class="form-group">
-							<label class="form-label" for="remarks">Remarks <span class="text-red">*</span></label>
-							<textarea class="form-control rejectremark" rows="3" placeholder="Type Here..." name="remarks" id="remarks"></textarea>
-							<p style="color: red; display: none;" id="remarksreject"></p>
+							<label class="form-label" for="reject_remarks">Remarks <span class="text-red">*</span></label>
+							<textarea class="form-control rejectremark" rows="3" placeholder="Type Here..." name="reject_remarks" id="reject_remarks"></textarea>
+							<div id="reject_remarks_error"></div>
+							@error('reject_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -258,4 +264,12 @@ if($.trim($('.verifyremarks').val()) == '') {
 </script>
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
+<script type="text/javascript">
+	@if ($errors->has('verify_remarks'))
+		$('#modaldemo1').modal('show');
+	@endif
+	@if ($errors->has('reject_remarks'))
+		$('#modaldemo2').modal('show');
+	@endif
+</script>
 @endsection

@@ -333,23 +333,39 @@ class ServicerequestsController extends Controller
         }
     }
 
-    public function storeMedia(Request $request)
+    function upload(Request $request)
     {
-        $path = storage_path('tmp/uploads');
+        $image = $request->file('file');
 
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
+        $imageName = time() . '.' . $image->extension();
+
+        $image->move(public_path('images'), $imageName);
+
+        return response()->json(['success' => $imageName]);
+    }
+
+    function fetch()
+    {
+        $images = \File::allFiles(public_path('images'));
+        $output = '<div class="row">';
+        foreach($images as $image)
+        {
+            $output .= '
+                <div class="col-md-2" style="margin-bottom:16px;" align="center">
+                    <img src="'.asset('images/' . $image->getFilename()).'" class="img-thumbnail" width="175" height="175" style="height:175px;" />
+                    <button type="button" class="btn btn-link remove_image" id="'.$image->getFilename().'">Remove</button>
+                </div>
+            ';
         }
+        $output .= '</div>';
+        echo $output;
+    }
 
-        $file = $request->file('file');
-
-        $name = uniqid() . '_' . trim($file->getClientOriginalName());
-
-        $file->move($path, $name);
-
-        return response()->json([
-            'name'          => $name,
-            'original_name' => $file->getClientOriginalName(),
-        ]);
+    function delete(Request $request)
+    {
+        if($request->get('name'))
+        {
+            \File::delete(public_path('images/' . $request->get('name')));
+        }
     }
 }

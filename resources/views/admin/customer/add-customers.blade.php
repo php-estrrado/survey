@@ -81,7 +81,7 @@
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="email">Email ID <span class="text-red">*</span></label>
-								<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" value="{{ old('email') }}">
+								<input type="text" class="form-control" name="email" id="email" placeholder="Email ID" value="{{ old('email') }}" autocomplete="off">
 								<div id="email_error"></div>
 								@error('email')
 									<p style="color: red">{{ $message }}</p>
@@ -132,7 +132,7 @@
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="password">Password <span class="text-red">*</span></label>
-								<input type="password" class="form-control" name="password" id="password" placeholder="Password" value="{{ old('password') }}">
+								<input type="text" class="form-control" name="password" id="password" placeholder="Password" value="{{ old('password') }}" onfocus="this.setAttribute('type', 'password')">
 								<div id="password_error"></div>
 								@error('password')
 									<p style="color: red">{{ $message }}</p>
@@ -142,7 +142,7 @@
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="password_confirmation">Confirm Password <span class="text-red">*</span></label>
-								<input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}">
+								<input type="text" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}" onfocus="this.setAttribute('type', 'password')">
 								<div id="password_confirmation_error"></div>
 								@error('password_confirmation')
 									<p style="color: red">{{ $message }}</p>

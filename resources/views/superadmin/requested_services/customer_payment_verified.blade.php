@@ -1518,16 +1518,28 @@
 									@endforeach
 								@endif
 							</select>
+							<div id="assigned_survey_institution_error"></div>
+							@error('assigned_survey_institution')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="form-group">
 							<label class="form-label">User <span class="text-red">*</span></label>
 							<select class="form-control custom-select select2" name="assigned_survey_user" id="assigned_survey_user">
 								<option value="">--Select--</option>
 							</select>
+							<div id="assigned_survey_user_error"></div>
+							@error('assigned_survey_user')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 						<div class="form-group">
 							<label class="form-label" for="remarks">Remarks</label>
 							<textarea class="form-control" name="remarks" id="remarks" rows="3" placeholder="Type Here..."></textarea>
+							<div id="remarks_error"></div>
+							@error('remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1588,5 +1600,10 @@
 			}
 		});
 		}
+	</script>
+	<script type="text/javascript">
+   		@if ($errors->has('assigned_survey_institution')||$errors->has('assigned_survey_user')||$errors->has('remarks'))
+    		$('#modaldemo1').modal('show');
+   		@endif
 	</script>
 @endsection

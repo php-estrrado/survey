@@ -1289,12 +1289,20 @@
 									@endforeach
 								@endif
 							</select>
+							<div id="draftsman_error"></div>
+							@error('draftsman')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 					<div class="col-md-12">
 						<div class="form-group">
 							<label class="form-label" for="invoice_remarks">Remarks <span class="text-red">*</span></label>
 							<textarea class="form-control" rows="3" name="invoice_remarks" id="invoice_remarks" placeholder="Type Here..."></textarea>
+							<div id="invoice_remarks_error"></div>
+							@error('invoice_remarks')
+								<p style="color: red">{{ $message }}</p>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -1315,7 +1323,7 @@
 			<div class="modal-body">
 				<div class="col-md-12">
 					<div class="form-group">
-						<label class="form-label">Remark <span class="text-red">*</span></label>
+						<label class="form-label">Remarks <span class="text-red">*</span></label>
 						<textarea class="form-control" rows="3" placeholder="Type Here..."></textarea>
 					</div>
 				</div>
@@ -1356,4 +1364,9 @@
 
 <!-- INTERNAL Select2 js -->
 <script src="{{URL::asset('assets/plugins/select2/select2.full.min.js')}}"></script>
+<script type="text/javascript">
+   	@if($errors->has('draftsman')||$errors->has('invoice_remarks'))
+    	$('#modaldemo1').modal('show');
+   	@endif
+</script>
 @endsection

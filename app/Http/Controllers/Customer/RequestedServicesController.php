@@ -164,7 +164,7 @@ class RequestedServicesController extends Controller
     public function performa_invoice_remarks(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'performa_remarks'=>['required','regex:/^[a-zA-Z\s.,-@&*()]*$/']
+            'performa_remarks'=>['required','regex:/^[a-zA-Z\s.,\-@&*()]*$/']
         ]);
 
         if($validator->passes())
@@ -230,7 +230,7 @@ class RequestedServicesController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'performa_remarks'=>['required','regex:/^[a-zA-Z\s.,-@&*()]*$/']
+            'performa_remarks'=>['required','regex:/^[a-zA-Z\s.,\-@&*()]*$/']
         ]);
 
         if($validator->passes())
