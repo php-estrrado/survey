@@ -102,7 +102,7 @@ class ServicerequestsController extends Controller
 
         if($datas->request_status != $status)
         {
-            return redirect('/surveyor/service_requests');
+            return redirect('/surveyor/requested_service_detail/'.$id.'/'.$datas->request_status);
         }
 
         if($datas->service_id == 1)

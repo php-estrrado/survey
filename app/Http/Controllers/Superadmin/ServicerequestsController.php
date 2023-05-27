@@ -1475,7 +1475,7 @@ class ServicerequestsController extends Controller
                 $survey_request_logs['survey_request_id'] = $input['id'];
                 $survey_request_logs['cust_id'] = $cust_id;
                 $survey_request_logs['survey_status'] = 33;
-                $survey_request_logs['remarks'] = $input['remarks'];
+                $survey_request_logs['remarks'] = $input['reject_field_remarks'];
                 $survey_request_logs['is_active'] = 1;
                 $survey_request_logs['is_deleted'] = 0;
                 $survey_request_logs['created_by'] = auth()->user()->id;
@@ -1521,7 +1521,7 @@ class ServicerequestsController extends Controller
                 $survey_request_logs['survey_request_id'] = $input['id'];
                 $survey_request_logs['cust_id'] = $cust_id;
                 $survey_request_logs['survey_status'] = 67;
-                $survey_request_logs['remarks'] = $input['remarks'];
+                $survey_request_logs['remarks'] = $input['reject_field_remarks'];
                 $survey_request_logs['is_active'] = 1;
                 $survey_request_logs['is_deleted'] = 0;
                 $survey_request_logs['created_by'] = auth()->user()->id;

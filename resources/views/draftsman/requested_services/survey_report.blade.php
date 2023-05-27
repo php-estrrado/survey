@@ -470,11 +470,16 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 											@endphp
 											@if($uploaded_images && count($uploaded_images) > 0)
 												@foreach($uploaded_images as $images)
-													<li class="col-xs-4 col-sm-3 col-md-3" data-responsive="{{$images}}" data-src="{{$images}}">
-														<a href="{{$images}}" target="_blank">
-															<img class="img-responsive" src="{{$images}}" alt="Thumb-1" width="100px">
-														</a>
-													</li>
+													@php $path_info = pathinfo($images); $extension = $path_info['extension']; @endphp
+													<div class="col-md-3 col-sm-3">
+														@if($extension == "jpeg" || $extension == "jpg" || $extension == "png" || $extension == "gif" )
+															<img src="{{$images}}" alt="Thumb-1" width="100px">
+														@else
+															<a href="{{$images}}" target="_blank">
+																<img src="{{URL::asset('admin/assets/images/file_image.png')}}" alt="Thumb-1" width="100px">
+															</a>
+														@endif
+													</div>
 												@endforeach
 											@endif
 										</ul>

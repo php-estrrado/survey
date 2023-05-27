@@ -166,7 +166,7 @@ class ServicerequestsController extends Controller
             $cartographer_service['service_id'] = $input['service_id'];
             $cartographer_service['service_request_id'] = 1;
             $cartographer_service['cartographer_request'] = 1;
-            $cartographer_service['date'] = $input['date_of_survey'];
+            $cartographer_service['date'] = date('Y-m-d',strtotime($input['date_of_survey']));
             $cartographer_service['file_no'] = $input['file_number'];
             $cartographer_service['first_name'] = $input['first_name'];
             $cartographer_service['department_name'] = $input['department_name'];

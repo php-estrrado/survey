@@ -24,6 +24,12 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0; }
 
+  .login-card .logo {
+    display: block;
+    margin-bottom: 30px;
+    text-align: center
+}
+
 ul li ul:hover {
   visibility: visible;
   opacity: 1;

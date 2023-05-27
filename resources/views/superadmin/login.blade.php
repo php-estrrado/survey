@@ -9,7 +9,7 @@
 			<div class="row">
 				<div class="col mx-auto">
 					<div class="row justify-content-center">
-						<div class="col-md-5">
+						<div class="col-md-5 login-card">
 							<div>
 								<a class="logo" href="#">
 									<img class="img-fluid for-light" src="{{url('admin/assets/images/logo.png')}}" alt="looginpage">
@@ -86,16 +86,6 @@
 				}
 			});
 		}
-		$('body').on('input','#otp',function(){
-           clearPassword();
-        });
-        function clearPassword()
-        {
-            if($('#otp').val() != "")
-            {                
-                $('#otp').attr('type', 'password');
-            }
-        }
 	</script>
 @endsection
 @section('js')
@@ -108,4 +98,16 @@
 			@endforeach
 		@endif
     </script>
+	<script type="text/javascript">
+		$('body').on('input','#otp',function(){
+           	clearPassword();
+        });
+        function clearPassword()
+        {
+            if($('#otp').val() != "")
+            {
+                $('#otp').attr('type', 'password');
+            }
+        }
+	</script>
 @endsection

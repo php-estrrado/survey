@@ -52,7 +52,7 @@
 			{
 				$mark_url = url("superadmin/mark-notifications");
 			}
-			elseif(auth()->user()->role_id == 2)
+			elseif(auth()->user()->role_id == 2 || auth()->user()->role_id == 7)
 			{
 				$mark_url = url("admin/mark-notifications");
 			}
@@ -106,6 +106,7 @@
 				// alert("clicked");
 				var not_id = jQuery(this).data("id");
 				
+				// alert('{{ $mark_url }}');
 					$.ajax({
 					type: "POST",
 					url: '{{ $mark_url }}',

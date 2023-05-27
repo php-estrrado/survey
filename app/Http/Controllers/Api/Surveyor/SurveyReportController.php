@@ -454,6 +454,21 @@ class SurveyReportController extends Controller
 
 
         // Survey_request_logs::create($req_logs);
+
+        $assignment_requests = Survey_requests::where("id",$request->survey_request_id)->first();
+
+        $from       = $user_id; 
+        $utype      = 2;
+        $to         = $assignment_requests->assigned_user; 
+        $ntype      = 'survey_study_report';
+        $title      = 'Survey Study Report Re-Submitted';
+        $desc       = 'Survey Study Report Re-Submitted. Request ID: HSW'.$request->survey_request_id;
+        $refId      = $request->survey_request_id;
+        $reflink    = '/admin/requested_service_detail/'.$request->survey_request_id.'/19/';
+        $notify     = 'admin';
+        $notify_from_role_id = 3;
+        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id); 
+
         return ['httpcode'=>200,'status'=>'success','page'=>'Home','message'=>'Success','data'=>['survey_study_report_id'=>$request->form_id]];
     }
 
@@ -549,6 +564,20 @@ class SurveyReportController extends Controller
 
 
         // Survey_request_logs::create($req_logs);
+
+        $assignment_requests = Survey_requests::where("id",$request->survey_request_id)->first();
+
+        $from       = $user_id; 
+        $utype      = 2;
+        $to         = $assignment_requests->assigned_user; 
+        $ntype      = 'field_study_report';
+        $title      = 'Field Study Report Re-Submitted';
+        $desc       = 'Field Study Report Re-Submitted. Request ID: HSW'.$request->survey_request_id;
+        $refId      = $request->survey_request_id;
+        $reflink    = '/admin/requested_service_detail/'.$request->survey_request_id.'/7/';
+        $notify     = 'admin';
+        $notify_from_role_id = 3;
+        addNotification($from,$utype,$to,$ntype,$title,$desc,$refId,$reflink,$notify,$notify_from_role_id);
 
         return ['httpcode'=>200,'status'=>'success','page'=>'Home','message'=>'Success','data'=>['field_study_report_id'=>$request->form_id]];
     }
