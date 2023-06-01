@@ -158,7 +158,7 @@ class ServicerequestsController extends Controller
 
                 $file->move($upload_path, $filename);
 
-                $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = "/public/$folder_name/$filename";
 
             }
 

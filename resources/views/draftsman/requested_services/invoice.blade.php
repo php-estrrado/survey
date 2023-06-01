@@ -313,9 +313,9 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 											@endphp
 											@if($uploaded_images && count($uploaded_images) > 0)
 												@foreach($uploaded_images as $images)
-													<li class="col-xs-4 col-sm-3 col-md-3" data-responsive="{{$images}}" data-src="{{$images}}">
-														<a href="">
-															<img class="img-responsive" src="{{$images}}" alt="Thumb-1" width="100px">
+													<li class="col-xs-4 col-sm-3 col-md-3" data-responsive="{{URL($images)}}" data-src="{{URL($images)}}">
+														<a href="{{URL($images)}}" target="_blank">
+															<img class="img-responsive" src="{{URL($images)}}" alt="Thumb-1" width="100px">
 														</a>
 													</li>
 												@endforeach
@@ -1161,11 +1161,11 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 											<ul id="lightgallery" class="list-unstyled row">
 												@if($drawings && count($drawings) > 0)
 													@foreach($drawings as $image)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$image}}" data-src="{{$image}}" data-sub-html="">
-															<a href="{{$image}}" target="_blank">
-																<img class="img-responsive" src="{{$image}}" alt="Thumb-1" width="100%">
-															</a>
-														</li>
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL($image)}}" data-src="{{URL($image)}}" data-sub-html="">
+												<a href="{{URL($image)}}" target="_blank">
+													<img class="img-responsive" src="{{URL($image)}}" alt="Thumb-1" width="100%">
+												</a>
+											</li>
 													@endforeach
 												@endif
 											</ul>
@@ -1186,9 +1186,9 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 											<ul id="lightgallery" class="list-unstyled row">
 												@if($files && count($files) > 0)
 													@foreach($files as $file)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$file}}" data-src="{{$file}}" data-sub-html="">
-															<a href="{{$file}}" target="_blank">
-																<img class="img-responsive" src="{{$file}}" alt="Thumb-1" width="100%">
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL($file)}}" data-src="{{URL($file)}}" data-sub-html="">
+															<a href="{{URL($file)}}" target="_blank">
+																<img class="img-responsive" src="{{URL($file)}}" alt="Thumb-1" width="100%">
 															</a>
 														</li>
 													@endforeach

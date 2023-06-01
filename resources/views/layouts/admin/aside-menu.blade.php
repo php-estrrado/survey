@@ -30,7 +30,7 @@
 					$avatar = Admin::where('id',auth()->user()->id)->first()->avatar;
 				@endphp
 				@if(isset($avatar) && !empty($avatar))
-					<img src="{{$avatar}}" alt="user-img" class="avatar-xl rounded-circle mb-1">
+					<img src="{{URL($avatar)}}" alt="user-img" class="avatar-xl rounded-circle mb-1">
 				@else
 					<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="user-img" class="avatar-xl rounded-circle mb-1">
 				@endif

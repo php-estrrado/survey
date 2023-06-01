@@ -191,7 +191,7 @@ class CustomerController extends Controller
 
                 $file->move($upload_path, $filename);
 
-                $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = "/public/$folder_name/$filename";
 
                 CustomerInfo::where('id',$info_id)->update([
                     'id_file_front' => $file_path,
@@ -212,7 +212,7 @@ class CustomerController extends Controller
 
                 $file->move($upload_path, $filename);
 
-                $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = "/public/$folder_name/$filename";
 
                 CustomerInfo::where('id',$info_id)->update([
                     'id_file_back' => $file_path,

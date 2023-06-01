@@ -68,9 +68,14 @@
 							<div class="form-group">
 								<label class="form-label" for="firm_type">Type of Firm <span class="text-red">*</span></label>
 								<select id="menu-type" class="form-control select2" name="firm_type">
-									<option value="">select</option>
-									<option value="government" {{ old('firm_type') == 'government' ? 'selected' : '' }}>Government</option>
-									<option value="private" {{ old('firm_type') == 'private' ? 'selected' : '' }}>Private</option>
+									<option value="">Select</option>
+									<option value="1" {{ old('firm_type') == 1 ? 'selected' : '' }}>Government</option>
+									<option value="2" {{ old('firm_type') == 2 ? 'selected' : '' }}>Private</option>
+									<option value="3" {{ old('firm_type') == 3 ? 'selected' : '' }}>Individual</option>
+									<option value="4" {{ old('firm_type') == 4 ? 'selected' : '' }}>Quasi Government</option>
+									<option value="5" {{ old('firm_type') == 5 ? 'selected' : '' }}>Research Organisation</option>
+									<option value="6" {{ old('firm_type') == 6 ? 'selected' : '' }}>State Government</option>
+									<option value="7" {{ old('firm_type') == 7 ? 'selected' : '' }}>Central Government</option>
 								</select>
 								<div id="firm_type_error"></div>
 								@error('firm_type')

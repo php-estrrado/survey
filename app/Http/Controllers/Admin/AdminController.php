@@ -211,7 +211,7 @@ class AdminController extends Controller
 
                 $file->move($upload_path, $filename);
 
-                $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = "/public/$folder_name/$filename";
 
                 Admin::where('id',$input['admin_id'])->update([
                     'avatar' => $file_path,

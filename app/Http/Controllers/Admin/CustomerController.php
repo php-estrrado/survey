@@ -90,8 +90,8 @@ class CustomerController extends Controller
             'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'id_file_front' => ['required','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
             'id_file_back' => ['required','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
-            'password' =>['required','confirmed','min:8','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
-            'password_confirmation' =>['required','min:8','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/']
+            'password' =>['required','confirmed','min:6','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
+            'password_confirmation' =>['required','min:6','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/']
         ]);
 
         if($validator->passes())
@@ -189,7 +189,7 @@ class CustomerController extends Controller
 
                 $file->move($upload_path, $filename);
 
-                $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = "/public/$folder_name/$filename";
 
                 CustomerInfo::where('id',$info_id)->update([
                     'id_file_front' => $file_path,
@@ -210,7 +210,7 @@ class CustomerController extends Controller
 
                 $file->move($upload_path, $filename);
 
-                $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = "/public/$folder_name/$filename";
 
                 CustomerInfo::where('id',$info_id)->update([
                     'id_file_back' => $file_path,

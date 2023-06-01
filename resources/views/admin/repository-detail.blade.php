@@ -129,7 +129,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 						<div class="card-body">
 							<div class="row">
 								<div class="col-sm-12 col-md-12">
-									<div style="float: right;"><a href="{{ $final_report }}" target="_blank" class="mr-3">View</a>
+									<div style="float: right;"><a href="{{ URL($final_report) }}" target="_blank" class="mr-3">View</a>
 										<a href="{{ url('admin/repository-management-download/') }}/{{$file_id}}" >Download</a></div>
 									<div class="form-group">
 										<div class="card border-0 p-0 shadow-none">
@@ -943,11 +943,11 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 											<ul id="lightgallery" class="list-unstyled row">
 												@if($drawings && count($drawings) > 0)
 													@foreach($drawings as $image)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$image}}" data-src="{{$image}}" data-sub-html="">
-															<a href="{{$image}}" target="_blank">
-																<img class="img-responsive" src="{{$image}}" alt="Thumb-1" width="100%">
-															</a>
-														</li>
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL($image)}}" data-src="{{URL($image)}}" data-sub-html="">
+												<a href="{{URL($image)}}" target="_blank">
+													<img class="img-responsive" src="{{URL($image)}}" alt="Thumb-1" width="100%">
+												</a>
+											</li>
 													@endforeach
 												@endif
 											</ul>
@@ -968,9 +968,9 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 											<ul id="lightgallery" class="list-unstyled row">
 												@if($files && count($files) > 0)
 													@foreach($files as $file)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$file}}" data-src="{{$file}}" data-sub-html="">
-															<a href="{{$file}}" target="_blank">
-																<img class="img-responsive" src="{{$file}}" alt="Thumb-1" width="100%">
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL($file)}}" data-src="{{URL($file)}}" data-sub-html="">
+															<a href="{{URL($file)}}" target="_blank">
+																<img class="img-responsive" src="{{URL($file)}}" alt="Thumb-1" width="100%">
 															</a>
 														</li>
 													@endforeach

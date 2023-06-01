@@ -144,6 +144,8 @@ class AdminController extends Controller
 
         if($validator->passes())
         {
+            $info_id = CustomerInfo::where('cust_id',$input['cust_id'])->first()->id;
+
             $master = CustomerMaster::where('id',$input['cust_id'])->update([
                 'username' => $request->email,
                 'is_active'=>1,
@@ -153,7 +155,7 @@ class AdminController extends Controller
                 'updated_at'=>date("Y-m-d H:i:s")
             ]);
 
-            $info_id = CustomerInfo::where('cust_id',$input['cust_id'])->update([
+            CustomerInfo::where('cust_id',$input['cust_id'])->update([
                 'name' => $request->name,
                 'firm' => $request->firm,
                 'firm_type' => $request->firm_type,
@@ -235,7 +237,7 @@ class AdminController extends Controller
 
                 $file->move($upload_path, $filename);
 
-                $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = "/public/$folder_name/$filename";
 
                 CustomerInfo::where('id',$info_id)->update([
                     'id_file_front' => $file_path,
@@ -256,7 +258,7 @@ class AdminController extends Controller
 
                 $file->move($upload_path, $filename);
 
-                $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = "/public/$folder_name/$filename";
 
                 CustomerInfo::where('id',$info_id)->update([
                     'id_file_back' => $file_path,

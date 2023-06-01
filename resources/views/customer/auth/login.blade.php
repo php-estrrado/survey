@@ -19,7 +19,7 @@
                     <div class="login-main">
                         <form method="POST" id="adminLogin" action="{{ url('customer/login') }}" class="theme-form">
                             @csrf
-                            <h4>Sign in to account</h4>
+                            <h4>Sign in to account - Customer</h4>
                             <p>Enter your email & password to login</p>
                             <div class="form-group">
                                 <label class="col-form-label form-label-title ">Email ID</label>

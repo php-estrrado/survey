@@ -191,7 +191,7 @@
 							@endphp
 	
 							@if(isset($avatar) && !empty($avatar))
-								<img src="{{$avatar}}" alt="img" class="avatar avatar-md brround">
+								<img src="{{URL($avatar)}}" alt="img" class="avatar avatar-md brround">
 							@else
 								<img src="{{URL('public/admin/assets/images/image2.png')}}" alt="img" class="avatar avatar-md brround">
 							@endif

@@ -181,7 +181,7 @@ class BathymetrySurveyController extends Controller
 
                         $file->move($upload_path, $filename);
 
-                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                        $files[] = "/public/$folder_name/$filename";
                     }
                 }
 
@@ -340,7 +340,7 @@ class BathymetrySurveyController extends Controller
 
                         $file->move($upload_path, $filename);
 
-                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                        $files[] = "/public/$folder_name/$filename";
                     }
                 }
 

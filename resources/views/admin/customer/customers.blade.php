@@ -59,7 +59,10 @@
 										<td><a href="{{url('admin/customers/view')}}/{{$customer->cust_id}}" style="color:#2b8fca; font-weight:bold;">{{$customer->name}}</a></td>
 										<td>+91 {{$customer->cust_telecom_value}}</td>
 										<td>{{$customer->username}}</td>
-										<td>{{$customer->firm}}</td>
+										<?php
+											$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             
+										?>	
+										<td>@if(isset($sector_name[$customer->firm_type])) {{ $sector_name[$customer->firm_type]}} @else {{ $customer->firm_type }} @endif</td>
 									</tr>
 									@php $i++; @endphp
 								@endforeach

@@ -357,7 +357,7 @@
                                   @if($drawings && count($drawings)>0)
                                     @foreach($drawings as $image)
                                       <div class="col-md-3">
-                                        <img src="{{$image}}" alt="" width="100px">
+                                        <img src="{{URL($image)}}" alt="" width="100px">
                                       </div>
                                     @endforeach
                                   @endif

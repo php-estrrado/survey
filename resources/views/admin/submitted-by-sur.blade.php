@@ -478,9 +478,9 @@
 													@php $path_info = pathinfo($images); $extension = $path_info['extension']; @endphp
 													<div class="col-md-3 col-sm-3">
 														@if($extension == "jpeg" || $extension == "jpg" || $extension == "png" || $extension == "gif" )
-															<img src="{{$images}}" alt="Thumb-1" width="100px">
+															<img src="{{URL($images)}}" alt="Thumb-1" width="100px">
 														@else
-															<a href="{{$images}}" target="_blank">
+															<a href="{{URL($images)}}" target="_blank">
 																<img src="{{URL::asset('admin/assets/images/file_image.png')}}" alt="Thumb-1" width="100px">
 															</a>
 														@endif
@@ -1360,11 +1360,11 @@
 											<ul id="lightgallery" class="list-unstyled row">
 												@if($drawings && count($drawings) > 0)
 													@foreach($drawings as $image)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$image}}" data-src="{{$image}}" data-sub-html="">
-															<a href="{{$image}}" target="_blank">
-																<img class="img-responsive" src="{{$image}}" alt="Thumb-1" width="100%">
-															</a>
-														</li>
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL($image)}}" data-src="{{URL($image)}}" data-sub-html="">
+												<a href="{{URL($image)}}" target="_blank">
+													<img class="img-responsive" src="{{URL($image)}}" alt="Thumb-1" width="100%">
+												</a>
+											</li>
 													@endforeach
 												@endif
 											</ul>
@@ -1385,11 +1385,11 @@
 											<ul id="lightgallery" class="list-unstyled row">
 												@if($files && count($files) > 0)
 													@foreach($files as $file)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$file}}" data-src="{{$file}}" data-sub-html="">
-															<a href="{{$file}}" target="_blank">
-																<img class="img-responsive" src="{{$file}}" alt="Thumb-1" width="100%">
-															</a>
-														</li>
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL($file)}}" data-src="{{URL($file)}}" data-sub-html="">
+												<a href="{{URL($file)}}" target="_blank">
+													<img class="img-responsive" src="{{URL($file)}}" alt="Thumb-1" width="100%">
+												</a>
+											</li>
 													@endforeach
 												@endif
 											</ul>

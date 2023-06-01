@@ -18,7 +18,7 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="text-center title-style mb-6">
-										<h1 class="mb-2">Sign in to account</h1>
+										<h2 class="mb-2">Sign in to account - Admin</h2>
 										<p class="text-muted text-left">Enter your email and OTP to login</p>
 									</div>
 									<form method="POST" id="adminLogin" action="{{ url('/admin/regVerifyotpemail') }}" class="theme-form">

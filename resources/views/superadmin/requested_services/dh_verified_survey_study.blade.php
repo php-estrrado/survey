@@ -468,6 +468,34 @@
 										<label class="form-label">{{$remarks}}</label>
 									</div>
 								</div>
+								<div class="col-sm-12 col-md-12">
+									<div class="form-group">
+										<div class="media-body">
+											<div class="font-weight-normal1">
+												Uploaded Images
+											</div>
+										</div>
+										<ul id="lightgallery" class="list-unstyled row">
+											@php
+												$uploaded_images = json_decode($survey_study->upload_photos_of_study_area,true);
+											@endphp
+											@if($uploaded_images && count($uploaded_images) > 0)
+												@foreach($uploaded_images as $images)
+													@php $path_info = pathinfo($images); $extension = $path_info['extension']; @endphp
+													<div class="col-md-3 col-sm-3">
+														@if($extension == "jpeg" || $extension == "jpg" || $extension == "png" || $extension == "gif" )
+															<img src="{{URL($images)}}" alt="Thumb-1" width="100px">
+														@else
+															<a href="{{URL($images)}}" target="_blank">
+																<img src="{{URL::asset('admin/assets/images/file_image.png')}}" alt="Thumb-1" width="100px">
+															</a>
+														@endif
+													</div>
+												@endforeach
+											@endif
+										</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -1332,11 +1360,11 @@
 											<ul id="lightgallery" class="list-unstyled row">
 												@if($drawings && count($drawings) > 0)
 													@foreach($drawings as $image)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$image}}" data-src="{{$image}}" data-sub-html="">
-															<a href="{{$image}}" target="_blank">
-																<img class="img-responsive" src="{{$image}}" alt="Thumb-1" width="100%">
-															</a>
-														</li>
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL($image)}}" data-src="{{URL($image)}}" data-sub-html="">
+												<a href="{{URL($image)}}" target="_blank">
+													<img class="img-responsive" src="{{URL($image)}}" alt="Thumb-1" width="100%">
+												</a>
+											</li>
 													@endforeach
 												@endif
 											</ul>
@@ -1357,9 +1385,9 @@
 											<ul id="lightgallery" class="list-unstyled row">
 												@if($files && count($files) > 0)
 													@foreach($files as $file)
-														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{$file}}" data-src="{{$file}}" data-sub-html="">
-															<a href="{{$file}}" target="_blank">
-																<img class="img-responsive" src="{{$file}}" alt="Thumb-1" width="100%">
+														<li class="col-xs-6 col-sm-4 col-md-3" data-responsive="{{URL($file)}}" data-src="{{URL($file)}}" data-sub-html="">
+															<a href="{{URL($file)}}" target="_blank">
+																<img class="img-responsive" src="{{URL($file)}}" alt="Thumb-1" width="100%">
 															</a>
 														</li>
 													@endforeach

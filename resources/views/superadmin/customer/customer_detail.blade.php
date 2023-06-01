@@ -66,6 +66,18 @@
 								</td>
 								<td class="py-2 px-0">{{$telecom->cust_telecom_value}}</td>
 							</tr>
+							<tr>
+								<td class="py-2 px-0">
+									<span class="font-weight-semibold w-50">ID Proof Front </span>
+								</td>
+								<td class="py-2 px-0"><strong><a href="<?php echo config('app.url');?>{{$info->id_file_front}}" target="_blank">Click here to view</a></strong></td>
+							</tr>
+							<tr>
+								<td class="py-2 px-0">
+									<span class="font-weight-semibold w-50">ID Proof Back </span>
+								</td>
+								<td class="py-2 px-0"><strong><a href="<?php echo config('app.url');?>{{$info->id_file_back}}" target="_blank">Click here to view</a></strong></td>
+							</tr>
 						</tbody>
 					</table>
 				</div>

@@ -367,7 +367,7 @@ class RequestedServicesController extends Controller
 
                 $file->move($upload_path, $filename);
 
-                $file_path = config('app.url') . "/public/$folder_name/$filename";
+                $file_path = "/public/$folder_name/$filename";
 
                 Survey_requests::where('id',$survey_id)->update(['receipt_image'=>$file_path,'request_status'=>58]);
 

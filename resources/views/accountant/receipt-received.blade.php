@@ -117,7 +117,7 @@
 							<div class="card border-0 p-0 shadow-none">
 								<div class="card-body pt-0 text-center">
 									<div class="file-manger-icon">
-										<a href="{{$survey_request_data->receipt_image}}" target="_blank"><img src="{{url('admin/assets/images/file_image.png')}}" alt="img" class="br-7"><br />View</a>
+										<a href="{{URL($survey_request_data->receipt_image)}}" target="_blank"><img src="{{url('admin/assets/images/file_image.png')}}" alt="img" class="br-7"><br />View</a>
 									</div>
 								</div>
 							</div>

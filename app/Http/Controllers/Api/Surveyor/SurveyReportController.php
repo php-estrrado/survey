@@ -278,7 +278,7 @@ class SurveyReportController extends Controller
 
         $file->move($upload_path, $filename);
 
-        $file_path = config('app.url') . "/public/$folder_name/$filename";
+        $file_path = "/public/$folder_name/$filename";
 
         return ['httpcode'=>200,'status'=>'success','message'=>'Success','data'=>['path'=>$file_path]];
     }

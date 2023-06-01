@@ -173,7 +173,7 @@ class HydrographicsurveyController extends Controller
 
                         $file->move($upload_path, $filename);
 
-                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                        $files[] = "/public/$folder_name/$filename";
                     }
                 }
 
@@ -327,7 +327,7 @@ class HydrographicsurveyController extends Controller
 
                         $file->move($upload_path, $filename);
 
-                        $files[] = config('app.url') . "/public/$folder_name/$filename";
+                        $files[] = "/public/$folder_name/$filename";
                     }
                 }
 
