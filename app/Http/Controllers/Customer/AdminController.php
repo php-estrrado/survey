@@ -609,7 +609,11 @@ class AdminController extends Controller
         {
             $data['title']           =   'Notifications';
             $data['menu']            =   'notifications';
-            $data['notifications']   =   UsrNotification::where('role_id',6)->where('notify_to',auth()->user()->id)->orderby('id','DESC')->get();
+
+            $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
+            $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
+
+            $data['notifications']   =   UsrNotification::where('role_id',6)->where('notify_to',$cust_id)->orderby('id','DESC')->get();
 
             return view('customer.notification',$data);
         }

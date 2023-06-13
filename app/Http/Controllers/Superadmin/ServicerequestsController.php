@@ -235,6 +235,10 @@ class ServicerequestsController extends Controller
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
             $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $assign_arr['request_status'] = 2;
             $assign_arr['assigned_institution'] = $input['assigned_institution'];
             $assign_arr['assigned_user'] = $input['assigned_user'];
@@ -242,7 +246,6 @@ class ServicerequestsController extends Controller
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
 
             Survey_requests::where('id',$input['id'])->update($assign_arr);
-
 
             $from       = auth()->user()->id; 
             $utype      = 2;
@@ -261,7 +264,7 @@ class ServicerequestsController extends Controller
             $to         = $cust_id; 
             $ntype      = 'field_study_assigned';
             $title      = 'Service Request Accepted';
-            $desc       = 'Service Request Accepted by CH. Request ID:HSW'.$input['id'];
+            $desc       = 'Service Request Accepted by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink = '/customer/request_service_detail/'.$input['id'].'/2/';
             $notify     = 'customer';
@@ -272,8 +275,8 @@ class ServicerequestsController extends Controller
             $utype      = 6;
             $to         = $cust_id; 
             $ntype      = 'field_study_assigned';
-            $title      = 'Field Study Request Assigned to Admin';
-            $desc       = 'Field Study Request Assigned to Admin. Request ID:HSW'.$input['id'];
+            $title      = 'Field Study Request Assigned to MS';
+            $desc       = 'Field Study Request Assigned to MS. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink = '/customer/request_service_detail/'.$input['id'].'/2/';
             $notify     = 'customer';
@@ -610,6 +613,12 @@ class ServicerequestsController extends Controller
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
             $assigned_draftsman = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
+
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
+
             $assign_arr['request_status'] = 10;
             $assign_arr['assigned_draftsman'] = $input['draftsman'];
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -636,8 +645,8 @@ class ServicerequestsController extends Controller
                 $utype      = 4;
                 $to         = $input['draftsman'];
                 $ntype      = 'request_assigned';
-                $title      = 'Request Assigned';
-                $desc       = 'Request Assigned. Request ID: HSW'.$input['id'];
+                $title      = 'Request Assigned by '.$designation;
+                $desc       = 'Request Assigned by '.$designation.' - '.$fullname.'. Request ID: HSW'.$input['id'];
                 $refId      = $input['id'];
                 $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/10/';
                 $notify     = 'draftsman';
@@ -677,6 +686,10 @@ class ServicerequestsController extends Controller
             $assigned_draftsman_final = survey_requests::where('id',$input['id'])->first()->assigned_draftsman_final;
             $assigned_draftsman = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
             
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $assign_arr['request_status'] = 46;
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
@@ -703,7 +716,7 @@ class ServicerequestsController extends Controller
                 $to         = $assigned_draftsman; 
                 $ntype      = 'request_assigned_for_invoice';
                 $title      = 'Request Assigned for Invoice';
-                $desc       = 'Request Assigned for Invoice. Request ID: HSW'.$input['id'];
+                $desc       = 'Request Assigned for Invoice by '.$designation.' - '.$fullname.'. Request ID: HSW'.$input['id'];
                 $refId      = $input['id'];
                 $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/46/';
                 $notify     = 'draftsman';
@@ -742,6 +755,10 @@ class ServicerequestsController extends Controller
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $assign_arr['request_status'] = 18;
             $assign_arr['assigned_survey_institution'] = $input['assigned_survey_institution'];
             $assign_arr['assigned_survey_user'] = $input['assigned_survey_user'];
@@ -755,7 +772,7 @@ class ServicerequestsController extends Controller
             $to         = $input['assigned_survey_user']; 
             $ntype      = 'survey_study_assigned';
             $title      = 'New Survey Study Request';
-            $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
+            $desc       = 'New Survey Study Request assigned by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'survey_study_request';
             $notify     = 'surveyor';
@@ -781,7 +798,7 @@ class ServicerequestsController extends Controller
             $to         = $cust_id; 
             $ntype      = 'survey_study_assigned';
             $title      = 'New Survey Study Request';
-            $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
+            $desc       = 'New Survey Study Request assigned by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'customer/request_service_detail/'.$input['id'].'/18/';
             $notify     = 'customer';
@@ -793,7 +810,7 @@ class ServicerequestsController extends Controller
             $to         =  $input['assigned_survey_user'];
             $ntype      = 'survey_study_assigned';
             $title      = 'New Survey Study Request';
-            $desc       = 'New Survey Study Request. Request ID:HSW'.$input['id'];
+            $desc       = 'New Survey Study Request assigned by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'admin/requested_service_detail/'.$input['id'].'/18/';
             $notify     = 'admin';
@@ -844,6 +861,10 @@ class ServicerequestsController extends Controller
             $cust_id = survey_requests::where('id',$id)->first()->cust_id;
             $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             Survey_requests::where('id',$id)->update(['request_status'=>15]);
 
 
@@ -852,8 +873,8 @@ class ServicerequestsController extends Controller
             $utype      = 6;
             $to         = $cust_id; 
             $ntype      = 'peforma_invoice_verified';
-            $title      = 'Performa Invoice Verified by CH';
-            $desc       = 'Performa Invoice Verified by CH. Request ID:HSW'.$id;
+            $title      = 'Performa Invoice Verified by '.$designation;
+            $desc       = 'Performa Invoice Verified by '.$designation.' - '.$fullname.'. Request ID:HSW'.$id;
             $refId      = $id;
             $reflink    = 'customer/request_service_detail/'.$id.'/15/';
             $notify     = 'customer';
@@ -880,8 +901,8 @@ class ServicerequestsController extends Controller
             $utype      = 6;
             $to         = $cust_id; 
             $ntype      = 'peforma_invoice_sent';
-            $title      = 'Performa Invoice Sent To Customer by CH';
-            $desc       = 'Performa Invoice Sent To Customer by CH. Request ID:HSW'.$id;
+            $title      = 'Performa Invoice Sent To Customer by '.$designation;
+            $desc       = 'Performa Invoice Sent To Customer by '.$designation.' - '.$fullname.'. Request ID:HSW'.$id;
             $refId      = $id;
             $reflink    = 'customer/request_service_detail/'.$id.'/15/';
             $notify     = 'customer';
@@ -927,6 +948,10 @@ class ServicerequestsController extends Controller
             $cust_id = survey_requests::where('id',$id)->first()->cust_id;
             $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             Survey_requests::where('id',$id)->update(['request_status'=>51]);
 
                         // // notify customer
@@ -934,8 +959,8 @@ class ServicerequestsController extends Controller
             $utype      = 6;
             $to         = $cust_id; 
             $ntype      = 'invoice_verified_by_ch';
-            $title      = 'Invoice Verified by CH';
-            $desc       = 'Invoice Verified by CH. Request ID:HSW'.$id;
+            $title      = 'Invoice Verified by '.$designation;
+            $desc       = 'Invoice Verified by '.$designation.' - '.$fullname.'. Request ID:HSW'.$id;
             $refId      = $id;
             $reflink    = 'customer/request_service_detail/'.$id.'/51/';
             $notify     = 'customer';
@@ -962,8 +987,8 @@ class ServicerequestsController extends Controller
             $utype      = 6;
             $to         = $cust_id; 
             $ntype      = 'invoice_sent';
-            $title      = 'Invoice Sent To Customer by CH';
-            $desc       = 'Invoice Sent To Customer by CH. Request ID:HSW'.$id;
+            $title      = 'Invoice Sent To Customer by '.$designation;
+            $desc       = 'Invoice Sent To Customer by '.$designation.' - '.$fullname.'. Request ID:HSW'.$id;
             $refId      = $id;
             $reflink    = 'customer/request_service_detail/'.$id.'/51/';
             $notify     = 'customer';
@@ -1076,6 +1101,10 @@ class ServicerequestsController extends Controller
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $assign_arr['request_status'] = 23;
             $assign_arr['assigned_draftsman_final'] = $input['final_draftsman'];
             $assign_arr['updated_by'] = auth()->user()->id;
@@ -1102,9 +1131,9 @@ class ServicerequestsController extends Controller
             $utype      = 4;
             $to         = $input['final_draftsman'];
             $ntype      = 'assigned_for_final_report';
-            $title      = 'Assigned for Final Report by CH';
-            $desc       = 'Assigned for Final Report by CH. Request ID:HSW'.$input['id'];
-            $refId      =$input['id'];
+            $title      = 'Assigned for Final Report by '.$designation;
+            $desc       = 'Assigned for Final Report by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
             $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/23/';
             $notify     = 'draftsman';
             $notify_from_role_id = 1;
@@ -1168,6 +1197,10 @@ class ServicerequestsController extends Controller
 
             $cust_id = survey_requests::where('id',$id)->first()->cust_id;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $survey_request_logs = [];
 
             $survey_request_logs['survey_request_id'] = $id;
@@ -1205,8 +1238,8 @@ class ServicerequestsController extends Controller
             $utype      = 7;
             $to         = Admin::where('role_id',7)->where('is_deleted',0)->where('is_active',1)->first()->id;
             $ntype      = 'final_report_verified_by_ch';
-            $title      = 'CH Verified Final Report';
-            $desc       = 'Final Report Verified by CH. Request ID:HSW'.$id;
+            $title      = 'Final Report Verified by '.$designation;
+            $desc       = 'Final Report Verified by '.$designation.' - '.$fullname.'. Request ID:HSW'.$id;
             $refId      = $id;
             $reflink    = '/admin/repository-management-detail/'.$id.'/27/';
             $notify     = 'admin';
@@ -1255,6 +1288,10 @@ class ServicerequestsController extends Controller
             $cust_id = survey_requests::where('id',$id)->first()->cust_id;
             $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $survey_request_logs = [];
 
             $survey_request_logs['survey_request_id'] = $id;
@@ -1277,8 +1314,8 @@ class ServicerequestsController extends Controller
             $usr_noti['role_id'] = 6;
             $usr_noti['notify_from_role_id'] = 1;
             $usr_noti['notify_type'] = 0;
-            $usr_noti['title'] = 'Request Rejected';
-            $usr_noti['description'] = 'Survey Request Rejected for Request ID HSW'.$id;
+            $usr_noti['title'] = 'Request Rejected by '.$designation;
+            $usr_noti['description'] = 'Survey Request Rejected by '.$designation.' - '.$fullname.'. Request ID HSW'.$id;
             $usr_noti['ref_id'] = auth()->user()->id;
             $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/3';
             $usr_noti['viewed'] = 0;
@@ -1330,6 +1367,10 @@ class ServicerequestsController extends Controller
             $cust_id = survey_requests::where('id',$id)->first()->cust_id;
             $cust_email = CustomerMaster::where('id',$cust_id)->first()->username;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $survey_request_logs = [];
 
             $survey_request_logs['survey_request_id'] = $id;
@@ -1352,8 +1393,8 @@ class ServicerequestsController extends Controller
             $usr_noti['role_id'] = 6;
             $usr_noti['notify_from_role_id'] = 1;
             $usr_noti['notify_type'] = 0;
-            $usr_noti['title'] = 'Request Reject Open';
-            $usr_noti['description'] = 'Survey Request Reject Open for Request ID HSW'.$id;
+            $usr_noti['title'] = 'Request Reject Open by '.$designation;
+            $usr_noti['description'] = 'Survey Request Reject Open by '.$designation.' - '.$fullname.'. Request ID HSW'.$id;
             $usr_noti['ref_id'] = auth()->user()->id;
             $usr_noti['ref_link'] = '/customer/request_service_detail/'.$id.'/4';
             $usr_noti['viewed'] = 0;
@@ -1405,6 +1446,10 @@ class ServicerequestsController extends Controller
             $assigned_surveyor = survey_requests::where('id',$input['id'])->first()->assigned_surveyor;
             $assigned_user = survey_requests::where('id',$input['id'])->first()->assigned_user;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             if(isset($input['report']) && isset($input['eta']) && $input['report'] == 1 && $input['eta'] == 1)
             {
                 $assign_arr['request_status'] = 33;
@@ -1445,8 +1490,8 @@ class ServicerequestsController extends Controller
                 $utype      = 3;
                 $to         = $assigned_surveyor; 
                 $ntype      = 'field_study_rejected';
-                $title      = 'Field Study Report Rejected';
-                $desc       = 'Field Study Report Rejected. Request ID:HSW'.$input['id'];
+                $title      = 'Field Study Report Rejected by '.$designation;
+                $desc       = 'Field Study Report Rejected by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
                 $refId      = $input['id'];
                 $reflink    = 'field_study_rejected';
                 $notify     = 'surveyor';
@@ -1492,8 +1537,8 @@ class ServicerequestsController extends Controller
                 $utype      = 3;
                 $to         = $assigned_surveyor; 
                 $ntype      = 'field_study_rejected';
-                $title      = 'Field Study Report Rejected';
-                $desc       = 'Field Study Report Rejected. Request ID:HSW'.$input['id'];
+                $title      = 'Field Study Report Rejected by '.$designation;
+                $desc       = 'Field Study Report Rejected by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
                 $refId      = $input['id'];
                 $reflink    = 'field_study_rejected';
                 $notify     = 'surveyor';
@@ -1538,8 +1583,8 @@ class ServicerequestsController extends Controller
                 $utype      = 2;
                 $to         = $assigned_user; 
                 $ntype      = 'rejected_eta';
-                $title      = 'ETA Rejected';
-                $desc       = 'ETA Rejected. Request ID: HSW'.$input['id'];
+                $title      = 'ETA Rejected by '.$designation;
+                $desc       = 'ETA Rejected by '.$designation.' - '.$fullname.'. Request ID: HSW'.$input['id'];
                 $refId      = $input['id'];
                 $reflink    = '/admin/requested_service_detail/'.$input['id'].'/67/';
                 $notify     = 'admin';
@@ -1587,6 +1632,10 @@ class ServicerequestsController extends Controller
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
             $assigned_surveyor = survey_requests::where('id',$input['id'])->first()->assigned_surveyor_survey;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $assign_arr['request_status'] = 37;
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
@@ -1612,8 +1661,8 @@ class ServicerequestsController extends Controller
             $utype      = 3;
             $to         = $assigned_surveyor; 
             $ntype      = 'survey_study_rejected';
-            $title      = 'Survey Study Report Rejected';
-            $desc       = 'Survey Study Report Rejected. Request ID:HSW'.$input['id'];
+            $title      = 'Survey Study Report Rejected by '.$designation;
+            $desc       = 'Survey Study Report Rejected by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'survey_study_rejected';
             $notify     = 'surveyor';
@@ -1650,6 +1699,10 @@ class ServicerequestsController extends Controller
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $assign_arr['request_status'] = 35;
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
@@ -1675,9 +1728,9 @@ class ServicerequestsController extends Controller
             $utype      = 4;
             $to         = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
             $ntype      = 'performa_invoice_rejected';
-            $title      = 'Performa Invoice Rejected by CH';
-            $desc       = 'Performa Invoice Rejected by CH. Request ID:HSW'.$input['id'];
-            $refId      =$input['id'];
+            $title      = 'Performa Invoice Rejected by '.$designation;
+            $desc       = 'Performa Invoice Rejected by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
             $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/35/';
             $notify     = 'draftsman';
             $notify_from_role_id = 1;
@@ -1713,6 +1766,10 @@ class ServicerequestsController extends Controller
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
 
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $assign_arr['request_status'] = 53;
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
@@ -1738,9 +1795,9 @@ class ServicerequestsController extends Controller
             $utype      = 4;
             $to         = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
             $ntype      = 'invoice_rejected';
-            $title      = 'Invoice Rejected by CH';
-            $desc       = 'Invoice Rejected by CH. Request ID:HSW'.$input['id'];
-            $refId      =$input['id'];
+            $title      = 'Invoice Rejected by '.$designation;
+            $desc       = 'Invoice Rejected by '.$designation.' - '.$fullname.'. Request ID:HSW'.$input['id'];
+            $refId      = $input['id'];
             $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/53/';
             $notify     = 'draftsman';
             $notify_from_role_id = 1;
@@ -1775,8 +1832,13 @@ class ServicerequestsController extends Controller
         if($validator->passes())
         {
             $cust_id = survey_requests::where('id',$input['id'])->first()->cust_id;
-             $assigned_user = survey_requests::where('id',$input['id'])->first()->assigned_user;
-             $assigned_draftsman_final = survey_requests::where('id',$input['id'])->first()->assigned_draftsman_final;
+            $assigned_user = survey_requests::where('id',$input['id'])->first()->assigned_user;
+            $assigned_draftsman_final = survey_requests::where('id',$input['id'])->first()->assigned_draftsman_final;
+
+            $user_data = UserManagement::where('admin_id',auth()->user()->id)->first();
+            $designation = $user_data->designation;
+            $fullname = $user_data->fullname;
+
             $assign_arr['request_status'] = 39;
             $assign_arr['updated_by'] = auth()->user()->id;
             $assign_arr['updated_at'] = date('Y-m-d H:i:s');
@@ -1803,8 +1865,8 @@ class ServicerequestsController extends Controller
                 $utype      = 4;
                 $to         = $assigned_draftsman_final; 
                 $ntype      = 'final_report_rejected';
-                $title      = 'Final Report Rejected by CH';
-                $desc       = 'Final Report Rejected by CH. Request ID: HSW'.$input['id'];
+                $title      = 'Final Report Rejected by '.$designation;
+                $desc       = 'Final Report Rejected by '.$designation.' - '.$fullname.'. Request ID: HSW'.$input['id'];
                 $refId      = $input['id'];
                 $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/39/';
                 $notify     = 'draftsman';
@@ -1816,8 +1878,8 @@ class ServicerequestsController extends Controller
                 $utype      = 2;
                 $to         = $assigned_user;
                 $ntype      = 'final_report_rejected';
-                $title      = 'Final Report Rejected by CH';
-                $desc       = 'Final Report Rejected by CH. Request ID: HSW'.$input['id'];
+                $title      = 'Final Report Rejected by '.$designation;
+                $desc       = 'Final Report Rejected by '.$designation.' - '.$fullname.'. Request ID: HSW'.$input['id'];
                 $refId      = $input['id'];
                 $reflink    = '/admin/requested_service_detail/'.$input['id'].'/39/';
                 $notify     = 'admin';

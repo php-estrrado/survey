@@ -80,7 +80,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="invoice_date">Date</label>
-                            <input class="form-control" type="text" name="invoice_date" id="invoice_date" placeholder="Date">
+                            <input class="form-control" type="text" name="invoice_date" id="invoice_date" placeholder="Date" value="{{ old('invoice_date') }}">
                             <div id="invoice_date_error"></div>
                             @error('invoice_date')
                                 <p style="color: red">{{ $message }}</p>
@@ -88,7 +88,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="name_of_work">Name of Work</label>
-                            <input class="form-control" type="text" name="name_of_work" id="name_of_work" placeholder="Name of Work">
+                            <input class="form-control" type="text" name="name_of_work" id="name_of_work" placeholder="Name of Work" value="{{ old('name_of_work') }}">
                             <div id="name_of_work_error"></div>
                             @error('name_of_work')
                                 <p style="color: red">{{ $message }}</p>
@@ -96,7 +96,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="work_orderno_date">Work order No & Date</label>
-                            <input class="form-control" type="text" name="work_orderno_date" id="work_orderno_date" placeholder="Work order No & Date">
+                            <input class="form-control" type="text" name="work_orderno_date" id="work_orderno_date" placeholder="Work order No & Date" value="{{ old('work_orderno_date') }}">
                             <div id="work_orderno_date_error"></div>
                             @error('work_orderno_date')
                                 <p style="color: red">{{ $message }}</p>
@@ -104,7 +104,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="service_code">Service Code (SAC)</label>
-                            <input class="form-control" type="text" name="service_code" id="service_code" placeholder="Service Code (SAC)">
+                            <input class="form-control" type="text" name="service_code" id="service_code" placeholder="Service Code (SAC)" value="{{ old('service_code') }}">
                             <div id="service_code_error"></div>
                             @error('service_code')
                                 <p style="color: red">{{ $message }}</p>
@@ -112,7 +112,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="service_description">Description of Service</label>
-                            <input class="form-control" type="text" name="service_description" id="service_description" placeholder="Description of Service">
+                            <input class="form-control" type="text" name="service_description" id="service_description" placeholder="Description of Service" value="{{ old('service_description') }}">
                             <div id="service_description_error"></div>
                             @error('service_description')
                                 <p style="color: red">{{ $message }}</p>
@@ -120,7 +120,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="organization_name">Name of Organisation</label>
-                            <input class="form-control" type="text" name="organization_name" id="organization_name" placeholder="Name of Organisation">
+                            <input class="form-control" type="text" name="organization_name" id="organization_name" placeholder="Name of Organisation" value="{{ old('organization_name') }}">
                             <div id="organization_name_error"></div>
                             @error('organization_name')
                                 <p style="color: red">{{ $message }}</p>
@@ -128,7 +128,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="payment_mode">Mode of Payment</label>
-                            <input class="form-control" type="text" name="payment_mode" id="payment_mode" placeholder="Mode of Payment">
+                            <input class="form-control" type="text" name="payment_mode" id="payment_mode" placeholder="Mode of Payment" value="{{ old('payment_mode') }}">
                             <div id="payment_mode_error"></div>
                             @error('payment_mode')
                                 <p style="color: red">{{ $message }}</p>
@@ -140,7 +140,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="receiver_name">Name</label>
-                            <input class="form-control" type="text" name="receiver_name" id="receiver_name" placeholder="Name">
+                            <input class="form-control" type="text" name="receiver_name" id="receiver_name" placeholder="Name" value="{{ old('receiver_name') }}">
                             <div id="receiver_name_error"></div>
                             @error('receiver_name')
                                 <p style="color: red">{{ $message }}</p>
@@ -148,7 +148,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="receiver_address">Address</label>
-                            <input class="form-control" type="text" name="receiver_address" id="receiver_address" placeholder="Address">
+                            <input class="form-control" type="text" name="receiver_address" id="receiver_address" placeholder="Address" value="{{ old('receiver_address') }}">
                             <div id="receiver_address_error"></div>
                             @error('receiver_address')
                                 <p style="color: red">{{ $message }}</p>
@@ -156,7 +156,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="state_code">State Code</label>
-                            <input class="form-control" type="text" name="state_code" id="state_code" placeholder="State Code">
+                            <input class="form-control" type="text" name="state_code" id="state_code" placeholder="State Code" value="{{ old('state_code') }}">
                             <div id="state_code_error"></div>
                             @error('state_code')
                                 <p style="color: red">{{ $message }}</p>
@@ -164,7 +164,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="gstin_unique_id">GSTIN/Unique ID</label>
-                            <input class="form-control" type="text" name="gstin_unique_id" id="gstin_unique_id" placeholder="GSTIN/Unique ID">
+                            <input class="form-control" type="text" name="gstin_unique_id" id="gstin_unique_id" placeholder="GSTIN/Unique ID" value="{{ old('gstin_unique_id') }}">
                             <div id="gstin_unique_id_error"></div>
                             @error('gstin_unique_id')
                                 <p style="color: red">{{ $message }}</p>
@@ -176,7 +176,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <label class="form-label-title mt-3" for="survey_charges">Taxable Bill value</label>
-                            <input class="form-control" type="number" name="survey_charges" id="survey_charges" placeholder="Taxable Bill value" oninput="calculateTaxAmount()">
+                            <input class="form-control" type="number" name="survey_charges" id="survey_charges" placeholder="Taxable Bill value" oninput="calculateTaxAmount()" value="{{ old('survey_charges') }}">
                             <div id="survey_charges_error"></div>
                             @error('survey_charges')
                                 <p style="color: red">{{ $message }}</p>
@@ -189,11 +189,11 @@
                         </div>
                         <div class="col-sm-4">
                             <label class="form-label-title mt-3" for="cgst_percentage">Rate %</label>
-                            <input class="form-control bg-white" type="text" name="cgst_percentage" id="cgst_percentage" value="9" readonly>
+                            <input class="form-control bg-white" type="text" name="cgst_percentage" id="cgst_percentage" value="9" readonly value="{{ old('cgst_percentage') }}">
                         </div>
                         <div class="col-sm-4">
                             <label class="form-label-title mt-3" for="cgst_amount">Amount</label>
-                            <input class="form-control bg-white" type="text" name="cgst_amount" id="cgst_amount" readonly>
+                            <input class="form-control bg-white" type="text" name="cgst_amount" id="cgst_amount" readonly value="{{ old('cgst_amount') }}">
                         </div>
                     </div>
                     <div class="row">
@@ -202,11 +202,11 @@
                         </div>
                         <div class="col-sm-4">
                             <label class="form-label-title mt-3" for="sgst_percentage">Rate %</label>
-                            <input class="form-control bg-white" type="text" name="sgst_percentage" id="sgst_percentage" value="9" readonly>
+                            <input class="form-control bg-white" type="text" name="sgst_percentage" id="sgst_percentage" value="9" readonly value="{{ old('sgst_percentage') }}">
                         </div>
                         <div class="col-sm-4">
                             <label class="form-label-title mt-3" for="sgst_amount">Amount</label>
-                            <input class="form-control bg-white" type="text" name="sgst_amount" id="sgst_amount" readonly>
+                            <input class="form-control bg-white" type="text" name="sgst_amount" id="sgst_amount" readonly value="{{ old('sgst_amount') }}">
                         </div>
                     </div>
                     <div class="row">
@@ -227,7 +227,7 @@
                             <label class="form-label-title mt-3" for="total_tax_amount">Total Tax Value (In Figures)</label>
                         </div>
                         <div class="col-sm-4">
-                            <input class="form-control bg-white" type="text" name="total_tax_amount" id="total_tax_amount" value="0" readonly>
+                            <input class="form-control bg-white" type="text" name="total_tax_amount" id="total_tax_amount" readonly value="{{ old('total_tax_amount') }}">
                         </div>
                     </div>
                     <div class="row mt-2">
@@ -235,7 +235,7 @@
                             <label class="form-label-title mt-3" for="total_tax_amount_words">Total Tax Value (In Words)</label>
                         </div>
                         <div class="col-sm-4">
-                            <input class="form-control bg-white" type="text" name="total_tax_amount_words" id="total_tax_amount_words" readonly>
+                            <input class="form-control bg-white" type="text" name="total_tax_amount_words" id="total_tax_amount_words" readonly value="{{ old('total_tax_amount_words') }}">
                             
                         </div>
                     </div>
@@ -244,7 +244,7 @@
                             <label class="form-label-title mt-3" for="total_invoice_amount">Total Invoice Value (In Figures)</label>
                         </div>
                         <div class="col-sm-4">
-                            <input class="form-control bg-white" type="text" name="total_invoice_amount" id="total_invoice_amount" value="0" readonly>
+                            <input class="form-control bg-white" type="text" name="total_invoice_amount" id="total_invoice_amount" readonly value="{{ old('total_invoice_amount') }}">
                         </div>
                     </div>
                     <div class="row mt-2">
@@ -252,14 +252,14 @@
                             <label class="form-label-title mt-3" for="total_invoice_amount_words">Total Invoice Value (In Words)</label>
                         </div>
                         <div class="col-sm-4">
-                            <input class="form-control bg-white" type="text" name="total_invoice_amount_words" id="total_invoice_amount_words" readonly>
+                            <input class="form-control bg-white" type="text" name="total_invoice_amount_words" id="total_invoice_amount_words" readonly value="{{ old('total_invoice_amount_words') }}">
                             
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-12">
                             <label class="form-label" for="remarks">Remarks</label>
-                            <textarea class="form-control" name="remarks" id="remarks" rows="2" placeholder="Type Here..."></textarea>
+                            <textarea class="form-control" name="remarks" id="remarks" rows="2" placeholder="Type Here...">{{ old('remarks') }}</textarea>
                             <div id="remarks_error"></div>
 							@error('remarks')
 								<p style="color: red">{{ $message }}</p>

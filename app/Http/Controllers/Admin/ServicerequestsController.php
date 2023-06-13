@@ -333,8 +333,8 @@ class ServicerequestsController extends Controller
             $utype      = 3;
             $to         = $input['assign_surveyor']; 
             $ntype      = 'field_study_assigned';
-            $title      = 'New Field Study Request';
-            $desc       = 'New Field Study Request. Request ID:HSW'.$input['id'];
+            $title      = 'New Field Study Request From MS';
+            $desc       = 'New Field Study Request From MS. Request ID:HSW'.$input['id'];
             $refId      = $input['id'];
             $reflink    = 'field_study_request';
             $webreflink = '/surveyor/requested_service_detail/'.$input['id'].'/41/';
@@ -965,8 +965,8 @@ class ServicerequestsController extends Controller
                 $utype      = 4;
                 $to         = $assigned_draftsman_final; 
                 $ntype      = 'final_report_rejected';
-                $title      = 'Final Report Rejected by Admin';
-                $desc       = 'Final Report Rejected by Admin. Request ID: HSW'.$input['id'];
+                $title      = 'Final Report Rejected by MS';
+                $desc       = 'Final Report Rejected by MS. Request ID: HSW'.$input['id'];
                 $refId      = $input['id'];
                 $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/28/';
                 $notify     = 'draftsman';
@@ -1422,7 +1422,7 @@ function get_remote_file_info($url) {
         $data['menu']       = 'create-eta';
 
         $data['id']         = $id;
-        $data['recipients'] = Admin::where('role_id',1)->get();
+        $data['recipients'] = Admin::where('role_id',1)->where('is_active',1)->get();
         $data['cities'] = City::where('is_deleted',0)->get();
         $data['survey_type'] = SurveyType::where('is_deleted',0)->get();
 
@@ -1719,9 +1719,9 @@ function get_remote_file_info($url) {
                 $from       = auth()->user()->id; 
                 $utype      = 1;
                 $to         = 1; 
-                $ntype      = 'invoice_verified_by_admin';
-                $title      = 'Invoice Verified by Admin';
-                $desc       = 'Invoice Verified by Admin. Request ID: HSW'.$id;
+                $ntype      = 'invoice_verified_by_ms';
+                $title      = 'Invoice Verified by MS';
+                $desc       = 'Invoice Verified by MS. Request ID: HSW'.$id;
                 $refId      = $id;
                 $reflink    = '/superadmin/requested_service_detail/'.$id.'/49/';
                 $notify     = 'superadmin';
@@ -1783,8 +1783,8 @@ function get_remote_file_info($url) {
             $utype      = 4;
             $to         = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
             $ntype      = 'performa_invoice_rejected';
-            $title      = 'Performa Invoice Rejected by Admin';
-            $desc       = 'Performa Invoice Rejected by Admin. Request ID:HSW'.$input['id'];
+            $title      = 'Performa Invoice Rejected by MS';
+            $desc       = 'Performa Invoice Rejected by MS. Request ID:HSW'.$input['id'];
             $refId      =$input['id'];
             $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/12/';
             $notify     = 'draftsman';
@@ -1846,8 +1846,8 @@ function get_remote_file_info($url) {
             $utype      = 4;
             $to         = survey_requests::where('id',$input['id'])->first()->assigned_draftsman;
             $ntype      = 'invoice_rejected';
-            $title      = 'Invoice Rejected by Admin';
-            $desc       = 'Invoice Rejected by Admin. Request ID:HSW'.$input['id'];
+            $title      = 'Invoice Rejected by MS';
+            $desc       = 'Invoice Rejected by MS. Request ID:HSW'.$input['id'];
             $refId      =$input['id'];
             $reflink    = '/draftsman/service_requests_detail/'.$input['id'].'/48/';
             $notify     = 'draftsman';
@@ -1904,8 +1904,8 @@ function get_remote_file_info($url) {
                 $utype      = 1;
                 $to         = 1; 
                 $ntype      = 'survey_study_verified';
-                $title      = 'Survey Study Report Verified By Admin';
-                $desc       = 'Survey Study Report Verified By Admin. Request ID:HSW'.$id;
+                $title      = 'Survey Study Report Verified By MS';
+                $desc       = 'Survey Study Report Verified By MS. Request ID:HSW'.$id;
                 $refId      = $id;
                 $reflink    = '/superadmin/requested_service_detail/'.$id.'/21/';
                 $notify     = 'superadmin';
@@ -1962,8 +1962,8 @@ function get_remote_file_info($url) {
                 $utype      = 1;
                 $to         = 1; 
                 $ntype      = 'final_report_verified';
-                $title      = 'Final Report Verified By Admin';
-                $desc       = 'Final Report Verified By Admin. Request ID:HSW'.$id;
+                $title      = 'Final Report Verified By MS';
+                $desc       = 'Final Report Verified By MS. Request ID:HSW'.$id;
                 $refId      = $id;
                 $reflink    = '/superadmin/requested_service_detail/'.$id.'/25/';
                 $notify     = 'superadmin';
