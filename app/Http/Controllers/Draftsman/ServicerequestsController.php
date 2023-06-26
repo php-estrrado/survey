@@ -859,4 +859,39 @@ class ServicerequestsController extends Controller
             return redirect()->back()->withErrors($validator)->withInput($request->all());
         }       
     }
+
+    public function survey_file_download($file)
+    {
+        dd($file);
+        $datas = Survey_requests::where('id',$id)->first(); 
+        if(isset($datas->final_report))
+        {
+            $exp = explode("public", $datas->final_report);
+ 
+            $file_path = public_path() .$exp[1];
+            // dd($file_path);
+            $file_name = basename($datas->final_report);
+            if (file_exists($file_path))
+            {
+                // Send Download
+                $headers = [
+                     'Content-Description' => 'File Transfer',
+                    'Content-Type' => 'application/pdf',
+                    'Access-Control-Allow-Origin' => '*',
+                    'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
+                    'Access-Control-Allow-Headers'=> 'Content-Type, Accept, Authorization, X-Requested-With, Application'
+                ];
+ 
+                return Response::download($file_path, $file_name, $headers);
+                // return Response::download($file_path, $file_name, [
+                    // 'Content-Length: '. filesize($file_path)
+                // ]);
+            }
+            else
+            {
+                // Error
+                exit('Requested file does not exist on our server!');
+            }     
+        }
+    }
 }

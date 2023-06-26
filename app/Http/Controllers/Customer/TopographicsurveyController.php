@@ -25,6 +25,8 @@ use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
 use App\Models\OrganisationType;
+use App\Models\SurveyScale;
+
 class TopographicsurveyController extends Controller
 {
     /**
@@ -55,8 +57,9 @@ class TopographicsurveyController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-        $data['org_types']    = OrganisationType::selectOption();
-                        $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
+        $data['org_types']    =  OrganisationType::selectOption();
+        $data['scales']       =  SurveyScale::selectOption();
+        $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
         $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
         $cust_info = CustomerInfo::where('cust_id',$cust_id)->first();  
         $data['cust_info']    = $cust_info;  
@@ -92,7 +95,7 @@ class TopographicsurveyController extends Controller
                 'x_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'y_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'area_to_survey' => ['required','regex:/^[0-9]*$/'],
-                'scale_of_survey' => ['required','regex:/^[0-9]*$/']
+                'scale_of_survey' => ['required']
             ]);
     
             if($validator->passes())

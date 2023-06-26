@@ -30,6 +30,7 @@ use App\Models\Hydrographic_chart;
 use App\Models\Hydrographic_survey;
 use App\Models\Survey_status;
 use App\Models\OrganisationType;
+use App\Models\SurveyScale;
 use App\Models\Sidescansonar;
 use App\Models\Subbottom_profilling;
 use App\Models\Tidal_observation;
@@ -449,6 +450,7 @@ class RequestedServicesController extends Controller
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
         $data['org_types']    =  OrganisationType::selectOption();
+        $data['scales']       =  SurveyScale::selectOption();
         $data['data_collection']    = DataCollectionEquipment::selectOption();
 
         $data['survey_id']           =  $survey_id;

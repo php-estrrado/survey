@@ -25,7 +25,9 @@ use App\Models\AdminNotification;
 use App\Rules\Name;
 use Validator;
 use App\Models\OrganisationType;
+use App\Models\SurveyScale;
 use App\Models\DataCollectionEquipment;
+
 class HydrographicsurveyController extends Controller
 {
     /**
@@ -56,7 +58,8 @@ class HydrographicsurveyController extends Controller
         $data['countries']    =  Country::where('is_deleted',0)->orderby('sortname','ASC')->get();
         $data['states']       =  State::where('is_deleted',0)->get();
         $data['cities']       =  City::where('is_deleted',0)->get();
-        $data['org_types']    = OrganisationType::selectOption();
+        $data['org_types']    =  OrganisationType::selectOption();
+        $data['scales']       =  SurveyScale::selectOption();
         $data['data_collection']    = DataCollectionEquipment::selectOption();
         $cust_email = Admin::where('id',auth()->user()->id)->first()->email;
         $cust_id = CustomerMaster::where('username',$cust_email)->first()->id;
@@ -95,7 +98,7 @@ class HydrographicsurveyController extends Controller
                 'y_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'type_of_waterbody' => ['required'],
                 'area_of_survey' => ['required','regex:/^[a-zA-Z\s]*$/'],
-                'scale_of_survey' => ['required','regex:/^[a-zA-Z0-9\s]*$/'],
+                'scale_of_survey' => ['required'],
                 'service_to_be_conducted' => ['required'],
                 'interim_surveys_needed_infuture' => ['required'],
                 'benchmark_chart_datum' => ['required']

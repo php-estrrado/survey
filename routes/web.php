@@ -353,6 +353,8 @@ Route::middleware('role:draftsman','revalidate')->group(function () {
     Route::get('/draftsman/edit_invoice/{id}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'edit_invoice']);
 
     Route::get('/draftsman/download_report/{id}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'download_report']);
+
+    Route::get('/draftsman/survey_file_download/{file_url}', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'survey_file_download']);
     
     Route::post('/draftsman/upload_final_report', [App\Http\Controllers\Draftsman\ServicerequestsController::class, 'upload_final_report']);
 

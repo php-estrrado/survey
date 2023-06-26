@@ -118,7 +118,7 @@
                                   </div>
                                    <div class="col-sm-6">
                                     <input type="hidden" name="service" value="{{ $service }}">
-                                    <label class="form-label-title mt-3" for="service">Additional service needed <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="service">Additional service needed</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
@@ -264,7 +264,8 @@
                                   <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label-title mt-3" for="scale_of_survey">Scale of survey (in meter) <span class="text-red">*</span></label>
-                                        <input class="form-control" type="number" placeholder="Scale of survey (in meter)" name="scale_of_survey" id="scale_of_survey" value="{{ old('scale_of_survey') }}">
+                                        <!-- <input class="form-control" type="number" placeholder="Scale of survey (in meter)" name="scale_of_survey" id="scale_of_survey" value="{{ old('scale_of_survey') }}"> -->
+                                        {{ Form::select('scale_of_survey', $scales, null,['id'=>'scale_of_survey','class'=>'form-control']); }}
                                     </div>
                                     <div id="scale_of_survey_error"></div>
                                     @error('scale_of_survey')

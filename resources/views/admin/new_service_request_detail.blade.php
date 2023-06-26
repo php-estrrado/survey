@@ -718,7 +718,7 @@
 													Scale Of Survey
 												</div>
 											</div>
-											<label class="form-label">{{$request_data->scale_of_survey}}</label>
+											<label class="form-label">{{ getSurveyScale($request_data->scale_of_survey) }}</label>
 										</div>
 									</div>
 								@endif

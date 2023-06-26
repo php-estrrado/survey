@@ -598,17 +598,17 @@
 						</div>
 					@endif
 					@if($request_data->scale_of_survey)
-						<div class="col-sm-4 col-md-4">
-							<div class="form-group">
-								<div class="media-body">
-									<div class="font-weight-normal1">
-										Scale Of Survey
+									<div class="col-sm-4 col-md-4">
+										<div class="form-group">
+											<div class="media-body">
+												<div class="font-weight-normal1">
+													Scale Of Survey
+												</div>
+											</div>
+											<label class="form-label">{{ getSurveyScale($request_data->scale_of_survey) }}</label>
+										</div>
 									</div>
-								</div>
-								<label class="form-label">{{$request_data->scale_of_survey}}</label>
-							</div>
-						</div>
-					@endif
+								@endif
 					@if($request_data->service_to_be_conducted)
 						<div class="col-sm-4 col-md-4">
 							<div class="form-group">

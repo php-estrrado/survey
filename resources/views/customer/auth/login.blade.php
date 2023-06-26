@@ -44,7 +44,8 @@
                                     <button class="btn btn-primary btn-block w-100" type="submit">Sign in</button>
                                 </div>
                             </div>
-                            <p class="mt-4 mb-0 text-center">Don't have account?<a class="ms-2" href="{{ url('customer/register') }}">Create Account</a></p>
+                            <p class="mt-4 mb-0 text-center"><strong><a href="{{ url('public/assets/pdf/jalanethra_user_manual.pdf') }}" target="_blank">Instruction/User Manual of How to Use Jalanethra Web portal</a></strong></p>
+                            <p class="mt-4 mb-0 text-center">Don't have account?<a class="ms-2" href="{{ url('customer/register') }}"><strong>Create Account</strong></a></p>
                         </form>
                     </div>
                 </div>

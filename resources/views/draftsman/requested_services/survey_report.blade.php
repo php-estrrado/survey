@@ -464,16 +464,19 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 												Uploaded Images
 											</div>
 										</div>
-										<ul id="lightgallery" class="list-unstyled row">
+										<ul>
 											@php
 												$uploaded_images = json_decode($survey_study->upload_photos_of_study_area,true);
 											@endphp
 											@if($uploaded_images && count($uploaded_images) > 0)
 												@foreach($uploaded_images as $images)
-													@php $path_info = pathinfo($images); $extension = $path_info['extension']; @endphp
+													@php
+														$path_info = pathinfo($images); $extension = $path_info['extension']; $file_name = $path_info['filename'];
+													@endphp
 													<div class="col-md-3 col-sm-3">
 														@if($extension == "jpeg" || $extension == "jpg" || $extension == "png" || $extension == "gif" )
 															<img src="{{URL($images)}}" alt="Thumb-1" width="100px">
+															<p style="text-align: left;"><strong><a href="{{URL($images)}}" download="survey_file">Download</a></strong></p>
 														@else
 															<a href="{{URL($images)}}" target="_blank">
 																<img src="{{URL::asset('admin/assets/images/file_image.png')}}" alt="Thumb-1" width="100px">
@@ -1027,7 +1030,7 @@ $sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Gove
 													Scale Of Survey
 												</div>
 											</div>
-											<label class="form-label">{{$request_data->scale_of_survey}}</label>
+											<label class="form-label">{{ getSurveyScale($request_data->scale_of_survey) }}</label>
 										</div>
 									</div>
 								@endif

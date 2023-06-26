@@ -22,6 +22,7 @@ use App\Models\Product;
 use App\Models\OrganisationType;
 use Twilio\Rest\Client;
 use App\Models\SurveyType;
+use App\Models\SurveyScale;
 
 
 if (!function_exists('geSiteName')) {
@@ -417,6 +418,23 @@ if (!function_exists('getOrgType')) {
             $org_types = "";
          }
          return $org_types;
+    }
+
+}
+
+if (!function_exists('getSurveyScale')) {
+
+    function getSurveyScale($id) {
+        $survey_scale = SurveyScale::where('id', $id)->first(); 
+        if($survey_scale)
+        {
+            $survey_scale = $survey_scale->scale;
+        }
+        else
+        {
+            $survey_scale = "";
+        }
+        return $survey_scale;
     }
 
 }
