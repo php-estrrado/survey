@@ -17,7 +17,6 @@
 							</div>
 							<div class="card">
 								<div class="card-body">
-									<iframe src="https://estrrado.com/" height="200" width="300" title="Iframe Example"></iframe>
 									<div class="text-center title-style mb-6">
 										<h2 class="mb-2">Sign in to account - Draftsman</h2>
 										<p class="text-muted text-left">Enter your email and OTP to login</p>

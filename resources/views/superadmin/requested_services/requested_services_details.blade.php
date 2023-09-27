@@ -94,6 +94,7 @@
 				<div class="tabs-menu1 px-3">
 					<ul class="nav">
 						<li><a href="#tab-9" data-toggle="tab" class="active fs-14">Submitted Form</a></li>
+						<!-- <li><a href="#tab-8" data-toggle="tab" class="fs-14">Timeline</a></li> -->
 					</ul>
 				</div>
 			</div>
@@ -107,6 +108,29 @@
 	<div class="col-xl-12 col-lg-12 col-md-12">
 		<div class="border-0">
 			<div class="tab-content">
+				<div class="tab-pane" id="tab-8">
+					<div class="card p-5">
+						<ul class="timelineleft pb-5">
+							@if($survey_datas && count($survey_datas) > 0)
+								@foreach($survey_datas as $survey_data)
+									@if($survey_data->role == 1)
+										<li> <i class="fa fa-clock-o bg-pink"></i>
+											<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y h:i:sa',strtotime($survey_data->log_date))}}</span>
+												<h3 class="timelineleft-header">{{$survey_data->status_name}} - {{$survey_data->designation}} - {{$survey_data->fullname}}</h3>											
+											</div>
+										</li>
+									@else
+										<li> <i class="fa fa-clock-o bg-pink"></i>
+											<div class="timelineleft-item"> <span class="time"><i class="fa fa-clock-o text-danger"></i> {{date('d/m/Y h:i:sa',strtotime($survey_data->log_date))}}</span>
+												<h3 class="timelineleft-header">{{$survey_data->status_name}}</h3>											
+											</div>
+										</li>
+									@endif
+								@endforeach
+							@endif
+						</ul>
+					</div>
+				</div>
 				<div class="tab-pane active" id="tab-9">
 					<div class="card newser">
 						<div class="card-body">
