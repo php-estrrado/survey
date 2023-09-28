@@ -68,15 +68,15 @@
 							</tr>
 							<tr>
 								<td class="py-2 px-0">
-									<span class="font-weight-semibold w-50">ID Proof Front </span>
+									<span class="font-weight-semibold w-50">ID Proof</span>
 								</td>
 								<td class="py-2 px-0"><strong><a href="{{URL($info->id_file_front)}}" target="_blank">Click here to view</a></strong></td>
 							</tr>
 							<tr>
 								<td class="py-2 px-0">
-									<span class="font-weight-semibold w-50">ID Proof Back </span>
+									<span class="font-weight-semibold w-50">Authorisation letter </span>
 								</td>
-								<td class="py-2 px-0"><strong><a href="{{URL($info->id_file_back)}}" target="_blank">Click here to view</a></strong></td>
+								<td class="py-2 px-0"><strong>@if(isset($info->id_file_back))<a href="{{URL($info->id_file_back)}}" target="_blank">Click here to view</a>@endif</strong></td>
 							</tr>
 						</tbody>
 					</table>

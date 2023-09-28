@@ -90,7 +90,7 @@ class CustomerController extends Controller
             'mobile'=>['required','numeric','digits:10'],
             'valid_id'=>['required','regex:/^[a-zA-Z0-9\s]*$/'],
             'id_file_front' => ['required','file','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
-            'id_file_back' => ['required','file','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
+            'id_file_back' => ['nullable','file','max:10000','mimes:jpeg,png,jpg,jiff,pdf'],
             'password' =>['required','confirmed','min:6','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/'],
             'password_confirmation' =>['required','min:6','max:20','regex:/^[a-zA-Z0-9\s.,@&*()]*$/']
         ]);

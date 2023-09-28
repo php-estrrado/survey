@@ -186,7 +186,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location </label>
                                       <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ old('survey_area') }}">
                                     </div>
                                     <div id="survey_area_error"></div>
@@ -305,7 +305,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="area_of_survey">Area Of Survey <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="area_of_survey">Area Of Survey </label>
                                       <input class="form-control" type="text" placeholder="Area Of Survey" name="area_of_survey" id="area_of_survey" value="{{ old('area_of_survey') }}">
                                     </div>
                                     <div id="area_of_survey_error"></div>
@@ -314,7 +314,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="scale_of_survey">Scale of Survey <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="scale_of_survey">Scale of Survey </label>
                                     {{ Form::select('scale_of_survey', $scales, null,['id'=>'scale_of_survey','class'=>'form-control']); }}
                                     <div id="scale_of_survey_error"></div>
                                     @error('scale_of_survey')
@@ -343,6 +343,10 @@
                                           <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture2" value="no" {{ old('interim_surveys_needed_infuture') == "no" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="interim_surveys_needed_infuture2">No</label>
                                         </div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture3" value="na" {{ old('interim_surveys_needed_infuture') == "na" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="interim_surveys_needed_infuture3">NA</label>
+                                        </div>
                                       </div>
                                     </div>
                                     <div id="interim_surveys_needed_infuture_error"></div>
@@ -362,6 +366,10 @@
                                           <input class="form-check-input" type="radio" name="benchmark_chart_datum" id="benchmark_chart_datum2" value="no" {{ old('benchmark_chart_datum') == "no" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="benchmark_chart_datum2">No</label>
                                         </div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="benchmark_chart_datum" id="benchmark_chart_datum3" value="na" {{ old('benchmark_chart_datum') == "na" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="benchmark_chart_datum3">NA</label>
+                                        </div>
                                       </div>
                                     </div>
                                     <div id="benchmark_chart_datum_error"></div>
@@ -371,7 +379,7 @@
                                   </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                    <label class="form-label-title mt-3" for="filenames">Upload existing drawings/map showing the locations of file upload (jpg, jpeg, jiff, png, pdf)</label>
+                                    <label class="form-label-title mt-3" for="filenames">Upload existing drawings/map showing the locations of file upload (jpg, jpeg, jiff, png, pdf) <span class="text-red" style="color: #ff0000;">(Maximum size: 25mb)</span></label>
                                       <input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg","jfif","png"]' multiple />
                                     </div>
                                   </div>

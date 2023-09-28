@@ -1043,7 +1043,8 @@ class ServicerequestsController extends Controller
                                 ->orderBy('survey_request_logs.id','DESC')
                                 ->get();
                                 
-        $data['recipients'] = Admin::where('role_id',1)->where('id','!=',1)->get();
+        // $data['recipients'] = Admin::where('role_id',1)->where('id','!=',1)->get();
+        $data['recipients'] = Admin::join('usr_management','admins.id','=','usr_management.admin_id')->where('admins.role_id',1)->where('admins.is_active',1)->get();
         $data['surveyors'] = Admin::where('role_id',3)->get();
         
         $data['status'] = $status;
@@ -1297,7 +1298,8 @@ function get_remote_file_info($url) {
         //                         ->orderBy('survey_request_logs.id','DESC')
         //                         ->get();
                                 
-        $data['recipients'] = Admin::where('role_id',1)->where('id','!=',1)->get();
+        // $data['recipients'] = Admin::where('role_id',1)->where('id','!=',1)->get();
+        $data['recipients'] = Admin::join('usr_management','admins.id','=','usr_management.admin_id')->where('admins.role_id',1)->where('admins.is_active',1)->get();
         $data['surveyors'] = Admin::where('role_id',3)->get();
         
         $data['status'] = $status;
@@ -1422,7 +1424,7 @@ function get_remote_file_info($url) {
         $data['menu']       = 'create-eta';
 
         $data['id']         = $id;
-        $data['recipients'] = Admin::where('role_id',1)->where('is_active',1)->get();
+        $data['recipients'] = Admin::join('usr_management','admins.id','=','usr_management.admin_id')->where('admins.role_id',1)->where('admins.is_active',1)->get();
         $data['cities'] = City::where('is_deleted',0)->get();
         $data['survey_type'] = SurveyType::where('is_deleted',0)->get();
 
@@ -1526,7 +1528,7 @@ function get_remote_file_info($url) {
         $data['menu']       = 'edit-eta';
 
         $data['survey_id']  = $id;
-        $data['recipients'] = Admin::where('role_id',1)->get();
+        $data['recipients'] = Admin::join('usr_management','admins.id','=','usr_management.admin_id')->where('admins.role_id',1)->where('admins.is_active',1)->get();
         $data['cities'] = City::where('is_deleted',0)->get();
         $data['survey_type'] = SurveyType::where('is_deleted',0)->get();
 

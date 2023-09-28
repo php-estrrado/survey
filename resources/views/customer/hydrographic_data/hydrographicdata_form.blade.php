@@ -186,7 +186,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location </label>
                                       <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ old('survey_area') }}">
                                     </div>
                                     <div id="survey_area_error"></div>

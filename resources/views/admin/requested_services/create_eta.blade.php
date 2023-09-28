@@ -116,7 +116,7 @@
                                     <option value="">--Select--</option>
                                     @if($recipients && count($recipients)>0)
                                         @foreach($recipients as $recipient)
-                                            <option value="{{$recipient['id']}}" {{ old('recipient') == $recipient['id'] ? 'selected' : '' }}>{{$recipient['fname']}}</option>
+                                            <option value="{{$recipient['id']}}" {{ old('recipient') == $recipient['id'] ? 'selected' : '' }}>{{$recipient['fname']}} - {{$recipient['designation']}}</option>
                                         @endforeach
                                     @endif
                                 </select>

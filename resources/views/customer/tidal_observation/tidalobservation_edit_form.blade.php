@@ -328,6 +328,10 @@
                                           <input class="form-check-input" type="radio" onclick="displayDesc(0);" name="benchmark_chart_datum" id="benchmark_chart_datum2" value="no" {{ $survey_data->benchmark_chart_datum == "no" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="benchmark_chart_datum2">No</label>
                                         </div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" onclick="displayDesc(0);" name="benchmark_chart_datum" id="benchmark_chart_datum3" value="na" {{ $survey_data->benchmark_chart_datum == "na" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="benchmark_chart_datum3">NA</label>
+                                        </div>
                                       </div>
                                     </div>
                                     <div id="benchmark_chart_datum_error"></div>
@@ -374,7 +378,7 @@
                                   </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="filenames">Upload existing drawings/map showing the locations of file upload (jpg, jpeg, jiff, png, pdf)</label>
+                                      <label class="form-label-title mt-3" for="filenames">Upload existing drawings/map showing the locations of file upload (jpg, jpeg, jiff, png, pdf) <span class="text-red" style="color: #ff0000;">(Maximum size: 25mb)</span></label>
                                       <input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg","jfif","png"]' multiple />
                                     </div>
                                   </div>

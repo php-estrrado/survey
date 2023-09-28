@@ -89,13 +89,13 @@ class TopographicsurveyController extends Controller
                 'state' => ['required'],
                 'district' => ['required'],
                 'place' => ['required','regex:/^[a-zA-Z\s]*$/'],
-                'survey_area_location' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'survey_area_location' => ['nullable','regex:/^[a-zA-Z\s]*$/'],
                 'lattitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'longitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'x_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'y_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'area_to_survey' => ['required','regex:/^[0-9]*$/'],
-                'scale_of_survey' => ['required']
+                'scale_of_survey' => ['nullable']
             ]);
     
             if($validator->passes())
@@ -202,13 +202,13 @@ class TopographicsurveyController extends Controller
                 'state' => ['required'],
                 'district' => ['required'],
                 'place' => ['required','regex:/^[a-zA-Z\s]*$/'],
-                'survey_area_location' => ['required','regex:/^[a-zA-Z\s]*$/'],
+                'survey_area_location' => ['nullable','regex:/^[a-zA-Z\s]*$/'],
                 'lattitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'longitude' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'x_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'y_coordinates' => ['nullable','regex:/^[a-zA-Z0-9\s.,]*$/'],
                 'area_to_survey' => ['required','regex:/^[0-9]*$/'],
-                'scale_of_survey' => ['required','regex:/^[0-9]*$/']
+                'scale_of_survey' => ['nullable','regex:/^[0-9]*$/']
             ]);
     
             if($validator->passes())

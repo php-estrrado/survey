@@ -115,7 +115,7 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="id_file_front">Upload ID Proof Front <span class="text-red">*</span></label>
+								<label class="form-label" for="id_file_front">Upload ID Proof * <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb)</span></label>
 								<input class="form-control" type="file" name="id_file_front" id="id_file_front" placeholder="Choose Valid ID" value="{{ old('id_file_front') }}">
 								<div id="id_file_front_error"></div>
 								@error('id_file_front')
@@ -126,7 +126,7 @@
 
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="id_file_back">Upload ID Proof Back <span class="text-red">*</span></label>
+								<label class="form-label" for="id_file_back">Authorisation letter, if any <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb) </span></label>
 								<input class="form-control" type="file" name="id_file_back" id="id_file_back" placeholder="Choose Valid ID" value="{{ old('id_file_back') }}">
 								<div id="id_file_back_error"></div>
 								@error('id_file_back')

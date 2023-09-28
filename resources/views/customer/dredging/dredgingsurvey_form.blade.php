@@ -186,7 +186,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location </label>
                                       <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ old('survey_area') }}">
                                     </div>
                                     <div id="survey_area_error"></div>
@@ -340,6 +340,10 @@
                                         <div class="form-check form-check-inline">
                                           <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture2" value="no" {{ old('interim_surveys_needed_infuture') == "no" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="interim_surveys_needed_infuture2">No</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture3" value="na" {{ old('interim_surveys_needed_infuture') == "na" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="interim_surveys_needed_infuture3">NA</label>
                                         </div>
                                       </div>
                                     </div>

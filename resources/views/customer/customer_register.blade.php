@@ -30,9 +30,18 @@
                                     @enderror
                                 </div>
                 
-                                <div class="col-sm-6">
+                                <!-- <div class="col-sm-6">
                                     <label class="form-label-title mt-3" for="firm">Name of Firm <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="firm" placeholder="Name of Firm" value="{{ old('firm') }}">
+                                    <div id="firm_error"></div>
+                                    @error('firm')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                </div> -->
+
+                                <div class="col-sm-6">
+                                    <label class="form-label-title mt-3" for="firm">Name of Organizaton <span class="text-red">*</span></label>
+                                    <input class="form-control" type="text" name="firm" placeholder="Name of Organizaton" value="{{ old('firm') }}">
                                     <div id="firm_error"></div>
                                     @error('firm')
                                       <p style="color: red">{{ $message }}</p>
@@ -40,7 +49,7 @@
                                 </div>
                 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="firm_type">Type of Firm <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="firm_type">Type of Organization <span class="text-red">*</span></label>
                                     <select id="menu-type" class="js-example-basic-single col-sm-12" name="firm_type">
                                         <option value="">Select</option>
                                         <option value="1" {{ old('firm_type') == 1 ? 'selected' : '' }}>Government</option>
@@ -96,7 +105,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="id_file_front">Upload ID Proof Front <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="id_file_front">Upload ID Proof * <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb)</span></label>
                                     <input class="form-control" type="file" name="id_file_front" id="id_file_front" placeholder="Choose Valid ID">
                                     <div id="id_file_front_error"></div>
                                     @error('id_file_front')
@@ -105,7 +114,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="id_file_back">Upload ID Proof Back <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="id_file_back">Authorisation letter, if any <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb) </span></label>
                                     <input class="form-control" type="file" name="id_file_back" id="id_file_back" placeholder="Choose Valid ID">
                                     <div id="id_file_back_error"></div>
                                     @error('id_file_back')

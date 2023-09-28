@@ -120,6 +120,7 @@
                                     <input type="hidden" name="service" value="{{ $service }}">
                                     <label class="form-label-title mt-3" for="service">Additional service needed</label>
                                     <select class="js-example-basic-single col-sm-12 multiselect" name="additional_services[]" id="additional_services" multiple="multiple" >
+                                      <option value="none">None</option>
                                       @if($services && count($services)>0)
                                         @foreach($services as $service)
                                           <option value="{{$service['id']}}" {{ (collect(old('additional_services'))->contains($service['id'])) ? 'selected':'' }}>{{$service['service_name']}}</option>
@@ -187,7 +188,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="survey_area">Survey Area Location </label>
                                       <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area" id="survey_area" value="{{ old('survey_area') }}">
                                     </div>
                                     <div id="survey_area_error"></div>
@@ -287,7 +288,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="area_of_survey">Area Of Survey <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="area_of_survey">Area Of Survey </label>
                                       <input class="form-control" type="text" placeholder="Area Of Survey" name="area_of_survey" id="area_of_survey" value="{{ old('area_of_survey') }}">
                                     </div>
                                     <div id="area_of_survey_error"></div>
@@ -296,7 +297,7 @@
                                     @enderror
                                   </div>
                                   <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="scale_of_survey">Scale of Survey <span class="text-red">*</span></label>
+                                    <label class="form-label-title mt-3" for="scale_of_survey">Scale of Survey </label>
                                     <!-- <input class="form-control" type="number" placeholder="Scale Of Survey (metres)" name="scale_of_survey" id="scale_of_survey" value="{{ old('scale_of_survey') }}"> -->
                                     {{ Form::select('scale_of_survey', $scales, null,['id'=>'scale_of_survey','class'=>'form-control']); }}
                                     <div id="scale_of_survey_error"></div>
@@ -326,6 +327,10 @@
                                           <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture2" value="no" {{ old('interim_surveys_needed_infuture') == "no" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="interim_surveys_needed_infuture2">No</label>
                                         </div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="interim_surveys_needed_infuture" id="interim_surveys_needed_infuture3" value="na" {{ old('interim_surveys_needed_infuture') == "na" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="interim_surveys_needed_infuture3">NA</label>
+                                        </div>
                                       </div>
                                     </div>
                                     <div id="interim_surveys_needed_infuture_error"></div>
@@ -345,6 +350,10 @@
                                           <input class="form-check-input" type="radio" name="benchmark_chart_datum" id="benchmark_chart_datum2" value="no" {{ old('benchmark_chart_datum') == "no" ? 'checked' : '' }}>
                                           <label class="form-check-label" for="benchmark_chart_datum2">No</label>
                                         </div>
+                                        <div class="form-check form-check-inline">
+                                          <input class="form-check-input" type="radio" name="benchmark_chart_datum" id="benchmark_chart_datum3" value="na" {{ old('benchmark_chart_datum') == "na" ? 'checked' : '' }}>
+                                          <label class="form-check-label" for="benchmark_chart_datum3">NA</label>
+                                        </div>
                                       </div>
                                     </div>
                                     <div id="benchmark_chart_datum_error"></div>
@@ -354,7 +363,7 @@
                                   </div>
                                   <div class="col-md-12">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="filenames">Upload existing drawings/map showing the locations of file upload (jpg, jpeg, jiff, png, pdf)</label>
+                                      <label class="form-label-title mt-3" for="filenames">Upload existing drawings/map showing the locations of file upload (jpg, jpeg, jiff, png, pdf) <span class="text-red" style="color: #ff0000;">(Maximum size: 25mb)</span></label>
                                       <input type="file" class="dropify" data-height="180" name="filenames[]" id="filenames" data-allowed-file-extensions='["jpg", "pdf", "jpeg","jfif","png"]' multiple />
                                     </div>
                                   </div>

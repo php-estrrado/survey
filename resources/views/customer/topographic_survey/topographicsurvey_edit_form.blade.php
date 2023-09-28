@@ -181,7 +181,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                      <label class="form-label-title mt-3" for="survey_area_location">Survey Area Location <span class="text-red">*</span></label>
+                                      <label class="form-label-title mt-3" for="survey_area_location">Survey Area Location </label>
                                       <input class="form-control" type="text" placeholder="Survey Area Location" name="survey_area_location" id="survey_area_location" value="{{ $survey_data->location }}">
                                     </div>
                                     <div id="survey_area_location_error"></div>
@@ -257,7 +257,7 @@
                                   </div>
                                   <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label-title mt-3" for="scale_of_survey">Scale of survey (in meter) <span class="text-red">*</span></label>
+                                        <label class="form-label-title mt-3" for="scale_of_survey">Scale of survey (in meter) </label>
                                         <!-- <input class="form-control" type="number" placeholder="Scale of survey (in meter)" name="scale_of_survey" id="scale_of_survey" value="{{ $survey_data->scale_of_survey }}"> -->
                                         {{ Form::select('scale_of_survey', $scales, $survey_data->scale_of_survey,['id'=>'scale_of_survey','class'=>'form-control']); }}
                                     </div>
