@@ -40,8 +40,8 @@
                                 </div> -->
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="firm">Name of Organizaton <span class="text-red">*</span></label>
-                                    <input class="form-control" type="text" name="firm" placeholder="Name of Organizaton" value="{{ old('firm') }}">
+                                    <label class="form-label-title mt-3" for="firm">Name of Organization <span class="text-red">*</span></label>
+                                    <input class="form-control" type="text" name="firm" placeholder="Name of Organization" value="{{ old('firm') }}">
                                     <div id="firm_error"></div>
                                     @error('firm')
                                       <p style="color: red">{{ $message }}</p>
@@ -105,7 +105,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="id_file_front">Upload ID Proof * <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb)</span></label>
+                                    <label class="form-label-title mt-3" for="id_file_front">Upload ID Proof * <span class="text-red" style="color: #ff0000;">(format:- .pdf, Maximum size: 10mb)</span></label>
                                     <input class="form-control" type="file" name="id_file_front" id="id_file_front" placeholder="Choose Valid ID">
                                     <div id="id_file_front_error"></div>
                                     @error('id_file_front')
@@ -114,7 +114,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label-title mt-3" for="id_file_back">Authorisation letter, if any <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb) </span></label>
+                                    <label class="form-label-title mt-3" for="id_file_back">Authorisation letter, if any <span class="text-red" style="color: #ff0000;">(format:- .pdf, Maximum size: 10mb) </span></label>
                                     <input class="form-control" type="file" name="id_file_back" id="id_file_back" placeholder="Choose Valid ID">
                                     <div id="id_file_back_error"></div>
                                     @error('id_file_back')
@@ -163,8 +163,8 @@
 </div>
 @endsection
 @section('js')
- <script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script> 
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="{{URL::asset('admin/assets/js/toastr.min.js')}}"></script> 
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script type="text/javascript">
         $(document).ready(function(){
             @if(Session::has('message'))

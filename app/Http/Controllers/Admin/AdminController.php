@@ -617,7 +617,7 @@ class AdminController extends Controller
         {
             $data['title']           =   'Notifications';
             $data['menu']            =   'notifications';
-            $data['notifications']   =   AdminNotification::where('role_id',auth()->user()->role_id)->orderby('id','DESC')->get();
+            $data['notifications']   =   AdminNotification::where('notify_to',auth()->user()->id)->where('role_id',auth()->user()->role_id)->orderby('id','DESC')->get();
 
             return view('admin.notification',$data);
         }

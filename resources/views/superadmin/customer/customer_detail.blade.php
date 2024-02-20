@@ -41,13 +41,13 @@
 							</tr>
 							<tr>
 								<td class="py-2 px-0">
-									<span class="font-weight-semibold w-50">Name Of The Firm </span>
+									<span class="font-weight-semibold w-50">Name Of The Organization </span>
 								</td>
 								<td class="py-2 px-0">{{$info->firm}}</td>
 							</tr>
 							<tr>
 								<td class="py-2 px-0">
-									<span class="font-weight-semibold w-50">Type Of Firm </span>
+									<span class="font-weight-semibold w-50">Type Of Organization </span>
 								</td>
 								<?php
 									$sector_name = array(1=>"Government",2=>'Private',3=>'Individual',4=>'Quasi Government',5=>'Research Organisation',6=>'State Government',7=>'Central Government');                             

@@ -31,8 +31,35 @@
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
                                 </div>
+
+                                <div class="col-sm-6">
+                                    <label class="form-label mt-3" for="firm">Name of Organization <span class="text-red">*</span></label>
+                                    <input class="form-control" type="text" name="firm" placeholder="Name of Organization" value="{{ $cust_info->firm }}">
+                                    <div id="firm_error"></div>
+                                    @error('firm')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                </div>
                 
                                 <div class="col-sm-6">
+                                    <label class="form-label mt-3" for="firm_type">Type of Organization <span class="text-red">*</span></label>
+                                    <select id="menu-type" class="js-example-basic-single col-sm-12" name="firm_type">
+                                        <option value="">Select</option>
+                                        <option value="1" {{ $cust_info->firm_type == 1 ? 'selected' : '' }}>Government</option>
+                                        <option value="2" {{ $cust_info->firm_type == 2 ? 'selected' : '' }}>Private</option>
+                                        <option value="3" {{ $cust_info->firm_type == 3 ? 'selected' : '' }}>Individual</option>
+                                        <option value="4" {{ $cust_info->firm_type == 4 ? 'selected' : '' }}>Quasi Government</option>
+                                        <option value="5" {{ $cust_info->firm_type == 5 ? 'selected' : '' }}>Research Organisation</option>
+                                        <option value="6" {{ $cust_info->firm_type == 6 ? 'selected' : '' }}>State Government</option>
+                                        <option value="7" {{ $cust_info->firm_type == 7 ? 'selected' : '' }}>Central Government</option>
+                                    </select>
+                                    <div id="firm_type_error"></div>
+                                    @error('firm_type')
+                                      <p style="color: red">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                
+                                <!-- <div class="col-sm-6">
                                     <label class="form-label mt-3" for="firm">Name of Firm <span class="text-red">*</span></label>
                                     <input class="form-control" type="text" name="firm" placeholder="Name of Firm" value="{{ $cust_info->firm }}">
                                     <div id="firm_error"></div>
@@ -57,7 +84,7 @@
                                     @error('firm_type')
                                       <p style="color: red">{{ $message }}</p>
                                     @enderror
-                                </div>
+                                </div> -->
                 
                                 <div class="col-sm-6">
                                     <label class="form-label mt-3" for="email">Email ID <span class="text-red">*</span></label>
@@ -98,7 +125,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label mt-3" for="id_file_front">Upload ID Proof * <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb)</span></label>
+                                    <label class="form-label mt-3" for="id_file_front">Upload ID Proof * <span class="text-red" style="color: #ff0000;">(format:- .pdf, Maximum size: 10mb)</span></label>
                                     <input class="form-control" type="file" name="id_file_front" id="id_file_front" placeholder="Choose Valid ID">
                                     <div id="id_file_front_error"></div>
                                     @error('id_file_front')
@@ -107,7 +134,7 @@
                                 </div>
 
                                 <div class="col-sm-6">
-                                    <label class="form-label mt-3" for="id_file_back">Authorisation letter, if any <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb) </span></label>
+                                    <label class="form-label mt-3" for="id_file_back">Authorisation letter, if any <span class="text-red" style="color: #ff0000;">(format:- .pdf, Maximum size: 10mb) </span></label>
                                     <input class="form-control" type="file" name="id_file_back" id="id_file_back" placeholder="Choose Valid ID">
                                     <div id="id_file_back_error"></div>
                                     @error('id_file_back')

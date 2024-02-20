@@ -44,6 +44,16 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
+								<label class="form-label" for="firm">Name Of Organization <span class="text-red">*</span></label>
+								<input type="text" class="form-control" name="firm" id="firm" placeholder="Name Of Organization" value="{{ old('firm') }}">
+								<div id="firm_error"></div>
+								@error('firm')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
+							</div>
+						</div>
+						<!-- <div class="col-sm-6 col-md-6">
+							<div class="form-group">
 								<label class="form-label" for="firm">Name Of Firm <span class="text-red">*</span></label>
 								<input type="text" class="form-control" name="firm" id="firm" placeholder="Name Of Firm" value="{{ old('firm') }}">
 								<div id="firm_error"></div>
@@ -51,7 +61,7 @@
 									<p style="color: red">{{ $message }}</p>
 								@enderror
 							</div>
-						</div>
+						</div> -->
 						<!-- <div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="country">Country <span class="text-red">*</span></label>
@@ -65,6 +75,25 @@
 							</div>
 						</div> -->
 						<div class="col-sm-6 col-md-6">
+							<div class="form-group">
+								<label class="form-label" for="firm_type">Type of Organization <span class="text-red">*</span></label>
+								<select id="menu-type" class="form-control select2" name="firm_type">
+									<option value="">Select</option>
+									<option value="1" {{ old('firm_type') == 1 ? 'selected' : '' }}>Government</option>
+									<option value="2" {{ old('firm_type') == 2 ? 'selected' : '' }}>Private</option>
+									<option value="3" {{ old('firm_type') == 3 ? 'selected' : '' }}>Individual</option>
+									<option value="4" {{ old('firm_type') == 4 ? 'selected' : '' }}>Quasi Government</option>
+									<option value="5" {{ old('firm_type') == 5 ? 'selected' : '' }}>Research Organisation</option>
+									<option value="6" {{ old('firm_type') == 6 ? 'selected' : '' }}>State Government</option>
+									<option value="7" {{ old('firm_type') == 7 ? 'selected' : '' }}>Central Government</option>
+								</select>
+								<div id="firm_type_error"></div>
+								@error('firm_type')
+									<p style="color: red">{{ $message }}</p>
+								@enderror
+							</div>
+						</div>
+						<!-- <div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="firm_type">Type of Firm <span class="text-red">*</span></label>
 								<select id="menu-type" class="form-control select2" name="firm_type">
@@ -82,7 +111,7 @@
 									<p style="color: red">{{ $message }}</p>
 								@enderror
 							</div>
-						</div>
+						</div> -->
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
 								<label class="form-label" for="email">Email ID <span class="text-red">*</span></label>
@@ -115,7 +144,7 @@
 						</div>
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="id_file_front">Upload ID Proof * <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb)</span></label>
+								<label class="form-label" for="id_file_front">Upload ID Proof * <span class="text-red" style="color: #ff0000;">(format:- .pdf, Maximum size: 10mb)</span></label>
 								<input class="form-control" type="file" name="id_file_front" id="id_file_front" placeholder="Choose Valid ID" value="{{ old('id_file_front') }}">
 								<div id="id_file_front_error"></div>
 								@error('id_file_front')
@@ -126,7 +155,7 @@
 
 						<div class="col-sm-6 col-md-6">
 							<div class="form-group">
-								<label class="form-label" for="id_file_back">Authorisation letter, if any <span class="text-red" style="color: #ff0000;">(Maximum size: 10mb) </span></label>
+								<label class="form-label" for="id_file_back">Authorisation letter, if any <span class="text-red" style="color: #ff0000;">(format:- .pdf, Maximum size: 10mb) </span></label>
 								<input class="form-control" type="file" name="id_file_back" id="id_file_back" placeholder="Choose Valid ID" value="{{ old('id_file_back') }}">
 								<div id="id_file_back_error"></div>
 								@error('id_file_back')

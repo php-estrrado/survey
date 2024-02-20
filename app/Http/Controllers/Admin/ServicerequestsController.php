@@ -1006,12 +1006,13 @@ class ServicerequestsController extends Controller
                                         ->leftjoin('survey_status', 'survey_requests.request_status', '=', 'survey_status.id')
                                         ->whereNotIn('survey_requests.request_status',$status_not)->where('survey_requests.request_status','!=',NULL)->Where('survey_requests.is_deleted',0)
                                         ->where('cust_mst.is_deleted',0)
+                                        ->where(function($query) {$query->where('survey_requests.assigned_user',auth()->user()->id)->orwhere('survey_requests.assigned_survey_user',auth()->user()->id);})
                                         ->where('cust_telecom.is_deleted',0)->where('cust_telecom.telecom_type',2)
                                         ->select('survey_requests.id AS survey_id','survey_requests.created_at AS survey_date','survey_requests.*','cust_mst.*','cust_info.*', 'cust_telecom.*','services.*','institution.*','survey_status.status_name AS current_status')
                                         ->orderBy('survey_requests.id','DESC')
                                         ->get();
 
-        // dd($data);
+        // dd(auth()->user()->id);
 
         return view('admin.requested_services',$data);
     }
